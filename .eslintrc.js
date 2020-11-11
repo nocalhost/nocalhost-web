@@ -46,7 +46,7 @@ module.exports = {
         'no-control-regex': 0,
         'no-useless-escape': 0,
         camelcase: 0,
-        'no-console': 2,
+        'no-console': 1,
         'no-alert': 2,
         'no-var': 2,
         'no-return-assign': 0,
@@ -61,12 +61,6 @@ module.exports = {
         'react/no-danger': 2,
         'global-require': 0,
         'no-trailing-spaces': 0,
-        'no-empty': [
-            2,
-            {
-                allowEmptyCatch: true,
-            },
-        ],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
     parserOptions: {

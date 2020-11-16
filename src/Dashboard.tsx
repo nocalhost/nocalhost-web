@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader } from '@material-ui/core';
 
 const Dashboard = () => (
     <Card>
-        <CardHeader title="Welcome to the administration" />
-        <CardContent>Lorem ipsum sic dolor amet...</CardContent>
+        <CardHeader title="Welcome to the Nocalhost" />
+        <CardContent>Nocalhost is Not localhost</CardContent>
     </Card>
 );
 

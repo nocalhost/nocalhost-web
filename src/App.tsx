@@ -1,25 +1,31 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
-import { PostList, PostEdit, PostCreate } from './posts';
-import { UserList } from './users';
-import PostIcon from '@material-ui/icons/Book';
+import { UserList, UserCreate, UserEdit } from './users/index';
+import { ClusterList, ClusterShow, ClusterCreate } from './cluster/index';
+import { ApplicationList, ApplicationCreate, ApplicationEdit } from './application/index';
 import UserIcon from '@material-ui/icons/Group';
 import Dashboard from './Dashboard';
-import authProvider from './authProvider';
-import dataProvider from './dataProvider';
+import authProvider from './provider/authProvider';
+import dataProvider from './provider/dataProvider';
 import './App.css';
 
 function App() {
     return (
         <Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider}>
+            <Resource name="cluster" show={ClusterShow} create={ClusterCreate} list={ClusterList} />
             <Resource
-                name="posts"
-                list={PostList}
-                edit={PostEdit}
-                create={PostCreate}
-                icon={PostIcon}
+                name="application"
+                list={ApplicationList}
+                edit={ApplicationEdit}
+                create={ApplicationCreate}
             />
-            <Resource name="users" list={UserList} icon={UserIcon} />
+            <Resource
+                name="users"
+                list={UserList}
+                edit={UserEdit}
+                create={UserCreate}
+                icon={UserIcon}
+            />
         </Admin>
     );
 }

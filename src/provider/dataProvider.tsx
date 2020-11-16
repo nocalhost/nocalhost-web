@@ -13,7 +13,7 @@ interface Result {
 }
 
 const Data: DataProvider = {
-    getList: (resource: string, params: GetListParams) => {
+    getList: async (resource: string, params: GetListParams) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
@@ -21,7 +21,7 @@ const Data: DataProvider = {
             range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
             filter: JSON.stringify(params.filter),
         };
-        const url = `${apiUrl}/${resource}/list?${stringify(query)}`;
+        const url = `${apiUrl}/${resource}?${stringify(query)}`;
         const options = {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
@@ -34,14 +34,29 @@ const Data: DataProvider = {
         });
     },
 
-    getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => {
+    getOne: async (resource, params) => {
+        const options = {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+        };
+        if (resource === 'application') {
+            return httpClient(`${apiUrl}/${resource}`, options).then((result: Result) => {
+                const data = result.json.data.find((item: any) => item.id == params.id);
+                return {
+                    data,
+                };
+            });
+        }
+        return httpClient(`${apiUrl}/${resource}/${params.id}`, options).then((result: Result) => {
+            if (resource === 'cluster') {
+                return { data: result.json.data[0] };
+            }
             return {
-                data: json,
+                data: result.json.data,
             };
-        }),
+        });
+    },
 
-    getMany: (resource, params) => {
+    getMany: async (resource, params) => {
         const query = {
             filter: JSON.stringify({ id: params.ids }),
         };
@@ -49,7 +64,7 @@ const Data: DataProvider = {
         return httpClient(url).then(({ json }) => ({ data: json }));
     },
 
-    getManyReference: (resource, params) => {
+    getManyReference: async (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
@@ -68,13 +83,18 @@ const Data: DataProvider = {
         }));
     },
 
-    update: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    update: async (resource, params) => {
+        const options = {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+        };
+        return httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
             body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json })),
+            ...options,
+        }).then(({ json }) => ({ data: json }));
+    },
 
-    updateMany: (resource, params) => {
+    updateMany: async (resource, params) => {
         const query = {
             filter: JSON.stringify({ id: params.ids }),
         };
@@ -84,20 +104,30 @@ const Data: DataProvider = {
         }).then(({ json }) => ({ data: json }));
     },
 
-    create: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}`, {
+    create: async (resource, params) => {
+        const options = {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+        };
+        return httpClient(`${apiUrl}/${resource}`, {
             method: 'POST',
             body: JSON.stringify(params.data),
+            ...options,
         }).then(({ json }) => ({
             data: { ...params.data, id: json.id },
-        })),
+        }));
+    },
 
-    delete: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    delete: async (resource, params) => {
+        const options = {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+        };
+        return httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'DELETE',
-        }).then(({ json }) => ({ data: json })),
+            ...options,
+        }).then(({ json }) => ({ data: json }));
+    },
 
-    deleteMany: (resource: any, params: any) => {
+    deleteMany: async (resource: any, params: any) => {
         const query = {
             filter: JSON.stringify({ id: params.ids }),
         };

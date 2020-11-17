@@ -1,6 +1,7 @@
 import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
 import { DataProvider, GetListParams } from 'ra-core/esm/types';
+import { Application } from '../types';
 
 const apiUrl = 'http://127.0.0.1:8080/v1';
 const httpClient = fetchUtils.fetchJson;
@@ -40,7 +41,7 @@ const Data: DataProvider = {
         };
         if (resource === 'application') {
             return httpClient(`${apiUrl}/${resource}`, options).then((result: Result) => {
-                const data = result.json.data.find((item: any) => item.id == params.id);
+                const data = result.json.data.find((item: Application) => item.id == params.id);
                 return {
                     data,
                 };
@@ -48,7 +49,7 @@ const Data: DataProvider = {
         }
         return httpClient(`${apiUrl}/${resource}/${params.id}`, options).then((result: Result) => {
             if (resource === 'cluster') {
-                return { data: result.json.data[0] };
+                return { data: { ...result.json.data, id: result.json.data.cluster_id } };
             }
             return {
                 data: result.json.data,

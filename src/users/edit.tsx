@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { Edit, SimpleForm, TextInput, PasswordInput, BooleanInput } from 'react-admin';
+import React from 'react';
+import { FC } from 'react';
+import { Edit, EditProps, SimpleForm, TextInput, PasswordInput, BooleanInput } from 'react-admin';
 
 const Title = ({ record }: any) => {
     return <span>User {record ? `"${record.name}"` : ''}</span>;
 };
 
-const UserEdit = (props: any) => {
+const UserEdit: FC<EditProps> = (props) => {
     return (
         <Edit {...props} title={<Title />}>
             <SimpleForm>

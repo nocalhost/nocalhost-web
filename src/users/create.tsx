@@ -1,7 +1,15 @@
-import * as React from 'react';
-import { Create, SimpleForm, TextInput, PasswordInput, BooleanInput } from 'react-admin';
+import React from 'react';
+import { FC } from 'react';
+import {
+    Create,
+    SimpleForm,
+    TextInput,
+    PasswordInput,
+    BooleanInput,
+    CreateProps,
+} from 'react-admin';
 
-const UserCreate = (props: any) => {
+const UserCreate: FC<CreateProps> = (props) => {
     return (
         <Create {...props}>
             <SimpleForm>

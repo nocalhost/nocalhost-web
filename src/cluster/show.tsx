@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { Show, SimpleShowLayout, TextField } from 'react-admin';
+import React from 'react';
+import { FC } from 'react';
+import { Show, SimpleShowLayout, TextField, ShowProps } from 'react-admin';
 
 const Title = ({ record }: any) => {
     return <span>Cluster {record ? `"${record.name}"` : ''}</span>;
 };
 
-const ClusterShow = (props: any) => {
+const ClusterShow: FC<ShowProps> = (props) => {
     return (
         <Show {...props} title={<Title />}>
             <SimpleShowLayout>
-                <TextField source="id" />
                 <TextField source="cluster_id" />
                 <TextField source="cpu" />
                 <TextField source="memory" />

@@ -3,9 +3,7 @@ import decodeJwt from 'jwt-decode';
 import md5 from 'js-md5';
 import { LoginToken } from '../types';
 
-const apiUrl = 'http://127.0.0.1:8080/v1';
-
-const Auth: AuthProvider = {
+export default (apiUrl: string): AuthProvider => ({
     login: async ({ username, password }) => {
         const request = new Request(`${apiUrl}/login`, {
             method: 'POST',
@@ -75,6 +73,4 @@ const Auth: AuthProvider = {
             fullName: email,
         });
     },
-};
-
-export default Auth;
+});

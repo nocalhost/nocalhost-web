@@ -13,7 +13,7 @@ build: ## build src to dist
 	@yarn build
 
 build-docker: ## build docker image
-	@docker build -t nocalhost-web .
+	./docker.sh
 
 clean: ## remove build directory
 	rm -fr build

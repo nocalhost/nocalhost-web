@@ -3,8 +3,7 @@ import { stringify } from 'query-string';
 import { DataProvider, GetListParams } from 'ra-core/esm/types';
 import { Application } from '../types';
 
-const apiUrl = 'http://127.0.0.1:8080/v1';
-const httpClient = fetchUtils.fetchJson;
+// const apiUrl = 'http://127.0.0.1:8080/v1';
 
 interface Result {
     status: number;
@@ -13,7 +12,7 @@ interface Result {
     json: { code: number; message: string; data: any };
 }
 
-const Data: DataProvider = {
+export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider => ({
     getList: async (resource: string, params: GetListParams) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
@@ -137,6 +136,6 @@ const Data: DataProvider = {
             body: JSON.stringify(params.data),
         }).then(({ json }) => ({ data: json }));
     },
-};
+});
 
-export default Data;
+// export default Data;

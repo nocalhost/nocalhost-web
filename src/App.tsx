@@ -10,10 +10,11 @@ import { Layout } from './layout';
 import './App.css';
 
 function App() {
-    // eslint-disable-next-line no-undef
-    const apiUrl = process.env.API_HOST || 'http://127.0.0.1:8080/v1';
-    const dataProvider = data(apiUrl);
-    const authProvider = auth(apiUrl);
+    // eslint-disable-next-line
+    // @ts-ignore
+    const apiUrl = window._env_.API_HOST || 'http://127.0.0.1:8080';
+    const dataProvider = data(`${apiUrl}/v1`);
+    const authProvider = auth(`${apiUrl}/v1`);
     return (
         <Admin
             dashboard={Dashboard}

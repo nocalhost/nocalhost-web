@@ -1,12 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import {
-    Edit,
-    SimpleForm,
-    TextInput,
-    EditProps,
-    FormDataConsumer,
-    useEditController,
-} from 'react-admin';
+import React, { FC } from 'react';
+import { Edit, SimpleForm, TextInput, EditProps, FormDataConsumer, Record } from 'react-admin';
 import AppNameInput from './AppNameInput';
 import AppUrlInput from './AppUrlInput';
 import SourceInput from './SourceInput';
@@ -14,26 +7,18 @@ import InstallTypeInput from './InstallTypeInput';
 import ResourceDirInput from './ResourceDirInput';
 
 const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
-    const { record, resource } = useEditController(props);
-    // console.log(record);
-    // console.log(resource);
-
-    useEffect(() => {
-        if (record) {
-            console.log(record);
-            console.log(resource);
-            //eslint-disable-next-line
-            //@ts-ignore
-            const contextStr = record['context'];
-            const context = JSON.parse(contextStr);
-            console.log(context);
-            const newRecord = { ...record, ...context };
-            console.log(newRecord);
-        }
-    }, [record]);
+    const transform = (data: Record) => {
+        // eslint-disable-next-line
+        // @ts-ignore
+        const result: Record = {
+            status: data.status,
+            context: JSON.stringify(data.context),
+        };
+        return result;
+    };
 
     return (
-        <Edit {...props}>
+        <Edit transform={transform} {...props}>
             <SimpleForm>
                 <AppNameInput source="context.application_name" />
                 <SourceInput source="context.source" />

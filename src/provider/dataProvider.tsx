@@ -25,6 +25,19 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
 
+        if (resource === 'application') {
+            return httpClient(url, options).then((result: Result) => {
+                const list = result.json.data;
+                const newList = list.map((l: any) => {
+                    return { id: l.id, status: l.status, context: JSON.parse(l.context) };
+                });
+                return {
+                    data: newList,
+                    total: newList.length,
+                };
+            });
+        }
+
         return httpClient(url, options).then((result: Result) => {
             return {
                 data: result.json.data,
@@ -41,7 +54,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             return httpClient(`${apiUrl}/${resource}`, options).then((result: Result) => {
                 const data = result.json.data.find((item: Application) => item.id == params.id);
                 return {
-                    data,
+                    data: { status: data.status, id: data.id, context: JSON.parse(data.context) },
                 };
             });
         }
@@ -137,4 +150,6 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
     },
 });
 
+// export default Data;
+// export default Data;
 // export default Data;

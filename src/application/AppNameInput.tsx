@@ -1,10 +1,8 @@
 import React from 'react';
 import { FC } from 'react';
-import { InputProps, TextInput, useInput } from 'react-admin';
+import { InputProps, TextInput } from 'react-admin';
 
-const AppNameInput: FC<InputProps> = (props: InputProps) => {
-    const input = useInput(props);
-    console.log(input);
+const AppNameInput: FC<InputProps> = () => {
     return <TextInput source="context.application_name" label="Application Name" />;
 };
 

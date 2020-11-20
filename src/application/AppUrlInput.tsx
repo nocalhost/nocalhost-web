@@ -3,12 +3,12 @@ import { FC } from 'react';
 import { InputProps, TextInput } from 'react-admin';
 
 const AppUrlInput: FC<InputProps> = () => {
-    return <TextInput source="context" label="Application Url" />;
+    return <TextInput source="context.application_url" label="Application Url" />;
 };
 
 AppUrlInput.defaultProps = {
     addField: true,
-    source: 'context',
+    source: 'context.application_url',
     resource: 'application',
 };
 

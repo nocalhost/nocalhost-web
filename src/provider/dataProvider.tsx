@@ -1,6 +1,5 @@
-import { fetchUtils } from 'react-admin';
+import { fetchUtils, DataProvider, GetListParams } from 'react-admin';
 import { stringify } from 'query-string';
-import { DataProvider, GetListParams } from 'ra-core/esm/types';
 import { Application } from '../types';
 
 // const apiUrl = 'http://127.0.0.1:8080/v1';

@@ -28,7 +28,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         if (resource === 'application') {
             return httpClient(url, options).then((result: Result) => {
                 const list = result.json.data;
-                const newList = list.map((l: any) => {
+                const newList = list.map((l: Application) => {
                     return { id: l.id, status: l.status, context: JSON.parse(l.context) };
                 });
                 return {
@@ -50,15 +50,22 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         const options = {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
-        if (resource === 'application') {
-            return httpClient(`${apiUrl}/${resource}`, options).then((result: Result) => {
-                const data = result.json.data.find((item: Application) => item.id == params.id);
+        if (resource === 'cluster') {
+            return httpClient(`${apiUrl}/${resource}/${params.id}/detail`, options).then(
+                (result: Result) => {
+                    return {
+                        data: result.json.data,
+                    };
+                }
+            );
+        }
+        return httpClient(`${apiUrl}/${resource}/${params.id}`, options).then((result: Result) => {
+            if (resource === 'application') {
+                const data = result.json.data;
                 return {
                     data: { status: data.status, id: data.id, context: JSON.parse(data.context) },
                 };
-            });
-        }
-        return httpClient(`${apiUrl}/${resource}/${params.id}`, options).then((result: Result) => {
+            }
             if (resource === 'cluster') {
                 return { data: { ...result.json.data, id: result.json.data.cluster_id } };
             }

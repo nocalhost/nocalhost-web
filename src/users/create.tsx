@@ -7,11 +7,21 @@ import {
     PasswordInput,
     BooleanInput,
     CreateProps,
+    Record,
 } from 'react-admin';
 
 const UserCreate: FC<CreateProps> = (props) => {
+    const transform = (data: Record) => {
+        // eslint-disable-next-line
+        // @ts-ignore
+        const result: Record = {
+            status: data.status ? 1 : 0,
+            ...data,
+        };
+        return result;
+    };
     return (
-        <Create {...props}>
+        <Create transform={transform} {...props}>
             <SimpleForm>
                 <TextInput source="email" />
                 <TextInput source="name" />

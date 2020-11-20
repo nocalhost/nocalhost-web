@@ -32,6 +32,9 @@ export interface Application extends Record {
 export interface ApplicationContext {
     application_name: string;
     application_url: string;
+    source: string;
+    install_type: string;
+    resource_dir: string;
 }
 
 export interface Cluster extends Record {

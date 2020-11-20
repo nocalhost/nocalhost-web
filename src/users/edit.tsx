@@ -1,14 +1,31 @@
 import React from 'react';
 import { FC } from 'react';
-import { Edit, EditProps, SimpleForm, TextInput, PasswordInput, BooleanInput } from 'react-admin';
+import {
+    Edit,
+    EditProps,
+    SimpleForm,
+    TextInput,
+    Record,
+    PasswordInput,
+    BooleanInput,
+} from 'react-admin';
 
 const Title = ({ record }: any) => {
     return <span>User {record ? `"${record.name}"` : ''}</span>;
 };
 
 const UserEdit: FC<EditProps> = (props) => {
+    const transform = (data: Record) => {
+        // eslint-disable-next-line
+        // @ts-ignore
+        const result: Record = {
+            status: data.status ? 1 : 0,
+            ...data,
+        };
+        return result;
+    };
     return (
-        <Edit {...props} title={<Title />}>
+        <Edit {...props} transform={transform} title={<Title />}>
             <SimpleForm>
                 <TextInput disabled source="id" />
                 <TextInput source="email" />

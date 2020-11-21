@@ -4,6 +4,7 @@ import users from './users';
 import cluster from './cluster';
 import application from './application';
 import Dashboard from './Dashboard';
+import space from './space';
 import auth from './provider/authProvider';
 import data from './provider/dataProvider';
 import { Layout } from './layout';
@@ -12,7 +13,7 @@ import './App.css';
 function App() {
     // eslint-disable-next-line
     // @ts-ignore
-    const apiUrl = window._env_.API_HOST || 'http://127.0.0.1:8080';
+    const apiUrl = window._env_.API_HOST || window.location.origin;
     const dataProvider = data(`${apiUrl}/v1`);
     const authProvider = auth(`${apiUrl}/v1`);
     return (
@@ -25,6 +26,7 @@ function App() {
             <Resource name="cluster" {...cluster} />
             <Resource name="application" {...application} />
             <Resource name="users" {...users} />
+            <Resource name="space" {...space} />
         </Admin>
     );
 }

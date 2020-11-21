@@ -21,7 +21,6 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
         };
         return result;
     };
-
     return (
         <Create {...props} transform={transform}>
             <SimpleForm>

@@ -40,6 +40,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
                     leftIcon={<users.icon />}
                     onClick={onMenuClick}
                     dense={dense}
+                    sidebarIsOpen={false}
                 />
             </SubMenu>
             <SubMenu
@@ -56,6 +57,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
                     leftIcon={<clusters.icon />}
                     onClick={onMenuClick}
                     dense={dense}
+                    sidebarIsOpen={false}
                 />
             </SubMenu>
             <SubMenu
@@ -72,6 +74,7 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
                     leftIcon={<applications.icon />}
                     onClick={onMenuClick}
                     dense={dense}
+                    sidebarIsOpen={false}
                 />
             </SubMenu>
         </Box>

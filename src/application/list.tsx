@@ -4,12 +4,12 @@ import { List, Datagrid, TextField, EditButton, ListProps, Button } from 'react-
 import { Link } from 'react-router-dom';
 
 const ApplicationList: FC<ListProps> = (props) => (
-    <List {...props}>
+    <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
         <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField label="App Name" source="context.application_name" />
-            <TextField label="App Url" source="context.application_url" />
-            <TextField source="status" />
+            <TextField source="id" sortable={false} />
+            <TextField label="App Name" source="context.application_name" sortable={false} />
+            <TextField label="App Url" source="context.application_url" sortable={false} />
+            <TextField source="status" sortable={false} />
             <EditButton />
             <SpaceCreateButton />
         </Datagrid>

@@ -14,6 +14,12 @@ function App() {
     // eslint-disable-next-line
     // @ts-ignore
     const apiUrl = window._env_.API_HOST || window.location.origin;
+    // eslint-disable-next-line
+    // @ts-ignore
+    const currentCommitId = window._env_.GIT_COMMIT_SHA;
+    // eslint-disable-next-line
+    console.log('Current Version: ', currentCommitId);
+
     const dataProvider = data(`${apiUrl}/v1`);
     const authProvider = auth(`${apiUrl}/v1`);
     return (

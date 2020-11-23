@@ -2,8 +2,6 @@ import { fetchUtils, DataProvider, Record } from 'react-admin';
 import { stringify } from 'query-string';
 import { Application } from '../types';
 
-// const apiUrl = 'http://127.0.0.1:8080/v1';
-
 interface Result {
     status: number;
     headers: Headers;
@@ -61,24 +59,16 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
                 };
             });
         }
+        let url = `${apiUrl}/${resource}/${params.id}`;
         if (resource === 'cluster') {
-            return httpClient(`${apiUrl}/${resource}/${params.id}/detail`, options).then(
-                (result: Result) => {
-                    return {
-                        data: result.json.data,
-                    };
-                }
-            );
+            url = `${url}/detail`;
         }
-        return httpClient(`${apiUrl}/${resource}/${params.id}`, options).then((result: Result) => {
+        return httpClient(url, options).then((result: Result) => {
             if (resource === 'application') {
                 const data = result.json.data;
                 return {
                     data: { status: data.status, id: data.id, context: JSON.parse(data.context) },
                 };
-            }
-            if (resource === 'cluster') {
-                return { data: { ...result.json.data, id: result.json.data.cluster_id } };
             }
             return {
                 data: result.json.data,
@@ -191,7 +181,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             const json = result.json;
             if (json.code === 0) {
                 return {
-                    data: { ...params.data, id: json.data.id },
+                    data: json.data,
                 };
             } else {
                 throw Error(json.message);

@@ -3,7 +3,6 @@ import { FC } from 'react';
 import {
     Create,
     SimpleForm,
-    BooleanInput,
     TextInput,
     SelectInput,
     CreateProps,
@@ -16,7 +15,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
         // eslint-disable-next-line
         // @ts-ignore
         const result: Record = {
-            status: data.status ? 1 : 0,
+            status: 1,
             context: JSON.stringify(data.context),
         };
         return result;
@@ -58,12 +57,6 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                         )
                     }
                 </FormDataConsumer>
-                <BooleanInput
-                    format={(status: number) => status === 1}
-                    parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
-                    label="isActive"
-                    source="status"
-                />
             </SimpleForm>
         </Create>
     );

@@ -7,15 +7,15 @@ import NodesField from './NodesFields';
 
 const ClusterList: FC<ListProps> = (props) => {
     return (
-        <List {...props}>
+        <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid rowClick="edit">
-                <TextField source="id" />
-                <TextField source="cluster_name" />
-                <TextField source="marks" />
-                <ClusterVersionField label="Cluster version" source="info" />
-                <NodesField label="Nodes count" source="info" />
-                <TextField source="users_count" />
-                <TextField source="created_at" />
+                <TextField source="id" sortable={false} />
+                <TextField source="cluster_name" sortable={false} />
+                <TextField source="marks" sortable={false} />
+                <ClusterVersionField label="Cluster version" source="info" sortable={false} />
+                <NodesField label="Nodes count" source="info" sortable={false} />
+                <TextField source="users_count" sortable={false} />
+                <TextField source="created_at" sortable={false} />
                 <ShowButton />
                 <SpaceShowButton />
             </Datagrid>

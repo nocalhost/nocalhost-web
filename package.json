@@ -26,7 +26,7 @@
         "web-vitals": "^0.2.4"
     },
     "scripts": {
-        "start": "chmod +x ./env.sh && ./env.sh && cp env.js ./public/ && react-scripts start",
+        "start": "GIT_COMMIT_SHA=`git rev-parse HEAD`-dirty ./env.sh && cp env.js ./public/ && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

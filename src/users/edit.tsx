@@ -9,6 +9,7 @@ import {
     PasswordInput,
     BooleanInput,
 } from 'react-admin';
+import form from '../common/form';
 
 const Title = ({ record }: any) => {
     return <span>User {record ? `"${record.name}"` : ''}</span>;
@@ -25,8 +26,8 @@ const UserEdit: FC<EditProps> = (props) => {
         return result;
     };
     return (
-        <Edit {...props} transform={transform} title={<Title />}>
-            <SimpleForm>
+        <Edit {...props} undoable={false} transform={transform} title={<Title />}>
+            <SimpleForm {...form}>
                 <TextInput disabled source="id" />
                 <TextInput source="email" />
                 <TextInput source="name" />

@@ -8,6 +8,11 @@ import {
     FormDataConsumer,
     Record,
 } from 'react-admin';
+import form from '../common/form';
+
+const Title = ({ record }: any) => {
+    return <span>Application {record ? `"${record.context.application_name}"` : ''}</span>;
+};
 
 const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     const transform = (data: Record) => {
@@ -21,8 +26,8 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     };
 
     return (
-        <Edit transform={transform} {...props}>
-            <SimpleForm>
+        <Edit transform={transform} title={<Title />} {...props}>
+            <SimpleForm {...form}>
                 <TextInput label="Application Name" source="context.application_name" />
                 <SelectInput
                     source="context.source"

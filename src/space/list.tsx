@@ -10,6 +10,7 @@ import {
     sanitizeListRestProps,
     ReferenceField,
 } from 'react-admin';
+import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 
 const Empty = () => {
@@ -27,6 +28,7 @@ const ListActions = (props: any) => {
 
 const SpaceCreateButton = (record: any) => (
     <Button
+        icon={<AddIcon />}
         to={`space/create?application_id=${record.application}`}
         label={`Create Space`}
         onClick={(e) => e.stopPropagation()}

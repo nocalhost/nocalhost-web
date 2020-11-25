@@ -20,9 +20,25 @@ const UserCreate: FC<CreateProps> = (props) => {
         };
         return result;
     };
+    const validateUserCreation = (values: any) => {
+        const errors: any = {};
+        if (!values.email) {
+            errors.email = ['The Email is required'];
+        }
+        if (!values.name) {
+            errors.name = ['The Name is required'];
+        }
+        if (!values.password) {
+            errors.password = ['The Password is required'];
+        }
+        if (!values.confirm_password) {
+            errors.confirm_password = ['The Confirm Password is required'];
+        }
+        return errors;
+    };
     return (
         <Create transform={transform} {...props}>
-            <SimpleForm>
+            <SimpleForm validate={validateUserCreation}>
                 <TextInput source="email" />
                 <TextInput source="name" />
                 <PasswordInput source="password" />

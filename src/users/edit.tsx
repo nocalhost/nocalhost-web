@@ -28,7 +28,6 @@ const UserEdit: FC<EditProps> = (props) => {
     return (
         <Edit {...props} undoable={false} transform={transform} title={<Title />}>
             <SimpleForm {...form}>
-                <TextInput disabled source="id" />
                 <TextInput source="email" />
                 <TextInput source="name" />
                 <PasswordInput source="password" />

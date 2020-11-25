@@ -1,6 +1,7 @@
 import { fetchUtils, DataProvider, Record } from 'react-admin';
 import { stringify } from 'query-string';
 import { Application } from '../types';
+import searchToObj from '../utils/searchToObj';
 
 interface Result {
     status: number;
@@ -21,7 +22,10 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         const options = {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        let url = `${apiUrl}/${resource}?${stringify(query)}`;
+        if (resource === 'space') {
+            url = `${apiUrl}/application/${params.filter.application}/dev_space_list`;
+        }
         if (resource === 'application') {
             return httpClient(url, options).then((result: Result) => {
                 const list = result.json.data;
@@ -36,9 +40,10 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         }
 
         return httpClient(url, options).then((result: Result) => {
+            const list = result.json.data;
             return {
-                data: result.json.data,
-                total: result.json.data.length,
+                data: list ? list : [],
+                total: list ? list.length : 0,
             };
         });
     },
@@ -48,8 +53,11 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
         if (resource === 'space') {
-            const spaceGetListUrl = `${apiUrl}/cluster/${params.id}/dev_space`;
-            return httpClient(spaceGetListUrl, options).then((result: Result) => {
+            const hash = window.location.hash;
+            const search = hash.substring(hash.indexOf('?'));
+            const p = searchToObj(search);
+            const spaceUrl = `${apiUrl}/cluster/${p.cluster_id}/dev_space/${params.id}/detail`;
+            return httpClient(spaceUrl, options).then((result: Result) => {
                 return {
                     data: {
                         ...result.json.data,

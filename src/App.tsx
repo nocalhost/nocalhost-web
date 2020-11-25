@@ -32,7 +32,7 @@ function App() {
             <Resource name="cluster" {...cluster} />
             <Resource name="application" {...application} />
             <Resource name="users" {...users} />
-            <Resource name="space" {...space} />
+            <Resource name="space" {...space} options={{ cluster_id: 1, application_id: 1 }} />
         </Admin>
     );
 }

@@ -1,5 +1,6 @@
 import SpaceCreate from './create';
 import SpaceShow from './show';
-const resource = { create: SpaceCreate, show: SpaceShow };
+import SpaceList from './list';
+const resource = { create: SpaceCreate, show: SpaceShow, list: SpaceList };
 
 export default resource;

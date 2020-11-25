@@ -11,6 +11,7 @@ const ApplicationList: FC<ListProps> = (props) => (
             <TextField label="App Url" source="context.application_url" sortable={false} />
             <TextField source="status" sortable={false} />
             <EditButton />
+            <SpaceListButton />
             <SpaceCreateButton />
         </Datagrid>
     </List>
@@ -24,5 +25,17 @@ const SpaceCreateButton = ({ record }: any) => (
         component={Link}
     />
 );
+
+const SpaceListButton = ({ record }: any) => {
+    const filter = `filter=%7B%22application%22%3A%22${record.id}%22%7D`;
+    return (
+        <Button
+            to={`space?${filter}`}
+            label={`Space List`}
+            onClick={(e) => e.stopPropagation()}
+            component={Link}
+        />
+    );
+};
 
 export default ApplicationList;

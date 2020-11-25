@@ -8,7 +8,7 @@ import Dashboard from './Dashboard';
 import space from './space';
 import auth from './provider/authProvider';
 import data from './provider/dataProvider';
-import { Layout } from './layout';
+import { Login, Layout } from './layout';
 import './App.css';
 
 function App() {
@@ -27,13 +27,14 @@ function App() {
         <Admin
             dashboard={Dashboard}
             layout={Layout}
+            loginPage={Login}
             authProvider={authProvider}
             dataProvider={dataProvider}
         >
             <Resource name="cluster" {...cluster} />
             <Resource name="application" {...application} />
             <Resource name="users" {...users} />
-            <Resource name="space" {...space} options={{ cluster_id: 1, application_id: 1 }} />
+            <Resource name="space" {...space} />
             <Resource name="dev_space" {...devSpace} />
         </Admin>
     );

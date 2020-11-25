@@ -4,10 +4,10 @@ import md5 from 'js-md5';
 import { LoginToken } from '../types';
 
 export default (apiUrl: string): AuthProvider => ({
-    login: async ({ username, password }) => {
+    login: async ({ email, password }) => {
         const request = new Request(`${apiUrl}/login`, {
             method: 'POST',
-            body: JSON.stringify({ email: username, password }),
+            body: JSON.stringify({ email, password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
         });
         const resp = await fetch(request);

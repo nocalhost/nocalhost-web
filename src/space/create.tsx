@@ -8,20 +8,29 @@ import {
     NumberInput,
     CreateProps,
     useRedirect,
+    useGetOne,
 } from 'react-admin';
 import searchToObj from '../utils/searchToObj';
+
+const Title = ({ application }: any) => {
+    const { data, loading } = useGetOne('application', application);
+    if (loading || !data) {
+        return <span>Create Space</span>;
+    }
+    return <span>Application {data.context.application_name} Create Space</span>;
+};
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     const redirect = useRedirect();
     // eslint-disable-next-line
     // @ts-ignore
     const params = searchToObj(props.location.search);
-    if (!params.application_id) {
+    if (!params.application) {
         redirect('/application');
     }
-    const postDefaultValue = () => ({ application_id: params.application_id });
+    const postDefaultValue = () => ({ application_id: params.application });
     return (
-        <Create {...props}>
+        <Create title={<Title application={params.application} />} {...props}>
             <SimpleForm sanitizeEmptyValues={false} initialValues={postDefaultValue()}>
                 <ReferenceInput source="application_id" disabled reference="application">
                     <SelectInput optionText="context.application_name" />

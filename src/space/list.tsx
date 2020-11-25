@@ -9,6 +9,9 @@ import {
     TopToolbar,
     sanitizeListRestProps,
     ReferenceField,
+    DeleteButton,
+    useListContext,
+    useGetOne,
 } from 'react-admin';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
@@ -26,6 +29,8 @@ const ListActions = (props: any) => {
     );
 };
 
+const StatusField = (record: any) => <div>{record.status === 1 ? 'deployed' : 'not deployed'}</div>;
+
 const SpaceCreateButton = (record: any) => (
     <Button
         icon={<AddIcon />}
@@ -36,10 +41,20 @@ const SpaceCreateButton = (record: any) => (
     />
 );
 
+const Title = () => {
+    const listContext = useListContext();
+    const { data, loading } = useGetOne('application', listContext.filterValues.application);
+    if (loading || !data) {
+        return <span>Space</span>;
+    }
+    return <span>Application {data.context.application_name} Space</span>;
+};
+
 const SpaceList: FC<ListProps> = (props) => (
     <List
         {...props}
         empty={<Empty />}
+        title={<Title />}
         bulkActionButtons={false}
         pagination={false}
         exporter={false}
@@ -47,21 +62,19 @@ const SpaceList: FC<ListProps> = (props) => (
     >
         <Datagrid>
             <TextField source="id" sortable={false} />
-            <ReferenceField source="application_id" reference="application">
-                <TextField source="context.application_name" />
+            <StatusField source="status" sortable={false} />
+            <ReferenceField source="user_id" reference="users">
+                <TextField source="name" />
             </ReferenceField>
+            <TextField source="namespace" sortable={false} />
+            <TextField source="created_at" sortable={false} />
             <ReferenceField source="cluster_id" reference="cluster">
                 <TextField source="cluster_name" />
             </ReferenceField>
             <TextField source="cpu" sortable={false} />
             <TextField source="memory" sortable={false} />
-            <TextField source="namespace" sortable={false} />
-            <TextField source="status" sortable={false} />
-            <ReferenceField source="user_id" reference="users">
-                <TextField source="name" />
-            </ReferenceField>
-            <TextField source="created_at" sortable={false} />
             <SpaceShowButton />
+            <DeleteButton undoable={false} />
         </Datagrid>
     </List>
 );

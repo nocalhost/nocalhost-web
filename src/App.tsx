@@ -3,6 +3,7 @@ import { Admin, Resource } from 'react-admin';
 import users from './users';
 import cluster from './cluster';
 import application from './application';
+import devSpace from './devSpace';
 import Dashboard from './Dashboard';
 import space from './space';
 import auth from './provider/authProvider';
@@ -33,6 +34,7 @@ function App() {
             <Resource name="application" {...application} />
             <Resource name="users" {...users} />
             <Resource name="space" {...space} options={{ cluster_id: 1, application_id: 1 }} />
+            <Resource name="dev_space" {...devSpace} />
         </Admin>
     );
 }

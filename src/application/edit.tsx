@@ -23,7 +23,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     return (
         <Edit transform={transform} {...props}>
             <SimpleForm>
-                <TextInput source="context.application_name" />
+                <TextInput label="Application Name" source="context.application_name" />
                 <SelectInput
                     source="context.source"
                     label="Source"
@@ -49,11 +49,15 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                         )
                     }
                 </FormDataConsumer>
-                <TextInput source="context.application_url" />
+                <TextInput label="Application Url" source="context.application_url" />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
                         formData.context.source === 'git' && (
-                            <TextInput source="context.resource_dir" {...rest} />
+                            <TextInput
+                                label="Resource Dir"
+                                source="context.resource_dir"
+                                {...rest}
+                            />
                         )
                     }
                 </FormDataConsumer>

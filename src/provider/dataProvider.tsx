@@ -23,6 +23,9 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
         };
         let url = `${apiUrl}/${resource}?${stringify(query)}`;
+        if (resource === 'dev_space') {
+            url = `${apiUrl}/cluster/${params.filter.cluster}/dev_space`;
+        }
         if (resource === 'space') {
             url = `${apiUrl}/application/${params.filter.application}/dev_space_list`;
         }

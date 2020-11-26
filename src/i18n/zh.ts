@@ -54,6 +54,12 @@ const customChineseMessages: TranslationMessages = {
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',
             },
+            delete: {
+                confirm: {
+                    title: '删除集群 "%{name}"',
+                    content: '这将从集群内删除所有 nocalhost 资源以及创建的工作空间。',
+                },
+            },
         },
         application: {
             name: '应用 |||| 应用列表',

@@ -1,6 +1,14 @@
 import React from 'react';
 import { FC } from 'react';
-import { Show, SimpleShowLayout, TextField, ShowProps, useTranslate } from 'react-admin';
+import {
+    Show,
+    SimpleShowLayout,
+    TextField,
+    ShowProps,
+    useTranslate,
+    useShowController,
+    DeleteWithConfirmButton,
+} from 'react-admin';
 import ClusterVersionField from './ClusterVersionField';
 import NodesField from './NodesFields';
 import KubeConfigField from './KubeConfigField';
@@ -16,6 +24,8 @@ const Title = ({ record }: any) => {
 };
 
 const ClusterShow: FC<ShowProps> = (props) => {
+    const translate = useTranslate();
+    const { record } = useShowController(props);
     return (
         <Show {...props} title={<Title />}>
             <SimpleShowLayout>
@@ -27,6 +37,12 @@ const ClusterShow: FC<ShowProps> = (props) => {
                 />
                 <NodesField label="resources.cluster.fields.nodes_count" source="info" />
                 <KubeConfigField label="resources.cluster.fields.kubeconfig" source="kubeconfig" />
+                <DeleteWithConfirmButton
+                    confirmTitle={translate('resources.cluster.delete.confirm.title', {
+                        name: record && record.name,
+                    })}
+                    confirmContent={translate('resources.cluster.delete.confirm.content')}
+                />
             </SimpleShowLayout>
         </Show>
     );

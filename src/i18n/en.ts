@@ -52,6 +52,13 @@ const customEnglishMessages: TranslationMessages = {
                 created_at: 'Created At',
                 kubeconfig: 'KubeConfig',
             },
+            delete: {
+                confirm: {
+                    title: 'Delete cluster "%{name}"',
+                    content:
+                        'This will delete all nocalhost resources and created workspaces from the cluster.',
+                },
+            },
         },
         application: {
             name: 'Application |||| Applications',

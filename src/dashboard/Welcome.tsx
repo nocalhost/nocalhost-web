@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 import { useTranslate } from 'react-admin';
 
-const Dashboard = () => {
+const Welcome = () => {
     const translate = useTranslate();
     return (
         <Card>
@@ -12,4 +12,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Welcome;

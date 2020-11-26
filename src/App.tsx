@@ -6,7 +6,7 @@ import cluster from './cluster';
 import application from './application';
 import devSpace from './devSpace';
 import space from './space';
-import Dashboard from './Dashboard';
+import Dashboard from './dashboard';
 import { englishMessages, chineseMessages } from './i18n';
 import { auth, data } from './provider';
 import { Login, Layout } from './layout';

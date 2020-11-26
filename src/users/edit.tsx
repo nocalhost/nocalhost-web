@@ -11,6 +11,7 @@ import {
     useTranslate,
 } from 'react-admin';
 import form from '../common/form';
+import { validateText, validateEmail } from '../common/validation';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -32,11 +33,23 @@ const UserEdit: FC<EditProps> = (props) => {
         };
         return result;
     };
+    const validateUserUpdate = (values: any) => {
+        const errors: any = {};
+        if (values.password) {
+            if (!values.confirm_password) {
+                errors.confirm_password = ['nh.validation.required.confirm_password'];
+            }
+            if (values.password !== values.confirm_password) {
+                errors.confirm_password = ['nh.validation.confirm_password_error'];
+            }
+        }
+        return errors;
+    };
     return (
         <Edit {...props} undoable={false} transform={transform} title={<Title />}>
-            <SimpleForm {...form}>
-                <TextInput source="email" />
-                <TextInput source="name" />
+            <SimpleForm validate={validateUserUpdate} {...form}>
+                <TextInput source="email" validate={validateEmail} />
+                <TextInput source="name" validate={validateText} />
                 <PasswordInput source="password" />
                 <PasswordInput source="confirm_password" />
                 <BooleanInput

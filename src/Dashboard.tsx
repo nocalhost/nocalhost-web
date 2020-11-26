@@ -6,8 +6,8 @@ const Dashboard = () => {
     const translate = useTranslate();
     return (
         <Card>
-            <CardHeader title={translate('pos.dashboard.welcome.title')} />
-            <CardContent>{translate('pos.dashboard.welcome.content')}</CardContent>
+            <CardHeader title={translate('nh.dashboard.welcome.title')} />
+            <CardContent>{translate('nh.dashboard.welcome.content')}</CardContent>
         </Card>
     );
 };

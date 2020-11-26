@@ -9,13 +9,22 @@ englishMessages.ra = ra;
 
 const customEnglishMessages: TranslationMessages = {
     ...englishMessages,
-    pos: {
+    nh: {
         language: 'Language',
         theme: {
             name: 'Theme',
         },
         dashboard: {
             welcome: { title: 'Welcome to the Nocalhost', content: 'Nocalhost is Not localhost' },
+        },
+        validation: {
+            required: {
+                email: 'The Email is required',
+                name: 'The Name is required',
+                password: 'The Password is Required',
+                confirm_password: 'The Confirm Password is Required',
+            },
+            confirm_password_error: 'The Confirm Password mast be equals The Password',
         },
     },
     resources: {

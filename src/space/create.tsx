@@ -12,6 +12,7 @@ import {
     useTranslate,
 } from 'react-admin';
 import searchToObj from '../utils/searchToObj';
+import { validateText } from '../common/validation';
 
 const Title = ({ application }: any) => {
     const translate = useTranslate();
@@ -45,23 +46,31 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                     disabled
                     reference="application"
                 >
-                    <SelectInput optionText="context.application_name" />
+                    <SelectInput validate={validateText} optionText="context.application_name" />
                 </ReferenceInput>
                 <ReferenceInput
                     label="resources.space.fields.cluster"
                     source="cluster_id"
                     reference="cluster"
                 >
-                    <SelectInput optionText="cluster_name" />
+                    <SelectInput validate={validateText} optionText="cluster_name" />
                 </ReferenceInput>
-                <NumberInput label="resources.space.fields.cpu" source="cpu" />
-                <NumberInput label="resources.space.fields.memory" source="memory" />
+                <NumberInput
+                    validate={validateText}
+                    label="resources.space.fields.cpu"
+                    source="cpu"
+                />
+                <NumberInput
+                    validate={validateText}
+                    label="resources.space.fields.memory"
+                    source="memory"
+                />
                 <ReferenceInput
                     label="resources.space.fields.user"
                     source="user_id"
                     reference="users"
                 >
-                    <SelectInput optionText="name" />
+                    <SelectInput validate={validateText} optionText="name" />
                 </ReferenceInput>
             </SimpleForm>
         </Create>

@@ -9,6 +9,7 @@ import {
     CreateProps,
     Record,
 } from 'react-admin';
+import { validateText, validateEmail } from '../common/validation';
 
 const UserCreate: FC<CreateProps> = (props) => {
     const transform = (data: Record) => {
@@ -22,25 +23,22 @@ const UserCreate: FC<CreateProps> = (props) => {
     };
     const validateUserCreation = (values: any) => {
         const errors: any = {};
-        if (!values.email) {
-            errors.email = ['The Email is required'];
-        }
-        if (!values.name) {
-            errors.name = ['The Name is required'];
-        }
         if (!values.password) {
-            errors.password = ['The Password is required'];
+            errors.password = ['nh.validation.required.password'];
         }
         if (!values.confirm_password) {
-            errors.confirm_password = ['The Confirm Password is required'];
+            errors.confirm_password = ['nh.validation.required.confirm_password'];
+        }
+        if (values.password !== values.confirm_password) {
+            errors.confirm_password = ['nh.validation.confirm_password_error'];
         }
         return errors;
     };
     return (
         <Create transform={transform} {...props}>
             <SimpleForm validate={validateUserCreation}>
-                <TextInput source="email" />
-                <TextInput source="name" />
+                <TextInput source="email" validate={validateEmail} />
+                <TextInput source="name" validate={validateText} />
                 <PasswordInput source="password" />
                 <PasswordInput source="confirm_password" />
                 <BooleanInput

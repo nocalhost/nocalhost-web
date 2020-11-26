@@ -9,14 +9,27 @@ import {
     FormDataConsumer,
     Record,
 } from 'react-admin';
+import { validateText } from '../common/validation';
 
 const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
     const transform = (data: Record) => {
+        let context = {};
+        if (data.context.source === 'helm_repo') {
+            context = {
+                application_name: data.context.application_name,
+                source: data.context.source,
+                application_url: data.context.application_url,
+                install_type: 'manifest',
+                resource_dir: '/tmp',
+            };
+        } else {
+            context = data.context;
+        }
         // eslint-disable-next-line
         // @ts-ignore
         const result: Record = {
             status: 1,
-            context: JSON.stringify(data.context),
+            context: JSON.stringify(context),
         };
         return result;
     };
@@ -26,11 +39,13 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 <TextInput
                     label="resources.application.fields.application_name"
                     source="context.application_name"
+                    validate={validateText}
                 />
                 <SelectInput
                     source="context.source"
                     label="resources.application.fields.source"
                     initialValue="git"
+                    validate={validateText}
                     choices={[
                         { id: 'git', name: 'Git' },
                         { id: 'helm_repo', name: 'Helm Repo' },
@@ -40,9 +55,10 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                     {({ formData, ...rest }) =>
                         formData.context.source === 'git' && (
                             <SelectInput
+                                validate={validateText}
                                 {...rest}
-                                source="resources.application.fields.install_type"
-                                label="Install Type"
+                                label="resources.application.fields.install_type"
+                                source="context.install_type"
                                 initialValue="manifest"
                                 choices={[
                                     { id: 'manifest', name: 'Manifest' },
@@ -55,6 +71,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 <TextInput
                     label="resources.application.fields.application_url"
                     source="context.application_url"
+                    validate={validateText}
                 />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
@@ -62,6 +79,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                             <TextInput
                                 label="Resource Dir"
                                 source="context.resource_dir"
+                                validate={validateText}
                                 {...rest}
                             />
                         )

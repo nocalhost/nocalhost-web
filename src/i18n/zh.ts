@@ -11,13 +11,22 @@ chineseMessages.ra = ra;
 
 const customChineseMessages: TranslationMessages = {
     ...chineseMessages,
-    pos: {
+    nh: {
         language: '语言',
         theme: {
             name: '主题',
         },
         dashboard: {
             welcome: { title: '欢迎使用 Nocalhost', content: 'Nocalhost is Not localhost' },
+        },
+        validation: {
+            required: {
+                email: '邮箱必填',
+                name: '用户名必填',
+                password: '密码必填',
+                confirm_password: '确认密码必填',
+            },
+            confirm_password_error: '确认密码必须和密码保持一直',
         },
     },
     resources: {

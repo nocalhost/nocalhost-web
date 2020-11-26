@@ -79,7 +79,12 @@ const SpaceList: FC<ListProps> = (props) => (
     >
         <Datagrid>
             <StatusField label="resources.space.fields.status" source="status" sortable={false} />
-            <ReferenceField label="resources.space.fields.user" source="user_id" reference="users">
+            <ReferenceField
+                label="resources.space.fields.user"
+                source="user_id"
+                reference="users"
+                sortable={false}
+            >
                 <TextField source="name" />
             </ReferenceField>
             <TextField
@@ -96,6 +101,7 @@ const SpaceList: FC<ListProps> = (props) => (
                 label="resources.space.fields.cluster"
                 source="cluster_id"
                 reference="cluster"
+                sortable={false}
             >
                 <TextField source="cluster_name" />
             </ReferenceField>

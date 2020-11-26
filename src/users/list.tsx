@@ -1,8 +1,25 @@
 import React from 'react';
 import { FC } from 'react';
-import { List, ListProps, Datagrid, TextField, EmailField, EditButton } from 'react-admin';
+import {
+    List,
+    ListProps,
+    Datagrid,
+    TextField,
+    EmailField,
+    EditButton,
+    useTranslate,
+} from 'react-admin';
 
-const StatusField = ({ record }: any) => <div>{record.status === 1 ? 'Avtive' : 'Inactive'}</div>;
+const StatusField = ({ record }: any) => {
+    const translate = useTranslate();
+    return (
+        <div>
+            {record.status === 1
+                ? translate('resources.users.status.active')
+                : translate('resources.users.status.inactive')}
+        </div>
+    );
+};
 
 const UserList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>

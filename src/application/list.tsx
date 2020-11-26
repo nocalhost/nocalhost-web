@@ -33,10 +33,15 @@ const ApplicationList: FC<ListProps> = (props) => (
                 label="resources.application.fields.user"
                 source="user_id"
                 reference="users"
+                sortable={false}
             >
                 <TextField source="name" />
             </ReferenceField>
-            <TextField label="resources.application.fields.created_at" source="created_at" />
+            <TextField
+                label="resources.application.fields.created_at"
+                sortable={false}
+                source="created_at"
+            />
             <ShowButton />
             <EditButton />
             <SpaceListButton />

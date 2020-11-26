@@ -71,6 +71,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
                 label="resources.devSpace.fields.user"
                 source="user_id"
                 reference="users"
+                sortable={false}
             >
                 <TextField source="name" />
             </ReferenceField>
@@ -88,6 +89,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
                 label="resources.devSpace.fields.application"
                 source="application_id"
                 reference="application"
+                sortable={false}
             >
                 <TextField source="context.application_name" />
             </ReferenceField>

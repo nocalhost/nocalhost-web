@@ -5,12 +5,10 @@ import users from './users';
 import cluster from './cluster';
 import application from './application';
 import devSpace from './devSpace';
-import Dashboard from './Dashboard';
-import englishMessages from './i18n/en';
-import chineseMessages from './i18n/zh';
 import space from './space';
-import auth from './provider/authProvider';
-import data from './provider/dataProvider';
+import Dashboard from './Dashboard';
+import { englishMessages, chineseMessages } from './i18n';
+import { auth, data } from './provider';
 import { Login, Layout } from './layout';
 import './App.css';
 
@@ -18,13 +16,12 @@ const messages = {
     zh: chineseMessages,
     en: englishMessages,
 };
-const i18nProvider = polyglotI18nProvider((locale) => {
-    // eslint-disable-next-line
-    console.log(locale);
+const i18nProvider = polyglotI18nProvider(
     // eslint-disable-next-line
     // @ts-ignore
-    return messages[locale] ? messages[locale] : messages.en;
-}, 'cn');
+    (locale) => (messages[locale] ? messages[locale] : messages.en),
+    'en'
+);
 
 function App() {
     // eslint-disable-next-line

@@ -28,7 +28,10 @@ const customChineseMessages: TranslationMessages = {
                 email: '邮箱',
                 cluster_count: '集群数量',
                 status: '状态',
+                password: '密码',
+                confirm_password: '确认密码',
             },
+            status: { active: '开启', inactive: '锁定' },
         },
         cluster: {
             name: '集群 |||| 集群列表',

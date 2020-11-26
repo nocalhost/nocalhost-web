@@ -46,7 +46,7 @@ const UserCreate: FC<CreateProps> = (props) => {
                 <BooleanInput
                     format={(status: number) => status === 1}
                     parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
-                    label="isActive"
+                    label="resources.users.fields.status"
                     source="status"
                 />
             </SimpleForm>

@@ -8,11 +8,18 @@ import {
     Record,
     PasswordInput,
     BooleanInput,
+    useTranslate,
 } from 'react-admin';
 import form from '../common/form';
 
 const Title = ({ record }: any) => {
-    return <span>User {record ? `"${record.name}"` : ''}</span>;
+    const translate = useTranslate();
+    return (
+        <span>
+            {translate('resources.users.name', { smart_count: 1 })}{' '}
+            {record ? `"${record.name}"` : ''}
+        </span>
+    );
 };
 
 const UserEdit: FC<EditProps> = (props) => {
@@ -33,13 +40,9 @@ const UserEdit: FC<EditProps> = (props) => {
                 <PasswordInput source="password" />
                 <PasswordInput source="confirm_password" />
                 <BooleanInput
-                    format={(status: number) => {
-                        return status === 1;
-                    }}
-                    parse={(inputValue: boolean) => {
-                        return inputValue ? 1 : 0;
-                    }}
-                    label="isActive"
+                    format={(status: number) => status === 1}
+                    parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
+                    label="resources.users.fields.status"
                     source="status"
                 />
             </SimpleForm>

@@ -11,7 +11,7 @@ const ClusterCreate: FC<CreateProps> = (props) => {
     });
     return (
         <Create {...props} transform={transform}>
-            <SimpleForm>
+            <SimpleForm redirect="list">
                 <TextInput
                     label="resources.cluster.fields.cluster_name"
                     source="name"

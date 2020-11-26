@@ -5,7 +5,6 @@ import {
     TextField,
     ShowProps,
     ReferenceField,
-    BooleanField,
     useTranslate,
 } from 'react-admin';
 import KubeConfigField from '../cluster/KubeConfigField';
@@ -19,6 +18,18 @@ const Title = ({ record }: any) => {
         </span>
     );
 };
+
+const StatusField = (record: any) => {
+    const translate = useTranslate();
+    return (
+        <div>
+            {record.status === 1
+                ? translate('resources.space.status.deployed')
+                : translate('resources.space.status.undeployed')}
+        </div>
+    );
+};
+StatusField.defaultProps = { source: 'Status', addLabel: true };
 
 const SpaceShow: FC<ShowProps> = (props) => {
     return (
@@ -41,7 +52,7 @@ const SpaceShow: FC<ShowProps> = (props) => {
                 <TextField label="resources.space.fields.cpu" source="cpu" />
                 <TextField label="resources.space.fields.memory" source="memory" />
                 <KubeConfigField label="resources.space.fields.kubeconfig" source="kubeconfig" />
-                <BooleanField label="resources.space.fields.status" source="status" />
+                <StatusField label="resources.space.fields.status" source="status" />
                 <ReferenceField
                     label="resources.space.fields.user"
                     source="user_id"

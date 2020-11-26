@@ -35,7 +35,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
     };
     return (
         <Create {...props} transform={transform}>
-            <SimpleForm>
+            <SimpleForm redirect="list">
                 <TextInput
                     label="resources.application.fields.application_name"
                     source="context.application_name"

@@ -36,7 +36,7 @@ const UserCreate: FC<CreateProps> = (props) => {
     };
     return (
         <Create transform={transform} {...props}>
-            <SimpleForm validate={validateUserCreation}>
+            <SimpleForm redirect="list" validate={validateUserCreation}>
                 <TextInput source="email" validate={validateEmail} />
                 <TextInput source="name" validate={validateText} />
                 <PasswordInput source="password" />

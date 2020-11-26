@@ -15,6 +15,9 @@ export default (apiUrl: string): AuthProvider => ({
             throw new Error(resp.statusText);
         }
         const login = await resp.json();
+        if (login.code !== 0) {
+            throw new Error(login.message);
+        }
         const token = login.data.token;
         const decodeToken: any = decodeJwt(token);
         const loginToken: LoginToken = decodeToken;

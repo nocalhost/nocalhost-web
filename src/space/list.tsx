@@ -34,7 +34,7 @@ const StatusField = (record: any) => <div>{record.status === 1 ? 'deployed' : 'n
 const SpaceCreateButton = (record: any) => (
     <Button
         icon={<AddIcon />}
-        to={`space/create?application_id=${record.application}`}
+        to={`space/create?application=${record.application}`}
         label={`Create Space`}
         onClick={(e) => e.stopPropagation()}
         component={Link}
@@ -61,7 +61,6 @@ const SpaceList: FC<ListProps> = (props) => (
         actions={<ListActions />}
     >
         <Datagrid>
-            <TextField source="id" sortable={false} />
             <StatusField source="status" sortable={false} />
             <ReferenceField source="user_id" reference="users">
                 <TextField source="name" />

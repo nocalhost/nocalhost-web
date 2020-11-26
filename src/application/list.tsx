@@ -1,6 +1,15 @@
 import React from 'react';
 import { FC } from 'react';
-import { List, Datagrid, TextField, EditButton, ShowButton, ListProps, Button } from 'react-admin';
+import {
+    List,
+    Datagrid,
+    TextField,
+    ReferenceField,
+    EditButton,
+    ShowButton,
+    ListProps,
+    Button,
+} from 'react-admin';
 import { Link } from 'react-router-dom';
 
 const SourceField = ({ record }: any) => (
@@ -10,9 +19,12 @@ const SourceField = ({ record }: any) => (
 const ApplicationList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
         <Datagrid>
-            <TextField source="id" sortable={false} />
             <TextField label="App Name" source="context.application_name" sortable={false} />
             <SourceField label="Source" source="context.source" sortable={false} />
+            <ReferenceField source="user_id" reference="users">
+                <TextField source="name" />
+            </ReferenceField>
+            <TextField source="created_at" />
             <ShowButton />
             <EditButton />
             <SpaceListButton />

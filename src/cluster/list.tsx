@@ -1,6 +1,14 @@
 import React from 'react';
 import { FC } from 'react';
-import { List, Datagrid, TextField, ShowButton, ListProps, Button } from 'react-admin';
+import {
+    List,
+    Datagrid,
+    TextField,
+    ShowButton,
+    ListProps,
+    ReferenceField,
+    Button,
+} from 'react-admin';
 import { Link } from 'react-router-dom';
 import ClusterVersionField from './ClusterVersionField';
 import NodesField from './NodesFields';
@@ -9,12 +17,14 @@ const ClusterList: FC<ListProps> = (props) => {
     return (
         <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid rowClick="edit">
-                <TextField source="id" sortable={false} />
                 <TextField source="cluster_name" sortable={false} />
                 <TextField source="marks" sortable={false} />
                 <ClusterVersionField label="Cluster version" source="info" sortable={false} />
                 <NodesField label="Nodes count" source="info" sortable={false} />
                 <TextField source="users_count" sortable={false} />
+                <ReferenceField source="user_id" reference="users">
+                    <TextField source="name" />
+                </ReferenceField>
                 <TextField source="created_at" sortable={false} />
                 <ShowButton />
                 <SpaceShowButton />

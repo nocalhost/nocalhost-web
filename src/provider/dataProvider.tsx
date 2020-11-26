@@ -34,7 +34,12 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
                 return httpClient(url, options).then((result: Result) => {
                     const list = result.json.data;
                     const newList = list.map((l: Application) => {
-                        return { id: l.id, status: l.status === 1, context: JSON.parse(l.context) };
+                        return {
+                            ...l,
+                            id: l.id,
+                            status: l.status === 1,
+                            context: JSON.parse(l.context),
+                        };
                     });
                     return {
                         data: newList,
@@ -77,6 +82,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
                     const data = result.json.data;
                     return {
                         data: {
+                            ...data,
                             status: data.status === 1,
                             id: data.id,
                             context: JSON.parse(data.context),
@@ -96,7 +102,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
                 const newList = list.filter((l: Record) => params.ids.includes(l.id));
                 if (resource === 'application') {
                     const result = newList.map((l: Application) => {
-                        return { id: l.id, status: l.status, context: JSON.parse(l.context) };
+                        return { ...l, id: l.id, status: l.status, context: JSON.parse(l.context) };
                     });
                     return {
                         data: result,

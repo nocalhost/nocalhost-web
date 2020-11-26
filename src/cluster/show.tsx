@@ -13,7 +13,6 @@ const ClusterShow: FC<ShowProps> = (props) => {
     return (
         <Show {...props} title={<Title />}>
             <SimpleShowLayout>
-                <TextField source="id" />
                 <TextField source="name" />
                 <TextField source="marks" />
                 <ClusterVersionField label="Cluster version" source="info" />

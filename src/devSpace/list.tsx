@@ -10,15 +10,11 @@ import {
     sanitizeListRestProps,
     ReferenceField,
     DeleteButton,
-    useListContext,
     useGetOne,
     useTranslate,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
-
-const Empty = () => {
-    return <div>empty</div>;
-};
+import searchToObj from '../utils/searchToObj';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -38,8 +34,10 @@ const StatusField = (record: any) => {
 
 const Title = () => {
     const translate = useTranslate();
-    const listContext = useListContext();
-    const { data, loading } = useGetOne('cluster', listContext.filterValues.cluster);
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
+    const { data, loading } = useGetOne('cluster', p.cluster);
     if (loading || !data) {
         return <span>{translate('resources.devSpace.name', { smart_count: 2 })}</span>;
     }
@@ -55,7 +53,6 @@ const DevSpaceList: FC<ListProps> = (props) => (
     <List
         {...props}
         title={<Title />}
-        empty={<Empty />}
         bulkActionButtons={false}
         pagination={false}
         exporter={false}
@@ -103,7 +100,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
 
 const SpaceShowButton = ({ record }: any) => (
     <Button
-        to={`/space/${record.id}/show?cluster_id=${record.cluster_id}`}
+        to={`/space/${record.id}/show?cluster=${record.cluster_id}`}
         label={'resources.devSpace.actions.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}

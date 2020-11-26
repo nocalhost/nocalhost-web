@@ -83,6 +83,7 @@ const customEnglishMessages: TranslationMessages = {
             },
             actions: { create: 'Create Space', show: 'Show Space', list: 'Space List' },
             status: { deployed: 'Deployed', undeployed: 'Not deployed' },
+            empty: { title: 'Space is empty', content: 'Create a new Space' },
         },
         devSpace: {
             name: 'Space |||| Spaces',

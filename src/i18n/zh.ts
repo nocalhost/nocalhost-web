@@ -85,6 +85,7 @@ const customChineseMessages: TranslationMessages = {
             },
             actions: { create: '创建环境', show: '环境详情', list: '环境列表' },
             status: { deployed: '已部署', undeployed: '未部署' },
+            empty: { title: '环境列表为空', content: '来创建一个环境' },
         },
         devSpace: {
             name: '环境 |||| 环境列表',

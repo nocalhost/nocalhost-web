@@ -11,11 +11,11 @@ interface Result {
 }
 
 export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider => {
-    const options = {
-        user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
-    };
     return {
         getList: async (resource: string, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
             const query = {
@@ -25,10 +25,16 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
             };
             let url = `${apiUrl}/${resource}?${stringify(query)}`;
             if (resource === 'dev_space') {
-                url = `${apiUrl}/cluster/${params.filter.cluster}/dev_space`;
+                const hash = window.location.hash;
+                const search = hash.substring(hash.indexOf('?'));
+                const p = searchToObj(search);
+                url = `${apiUrl}/cluster/${p.cluster}/dev_space`;
             }
             if (resource === 'space') {
-                url = `${apiUrl}/application/${params.filter.application}/dev_space_list`;
+                const hash = window.location.hash;
+                const search = hash.substring(hash.indexOf('?'));
+                const p = searchToObj(search);
+                url = `${apiUrl}/application/${p.application}/dev_space_list`;
             }
             if (resource === 'application') {
                 return httpClient(url, options).then((result: Result) => {
@@ -58,11 +64,14 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         },
 
         getOne: async (resource, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             if (resource === 'space') {
                 const hash = window.location.hash;
                 const search = hash.substring(hash.indexOf('?'));
                 const p = searchToObj(search);
-                const spaceUrl = `${apiUrl}/cluster/${p.cluster_id}/dev_space/${params.id}/detail`;
+                const spaceUrl = `${apiUrl}/cluster/${p.cluster}/dev_space/${params.id}/detail`;
                 return httpClient(spaceUrl, options).then((result: Result) => {
                     return {
                         data: {
@@ -96,6 +105,9 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         },
 
         getMany: async (resource, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             const url = `${apiUrl}/${resource}`;
             return httpClient(url, options).then((result: Result) => {
                 const list = result.json.data;
@@ -134,6 +146,9 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         },
 
         update: async (resource, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             return httpClient(`${apiUrl}/${resource}/${params.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(params.data),
@@ -161,6 +176,9 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         },
 
         create: async (resource, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             if (resource === 'space') {
                 const space = {
                     cluster_id: params.data.cluster_id,
@@ -203,6 +221,9 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
         },
 
         delete: async (resource, params) => {
+            const options = {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+            };
             return httpClient(`${apiUrl}/${resource}/${params.id}`, {
                 method: 'DELETE',
                 ...options,

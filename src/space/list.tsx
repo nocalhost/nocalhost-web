@@ -10,22 +10,39 @@ import {
     sanitizeListRestProps,
     ReferenceField,
     DeleteButton,
-    useListContext,
     useGetOne,
     useTranslate,
 } from 'react-admin';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
+import searchToObj from '../utils/searchToObj';
 
 const Empty = () => {
-    return <div>empty</div>;
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
+    const translate = useTranslate();
+    return (
+        <Box textAlign="center" m={1}>
+            <Typography variant="h4" paragraph>
+                {translate('resources.space.empty.title')}
+            </Typography>
+            <Typography variant="body1">{translate('resources.space.empty.content')}</Typography>
+            <SpaceCreateButton application={p.application} />
+        </Box>
+    );
 };
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
     return (
         <TopToolbar {...sanitizeListRestProps(rest)}>
-            <SpaceCreateButton application={props.filterValues.application} />
+            <SpaceCreateButton application={p.application} />
         </TopToolbar>
     );
 };
@@ -53,8 +70,10 @@ const SpaceCreateButton = (record: any) => (
 
 const Title = () => {
     const translate = useTranslate();
-    const listContext = useListContext();
-    const { data, loading } = useGetOne('application', listContext.filterValues.application);
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
+    const { data, loading } = useGetOne('application', p.application);
     if (loading || !data) {
         return <span>{translate('resources.space.name', { smart_count: 2 })}</span>;
     }

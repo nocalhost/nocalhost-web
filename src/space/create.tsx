@@ -29,17 +29,23 @@ const Title = ({ application }: any) => {
 };
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
     const redirect = useRedirect();
     // eslint-disable-next-line
     // @ts-ignore
-    const params = searchToObj(props.location.search);
-    if (!params.application) {
+    if (!p.application) {
         redirect('/application');
     }
-    const postDefaultValue = () => ({ application_id: params.application });
+    const postDefaultValue = () => ({ application_id: p.application });
     return (
-        <Create title={<Title application={params.application} />} {...props}>
-            <SimpleForm sanitizeEmptyValues={false} initialValues={postDefaultValue()}>
+        <Create title={<Title application={p.application} />} {...props}>
+            <SimpleForm
+                redirect={`/space?application=${p.application}`}
+                sanitizeEmptyValues={false}
+                initialValues={postDefaultValue()}
+            >
                 <ReferenceInput
                     label="resources.space.fields.application"
                     source="application_id"

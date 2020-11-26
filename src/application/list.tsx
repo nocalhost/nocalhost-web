@@ -60,10 +60,9 @@ const SpaceCreateButton = ({ record }: any) => (
 );
 
 const SpaceListButton = ({ record }: any) => {
-    const filter = `filter=%7B%22application%22%3A%22${record.id}%22%7D`;
     return (
         <Button
-            to={`space?${filter}`}
+            to={`space?application=${record.id}`}
             label={'resources.space.actions.list'}
             onClick={(e) => e.stopPropagation()}
             component={Link}

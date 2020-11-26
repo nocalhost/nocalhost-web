@@ -59,10 +59,9 @@ const ClusterList: FC<ListProps> = (props) => {
 };
 
 const SpaceShowButton = ({ record }: any) => {
-    const filter = `filter=%7B%22cluster%22%3A%22${record.id}%22%7D`;
     return (
         <Button
-            to={`/dev_space?${filter}`}
+            to={`/dev_space?cluster=${record.id}`}
             label={'resources.devSpace.actions.list'}
             onClick={(e) => e.stopPropagation()}
             component={Link}

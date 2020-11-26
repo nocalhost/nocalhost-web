@@ -23,10 +23,13 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
     return (
         <Create {...props} transform={transform}>
             <SimpleForm>
-                <TextInput label="Application Name" source="context.application_name" />
+                <TextInput
+                    label="resources.application.fields.application_name"
+                    source="context.application_name"
+                />
                 <SelectInput
                     source="context.source"
-                    label="Source"
+                    label="resources.application.fields.source"
                     initialValue="git"
                     choices={[
                         { id: 'git', name: 'Git' },
@@ -38,7 +41,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                         formData.context.source === 'git' && (
                             <SelectInput
                                 {...rest}
-                                source="context.install_type"
+                                source="resources.application.fields.install_type"
                                 label="Install Type"
                                 initialValue="manifest"
                                 choices={[
@@ -49,7 +52,10 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                         )
                     }
                 </FormDataConsumer>
-                <TextInput label="Application Url" source="context.application_url" />
+                <TextInput
+                    label="resources.application.fields.application_url"
+                    source="context.application_url"
+                />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
                         formData.context.source === 'git' && (

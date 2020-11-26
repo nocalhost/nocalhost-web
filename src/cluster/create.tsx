@@ -13,9 +13,20 @@ const ClusterCreate: FC<CreateProps> = (props) => {
     return (
         <Create {...props} transform={transform}>
             <SimpleForm>
-                <TextInput source="name" required={true} validate={[required()]} />
-                <TextInput source="marks" required={true} validate={[required()]} />
                 <TextInput
+                    label="resources.cluster.fields.cluster_name"
+                    source="name"
+                    required={true}
+                    validate={[required()]}
+                />
+                <TextInput
+                    label="resources.cluster.fields.marks"
+                    source="marks"
+                    required={true}
+                    validate={[required()]}
+                />
+                <TextInput
+                    label="resources.cluster.fields.kubeconfig"
                     multiline
                     fullWidth={true}
                     source="kubeconfig"

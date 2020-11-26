@@ -12,6 +12,7 @@ import {
     DeleteButton,
     useListContext,
     useGetOne,
+    useTranslate,
 } from 'react-admin';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
@@ -29,25 +30,41 @@ const ListActions = (props: any) => {
     );
 };
 
-const StatusField = (record: any) => <div>{record.status === 1 ? 'deployed' : 'not deployed'}</div>;
+const StatusField = (record: any) => {
+    const translate = useTranslate();
+    return (
+        <div>
+            {record.status === 1
+                ? translate('resources.space.status.deployed')
+                : translate('resources.space.status.undeployed')}
+        </div>
+    );
+};
 
 const SpaceCreateButton = (record: any) => (
     <Button
         icon={<AddIcon />}
         to={`space/create?application=${record.application}`}
-        label={`Create Space`}
+        label={'resources.space.actions.create'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
     />
 );
 
 const Title = () => {
+    const translate = useTranslate();
     const listContext = useListContext();
     const { data, loading } = useGetOne('application', listContext.filterValues.application);
     if (loading || !data) {
-        return <span>Space</span>;
+        return <span>{translate('resources.space.name', { smart_count: 2 })}</span>;
     }
-    return <span>Application {data.context.application_name} Space</span>;
+    return (
+        <span>
+            {translate('resources.application.name', { smart_count: 1 })}{' '}
+            {`"${data.context.application_name}"`}{' '}
+            {translate('resources.space.name', { smart_count: 2 })}
+        </span>
+    );
 };
 
 const SpaceList: FC<ListProps> = (props) => (
@@ -61,17 +78,29 @@ const SpaceList: FC<ListProps> = (props) => (
         actions={<ListActions />}
     >
         <Datagrid>
-            <StatusField source="status" sortable={false} />
-            <ReferenceField source="user_id" reference="users">
+            <StatusField label="resources.space.fields.status" source="status" sortable={false} />
+            <ReferenceField label="resources.space.fields.user" source="user_id" reference="users">
                 <TextField source="name" />
             </ReferenceField>
-            <TextField source="namespace" sortable={false} />
-            <TextField source="created_at" sortable={false} />
-            <ReferenceField source="cluster_id" reference="cluster">
+            <TextField
+                label="resources.space.fields.namespace"
+                source="namespace"
+                sortable={false}
+            />
+            <TextField
+                label="resources.space.fields.created_at"
+                source="created_at"
+                sortable={false}
+            />
+            <ReferenceField
+                label="resources.space.fields.cluster"
+                source="cluster_id"
+                reference="cluster"
+            >
                 <TextField source="cluster_name" />
             </ReferenceField>
-            <TextField source="cpu" sortable={false} />
-            <TextField source="memory" sortable={false} />
+            <TextField label="resources.space.fields.cpu" source="cpu" sortable={false} />
+            <TextField label="resources.space.fields.memory" source="memory" sortable={false} />
             <SpaceShowButton />
             <DeleteButton undoable={false} />
         </Datagrid>
@@ -81,7 +110,7 @@ const SpaceList: FC<ListProps> = (props) => (
 const SpaceShowButton = ({ record }: any) => (
     <Button
         to={`/space/${record.id}/show?cluster_id=${record.cluster_id}`}
-        label={`Show Space`}
+        label={'resources.space.actions.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
     />

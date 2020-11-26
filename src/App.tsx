@@ -1,15 +1,30 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
 import users from './users';
 import cluster from './cluster';
 import application from './application';
 import devSpace from './devSpace';
 import Dashboard from './Dashboard';
+import englishMessages from './i18n/en';
+import chineseMessages from './i18n/zh';
 import space from './space';
 import auth from './provider/authProvider';
 import data from './provider/dataProvider';
 import { Login, Layout } from './layout';
 import './App.css';
+
+const messages = {
+    zh: chineseMessages,
+    en: englishMessages,
+};
+const i18nProvider = polyglotI18nProvider((locale) => {
+    // eslint-disable-next-line
+    console.log(locale);
+    // eslint-disable-next-line
+    // @ts-ignore
+    return messages[locale] ? messages[locale] : messages.en;
+}, 'cn');
 
 function App() {
     // eslint-disable-next-line
@@ -30,6 +45,7 @@ function App() {
             loginPage={Login}
             authProvider={authProvider}
             dataProvider={dataProvider}
+            i18nProvider={i18nProvider}
         >
             <Resource name="cluster" {...cluster} />
             <Resource name="application" {...application} />

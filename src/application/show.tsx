@@ -7,10 +7,17 @@ import {
     BooleanField,
     ShowProps,
     useShowController,
+    useTranslate,
 } from 'react-admin';
 
 const Title = ({ record }: any) => {
-    return <span>Application {record ? `"${record.context.application_name}"` : ''}</span>;
+    const translate = useTranslate();
+    return (
+        <span>
+            {translate('resources.application.name', { smart_count: 1 })}{' '}
+            {record ? `"${record.context.application_name}"` : ''}
+        </span>
+    );
 };
 
 const ApplicationShow: FC<ShowProps> = (props) => {
@@ -18,17 +25,28 @@ const ApplicationShow: FC<ShowProps> = (props) => {
     return (
         <Show {...props} title={<Title />}>
             <SimpleShowLayout>
-                <TextField source="id" />
-                <TextField label="Application Name" source="context.application_name" />
-                <TextField label="Source" source="context.source" />
+                <TextField
+                    label="resources.application.fields.application_name"
+                    source="context.application_name"
+                />
+                <TextField label="resources.application.fields.source" source="context.source" />
                 {record && record.context.source === 'git' && (
-                    <TextField label="Install Type" source="context.install_type" />
+                    <TextField
+                        label="resources.application.fields.install_type"
+                        source="context.install_type"
+                    />
                 )}
-                <TextField label="Application Url" source="context.application_url" />
+                <TextField
+                    label="resources.application.fields.application_url"
+                    source="context.application_url"
+                />
                 {record && record.context.source === 'git' && (
-                    <TextField label="Resource Dir" source="context.resource_dir" />
+                    <TextField
+                        label="resources.application.fields.resource_dir"
+                        source="context.resource_dir"
+                    />
                 )}
-                <BooleanField source="status" />
+                <BooleanField label="resources.application.fields.status" source="status" />
             </SimpleShowLayout>
         </Show>
     );

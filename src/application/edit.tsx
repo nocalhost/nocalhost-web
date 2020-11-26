@@ -7,11 +7,18 @@ import {
     EditProps,
     FormDataConsumer,
     Record,
+    useTranslate,
 } from 'react-admin';
 import form from '../common/form';
 
 const Title = ({ record }: any) => {
-    return <span>Application {record ? `"${record.context.application_name}"` : ''}</span>;
+    const translate = useTranslate();
+    return (
+        <span>
+            {translate('resources.application.name', { smart_count: 1 })}{' '}
+            {record ? `"${record.context.application_name}"` : ''}
+        </span>
+    );
 };
 
 const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
@@ -28,10 +35,13 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     return (
         <Edit transform={transform} title={<Title />} {...props}>
             <SimpleForm {...form}>
-                <TextInput label="Application Name" source="context.application_name" />
+                <TextInput
+                    label="resources.application.fields.application_name"
+                    source="context.application_name"
+                />
                 <SelectInput
                     source="context.source"
-                    label="Source"
+                    label="resources.application.fields.source"
                     initialValue="git"
                     choices={[
                         { id: 'git', name: 'Git' },
@@ -44,7 +54,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                             <SelectInput
                                 {...rest}
                                 source="context.install_type"
-                                label="Install Type"
+                                label="resources.application.fields.install_type"
                                 initialValue="manifest"
                                 choices={[
                                     { id: 'manifest', name: 'Manifest' },
@@ -54,12 +64,15 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                         )
                     }
                 </FormDataConsumer>
-                <TextInput label="Application Url" source="context.application_url" />
+                <TextInput
+                    label="resources.application.fields.application_url"
+                    source="context.application_url"
+                />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
                         formData.context.source === 'git' && (
                             <TextInput
-                                label="Resource Dir"
+                                label="resources.application.fields.resource_dir"
                                 source="context.resource_dir"
                                 {...rest}
                             />

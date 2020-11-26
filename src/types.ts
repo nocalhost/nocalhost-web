@@ -2,6 +2,10 @@ import { ReduxState, Record, Identifier } from 'react-admin';
 
 export interface AppState extends ReduxState {}
 
+export interface StringMap {
+    [key: string]: StringMap | string | undefined;
+}
+
 export interface LoginToken {
     email: string;
     exp: number;

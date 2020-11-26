@@ -9,15 +9,22 @@ import {
     CreateProps,
     useRedirect,
     useGetOne,
+    useTranslate,
 } from 'react-admin';
 import searchToObj from '../utils/searchToObj';
 
 const Title = ({ application }: any) => {
+    const translate = useTranslate();
     const { data, loading } = useGetOne('application', application);
     if (loading || !data) {
-        return <span>Create Space</span>;
+        return <span>{translate('resources.space.actions.create')}</span>;
     }
-    return <span>Application {data.context.application_name} Create Space</span>;
+    return (
+        <span>
+            {translate('resources.application.name', { smart_count: 1 })}{' '}
+            {`"${data.context.application_name}"`} {translate('resources.space.actions.create')}
+        </span>
+    );
 };
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
@@ -32,15 +39,28 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     return (
         <Create title={<Title application={params.application} />} {...props}>
             <SimpleForm sanitizeEmptyValues={false} initialValues={postDefaultValue()}>
-                <ReferenceInput source="application_id" disabled reference="application">
+                <ReferenceInput
+                    label="resources.space.fields.application"
+                    source="application_id"
+                    disabled
+                    reference="application"
+                >
                     <SelectInput optionText="context.application_name" />
                 </ReferenceInput>
-                <ReferenceInput source="cluster_id" reference="cluster">
+                <ReferenceInput
+                    label="resources.space.fields.cluster"
+                    source="cluster_id"
+                    reference="cluster"
+                >
                     <SelectInput optionText="cluster_name" />
                 </ReferenceInput>
-                <NumberInput source="cpu" />
-                <NumberInput source="memory" />
-                <ReferenceInput source="user_id" reference="users">
+                <NumberInput label="resources.space.fields.cpu" source="cpu" />
+                <NumberInput label="resources.space.fields.memory" source="memory" />
+                <ReferenceInput
+                    label="resources.space.fields.user"
+                    source="user_id"
+                    reference="users"
+                >
                     <SelectInput optionText="name" />
                 </ReferenceInput>
             </SimpleForm>

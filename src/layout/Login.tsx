@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { Avatar, Button, Card, CardActions, CircularProgress, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from '@material-ui/icons/Lock';
-import { Notification, useLogin, useNotify } from 'react-admin';
+import { Notification, useLogin, useNotify, useTranslate } from 'react-admin';
 
 const useStyles = makeStyles(() => ({
     main: {
@@ -69,6 +69,7 @@ const { Form } = withTypes<FormValues>();
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
+    const translate = useTranslate();
     const classes = useStyles();
     const notify = useNotify();
     const login = useLogin();
@@ -82,7 +83,7 @@ const Login = () => {
                 typeof error === 'string'
                     ? error
                     : typeof error === 'undefined' || !error.message
-                    ? 'Authentication failed, please retry'
+                    ? 'ra.auth.sign_in_error'
                     : error.message,
                 'warning'
             );
@@ -92,10 +93,10 @@ const Login = () => {
     const validate = (values: FormValues) => {
         const errors: FormValues = {};
         if (!values.email) {
-            errors.email = 'Required';
+            errors.email = translate('ra.validation.required');
         }
         if (!values.password) {
-            errors.password = 'Required';
+            errors.password = translate('ra.validation.required');
         }
         return errors;
     };
@@ -122,7 +123,7 @@ const Login = () => {
                                         // eslint-disable-next-line
                                         // @ts-ignore
                                         component={renderInput}
-                                        label={'Email'}
+                                        label={translate('ra.auth.email')}
                                         disabled={loading}
                                     />
                                 </div>
@@ -132,7 +133,7 @@ const Login = () => {
                                         // eslint-disable-next-line
                                         // @ts-ignore
                                         component={renderInput}
-                                        label={'Password'}
+                                        label={translate('ra.auth.password')}
                                         type="password"
                                         disabled={loading}
                                     />
@@ -147,7 +148,7 @@ const Login = () => {
                                     fullWidth
                                 >
                                     {loading && <CircularProgress size={25} thickness={2} />}
-                                    {'Sign in'}
+                                    {translate('ra.auth.sign_in')}
                                 </Button>
                             </CardActions>
                         </Card>

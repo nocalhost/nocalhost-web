@@ -19,12 +19,24 @@ const SourceField = ({ record }: any) => (
 const ApplicationList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
         <Datagrid>
-            <TextField label="App Name" source="context.application_name" sortable={false} />
-            <SourceField label="Source" source="context.source" sortable={false} />
-            <ReferenceField source="user_id" reference="users">
+            <TextField
+                label="resources.application.fields.application_name"
+                source="context.application_name"
+                sortable={false}
+            />
+            <SourceField
+                label="resources.application.fields.source"
+                source="context.source"
+                sortable={false}
+            />
+            <ReferenceField
+                label="resources.application.fields.user"
+                source="user_id"
+                reference="users"
+            >
                 <TextField source="name" />
             </ReferenceField>
-            <TextField source="created_at" />
+            <TextField label="resources.application.fields.created_at" source="created_at" />
             <ShowButton />
             <EditButton />
             <SpaceListButton />
@@ -36,7 +48,7 @@ const ApplicationList: FC<ListProps> = (props) => (
 const SpaceCreateButton = ({ record }: any) => (
     <Button
         to={`space/create?application=${record.id}`}
-        label={`Create Space`}
+        label={'resources.space.actions.create'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
     />
@@ -47,7 +59,7 @@ const SpaceListButton = ({ record }: any) => {
     return (
         <Button
             to={`space?${filter}`}
-            label={`Space List`}
+            label={'resources.space.actions.list'}
             onClick={(e) => e.stopPropagation()}
             component={Link}
         />

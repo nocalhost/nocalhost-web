@@ -1,6 +1,8 @@
 import React from 'react';
-import { AppBar } from 'react-admin';
+import { AppBar, useLocale, useSetLocale } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
+import { IconButton } from '@material-ui/core';
+import TranslateIcon from '@material-ui/icons/Translate';
 import { makeStyles } from '@material-ui/core/styles';
 
 // import Logo from './Logo';
@@ -19,6 +21,18 @@ const useStyles = makeStyles({
 
 const CustomAppBar = (props: any) => {
     const classes = useStyles();
+
+    const locale = useLocale();
+    const setLocale = useSetLocale();
+
+    const toggleLang = () => {
+        if (locale === 'en') {
+            setLocale('zh');
+        } else {
+            setLocale('en');
+        }
+    };
+
     return (
         <AppBar {...props} elevation={1}>
             <Typography
@@ -28,6 +42,9 @@ const CustomAppBar = (props: any) => {
                 id="react-admin-title"
             />
             <span className={classes.spacer} />
+            <IconButton color="inherit" onClick={toggleLang}>
+                <TranslateIcon />
+            </IconButton>
         </AppBar>
     );
 };

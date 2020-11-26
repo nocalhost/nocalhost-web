@@ -12,6 +12,7 @@ import {
     DeleteButton,
     useListContext,
     useGetOne,
+    useTranslate,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
 
@@ -24,15 +25,30 @@ const ListActions = (props: any) => {
     return <TopToolbar {...sanitizeListRestProps(rest)}></TopToolbar>;
 };
 
-const StatusField = (record: any) => <div>{record.status === 1 ? 'deployed' : 'not deployed'}</div>;
+const StatusField = (record: any) => {
+    const translate = useTranslate();
+    return (
+        <div>
+            {record.status === 1
+                ? translate('resources.devSpace.status.deployed')
+                : translate('resources.devSpace.status.undeployed')}
+        </div>
+    );
+};
 
 const Title = () => {
+    const translate = useTranslate();
     const listContext = useListContext();
     const { data, loading } = useGetOne('cluster', listContext.filterValues.cluster);
     if (loading || !data) {
-        return <span>Dev Space</span>;
+        return <span>{translate('resources.devSpace.name', { smart_count: 2 })}</span>;
     }
-    return <span>Cluster {data.name} Dev Space</span>;
+    return (
+        <span>
+            {translate('resources.cluster.name', { smart_count: 1 })} {`"${data.name}"`}{' '}
+            {translate('resources.devSpace.name', { smart_count: 2 })}
+        </span>
+    );
 };
 
 const DevSpaceList: FC<ListProps> = (props) => (
@@ -46,18 +62,37 @@ const DevSpaceList: FC<ListProps> = (props) => (
         actions={<ListActions />}
     >
         <Datagrid>
-            <TextField source="id" sortable={false} />
-            <StatusField source="status" sortable={false} />
-            <ReferenceField source="user_id" reference="users">
+            <StatusField
+                label="resources.devSpace.fields.status"
+                source="status"
+                sortable={false}
+            />
+            <ReferenceField
+                label="resources.devSpace.fields.user"
+                source="user_id"
+                reference="users"
+            >
                 <TextField source="name" />
             </ReferenceField>
-            <TextField source="namespace" sortable={false} />
-            <TextField source="created_at" sortable={false} />
-            <ReferenceField source="application_id" reference="application">
+            <TextField
+                label="resources.devSpace.fields.namespace"
+                source="namespace"
+                sortable={false}
+            />
+            <TextField
+                label="resources.devSpace.fields.created_at"
+                source="created_at"
+                sortable={false}
+            />
+            <ReferenceField
+                label="resources.devSpace.fields.application"
+                source="application_id"
+                reference="application"
+            >
                 <TextField source="context.application_name" />
             </ReferenceField>
-            <TextField source="cpu" sortable={false} />
-            <TextField source="memory" sortable={false} />
+            <TextField label="resources.devSpace.fields.cpu" source="cpu" sortable={false} />
+            <TextField label="resources.devSpace.fields.memory" source="memory" sortable={false} />
             <SpaceShowButton />
             <DeleteButton undoable={false} />
         </Datagrid>
@@ -67,7 +102,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
 const SpaceShowButton = ({ record }: any) => (
     <Button
         to={`/space/${record.id}/show?cluster_id=${record.cluster_id}`}
-        label={`Show Space`}
+        label={'resources.devSpace.actions.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
     />

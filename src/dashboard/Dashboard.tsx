@@ -5,13 +5,21 @@ import Users from './Users';
 import Clusters from './Clusters';
 import Applications from './Applications';
 import { User, Cluster, Application } from '../types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
-const useStyles = makeStyles({
-    data: { display: 'flex', flexDirection: 'column' },
-    dataLine: { display: 'flex', marginTop: '20px' },
-    spacer: { width: '20px' },
-});
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            flexGrow: 1,
+        },
+        paper: {
+            padding: theme.spacing(2),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+        },
+    })
+);
 
 interface State {
     users: number;
@@ -55,18 +63,21 @@ const Dashboard: FC = () => {
         fetchApplications();
     }, [version]);
     return (
-        <div>
-            <Welcome />
-            <div className={classes.data}>
-                <div className={classes.dataLine}>
+        <div className={classes.root}>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Welcome />
+                </Grid>
+                <Grid item xs={6}>
                     <Users value={state.users} />
-                    <span className={classes.spacer}></span>
+                </Grid>
+                <Grid item xs={6}>
                     <Clusters value={state.clusters} />
-                </div>
-                <div className={classes.dataLine}>
+                </Grid>
+                <Grid item xs={12}>
                     <Applications value={state.applications} />
-                </div>
-            </div>
+                </Grid>
+            </Grid>
         </div>
     );
 };

@@ -6,8 +6,6 @@ import {
     Datagrid,
     TextField,
     Button,
-    TopToolbar,
-    sanitizeListRestProps,
     ReferenceField,
     DeleteButton,
     useGetOne,
@@ -16,11 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
-
-const ListActions = (props: any) => {
-    const { ...rest } = props;
-    return <TopToolbar {...sanitizeListRestProps(rest)}></TopToolbar>;
-};
+import Empty from '../components/Empty';
 
 const StatusField = (record: any) => {
     const translate = useTranslate();
@@ -57,7 +51,8 @@ const DevSpaceList: FC<ListProps> = (props) => (
         bulkActionButtons={false}
         pagination={false}
         exporter={false}
-        actions={<ListActions />}
+        empty={<Empty returnUrl={'/cluster'} />}
+        hasCreate={true}
     >
         <Datagrid>
             <StatusField

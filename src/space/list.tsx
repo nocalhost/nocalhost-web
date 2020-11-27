@@ -13,28 +13,11 @@ import {
     useGetOne,
     useTranslate,
 } from 'react-admin';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
-
-const Empty = () => {
-    const hash = window.location.hash;
-    const search = hash.substring(hash.indexOf('?'));
-    const p = searchToObj(search);
-    const translate = useTranslate();
-    return (
-        <Box textAlign="center" m={1}>
-            <Typography variant="h4" paragraph>
-                {translate('resources.space.empty.title')}
-            </Typography>
-            <Typography variant="body1">{translate('resources.space.empty.content')}</Typography>
-            <SpaceCreateButton application={p.application} />
-        </Box>
-    );
-};
+import Empty from '../components/Empty';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -63,10 +46,12 @@ const SpaceCreateButton = (record: any) => (
     <Button
         icon={<AddIcon />}
         to={`space/create?application=${record.application}`}
-        label={'resources.space.actions.create'}
+        label={'ra.action.create'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
-    />
+    >
+        <AddIcon />
+    </Button>
 );
 
 const Title = () => {
@@ -87,57 +72,71 @@ const Title = () => {
     );
 };
 
-const SpaceList: FC<ListProps> = (props) => (
-    <List
-        {...props}
-        empty={<Empty />}
-        title={<Title />}
-        bulkActionButtons={false}
-        pagination={false}
-        exporter={false}
-        actions={<ListActions />}
-    >
-        <Datagrid>
-            <StatusField label="resources.space.fields.status" source="status" sortable={false} />
-            <ReferenceField
-                label="resources.space.fields.user"
-                source="user_id"
-                reference="users"
-                sortable={false}
-            >
-                <TextField source="name" />
-            </ReferenceField>
-            <TextField
-                label="resources.space.fields.namespace"
-                source="namespace"
-                sortable={false}
-            />
-            <TextField
-                label="resources.space.fields.created_at"
-                source="created_at"
-                sortable={false}
-            />
-            <ReferenceField
-                label="resources.space.fields.cluster"
-                source="cluster_id"
-                reference="cluster"
-                sortable={false}
-            >
-                <TextField source="cluster_name" />
-            </ReferenceField>
-            <TextField label="resources.space.fields.cpu" source="cpu" sortable={false} />
-            <TextField label="resources.space.fields.memory" source="memory" sortable={false} />
-            <SpaceShowButton />
-            <KubeConfigButton />
-            <DeleteButton undoable={false} />
-        </Datagrid>
-    </List>
-);
+const SpaceList: FC<ListProps> = (props) => {
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
+    return (
+        <List
+            {...props}
+            empty={
+                <Empty
+                    createUrl={`space/create?application=${p.application}`}
+                    returnUrl={`/application`}
+                />
+            }
+            title={<Title />}
+            bulkActionButtons={false}
+            pagination={false}
+            exporter={false}
+            actions={<ListActions />}
+        >
+            <Datagrid>
+                <StatusField
+                    label="resources.space.fields.status"
+                    source="status"
+                    sortable={false}
+                />
+                <ReferenceField
+                    label="resources.space.fields.user"
+                    source="user_id"
+                    reference="users"
+                    sortable={false}
+                >
+                    <TextField source="name" />
+                </ReferenceField>
+                <TextField
+                    label="resources.space.fields.namespace"
+                    source="namespace"
+                    sortable={false}
+                />
+                <TextField
+                    label="resources.space.fields.created_at"
+                    source="created_at"
+                    sortable={false}
+                />
+                <ReferenceField
+                    label="resources.space.fields.cluster"
+                    source="cluster_id"
+                    reference="cluster"
+                    sortable={false}
+                >
+                    <TextField source="cluster_name" />
+                </ReferenceField>
+                <TextField label="resources.space.fields.cpu" source="cpu" sortable={false} />
+                <TextField label="resources.space.fields.memory" source="memory" sortable={false} />
+                <SpaceShowButton />
+                <KubeConfigButton />
+                <DeleteButton undoable={false} />
+            </Datagrid>
+        </List>
+    );
+};
 
 const SpaceShowButton = ({ record }: any) => (
     <Button
         to={`/space/${record.id}/show?cluster_id=${record.cluster_id}`}
-        label={'resources.space.actions.show'}
+        label={'ra.action.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
     />

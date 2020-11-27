@@ -15,6 +15,7 @@ import {
 } from 'react-admin';
 import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
+import KubeConfigButton from '../components/KubeconfigButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -93,6 +94,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
             <TextField label="resources.devSpace.fields.cpu" source="cpu" sortable={false} />
             <TextField label="resources.devSpace.fields.memory" source="memory" sortable={false} />
             <SpaceShowButton />
+            <KubeConfigButton />
             <DeleteButton undoable={false} />
         </Datagrid>
     </List>

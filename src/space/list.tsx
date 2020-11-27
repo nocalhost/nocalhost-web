@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
+import KubeConfigButton from '../components/KubeconfigButton';
 
 const Empty = () => {
     const hash = window.location.hash;
@@ -127,6 +128,7 @@ const SpaceList: FC<ListProps> = (props) => (
             <TextField label="resources.space.fields.cpu" source="cpu" sortable={false} />
             <TextField label="resources.space.fields.memory" source="memory" sortable={false} />
             <SpaceShowButton />
+            <KubeConfigButton />
             <DeleteButton undoable={false} />
         </Datagrid>
     </List>

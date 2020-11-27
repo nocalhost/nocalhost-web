@@ -12,8 +12,9 @@ import {
 import { Link } from 'react-router-dom';
 import ClusterVersionField from './ClusterVersionField';
 import NodesField from './NodesFields';
+import KubeConfigButton from '../components/KubeconfigButton';
 
-const ClusterList: FC<ListProps> = (props) => {
+const ClusterList: FC<ListProps> = (props: ListProps) => {
     return (
         <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid>
@@ -52,6 +53,7 @@ const ClusterList: FC<ListProps> = (props) => {
                     sortable={false}
                 />
                 <ShowButton />
+                <KubeConfigButton />
                 <SpaceShowButton />
             </Datagrid>
         </List>

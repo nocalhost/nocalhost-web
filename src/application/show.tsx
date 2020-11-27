@@ -4,7 +4,6 @@ import {
     Show,
     SimpleShowLayout,
     TextField,
-    BooleanField,
     ShowProps,
     useShowController,
     useTranslate,
@@ -46,7 +45,6 @@ const ApplicationShow: FC<ShowProps> = (props) => {
                         source="context.resource_dir"
                     />
                 )}
-                <BooleanField label="resources.application.fields.status" source="status" />
             </SimpleShowLayout>
         </Show>
     );

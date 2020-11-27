@@ -16,6 +16,12 @@ export interface LoginToken {
     username: string;
     uuid: string;
 }
+export interface Result {
+    status: number;
+    headers: Headers;
+    body: string;
+    json: { code: number; message: string; data: any };
+}
 
 export interface User extends Record {
     avatar: string;

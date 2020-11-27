@@ -52,6 +52,7 @@ const customEnglishMessages: TranslationMessages = {
                 created_at: 'Created At',
                 kubeconfig: 'KubeConfig',
             },
+            tips: { kubeconfig: 'How to get kubeconfig?' },
             delete: {
                 confirm: {
                     title: 'Delete cluster "%{name}"',

@@ -54,6 +54,7 @@ const customChineseMessages: TranslationMessages = {
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',
             },
+            tips: { kubeconfig: '如何获取 kubeconfig？' },
             delete: {
                 confirm: {
                     title: '删除集群 "%{name}"',

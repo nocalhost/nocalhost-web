@@ -11,6 +11,7 @@ import {
     Button,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
+import DateField from '../components/DateField';
 
 const SourceField = ({ record }: any) => (
     <div>{record.context.source === 'git' ? 'Git' : 'Helm'}</div>
@@ -37,11 +38,7 @@ const ApplicationList: FC<ListProps> = (props) => (
             >
                 <TextField source="name" />
             </ReferenceField>
-            <TextField
-                label="resources.application.fields.created_at"
-                sortable={false}
-                source="created_at"
-            />
+            <DateField sortable={false} source="created_at" />
             <ShowButton />
             <EditButton />
             <SpaceListButton />

@@ -15,6 +15,8 @@ import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
+import DateField from '../components/DateField';
+import ResourceLimitField from '../components/ResourceLimitField';
 
 const StatusField = (record: any) => {
     const translate = useTranslate();
@@ -73,11 +75,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
                 source="namespace"
                 sortable={false}
             />
-            <TextField
-                label="resources.devSpace.fields.created_at"
-                source="created_at"
-                sortable={false}
-            />
+            <DateField sortable={false} source="created_at" />
             <ReferenceField
                 label="resources.devSpace.fields.application"
                 source="application_id"
@@ -86,8 +84,7 @@ const DevSpaceList: FC<ListProps> = (props) => (
             >
                 <TextField source="context.application_name" />
             </ReferenceField>
-            <TextField label="resources.devSpace.fields.cpu" source="cpu" sortable={false} />
-            <TextField label="resources.devSpace.fields.memory" source="memory" sortable={false} />
+            <ResourceLimitField sortable={false} />
             <SpaceShowButton />
             <KubeConfigButton />
             <DeleteButton undoable={false} />

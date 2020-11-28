@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom';
 import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
+import DateField from '../components/DateField';
+import ResourceLimitField from '../components/ResourceLimitField';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -110,11 +112,7 @@ const SpaceList: FC<ListProps> = (props) => {
                     source="namespace"
                     sortable={false}
                 />
-                <TextField
-                    label="resources.space.fields.created_at"
-                    source="created_at"
-                    sortable={false}
-                />
+                <DateField sortable={false} source="created_at" />
                 <ReferenceField
                     label="resources.space.fields.cluster"
                     source="cluster_id"
@@ -123,8 +121,7 @@ const SpaceList: FC<ListProps> = (props) => {
                 >
                     <TextField source="cluster_name" />
                 </ReferenceField>
-                <TextField label="resources.space.fields.cpu" source="cpu" sortable={false} />
-                <TextField label="resources.space.fields.memory" source="memory" sortable={false} />
+                <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <DeleteButton undoable={false} />

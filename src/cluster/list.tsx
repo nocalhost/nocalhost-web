@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import ClusterVersionField from './ClusterVersionField';
 import NodesField from './NodesFields';
 import KubeConfigButton from '../components/KubeconfigButton';
+import DateField from '../components/DateField';
 
 const ClusterList: FC<ListProps> = (props: ListProps) => {
     return (
@@ -47,11 +48,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                 >
                     <TextField source="name" />
                 </ReferenceField>
-                <TextField
-                    label="resources.cluster.fields.created_at"
-                    source="created_at"
-                    sortable={false}
-                />
+                <DateField sortable={false} source="created_at" />
                 <ShowButton />
                 <KubeConfigButton />
                 <SpaceShowButton />

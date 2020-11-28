@@ -8,6 +8,7 @@ import {
     useTranslate,
 } from 'react-admin';
 import KubeConfigField from '../cluster/KubeConfigField';
+import ResourceLimitField from '../components/ResourceLimitField';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -49,8 +50,7 @@ const SpaceShow: FC<ShowProps> = (props) => {
                 >
                     <TextField source="cluster_name" />
                 </ReferenceField>
-                <TextField label="resources.space.fields.cpu" source="cpu" />
-                <TextField label="resources.space.fields.memory" source="memory" />
+                <ResourceLimitField sortable={false} />
                 <KubeConfigField label="resources.space.fields.kubeconfig" source="kubeconfig" />
                 <StatusField label="resources.space.fields.status" source="status" />
                 <ReferenceField

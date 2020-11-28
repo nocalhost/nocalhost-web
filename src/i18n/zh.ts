@@ -28,6 +28,7 @@ const customChineseMessages: TranslationMessages = {
             },
             confirm_password_error: '确认密码必须和密码保持一直',
         },
+        action: { copy: '复制', copied: '已复制！' },
     },
     resources: {
         users: {

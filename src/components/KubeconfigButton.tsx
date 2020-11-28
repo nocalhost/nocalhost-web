@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
-import { useDataProvider, Button } from 'react-admin';
-// import { Button } from '@material-ui/core';
+import { useDataProvider, Button, useTranslate } from 'react-admin';
 import ContentDialog from './ContentDialog';
 import { makeStyles } from '@material-ui/core/styles';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import { Tooltip } from '@material-ui/core';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 interface KubeConfigDialogProps {
     open: boolean;
     onClose: () => void;
     kubeconfig: string;
 }
-const useStyles = makeStyles(() => ({ kube: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }));
+const useStyles = makeStyles(() => ({
+    kube: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' },
+    btn: { float: 'right' },
+}));
 
 const KubeConfigDialog = (props: KubeConfigDialogProps) => {
+    let timer: any = 0;
     const classes = useStyles();
+    const translate = useTranslate();
+    const [tips, setTips] = useState(translate('nh.action.copy'));
+    const onCopy = () => {
+        clearTimeout(timer);
+        setTips(translate('nh.action.copied'));
+        timer = setTimeout(() => setTips(translate('nh.action.copy')), 2000);
+    };
     return (
         <ContentDialog title={'KubeConfig'} open={props.open} onClose={props.onClose}>
-            <pre className={classes.kube}>{props.kubeconfig}</pre>
+            <>
+                <pre className={classes.kube}>{props.kubeconfig}</pre>
+                <CopyToClipboard text={props.kubeconfig} onCopy={onCopy}>
+                    <Tooltip title={tips} arrow placement="top">
+                        <Button label="nh.action.copy" className={classes.btn} variant="contained">
+                            <FileCopyIcon />
+                        </Button>
+                    </Tooltip>
+                </CopyToClipboard>
+            </>
         </ContentDialog>
     );
 };

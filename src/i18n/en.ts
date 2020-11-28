@@ -26,6 +26,7 @@ const customEnglishMessages: TranslationMessages = {
             },
             confirm_password_error: 'The Confirm Password mast be equals The Password',
         },
+        action: { copy: 'Copy', copied: 'Copied!' },
     },
     resources: {
         users: {

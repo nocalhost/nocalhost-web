@@ -17,12 +17,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
     return (
         <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid>
-                <TextField
-                    label="resources.cluster.fields.cluster_name"
-                    source="cluster_name"
-                    sortable={false}
-                />
-                <TextField label="resources.cluster.fields.marks" source="marks" sortable={false} />
+                <TextField source="name" sortable={false} />
                 <TextField
                     label="resources.cluster.fields.cluster_version"
                     source="info.cluster_version"
@@ -33,11 +28,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     source="info.nodes"
                     sortable={false}
                 />
-                <TextField
-                    label="resources.cluster.fields.users_count"
-                    source="users_count"
-                    sortable={false}
-                />
+                <TextField source="users_count" sortable={false} />
                 <ReferenceField
                     label="resources.cluster.fields.user"
                     source="user_id"

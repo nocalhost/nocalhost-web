@@ -18,11 +18,6 @@ const ClusterCreate: FC<CreateProps> = (props) => {
                     source="name"
                     validate={validateText}
                 />
-                <TextInput
-                    label="resources.cluster.fields.marks"
-                    source="marks"
-                    validate={validateText}
-                />
                 <KubeConfigInput />
             </SimpleForm>
         </Create>

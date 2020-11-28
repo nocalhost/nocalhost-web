@@ -27,14 +27,13 @@ const ClusterShow: FC<ShowProps> = (props) => {
     return (
         <Show {...props} title={<Title />}>
             <SimpleShowLayout>
-                <TextField label="resources.cluster.fields.cluster_name" source="name" />
-                <TextField label="resources.cluster.fields.marks" source="marks" />
+                <TextField source="name" />
                 <TextField
                     label="resources.cluster.fields.cluster_version"
                     source="info.cluster_version"
                 />
                 <TextField label="resources.cluster.fields.nodes_count" source="info.nodes" />
-                <KubeConfigField label="resources.cluster.fields.kubeconfig" source="kubeconfig" />
+                <KubeConfigField source="kubeconfig" />
                 <DeleteWithConfirmButton
                     confirmTitle={translate('resources.cluster.delete.confirm.title', {
                         name: record && record.name,

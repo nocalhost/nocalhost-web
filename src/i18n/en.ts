@@ -44,8 +44,7 @@ const customEnglishMessages: TranslationMessages = {
         cluster: {
             name: 'Cluster |||| Clusters',
             fields: {
-                cluster_name: 'Name',
-                marks: 'Marks',
+                name: 'Name',
                 cluster_version: 'Cluster Version',
                 nodes_count: 'Nodes Count',
                 users_count: 'Users Count',

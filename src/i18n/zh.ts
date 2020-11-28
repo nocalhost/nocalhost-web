@@ -46,8 +46,7 @@ const customChineseMessages: TranslationMessages = {
         cluster: {
             name: '集群 |||| 集群列表',
             fields: {
-                cluster_name: '集群名称',
-                marks: '标记',
+                name: '集群名称',
                 cluster_version: '集群版本',
                 nodes_count: '节点数量',
                 users_count: '用户数量',

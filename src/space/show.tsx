@@ -7,7 +7,7 @@ import {
     ReferenceField,
     useTranslate,
 } from 'react-admin';
-import KubeConfigField from '../cluster/KubeConfigField';
+import KubeConfigField from '../components/KubeConfigField';
 import ResourceLimitField from '../components/ResourceLimitField';
 
 const Title = ({ record }: any) => {

@@ -9,7 +9,7 @@ import {
     useShowController,
     DeleteWithConfirmButton,
 } from 'react-admin';
-import KubeConfigField from './KubeConfigField';
+import KubeConfigField from '../components/KubeConfigField';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();

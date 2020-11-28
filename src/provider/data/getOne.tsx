@@ -1,6 +1,7 @@
 import searchToObj from '../../utils/searchToObj';
 import { Result } from '../../types';
 import { GetOneParams } from 'react-admin';
+import { deserializeApplication, deserializeCluster } from './deserialize';
 
 const getOne = async (
     apiUrl: string,
@@ -31,15 +32,14 @@ const getOne = async (
         url = `${url}/detail`;
     }
     return httpClient(url, options).then((result: Result) => {
-        if (resource === 'application') {
-            const data = result.json.data;
+        if (resource === 'cluster') {
             return {
-                data: {
-                    ...data,
-                    status: data.status === 1,
-                    id: data.id,
-                    context: JSON.parse(data.context),
-                },
+                data: deserializeCluster(result.json.data),
+            };
+        }
+        if (resource === 'application') {
+            return {
+                data: deserializeApplication(result.json.data),
             };
         }
         return {

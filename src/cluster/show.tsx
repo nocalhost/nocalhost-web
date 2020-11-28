@@ -9,8 +9,6 @@ import {
     useShowController,
     DeleteWithConfirmButton,
 } from 'react-admin';
-import ClusterVersionField from './ClusterVersionField';
-import NodesField from './NodesFields';
 import KubeConfigField from './KubeConfigField';
 
 const Title = ({ record }: any) => {
@@ -31,11 +29,11 @@ const ClusterShow: FC<ShowProps> = (props) => {
             <SimpleShowLayout>
                 <TextField label="resources.cluster.fields.cluster_name" source="name" />
                 <TextField label="resources.cluster.fields.marks" source="marks" />
-                <ClusterVersionField
+                <TextField
                     label="resources.cluster.fields.cluster_version"
-                    source="info"
+                    source="info.cluster_version"
                 />
-                <NodesField label="resources.cluster.fields.nodes_count" source="info" />
+                <TextField label="resources.cluster.fields.nodes_count" source="info.nodes" />
                 <KubeConfigField label="resources.cluster.fields.kubeconfig" source="kubeconfig" />
                 <DeleteWithConfirmButton
                     confirmTitle={translate('resources.cluster.delete.confirm.title', {

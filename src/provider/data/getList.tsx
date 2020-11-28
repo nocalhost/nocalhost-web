@@ -1,7 +1,8 @@
 import { stringify } from 'query-string';
 import searchToObj from '../../utils/searchToObj';
-import { Application, Result } from '../../types';
+import { Application, Result, Cluster } from '../../types';
 import { GetListParams } from 'react-admin';
+import { deserializeApplication, deserializeCluster } from './deserialize';
 
 const getList = async (
     apiUrl: string,
@@ -32,25 +33,24 @@ const getList = async (
         const p = searchToObj(search);
         url = `${apiUrl}/application/${p.application}/dev_space_list`;
     }
-    if (resource === 'application') {
-        return httpClient(url, options).then((result: Result) => {
+
+    return httpClient(url, options).then((result: Result) => {
+        if (resource === 'cluster') {
             const list = result.json.data;
-            const newList = list.map((l: Application) => {
-                return {
-                    ...l,
-                    id: l.id,
-                    status: l.status === 1,
-                    context: JSON.parse(l.context),
-                };
-            });
+            const newList = list.map((l: Cluster) => deserializeCluster(l));
             return {
                 data: newList,
                 total: newList.length,
             };
-        });
-    }
-
-    return httpClient(url, options).then((result: Result) => {
+        }
+        if (resource === 'application') {
+            const list = result.json.data;
+            const newList = list.map((l: Application) => deserializeApplication(l));
+            return {
+                data: newList,
+                total: newList.length,
+            };
+        }
         const list = result.json.data;
         return {
             data: list ? list : [],

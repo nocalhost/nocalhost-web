@@ -10,8 +10,6 @@ import {
     Button,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
-import ClusterVersionField from './ClusterVersionField';
-import NodesField from './NodesFields';
 import KubeConfigButton from '../components/KubeconfigButton';
 import DateField from '../components/DateField';
 
@@ -25,14 +23,14 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     sortable={false}
                 />
                 <TextField label="resources.cluster.fields.marks" source="marks" sortable={false} />
-                <ClusterVersionField
+                <TextField
                     label="resources.cluster.fields.cluster_version"
-                    source="info"
+                    source="info.cluster_version"
                     sortable={false}
                 />
-                <NodesField
+                <TextField
                     label="resources.cluster.fields.nodes_count"
-                    source="info"
+                    source="info.nodes"
                     sortable={false}
                 />
                 <TextField

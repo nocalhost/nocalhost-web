@@ -79,6 +79,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                             <TextInput
                                 label="Resource Dir"
                                 source="context.resource_dir"
+                                defaultValue="."
                                 validate={validateText}
                                 {...rest}
                             />

@@ -39,6 +39,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         redirect('/application');
     }
     const postDefaultValue = () => ({ application_id: p.application });
+    // TODO: add cpu and memory value no implementation tips
     return (
         <Create title={<Title application={p.application} />} {...props}>
             <SimpleForm
@@ -65,11 +66,13 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                     validate={validateText}
                     label="resources.space.fields.cpu"
                     source="cpu"
+                    defaultValue="0"
                 />
                 <NumberInput
                     validate={validateText}
                     label="resources.space.fields.memory"
                     source="memory"
+                    defaultValue="0"
                 />
                 <ReferenceInput
                     label="resources.space.fields.user"

@@ -1,9 +1,10 @@
-import React from 'react';
-import { AppBar, useLocale, useSetLocale } from 'react-admin';
-import Typography from '@material-ui/core/Typography';
-import { IconButton } from '@material-ui/core';
+import React, { forwardRef } from 'react';
+import { AppBar, useLocale, useSetLocale, UserMenu, useTranslate } from 'react-admin';
+import { IconButton, Typography, MenuItem, ListItemIcon } from '@material-ui/core';
 import TranslateIcon from '@material-ui/icons/Translate';
-import { makeStyles } from '@material-ui/core/styles';
+import DescriptionIcon from '@material-ui/icons/Description';
+import HomeIcon from '@material-ui/icons/Home';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     title: {
@@ -16,6 +17,53 @@ const useStyles = makeStyles({
         flex: 1,
     },
 });
+
+const useMenuStyles = makeStyles(
+    (theme: Theme) => ({
+        menuItem: {
+            color: theme.palette.text.secondary,
+            '& > a': {
+                textDecoration: 'none',
+                color: 'inherit',
+            },
+        },
+        icon: { minWidth: theme.spacing(5) },
+    }),
+    { name: 'RaLogout' }
+);
+
+const Menu = forwardRef<any>((props: any) => {
+    const translate = useTranslate();
+    const classes = useMenuStyles(props);
+    return (
+        <>
+            <MenuItem className={classes.menuItem}>
+                <ListItemIcon className={classes.icon}>
+                    <HomeIcon />
+                </ListItemIcon>
+                <a href="https://nocalhost.dev" target="_blank" rel="noreferrer">
+                    {translate('nh.layout.menu.home')}
+                </a>
+            </MenuItem>
+            <MenuItem className={classes.menuItem}>
+                <ListItemIcon className={classes.icon}>
+                    <DescriptionIcon />
+                </ListItemIcon>
+                <a href="https://nocalhost.dev/documents" target="_blank" rel="noreferrer">
+                    {translate('nh.layout.menu.document')}
+                </a>
+            </MenuItem>
+        </>
+    );
+});
+
+Menu.displayName = 'Menu';
+
+const CustomUserMenu = (props: any) => (
+    <UserMenu {...props}>
+        <Menu />
+    </UserMenu>
+);
 
 const CustomAppBar = (props: any) => {
     const classes = useStyles();
@@ -32,7 +80,7 @@ const CustomAppBar = (props: any) => {
     };
 
     return (
-        <AppBar {...props} elevation={1}>
+        <AppBar {...props} elevation={1} userMenu={<CustomUserMenu />}>
             <Typography
                 variant="h6"
                 color="inherit"

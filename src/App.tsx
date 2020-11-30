@@ -37,6 +37,7 @@ function App() {
     const authProvider = auth(`${apiUrl}/v1`);
     return (
         <Admin
+            title="Nocalhost"
             dashboard={Dashboard}
             layout={Layout}
             loginPage={Login}

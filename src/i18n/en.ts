@@ -14,6 +14,7 @@ const customEnglishMessages: TranslationMessages = {
         theme: {
             name: 'Theme',
         },
+        layout: { menu: { home: 'Nocalhost', document: 'Documents' } },
         dashboard: {
             welcome: { title: 'Welcome to the Nocalhost', content: 'Nocalhost is Not localhost' },
         },

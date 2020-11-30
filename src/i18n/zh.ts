@@ -16,6 +16,7 @@ const customChineseMessages: TranslationMessages = {
         theme: {
             name: '主题',
         },
+        layout: { menu: { home: 'Nocalhost', document: '文档' } },
         dashboard: {
             welcome: { title: '欢迎使用 Nocalhost', content: 'Nocalhost is Not localhost' },
         },

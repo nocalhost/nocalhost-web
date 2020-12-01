@@ -49,7 +49,7 @@ export interface ApplicationContext {
 
 export interface Cluster extends Record {
     cluster_mark: string;
-    cluster_name: string;
+    name: string;
     created_at: string;
     id: Identifier;
     cluster_id?: Identifier;

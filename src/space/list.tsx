@@ -119,7 +119,7 @@ const SpaceList: FC<ListProps> = (props) => {
                     reference="cluster"
                     sortable={false}
                 >
-                    <TextField source="cluster_name" />
+                    <TextField source="name" />
                 </ReferenceField>
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />

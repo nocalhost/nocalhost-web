@@ -60,7 +60,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                     source="cluster_id"
                     reference="cluster"
                 >
-                    <SelectInput validate={validateText} optionText="cluster_name" />
+                    <SelectInput validate={validateText} optionText="name" />
                 </ReferenceInput>
                 <NumberInput
                     validate={validateText}

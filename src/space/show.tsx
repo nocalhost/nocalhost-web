@@ -7,8 +7,15 @@ import {
     ReferenceField,
     useTranslate,
 } from 'react-admin';
-import KubeConfigField from '../components/KubeConfigField';
+import { Base64 } from 'js-base64';
 import ResourceLimitField from '../components/ResourceLimitField';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Document from './Document';
+
+const useStyles = makeStyles(() => ({
+    spaceInfo: { display: 'flex', justifyContent: 'space-between' },
+}));
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -32,36 +39,58 @@ const StatusField = (record: any) => {
 };
 StatusField.defaultProps = { source: 'Status', addLabel: true };
 
-const SpaceShow: FC<ShowProps> = (props) => {
+const DownloadButton = (props: any) => {
+    const translate = useTranslate();
     return (
-        <Show {...props} title={<Title />}>
-            <SimpleShowLayout>
-                <ReferenceField
-                    label="resources.space.fields.application"
-                    source="application_id"
-                    reference="application"
-                >
-                    <TextField source="context.application_name" />
-                </ReferenceField>
-                <ReferenceField
-                    label="resources.space.fields.cluster"
-                    source="cluster_id"
-                    reference="cluster"
-                >
-                    <TextField source="cluster_name" />
-                </ReferenceField>
-                <ResourceLimitField sortable={false} />
-                <KubeConfigField label="resources.space.fields.kubeconfig" source="kubeconfig" />
-                <StatusField label="resources.space.fields.status" source="status" />
-                <ReferenceField
-                    label="resources.space.fields.user"
-                    source="user_id"
-                    reference="users"
-                >
-                    <TextField source="name" />
-                </ReferenceField>
-            </SimpleShowLayout>
-        </Show>
+        <Button
+            color="primary"
+            href={`data:application/octet-stream;charset=utf-16le;base64,${Base64.encode(
+                props.record.kubeconfig,
+                false
+            )}`}
+            download="config"
+        >
+            {translate('resources.space.actions.download')}
+        </Button>
+    );
+};
+DownloadButton.defaultProps = { addLabel: false };
+
+const SpaceShow: FC<ShowProps> = (props) => {
+    const classes = useStyles();
+    return (
+        <>
+            <Show {...props} title={<Title />}>
+                <SimpleShowLayout className={classes.spaceInfo}>
+                    <ReferenceField
+                        label="resources.space.fields.application"
+                        source="application_id"
+                        reference="application"
+                    >
+                        <TextField source="context.application_name" />
+                    </ReferenceField>
+                    <ReferenceField
+                        label="resources.space.fields.cluster"
+                        source="cluster_id"
+                        reference="cluster"
+                    >
+                        <TextField source="name" />
+                    </ReferenceField>
+                    <TextField source="namespace" />
+                    <ReferenceField
+                        label="resources.space.fields.user"
+                        source="user_id"
+                        reference="users"
+                    >
+                        <TextField source="name" />
+                    </ReferenceField>
+                    <ResourceLimitField />
+                    <StatusField label="resources.space.fields.status" source="status" />
+                    <DownloadButton />
+                </SimpleShowLayout>
+            </Show>
+            <Document />
+        </>
     );
 };
 

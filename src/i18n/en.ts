@@ -77,7 +77,7 @@ const customEnglishMessages: TranslationMessages = {
             },
         },
         space: {
-            name: 'Space |||| Spaces',
+            name: 'DevSpace |||| DevSpaces',
             fields: {
                 status: 'Status',
                 user: 'Owner',
@@ -108,15 +108,15 @@ const customEnglishMessages: TranslationMessages = {
                     'https://marketplace.visualstudio.com/items?itemName=nocalhost.nocalhost',
                 vscode_step2: 'Step 2: Configure plugin and sigin nocalhost api server:',
                 vscode_step2_1:
-                    'Click Nocalhost Plugin Tab and click the          icon set api host: http://127.0.0.1:32687',
+                    'Click Nocalhost Plugin Tab and click the <icon> icon set api host: %{apiUrl}',
                 vscode_step2_2: 'Click sign in to sigin nocalhost api server.',
                 vscode_step3: 'Step 3: Install application and start development:',
                 vscode_step3_1:
-                    'Click the install         icon of the application that you want to develop on the left panel.',
+                    'Click the install <icon> icon of the application that you want to develop on the left panel.',
                 vscode_step3_2:
                     'Click the Workload of this application to watch the deployment progress and wait for the installation.',
                 vscode_step3_3:
-                    'Click the start develop         icon to enter DevSpace and enjoy your coding.',
+                    'Click the start develop <icon> icon to enter DevSpace and enjoy your coding.',
                 nhctl: 'Start coding with nhctl:',
                 nhctl_step1: 'Step 1: Install nhctl: https://nocalhost.dev/docs/installation.md',
                 nhctl_step2: 'Step 2: Click "Download Kubeconfig" and save this file',
@@ -145,7 +145,7 @@ const customEnglishMessages: TranslationMessages = {
             },
         },
         devSpace: {
-            name: 'Space |||| Spaces',
+            name: 'DevSpace |||| DevSpaces',
             fields: {
                 status: 'Status',
                 user: 'Owner',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslate } from 'react-admin';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { Card, Typography } from '@material-ui/core';
+import { Card, Typography, Link } from '@material-ui/core';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,6 +25,9 @@ const useStyles = makeStyles(() =>
 export default function Document() {
     const classes = useStyles();
     const translate = useTranslate();
+    // eslint-disable-next-line
+    // @ts-ignore
+    const apiUrl = window._env_.API_HOST || window.location.origin;
 
     return (
         <div>
@@ -35,23 +38,25 @@ export default function Document() {
                 <div className={classes.type}>
                     <div className={classes.setp}>
                         {translate('resources.space.document.vscode_step1')} <br />
-                        <a
+                        <Link
                             href={`${translate('resources.space.document.vscode_step1_1')}`}
                             target="_blank"
                             rel="noreferrer"
                         >
                             {translate('resources.space.document.vscode_step1_1')}
-                        </a>
+                        </Link>
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.vscode_step2')} <br />
-                        {translate('resources.space.document.vscode_step2_1')} <br />
+                        {translate('resources.space.document.vscode_step2_1', {
+                            apiUrl: apiUrl,
+                        })}
+                        <br />
                         {translate('resources.space.document.vscode_step2_2')}
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.vscode_step3')} <br />
                         {translate('resources.space.document.vscode_step3_1')} <br />
-                        {translate('resources.space.document.vscode_step3_2')} <br />
                         {translate('resources.space.document.vscode_step3_2')} <br />
                         {translate('resources.space.document.vscode_step3_3')}
                     </div>
@@ -70,45 +75,45 @@ export default function Document() {
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.nhctl_step3')} <br />
-                        <a href="#" target="_blank" rel="noreferrer">
+                        <Link href="#" target="_blank" rel="noreferrer">
                             {translate('resources.space.document.nhctl_step3_1')} <br />
-                        </a>
+                        </Link>
                         <pre className={classes.command}>
                             {translate('resources.space.document.nhctl_step3_2')}
                         </pre>
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.nhctl_step4')} <br />
-                        <a href="#" target="_blank" rel="noreferrer">
+                        <Link href="#" target="_blank" rel="noreferrer">
                             {translate('resources.space.document.nhctl_step4_1')} <br />
-                        </a>
+                        </Link>
                         <pre className={classes.command}>
                             {translate('resources.space.document.nhctl_step4_2')}
                         </pre>
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.nhctl_step5')} <br />
-                        <a href="#" target="_blank" rel="noreferrer">
+                        <Link href="#" target="_blank" rel="noreferrer">
                             {translate('resources.space.document.nhctl_step5_1')} <br />
-                        </a>
+                        </Link>
                         <pre className={classes.command}>
                             {translate('resources.space.document.nhctl_step5_2')}
                         </pre>
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.nhctl_step6')} <br />
-                        <a href="#" target="_blank" rel="noreferrer">
+                        <Link href="#" target="_blank" rel="noreferrer">
                             {translate('resources.space.document.nhctl_step6_1')} <br />
-                        </a>
+                        </Link>
                         <pre className={classes.command}>
                             {translate('resources.space.document.nhctl_step6_2')}
                         </pre>
                     </div>
                     <div className={classes.setp}>
                         {translate('resources.space.document.nhctl_step7')} <br />
-                        <a href="#" target="_blank" rel="noreferrer">
+                        <Link href="#" target="_blank" rel="noreferrer">
                             {translate('resources.space.document.nhctl_step7_1')} <br />
-                        </a>
+                        </Link>
                         <pre className={classes.command}>
                             {translate('resources.space.document.nhctl_step7_2')} <br />
                             {translate('resources.space.document.nhctl_step7_3')}

@@ -13,8 +13,8 @@ const create = async (
     if (resource === 'space') {
         const space = {
             cluster_id: params.data.cluster_id,
-            cpu: params.data.cpu,
-            memory: params.data.memory,
+            cpu: parseInt(params.data.cpu) || 0,
+            memory: parseInt(params.data.memory) || 0,
             user_id: params.data.user_id,
         };
         return httpClient(`${apiUrl}/application/${params.data.application_id}/create_space`, {

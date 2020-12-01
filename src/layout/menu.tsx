@@ -10,7 +10,6 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
     const translate = useTranslate();
     return (
         <Box mt={1}>
-            {' '}
             <DashboardMenuItem onClick={onMenuClick} sidebarIsOpen={true} />
             <MenuItemLink
                 to={`/users`}

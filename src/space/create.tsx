@@ -11,6 +11,7 @@ import {
     useGetOne,
     useTranslate,
 } from 'react-admin';
+import { Typography } from '@material-ui/core';
 import searchToObj from '../utils/searchToObj';
 import { validateText } from '../common/validation';
 
@@ -25,6 +26,16 @@ const Title = ({ application }: any) => {
             {translate('resources.application.name', { smart_count: 1 })}{' '}
             {`"${data.context.application_name}"`} {translate('resources.space.actions.create')}
         </span>
+    );
+};
+
+const ResourceLimitTips = () => {
+    const translate = useTranslate();
+
+    return (
+        <Typography variant="body2" gutterBottom>
+            {translate('resources.space.actions.resource_limit_not_implemented')}
+        </Typography>
     );
 };
 
@@ -62,17 +73,20 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 >
                     <SelectInput validate={validateText} optionText="name" />
                 </ReferenceInput>
+                <ResourceLimitTips />
                 <NumberInput
                     validate={validateText}
                     label="resources.space.fields.cpu"
                     source="cpu"
                     defaultValue="0"
+                    disabled
                 />
                 <NumberInput
                     validate={validateText}
                     label="resources.space.fields.memory"
                     source="memory"
                     defaultValue="0"
+                    disabled
                 />
                 <ReferenceInput
                     label="resources.space.fields.user"

@@ -97,6 +97,7 @@ const customChineseMessages: TranslationMessages = {
                 show: '环境详情',
                 list: '环境列表',
                 download: '下载 KubeConfig',
+                resource_limit_not_implemented: '资源限制还未实现',
             },
             status: { deployed: '已部署', undeployed: '未部署' },
             empty: { title: '环境列表为空', content: '来创建一个环境' },

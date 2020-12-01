@@ -96,6 +96,7 @@ const customEnglishMessages: TranslationMessages = {
                 show: 'Show Space',
                 list: 'Space List',
                 download: 'Download KubeConfig',
+                resource_limit_not_implemented: 'Resource limit has not been implemented',
             },
             status: { deployed: 'Deployed', undeployed: 'Not deployed' },
             empty: { title: 'Space is empty', content: 'Create a new Space' },

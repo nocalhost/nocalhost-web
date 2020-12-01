@@ -32,12 +32,12 @@ const useMenuStyles = makeStyles(
     { name: 'RaLogout' }
 );
 
-const Menu = forwardRef<any>((props: any) => {
+const Menu = forwardRef<any>((props: any, ref: any) => {
     const translate = useTranslate();
     const classes = useMenuStyles(props);
     return (
         <>
-            <MenuItem className={classes.menuItem}>
+            <MenuItem className={classes.menuItem} ref={ref}>
                 <ListItemIcon className={classes.icon}>
                     <HomeIcon />
                 </ListItemIcon>
@@ -45,7 +45,7 @@ const Menu = forwardRef<any>((props: any) => {
                     {translate('nh.layout.menu.home')}
                 </a>
             </MenuItem>
-            <MenuItem className={classes.menuItem}>
+            <MenuItem className={classes.menuItem} ref={ref}>
                 <ListItemIcon className={classes.icon}>
                     <DescriptionIcon />
                 </ListItemIcon>

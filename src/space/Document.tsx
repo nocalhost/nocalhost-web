@@ -6,10 +6,18 @@ import { Card, Typography } from '@material-ui/core';
 const useStyles = makeStyles(() =>
     createStyles({
         card: { marginTop: '20px', padding: '16px' },
+        type: { padding: '16px', border: '1px solid #d0d0d0', marginTop: '20px' },
         setp: {
             marginTop: '10px',
             marginBottom: '10px',
             padding: '16px',
+            border: '1px solid #d0d0d0',
+            '& > a': { textDecoration: 'none', fontSize: '14px' },
+        },
+        command: {
+            background: '#f5f2f0',
+            marginBottom: '0',
+            padding: '10px',
         },
     })
 );
@@ -24,59 +32,89 @@ export default function Document() {
                 <Typography variant="h5" component="h5">
                     {translate('resources.space.document.vscode')}
                 </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.vscode_step1')} <br />
-                    {translate('resources.space.document.vscode_step1_1')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.vscode_step2')} <br />
-                    {translate('resources.space.document.vscode_step2_1')} <br />
-                    {translate('resources.space.document.vscode_step2_2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.vscode_step3')} <br />
-                    {translate('resources.space.document.vscode_step3_1')} <br />
-                    {translate('resources.space.document.vscode_step3_2')} <br />
-                    {translate('resources.space.document.vscode_step3_2')} <br />
-                    {translate('resources.space.document.vscode_step3_3')}
-                </Typography>
+                <div className={classes.type}>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.vscode_step1')} <br />
+                        <a
+                            href={`${translate('resources.space.document.vscode_step1_1')}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {translate('resources.space.document.vscode_step1_1')}
+                        </a>
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.vscode_step2')} <br />
+                        {translate('resources.space.document.vscode_step2_1')} <br />
+                        {translate('resources.space.document.vscode_step2_2')}
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.vscode_step3')} <br />
+                        {translate('resources.space.document.vscode_step3_1')} <br />
+                        {translate('resources.space.document.vscode_step3_2')} <br />
+                        {translate('resources.space.document.vscode_step3_2')} <br />
+                        {translate('resources.space.document.vscode_step3_3')}
+                    </div>
+                </div>
             </Card>
             <Card className={classes.card}>
                 <Typography variant="h5" component="h5">
                     {translate('resources.space.document.nhctl')}
                 </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step1')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step3')} <br />
-                    {translate('resources.space.document.nhctl_step3_1')} <br />
-                    {translate('resources.space.document.nhctl_step3_2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step4')} <br />
-                    {translate('resources.space.document.nhctl_step4_1')} <br />
-                    {translate('resources.space.document.nhctl_step4_2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step5')} <br />
-                    {translate('resources.space.document.nhctl_step5_1')} <br />
-                    {translate('resources.space.document.nhctl_step5_2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step6')} <br />
-                    {translate('resources.space.document.nhctl_step6_1')} <br />
-                    {translate('resources.space.document.nhctl_step6_2')}
-                </Typography>
-                <Typography className={classes.setp} variant="body1" gutterBottom>
-                    {translate('resources.space.document.nhctl_step7')} <br />
-                    {translate('resources.space.document.nhctl_step7_1')} <br />
-                    {translate('resources.space.document.nhctl_step7_2')} <br />
-                    <pre>{translate('resources.space.document.nhctl_step7_3')}</pre>
-                </Typography>
+                <div className={classes.type}>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step1')}
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step2')}
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step3')} <br />
+                        <a href="#" target="_blank" rel="noreferrer">
+                            {translate('resources.space.document.nhctl_step3_1')} <br />
+                        </a>
+                        <pre className={classes.command}>
+                            {translate('resources.space.document.nhctl_step3_2')}
+                        </pre>
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step4')} <br />
+                        <a href="#" target="_blank" rel="noreferrer">
+                            {translate('resources.space.document.nhctl_step4_1')} <br />
+                        </a>
+                        <pre className={classes.command}>
+                            {translate('resources.space.document.nhctl_step4_2')}
+                        </pre>
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step5')} <br />
+                        <a href="#" target="_blank" rel="noreferrer">
+                            {translate('resources.space.document.nhctl_step5_1')} <br />
+                        </a>
+                        <pre className={classes.command}>
+                            {translate('resources.space.document.nhctl_step5_2')}
+                        </pre>
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step6')} <br />
+                        <a href="#" target="_blank" rel="noreferrer">
+                            {translate('resources.space.document.nhctl_step6_1')} <br />
+                        </a>
+                        <pre className={classes.command}>
+                            {translate('resources.space.document.nhctl_step6_2')}
+                        </pre>
+                    </div>
+                    <div className={classes.setp}>
+                        {translate('resources.space.document.nhctl_step7')} <br />
+                        <a href="#" target="_blank" rel="noreferrer">
+                            {translate('resources.space.document.nhctl_step7_1')} <br />
+                        </a>
+                        <pre className={classes.command}>
+                            {translate('resources.space.document.nhctl_step7_2')} <br />
+                            {translate('resources.space.document.nhctl_step7_3')}
+                        </pre>
+                    </div>
+                </div>
             </Card>
         </div>
     );

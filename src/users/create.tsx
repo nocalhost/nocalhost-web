@@ -42,6 +42,7 @@ const UserCreate: FC<CreateProps> = (props) => {
                 <PasswordInput source="password" />
                 <PasswordInput source="confirm_password" />
                 <BooleanInput
+                    defaultValue={1}
                     format={(status: number) => status === 1}
                     parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
                     label="resources.users.fields.status"

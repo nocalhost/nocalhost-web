@@ -10,8 +10,12 @@ const getList = async (
     resource: string,
     params: GetListParams
 ) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return Promise.reject();
+    }
     const options = {
-        user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
+        user: { authenticated: true, token: `Bearer ${token}` },
     };
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;

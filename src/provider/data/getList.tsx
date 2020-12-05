@@ -39,23 +39,15 @@ const getList = async (
     }
 
     return httpClient(url, options).then((result: Result) => {
+        const listData = result.json.data;
+        let list;
         if (resource === 'cluster') {
-            const list = result.json.data;
-            const newList = list.map((l: Cluster) => deserializeCluster(l));
-            return {
-                data: newList,
-                total: newList.length,
-            };
+            list = listData && listData.map((l: Cluster) => deserializeCluster(l));
+        } else if (resource === 'application') {
+            list = listData && listData.map((l: Application) => deserializeApplication(l));
+        } else {
+            list = listData;
         }
-        if (resource === 'application') {
-            const list = result.json.data;
-            const newList = list.map((l: Application) => deserializeApplication(l));
-            return {
-                data: newList,
-                total: newList.length,
-            };
-        }
-        const list = result.json.data;
         return {
             data: list ? list : [],
             total: list ? list.length : 0,

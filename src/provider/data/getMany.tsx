@@ -13,22 +13,17 @@ const getMany = async (
     };
     const url = `${apiUrl}/${resource}`;
     return httpClient(url, options).then((result: Result) => {
-        const list = result.json.data;
-        const newList = list.filter((l: Record) => params.ids.includes(l.id));
+        const listData = result.json.data;
+        const filterList = listData.filter((l: Record) => params.ids.includes(l.id));
+        let list;
         if (resource === 'cluster') {
-            const result = newList.map((l: Cluster) => deserializeCluster(l));
-            return {
-                data: result,
-            };
+            list = filterList.map((l: Cluster) => deserializeCluster(l));
         }
         if (resource === 'application') {
-            const result = newList.map((l: Application) => deserializeApplication(l));
-            return {
-                data: result,
-            };
+            list = filterList.map((l: Application) => deserializeApplication(l));
         }
         return {
-            data: newList,
+            data: list ? list : [],
         };
     });
 };

@@ -35,10 +35,18 @@ const ApplicationShow: FC<ShowProps> = (props) => {
                         source="context.install_type"
                     />
                 )}
-                <TextField
-                    label="resources.application.fields.application_url"
-                    source="context.application_url"
-                />
+                {record && record.context.source === 'git' && (
+                    <TextField
+                        label="resources.application.fields.git_repo_url"
+                        source="context.application_url"
+                    />
+                )}
+                {record && record.context.source === 'helm_repo' && (
+                    <TextField
+                        label="resources.application.fields.helm_repo_url"
+                        source="context.application_url"
+                    />
+                )}
                 {record && record.context.source === 'git' && (
                     <TextField
                         label="resources.application.fields.resource_dir"

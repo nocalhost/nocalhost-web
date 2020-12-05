@@ -11,6 +11,7 @@ import {
 } from 'react-admin';
 import { validateText } from '../common/validation';
 import form from '../common/form';
+import ResourcesDirInput from './ResourceDirInput';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -80,22 +81,32 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                         )
                     }
                 </FormDataConsumer>
-                <TextInput
-                    label="resources.application.fields.application_url"
-                    source="context.application_url"
-                    validate={validateText}
-                />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
                         formData.context.source === 'git' && (
                             <TextInput
-                                label="resources.application.fields.resource_dir"
-                                source="context.resource_dir"
-                                validate={validateText}
                                 {...rest}
+                                label="resources.application.fields.git_repo_url"
+                                source="context.application_url"
+                                validate={validateText}
                             />
                         )
                     }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
+                        formData.context.source === 'helm_repo' && (
+                            <TextInput
+                                {...rest}
+                                label="resources.application.fields.helm_repo_url"
+                                source="context.application_url"
+                                validate={validateText}
+                            />
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData }) => formData.context.source === 'git' && <ResourcesDirInput />}
                 </FormDataConsumer>
             </SimpleForm>
         </Edit>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FC, useEffect, useCallback } from 'react';
+import { FC } from 'react';
 import {
     List,
     Datagrid,
@@ -8,30 +8,12 @@ import {
     ListProps,
     ReferenceField,
     Button,
-    useDataProvider,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
 import KubeConfigButton from '../components/KubeconfigButton';
 import DateField from '../components/DateField';
-import StatusField from './StatusField';
-import { Cluster } from '../types';
 
 const ClusterList: FC<ListProps> = (props: ListProps) => {
-    const dataProvider = useDataProvider();
-    const fetchClusters = useCallback(async () => {
-        await dataProvider.getList<Cluster>('cluster', {
-            filter: {},
-            sort: { field: 'date', order: 'DESC' },
-            pagination: { page: 1, perPage: 50 },
-        });
-    }, [dataProvider]);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            fetchClusters();
-        }, 5000);
-        return () => clearInterval(timer);
-    }, []);
     return (
         <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid>
@@ -41,7 +23,6 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     source="info.cluster_version"
                     sortable={false}
                 />
-                <StatusField sortable={false} />
                 <TextField
                     label="resources.cluster.fields.nodes_count"
                     source="info.nodes"

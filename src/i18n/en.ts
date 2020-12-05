@@ -47,6 +47,7 @@ const customEnglishMessages: TranslationMessages = {
             fields: {
                 name: 'Name',
                 cluster_version: 'Cluster Version',
+                status: 'Is Ready',
                 nodes_count: 'Nodes Count',
                 users_count: 'Users Count',
                 user: 'Creator',
@@ -61,6 +62,7 @@ const customEnglishMessages: TranslationMessages = {
                         'This will delete all nocalhost resources and created workspaces from the cluster.',
                 },
             },
+            status: { is_ready: 'IsReadly', not_ready: 'NotReady' },
         },
         application: {
             name: 'Application |||| Applications',

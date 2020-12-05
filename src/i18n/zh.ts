@@ -49,6 +49,7 @@ const customChineseMessages: TranslationMessages = {
             fields: {
                 name: '集群名称',
                 cluster_version: '集群版本',
+                status: '是否可用',
                 nodes_count: '节点数量',
                 users_count: '用户数量',
                 user: '创建者',
@@ -62,6 +63,7 @@ const customChineseMessages: TranslationMessages = {
                     content: '这将从集群内删除所有 nocalhost 资源以及创建的工作空间。',
                 },
             },
+            status: { is_ready: '可用', not_ready: '不可用' },
         },
         application: {
             name: '应用 |||| 应用列表',

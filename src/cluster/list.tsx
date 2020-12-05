@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import KubeConfigButton from '../components/KubeconfigButton';
 import DateField from '../components/DateField';
+import StatusField from './StatusField';
 
 const ClusterList: FC<ListProps> = (props: ListProps) => {
     return (
@@ -23,6 +24,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     source="info.cluster_version"
                     sortable={false}
                 />
+                <StatusField sortable={false} />
                 <TextField
                     label="resources.cluster.fields.nodes_count"
                     source="info.nodes"

@@ -24,9 +24,15 @@ const i18nProvider = polyglotI18nProvider(
 );
 
 function App() {
+    let apiUrl = '';
     // eslint-disable-next-line
     // @ts-ignore
-    const apiUrl = window._env_.API_HOST || window.location.origin;
+    const apiHost = window._env_.API_HOST || window.location.origin;
+    if (apiHost.indexOf('http') >= 0) {
+        apiUrl = apiHost;
+    } else {
+        apiUrl = `http://${apiHost}`;
+    }
     // eslint-disable-next-line
     // @ts-ignore
     const currentCommitId = window._env_.GIT_COMMIT_SHA;

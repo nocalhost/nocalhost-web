@@ -18,9 +18,10 @@ const getMany = async (
         let list;
         if (resource === 'cluster') {
             list = filterList.map((l: Cluster) => deserializeCluster(l));
-        }
-        if (resource === 'application') {
+        } else if (resource === 'application') {
             list = filterList.map((l: Application) => deserializeApplication(l));
+        } else {
+            list = listData;
         }
         return {
             data: list ? list : [],

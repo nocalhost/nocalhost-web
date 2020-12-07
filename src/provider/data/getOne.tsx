@@ -12,24 +12,15 @@ const getOne = async (
     const options = {
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
     };
+    let url = `${apiUrl}/${resource}/${params.id}`;
+    if (resource === 'cluster') {
+        url = `${url}/detail`;
+    }
     if (resource === 'space') {
         const hash = window.location.hash;
         const search = hash.substring(hash.indexOf('?'));
         const p = searchToObj(search);
-        const spaceUrl = `${apiUrl}/cluster/${p.cluster}/dev_space/${params.id}/detail`;
-        return httpClient(spaceUrl, options).then((result: Result) => {
-            return {
-                data: {
-                    ...result.json.data,
-                    id: params.id,
-                    status: result.json.data.status === 1,
-                },
-            };
-        });
-    }
-    let url = `${apiUrl}/${resource}/${params.id}`;
-    if (resource === 'cluster') {
-        url = `${url}/detail`;
+        url = `${apiUrl}/cluster/${p.cluster}/dev_space/${params.id}/detail`;
     }
     return httpClient(url, options).then((result: Result) => {
         if (resource === 'cluster') {
@@ -41,6 +32,9 @@ const getOne = async (
             return {
                 data: deserializeApplication(result.json.data),
             };
+        }
+        if (resource === 'space') {
+            return { data: { ...result.json.data, status: result.json.data.status === 1 } };
         }
         return {
             data: result.json.data,

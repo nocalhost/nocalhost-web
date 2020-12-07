@@ -46,51 +46,56 @@ const Title = () => {
     );
 };
 
-const DevSpaceList: FC<ListProps> = (props) => (
-    <List
-        {...props}
-        title={<Title />}
-        bulkActionButtons={false}
-        pagination={false}
-        exporter={false}
-        empty={<Empty returnUrl={'/cluster'} />}
-        hasCreate={true}
-    >
-        <Datagrid>
-            <StatusField
-                label="resources.devSpace.fields.status"
-                source="status"
-                sortable={false}
-            />
-            <ReferenceField
-                label="resources.devSpace.fields.user"
-                source="user_id"
-                reference="users"
-                sortable={false}
-            >
-                <TextField source="name" />
-            </ReferenceField>
-            <TextField
-                label="resources.devSpace.fields.namespace"
-                source="namespace"
-                sortable={false}
-            />
-            <DateField sortable={false} source="created_at" />
-            <ReferenceField
-                label="resources.devSpace.fields.application"
-                source="application_id"
-                reference="application"
-                sortable={false}
-            >
-                <TextField source="context.application_name" />
-            </ReferenceField>
-            <ResourceLimitField sortable={false} />
-            <SpaceShowButton />
-            <KubeConfigButton />
-            <DeleteButton undoable={false} />
-        </Datagrid>
-    </List>
-);
+const DevSpaceList: FC<ListProps> = (props) => {
+    const hash = window.location.hash;
+    const search = hash.substring(hash.indexOf('?'));
+    const p = searchToObj(search);
+    return (
+        <List
+            {...props}
+            title={<Title />}
+            bulkActionButtons={false}
+            pagination={false}
+            exporter={false}
+            empty={<Empty returnUrl={'/cluster'} />}
+            hasCreate={true}
+        >
+            <Datagrid>
+                <StatusField
+                    label="resources.devSpace.fields.status"
+                    source="status"
+                    sortable={false}
+                />
+                <ReferenceField
+                    label="resources.devSpace.fields.user"
+                    source="user_id"
+                    reference="users"
+                    sortable={false}
+                >
+                    <TextField source="name" />
+                </ReferenceField>
+                <TextField
+                    label="resources.devSpace.fields.namespace"
+                    source="namespace"
+                    sortable={false}
+                />
+                <DateField sortable={false} source="created_at" />
+                <ReferenceField
+                    label="resources.devSpace.fields.application"
+                    source="application_id"
+                    reference="application"
+                    sortable={false}
+                >
+                    <TextField source="context.application_name" />
+                </ReferenceField>
+                <ResourceLimitField sortable={false} />
+                <SpaceShowButton />
+                <KubeConfigButton />
+                <DeleteButton redirect={`/dev_space?cluster=${p.cluster}`} undoable={false} />
+            </Datagrid>
+        </List>
+    );
+};
 
 const SpaceShowButton = ({ record }: any) => (
     <Button

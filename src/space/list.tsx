@@ -124,7 +124,7 @@ const SpaceList: FC<ListProps> = (props) => {
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
-                <DeleteButton undoable={false} />
+                <DeleteButton redirect={`/space?application=${p.application}`} undoable={false} />
             </Datagrid>
         </List>
     );

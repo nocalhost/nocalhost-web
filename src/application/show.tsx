@@ -7,7 +7,10 @@ import {
     ShowProps,
     useShowController,
     useTranslate,
+    FieldProps,
 } from 'react-admin';
+import { get } from 'lodash';
+import { Typography } from '@material-ui/core';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -18,6 +21,20 @@ const Title = ({ record }: any) => {
         </span>
     );
 };
+
+const ResourceDirField = (props: FieldProps) => {
+    const { record, source } = props;
+    const value = get(record, source || 0);
+    return (
+        <>
+            {value.map((v: string) => {
+                return <Typography key={v}>{v}</Typography>;
+            })}
+        </>
+    );
+};
+
+ResourceDirField.defaultProps = { source: 'context.resource_dir', addLabel: true };
 
 const ApplicationShow: FC<ShowProps> = (props) => {
     const { record } = useShowController(props);
@@ -48,10 +65,7 @@ const ApplicationShow: FC<ShowProps> = (props) => {
                     />
                 )}
                 {record && record.context.source === 'git' && (
-                    <TextField
-                        label="resources.application.fields.resource_dir"
-                        source="context.resource_dir"
-                    />
+                    <ResourceDirField label="resources.application.fields.resource_dir" />
                 )}
             </SimpleShowLayout>
         </Show>

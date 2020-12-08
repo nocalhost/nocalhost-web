@@ -8,23 +8,34 @@ import {
     CreateProps,
     FormDataConsumer,
     Record,
+    ArrayInput,
+    SimpleFormIterator,
+    useTranslate,
 } from 'react-admin';
 import { validateText } from '../common/validation';
-import ResourcesDirInput from './ResourceDirInput';
+import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    resource: {
+        width: '256px',
+    },
+});
 
 const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
+    const classes = useStyles();
+    const translate = useTranslate();
     const transform = (data: Record) => {
-        let context = {};
-        if (data.context.source === 'helm_repo') {
+        let context = data.context;
+        context = { ...context, resource_dir: [context.resource_dir] };
+        if (data.context.source === 'git' && data.context.install_type === 'helm_chart') {
             context = {
-                application_name: data.context.application_name,
-                source: data.context.source,
-                application_url: data.context.application_url,
-                install_type: 'manifest',
-                resource_dir: '/tmp',
+                ...context,
+                resource_dir:
+                    data.dirs && data.dirs.length > 0
+                        ? data.dirs.map((d: { dir: string }) => d.dir)
+                        : ['.'],
             };
-        } else {
-            context = data.context;
         }
         // eslint-disable-next-line
         // @ts-ignore
@@ -94,7 +105,47 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                     }
                 </FormDataConsumer>
                 <FormDataConsumer>
-                    {({ formData }) => formData.context.source === 'git' && <ResourcesDirInput />}
+                    {({ formData }) =>
+                        formData.context.source === 'git' &&
+                        formData.context.install_type === 'manifest' && (
+                            <>
+                                <Typography variant="subtitle2" gutterBottom>
+                                    {translate('resources.application.tips.resource_dir')}
+                                </Typography>
+                                <TextInput
+                                    label="resources.application.fields.resource_dir"
+                                    source="context.resource_dir"
+                                    defaultValue="."
+                                    className={classes.resource}
+                                    validate={validateText}
+                                />
+                            </>
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData }) =>
+                        formData.context.source === 'git' &&
+                        formData.context.install_type === 'helm_chart' && (
+                            <>
+                                <Typography variant="subtitle2" gutterBottom>
+                                    {translate('resources.application.tips.resource_dir')}
+                                </Typography>
+                                <ArrayInput
+                                    source="dirs"
+                                    label="resources.application.fields.resource_dir"
+                                >
+                                    <SimpleFormIterator>
+                                        <TextInput
+                                            label="resources.application.fields.resource_dir"
+                                            source="dir"
+                                            defaultValue="."
+                                        />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
+                            </>
+                        )
+                    }
                 </FormDataConsumer>
             </SimpleForm>
         </Create>

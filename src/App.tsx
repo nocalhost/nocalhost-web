@@ -10,6 +10,7 @@ import Dashboard from './dashboard';
 import { englishMessages, chineseMessages } from './i18n';
 import { auth, data } from './provider';
 import { Login, Layout } from './layout';
+import NhTheme from './theme';
 import './App.css';
 
 const messages = {
@@ -50,6 +51,7 @@ function App() {
             authProvider={authProvider}
             dataProvider={dataProvider}
             i18nProvider={i18nProvider}
+            theme={NhTheme}
         >
             <Resource name="cluster" {...cluster} />
             <Resource name="application" {...application} />

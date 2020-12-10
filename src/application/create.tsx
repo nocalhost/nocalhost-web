@@ -71,9 +71,9 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 {...rest}
                                 label="resources.application.fields.install_type"
                                 source="context.install_type"
-                                initialValue="manifest"
+                                initialValue="rawManifest"
                                 choices={[
-                                    { id: 'manifest', name: 'Manifest' },
+                                    { id: 'rawManifest', name: 'Manifest' },
                                     { id: 'helm_chart', name: 'Helm Chart' },
                                 ]}
                             />

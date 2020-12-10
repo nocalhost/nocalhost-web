@@ -81,10 +81,10 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                                 {...rest}
                                 source="context.install_type"
                                 label="resources.application.fields.install_type"
-                                initialValue="manifest"
+                                initialValue="rawManifest"
                                 validate={validateText}
                                 choices={[
-                                    { id: 'manifest', name: 'Manifest' },
+                                    { id: 'rawManifest', name: 'Manifest' },
                                     { id: 'helm_chart', name: 'Helm Chart' },
                                 ]}
                             />

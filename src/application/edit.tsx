@@ -38,7 +38,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     const transform = (data: Record) => {
         let context = data.context;
         context = { ...context, resource_dir: [context.resource_dir] };
-        if (data.context.source === 'git' && data.context.install_type === 'helm_chart') {
+        if (data.context.source === 'git' && data.context.install_type === 'rawManifest') {
             context = {
                 ...context,
                 resource_dir:

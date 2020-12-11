@@ -1,7 +1,8 @@
-import React from 'react';
-import { useTranslate } from 'react-admin';
+import React, { useEffect, useState } from 'react';
+import { useTranslate, useDataProvider, ShowProps, Loading } from 'react-admin';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Link } from '@material-ui/core';
+import { Space, Application, ApplicationContext } from '../types';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -22,105 +23,161 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export default function Document() {
+export default function Document(props: ShowProps) {
     const classes = useStyles();
     const translate = useTranslate();
     // eslint-disable-next-line
     // @ts-ignore
     const apiUrl = window._env_.API_HOST || window.location.origin;
 
-    return (
-        <div>
-            <Card className={classes.card}>
-                <Typography variant="h5" component="h5">
-                    {translate('resources.space.document.vscode')}
-                </Typography>
-                <div className={classes.type}>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.vscode_step1')} <br />
-                        <Link
-                            href={`${translate('resources.space.document.vscode_step1_1')}`}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            {translate('resources.space.document.vscode_step1_1')}
-                        </Link>
+    const dataProvider = useDataProvider();
+
+    const [space, setSpace] = useState<Space>({ id: 0, cluster_id: 0, application_id: 0 });
+    const [app, setApp] = useState<ApplicationContext>({
+        application_name: '',
+        application_url: '',
+        source: '',
+        install_type: '',
+        resource_dir: '',
+    });
+
+    const fetchSpace = async () => {
+        const { data } = await dataProvider.getOne<Space>('space', {
+            id: parseInt(props.id || '0'),
+        });
+        setSpace(data);
+    };
+
+    const fetchApplication = async () => {
+        const { data } = await dataProvider.getOne<Application>('application', {
+            id: space.application_id,
+        });
+        // eslint-disable-next-line
+        // @ts-ignore
+        setApp(data.context);
+    };
+    useEffect(() => {
+        fetchSpace();
+        if (space.application_id > 0) {
+            fetchApplication();
+        }
+    }, [space.id]);
+
+    if (space.id <= 0 || !app.application_name) {
+        return <Loading />;
+    } else {
+        return (
+            <div>
+                <Card className={classes.card}>
+                    <Typography variant="h5" component="h5">
+                        {translate('resources.space.document.vscode')}
+                    </Typography>
+                    <div className={classes.type}>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.vscode_step1')} <br />
+                            <Link
+                                href={`${translate('resources.space.document.vscode_step1_1')}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {translate('resources.space.document.vscode_step1_1')}
+                            </Link>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.vscode_step2')} <br />
+                            {translate('resources.space.document.vscode_step2_1', {
+                                apiUrl: apiUrl,
+                            })}
+                            <br />
+                            {translate('resources.space.document.vscode_step2_2')}
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.vscode_step3')} <br />
+                            {translate('resources.space.document.vscode_step3_1')} <br />
+                            {translate('resources.space.document.vscode_step3_2')}
+                            <br />
+                            {translate('resources.space.document.vscode_step3_3')}
+                        </div>
                     </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.vscode_step2')} <br />
-                        {translate('resources.space.document.vscode_step2_1', {
-                            apiUrl: apiUrl,
-                        })}
-                        <br />
-                        {translate('resources.space.document.vscode_step2_2')}
+                </Card>
+                <Card className={classes.card}>
+                    <Typography variant="h5" component="h5">
+                        {translate('resources.space.document.nhctl')}
+                    </Typography>
+                    <div className={classes.type}>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step1')}
+                            <Link
+                                href={translate('resources.space.document.nhctl_install_url')}
+                                target="_blank"
+                            >
+                                {translate('resources.space.document.nhctl_install_url')}
+                            </Link>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step2')}
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step3')} <br />
+                            <Link href="#" target="_blank" rel="noreferrer">
+                                {translate('resources.space.document.nhctl_step3_1')} <br />
+                            </Link>
+                            <pre className={classes.command}>
+                                {translate('resources.space.document.nhctl_step3_2', {
+                                    appName: app.application_name,
+                                    gitUrl: app.application_url,
+                                })}
+                            </pre>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step4')} <br />
+                            <Link href="#" target="_blank" rel="noreferrer">
+                                {translate('resources.space.document.nhctl_step4_1')} <br />
+                            </Link>
+                            <pre className={classes.command}>
+                                {translate('resources.space.document.nhctl_step4_2', {
+                                    appName: app.application_name,
+                                    gitUrl: app.application_url,
+                                })}
+                            </pre>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step5')} <br />
+                            <Link href="#" target="_blank" rel="noreferrer">
+                                {translate('resources.space.document.nhctl_step5_1')} <br />
+                            </Link>
+                            <pre className={classes.command}>
+                                {translate('resources.space.document.nhctl_step5_2', {
+                                    appName: app.application_name,
+                                    gitUrl: app.application_url,
+                                })}
+                            </pre>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step6')} <br />
+                            <Link href="#" target="_blank" rel="noreferrer">
+                                {translate('resources.space.document.nhctl_step6_1')} <br />
+                            </Link>
+                            <pre className={classes.command}>
+                                {translate('resources.space.document.nhctl_step6_2', {
+                                    appName: app.application_name,
+                                    gitUrl: app.application_url,
+                                })}
+                            </pre>
+                        </div>
+                        <div className={classes.setp}>
+                            {translate('resources.space.document.nhctl_step7')} <br />
+                            <Link href="#" target="_blank" rel="noreferrer">
+                                {translate('resources.space.document.nhctl_step7_1')} <br />
+                            </Link>
+                            <pre className={classes.command}>
+                                {translate('resources.space.document.nhctl_step7_2')} <br />
+                                {translate('resources.space.document.nhctl_step7_3')}
+                            </pre>
+                        </div>
                     </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.vscode_step3')} <br />
-                        {translate('resources.space.document.vscode_step3_1')} <br />
-                        {translate('resources.space.document.vscode_step3_2')} <br />
-                        {translate('resources.space.document.vscode_step3_3')}
-                    </div>
-                </div>
-            </Card>
-            <Card className={classes.card}>
-                <Typography variant="h5" component="h5">
-                    {translate('resources.space.document.nhctl')}
-                </Typography>
-                <div className={classes.type}>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step1')}
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step2')}
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step3')} <br />
-                        <Link href="#" target="_blank" rel="noreferrer">
-                            {translate('resources.space.document.nhctl_step3_1')} <br />
-                        </Link>
-                        <pre className={classes.command}>
-                            {translate('resources.space.document.nhctl_step3_2')}
-                        </pre>
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step4')} <br />
-                        <Link href="#" target="_blank" rel="noreferrer">
-                            {translate('resources.space.document.nhctl_step4_1')} <br />
-                        </Link>
-                        <pre className={classes.command}>
-                            {translate('resources.space.document.nhctl_step4_2')}
-                        </pre>
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step5')} <br />
-                        <Link href="#" target="_blank" rel="noreferrer">
-                            {translate('resources.space.document.nhctl_step5_1')} <br />
-                        </Link>
-                        <pre className={classes.command}>
-                            {translate('resources.space.document.nhctl_step5_2')}
-                        </pre>
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step6')} <br />
-                        <Link href="#" target="_blank" rel="noreferrer">
-                            {translate('resources.space.document.nhctl_step6_1')} <br />
-                        </Link>
-                        <pre className={classes.command}>
-                            {translate('resources.space.document.nhctl_step6_2')}
-                        </pre>
-                    </div>
-                    <div className={classes.setp}>
-                        {translate('resources.space.document.nhctl_step7')} <br />
-                        <Link href="#" target="_blank" rel="noreferrer">
-                            {translate('resources.space.document.nhctl_step7_1')} <br />
-                        </Link>
-                        <pre className={classes.command}>
-                            {translate('resources.space.document.nhctl_step7_2')} <br />
-                            {translate('resources.space.document.nhctl_step7_3')}
-                        </pre>
-                    </div>
-                </div>
-            </Card>
-        </div>
-    );
+                </Card>
+            </div>
+        );
+    }
 }

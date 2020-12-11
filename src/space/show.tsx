@@ -89,7 +89,7 @@ const SpaceShow: FC<ShowProps> = (props) => {
                     <DownloadButton />
                 </SimpleShowLayout>
             </Show>
-            <Document />
+            <Document {...props} />
         </>
     );
 };

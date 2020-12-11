@@ -123,25 +123,26 @@ const customEnglishMessages: TranslationMessages = {
                 vscode_step3_3:
                     'Click the start develop <icon> icon to enter DevSpace and enjoy your coding.',
                 nhctl: 'Start coding with nhctl:',
-                nhctl_step1: 'Step 1: Install nhctl: https://nocalhost.dev/docs/installation.md',
+                nhctl_install_url: 'https://nocalhost.dev/installation',
+                nhctl_step1: 'Step 1: Install nhctl: ',
                 nhctl_step2: 'Step 2: Click "Download Kubeconfig" and save this file',
                 nhctl_step3: 'Step 3: Install an application that you  want to develop via nhctl:',
                 nhctl_step3_1: '# Click here to get more details about the arguments of nhctl',
                 nhctl_step3_2:
-                    'nhctl install <application name> --kubeconfig <the file you downloaded> -u <a git repo url which contains helm chart or manifests>  ',
+                    'nhctl install %{appName} --kubeconfig <the file you downloaded> -u %{gitUrl}',
                 nhctl_step4:
                     'Step 4: Enter DevMode by specify a workload that you want to develop:',
                 nhctl_step4_1: '# Click here to get more details about the arguments of nhctl ',
                 nhctl_step4_2:
-                    'nhctl dev start <application name> --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
+                    'nhctl dev start %{appName} --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
                 nhctl_step5: 'Step 5: Sync codes to DevMode containers:',
                 nhctl_step5_1: '# Click here to get more details about the arguments of nhctl ',
                 nhctl_step5_2:
-                    'nhctl sync <application name> --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
+                    'nhctl sync %{appName} --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
                 nhctl_step6: 'Step 6: Forward ports from DevMode container to local(Optional):',
                 nhctl_step6_1: '# Click here to get more details about the arguments of nhctl ',
                 nhctl_step6_2:
-                    'nhctl port-forward <application name> --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
+                    'nhctl port-forward %{appName} --kubeconfig <the file you downloaded> -d <the workload that you want to develop>  ',
                 nhctl_step7: 'Step 7: Coding locally and start your program remotely:',
                 nhctl_step7_1: '# Click here to get more details about the arguments of nhctl ',
                 nhctl_step7_2:

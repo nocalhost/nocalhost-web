@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDataProvider, Button, useTranslate } from 'react-admin';
+import React, { useState, useRef } from 'react';
+import { useDataProvider, Button, useTranslate, Loading } from 'react-admin';
 import ContentDialog from './ContentDialog';
 import { makeStyles } from '@material-ui/core/styles';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -13,7 +13,8 @@ interface KubeConfigDialogProps {
 }
 const useStyles = makeStyles(() => ({
     kube: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' },
-    btn: { float: 'right' },
+    btn: { display: 'flex', justifyContent: 'flex-end' },
+    loading: { maxHeight: 400 },
 }));
 
 const KubeConfigDialog = (props: KubeConfigDialogProps) => {
@@ -26,15 +27,19 @@ const KubeConfigDialog = (props: KubeConfigDialogProps) => {
         setTips(translate('nh.action.copied'));
         timer = setTimeout(() => setTips(translate('nh.action.copy')), 2000);
     };
+    const buttonRef = useRef(null);
     return (
         <ContentDialog title={'KubeConfig'} open={props.open} onClose={props.onClose}>
             <>
-                <pre className={classes.kube}>{props.kubeconfig}</pre>
+                {!props.kubeconfig && <Loading className={classes.loading} />}
+                {props.kubeconfig && <pre className={classes.kube}>{props.kubeconfig}</pre>}
                 <CopyToClipboard text={props.kubeconfig} onCopy={onCopy}>
                     <Tooltip title={tips} arrow placement="top">
-                        <Button label="nh.action.copy" className={classes.btn} variant="contained">
-                            <FileCopyIcon />
-                        </Button>
+                        <div ref={buttonRef} className={classes.btn}>
+                            <Button label="nh.action.copy" variant="contained">
+                                <FileCopyIcon />
+                            </Button>
+                        </div>
                     </Tooltip>
                 </CopyToClipboard>
             </>

@@ -57,6 +57,11 @@ export interface Cluster extends Record {
     users_count: number;
 }
 
+export interface Space extends Record {
+    application_id: number;
+    cluster_id: number;
+}
+
 export interface ClusterInfo {
     cluster_version: string;
     nodes: string;

@@ -132,7 +132,7 @@ const SpaceList: FC<ListProps> = (props) => {
 
 const SpaceShowButton = ({ record }: any) => (
     <Button
-        to={`/space/${record.id}/show?cluster_id=${record.cluster_id}`}
+        to={`/space/${record.id}/show?cluster=${record.cluster_id}`}
         label={'ra.action.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}

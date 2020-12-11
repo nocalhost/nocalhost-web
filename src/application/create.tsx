@@ -107,7 +107,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer>
                     {({ formData }) =>
                         formData.context.source === 'git' &&
-                        formData.context.install_type === 'manifest' && (
+                        formData.context.install_type === 'helm_chart' && (
                             <>
                                 <Typography variant="subtitle2" gutterBottom>
                                     {translate('resources.application.tips.resource_dir')}
@@ -126,7 +126,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer>
                     {({ formData }) =>
                         formData.context.source === 'git' &&
-                        formData.context.install_type === 'helm_chart' && (
+                        formData.context.install_type === 'rawManifest' && (
                             <>
                                 <Typography variant="subtitle2" gutterBottom>
                                     {translate('resources.application.tips.resource_dir')}

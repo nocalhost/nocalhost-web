@@ -49,7 +49,7 @@ const Menu = forwardRef<any>((props: any, ref: any) => {
                 <ListItemIcon className={classes.icon}>
                     <DescriptionIcon />
                 </ListItemIcon>
-                <a href="https://nocalhost.dev/documents" target="_blank" rel="noreferrer">
+                <a href="https://nocalhost.dev/getting-started/" target="_blank" rel="noreferrer">
                     {translate('nh.layout.menu.document')}
                 </a>
             </MenuItem>

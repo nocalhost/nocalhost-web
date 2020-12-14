@@ -19,6 +19,11 @@ jobs:
       - name: Build web
         run: make build-docker
 
+      - name: Set refs
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: get_tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Push to Github packages
         env:
           GITHUB_IMAGE_NAME: docker.pkg.github.com/${{ github.repository }}/nocalhost-web
@@ -42,8 +47,8 @@ jobs:
           GITHUB_IMAGE_NAME: docker.pkg.github.com/${{ github.repository }}/nocalhost-web
         run: |
           echo ${{ secrets.GPR_PASS }} | docker login docker.pkg.github.com -u ${{ secrets.GPR_USER }} --password-stdin
-          docker tag nocalhost-web:${GITHUB_SHA} ${GITHUB_IMAGE_NAME}:${GITHUB_REF}
-          docker push ${GITHUB_IMAGE_NAME}:${GITHUB_REF}
+          docker tag nocalhost-web:${GITHUB_SHA} ${GITHUB_IMAGE_NAME}:${{ steps.get_tag.output.tag }}
+          docker push ${GITHUB_IMAGE_NAME}:${{ steps.get_tag.output.tag }}
 
       - name: Push to Coding Artifacts
         if: ${{ github.repository == 'nocalhost/nocalhost-web' }}
@@ -64,10 +69,10 @@ jobs:
           docker push ${CODING_IMAGE_NAME}:latest
 
       - name: Push release to Coding Artifacts
-        if:  startsWith(github.ref, 'refs/tags/v') && ${{ github.repository == 'nocalhost/nocalhost-web' }}
+        if:  ${{ startsWith(github.ref, 'refs/tags/v') &&  github.repository == 'nocalhost/nocalhost-web' }}
         env:
           CODING_IMAGE_NAME: codingcorp-docker.pkg.coding.net/nocalhost/public/nocalhost-web
         run: |
           echo ${{ secrets.CODING_ARTIFACTS_PASS }} | docker login codingcorp-docker.pkg.coding.net -u ${{ secrets.CODING_ARTIFACTS_USER }} --password-stdin
-          docker tag nocalhost-web:${GITHUB_SHA} ${CODING_IMAGE_NAME}:${GITHUB_REF}
-          docker push ${CODING_IMAGE_NAME}:${GITHUB_REF}
+          docker tag nocalhost-web:${GITHUB_SHA} ${CODING_IMAGE_NAME}:${{ steps.get_tag.output.tag }}
+          docker push ${GITHUB_IMAGE_NAME}:${{ steps.get_tag.output.tag }}

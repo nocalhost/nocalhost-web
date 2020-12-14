@@ -73,5 +73,5 @@ jobs:
           CODING_IMAGE_NAME: codingcorp-docker.pkg.coding.net/nocalhost/public/nocalhost-web
         run: |
           echo ${{ secrets.CODING_ARTIFACTS_PASS }} | docker login codingcorp-docker.pkg.coding.net -u ${{ secrets.CODING_ARTIFACTS_USER }} --password-stdin
-          docker tag nocalhost-web:${GITHUB_SHA} ${CODING_IMAGE_NAME}:${RELEASE_VERSION}
-          docker push ${GITHUB_IMAGE_NAME}:${RELEASE_VERSION}
+          docker tag nocalhost-web:${GITHUB_SHA} ${CODING_IMAGE_NAME}:${{ env.RELEASE_VERSION }}
+          docker push ${GITHUB_IMAGE_NAME}:${{ env.RELEASE_VERSION }}

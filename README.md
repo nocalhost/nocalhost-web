@@ -1,5 +1,7 @@
 # Nocalhost Web
 
+![web-docker](https://github.com/nocalhost/nocalhost-web/workflows/web-docker/badge.svg)
+
 This project is the Nocalhost Managerment frontend.
 
 ## Development

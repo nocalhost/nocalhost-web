@@ -113,7 +113,7 @@ const customChineseMessages: TranslationMessages = {
                 vscode_step1_1:
                     'https://marketplace.visualstudio.com/items?itemName=nocalhost.nocalhost',
                 vscode_step2: '步骤2：配置插件和 nocalhost api 服务器：',
-                vscode_step2_1: '单击 Nocalhost 插件选项卡，然后单击图标集 api 主机：%{apiUrl}',
+                vscode_step2_1: '单击 Nocalhost 插件选项，然后点击按钮，配置 api 主机：%{apiUrl}',
                 vscode_step2_2: '单击登录以使用 nocalhost api 服务器。',
                 vscode_step3: '步骤3：安装应用程序并开始开发：',
                 vscode_step3_1: '单击要在左侧面板上开发的应用程序的安装图标。',

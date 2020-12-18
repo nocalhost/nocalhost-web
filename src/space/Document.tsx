@@ -3,6 +3,10 @@ import { useTranslate, useDataProvider, ShowProps, Loading } from 'react-admin';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Link } from '@material-ui/core';
 import { Space, Application, ApplicationContext } from '../types';
+import VSCodeImage1 from '../images/vscode-plugin-1.png';
+import VSCodeImage2 from '../images/vscode-plugin-2.png';
+import VSCodeImage3 from '../images/vscode-plugin-3.png';
+import VSCodeImage4 from '../images/vscode-plugin-4.png';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -14,6 +18,10 @@ const useStyles = makeStyles(() =>
             padding: '16px',
             border: '1px solid #d0d0d0',
             '& > a': { textDecoration: 'none', fontSize: '14px' },
+        },
+        img: {
+            maxWidth: '100%',
+            height: 'auto',
         },
         command: {
             background: '#f5f2f0',
@@ -89,14 +97,18 @@ export default function Document(props: ShowProps) {
                                 apiUrl: apiUrl,
                             })}
                             <br />
+                            <img className={classes.img} src={VSCodeImage1} />
                             {translate('resources.space.document.vscode_step2_2')}
+                            <img className={classes.img} src={VSCodeImage2} />
                         </div>
                         <div className={classes.setp}>
                             {translate('resources.space.document.vscode_step3')} <br />
                             {translate('resources.space.document.vscode_step3_1')} <br />
+                            <img className={classes.img} src={VSCodeImage3} />
                             {translate('resources.space.document.vscode_step3_2')}
                             <br />
                             {translate('resources.space.document.vscode_step3_3')}
+                            <img className={classes.img} src={VSCodeImage4} />
                         </div>
                     </div>
                 </Card>

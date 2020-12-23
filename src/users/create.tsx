@@ -17,6 +17,7 @@ const UserCreate: FC<CreateProps> = (props) => {
         // @ts-ignore
         const result: Record = {
             status: data.status ? 1 : 0,
+            is_admin: data.is_admin ? 1 : 0,
             ...data,
         };
         return result;
@@ -47,6 +48,13 @@ const UserCreate: FC<CreateProps> = (props) => {
                     parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
                     label="resources.users.fields.status"
                     source="status"
+                />
+                <BooleanInput
+                    defaultValue={0}
+                    format={(is_admin: number) => is_admin === 1}
+                    parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
+                    label="resources.users.fields.is_admin"
+                    source="is_admin"
                 />
             </SimpleForm>
         </Create>

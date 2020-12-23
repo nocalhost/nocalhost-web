@@ -29,6 +29,7 @@ const UserEdit: FC<EditProps> = (props) => {
         // @ts-ignore
         const result: Record = {
             status: data.status ? 1 : 0,
+            is_admin: data.is_admin ? 1 : 0,
             ...data,
         };
         return result;
@@ -57,6 +58,12 @@ const UserEdit: FC<EditProps> = (props) => {
                     parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
                     label="resources.users.fields.status"
                     source="status"
+                />
+                <BooleanInput
+                    format={(is_admin: number) => is_admin === 1}
+                    parse={(inputValue: boolean) => (inputValue ? 1 : 0)}
+                    label="resources.users.fields.is_admin"
+                    source="is_admin"
                 />
             </SimpleForm>
         </Edit>

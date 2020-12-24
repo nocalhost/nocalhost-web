@@ -39,10 +39,13 @@ const customChineseMessages: TranslationMessages = {
                 email: '邮箱',
                 cluster_count: '集群数量',
                 status: '状态',
+                userType: '用户类型',
+                is_admin: '是否设置为管理员',
                 password: '密码',
                 confirm_password: '确认密码',
             },
             status: { active: '开启', inactive: '锁定' },
+            userType: { admin: '管理员', user: '普通用户' },
         },
         cluster: {
             name: '集群 |||| 集群列表',

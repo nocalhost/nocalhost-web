@@ -37,10 +37,13 @@ const customEnglishMessages: TranslationMessages = {
                 email: 'Email',
                 cluster_count: 'Clusters Count',
                 status: 'Status',
+                userType: 'User Type',
+                is_admin: 'Is Admin',
                 password: 'Password',
                 confirm_password: 'Confirm Password',
             },
             status: { active: 'Active', inactive: 'Inactive' },
+            userType: { admin: 'Admin', user: 'User' },
         },
         cluster: {
             name: 'Cluster |||| Clusters',

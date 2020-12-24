@@ -21,6 +21,17 @@ const StatusField = ({ record }: any) => {
     );
 };
 
+const UserTypeField = ({ record }: any) => {
+    const translate = useTranslate();
+    return (
+        <div>
+            {record.is_admin === 1
+                ? translate('resources.users.userType.admin')
+                : translate('resources.users.userType.user')}
+        </div>
+    );
+};
+
 const UserList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
         <Datagrid>
@@ -28,6 +39,11 @@ const UserList: FC<ListProps> = (props) => (
             <EmailField source="email" sortable={false} />
             <TextField source="cluster_count" sortable={false} />
             <StatusField source="status" sortable={false} />
+            <UserTypeField
+                source="is_admin"
+                label="resources.users.fields.userType"
+                sortable={false}
+            />
             <EditButton />
         </Datagrid>
     </List>

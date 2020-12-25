@@ -44,7 +44,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                 resource_dir:
                     data.dirs && data.dirs.length > 0
                         ? data.dirs.map((d: { dir: string }) => d.dir)
-                        : ['.'],
+                        : [],
             };
         }
         // eslint-disable-next-line

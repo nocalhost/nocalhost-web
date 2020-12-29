@@ -33,17 +33,6 @@ const ListActions = (props: any) => {
     );
 };
 
-// const StatusField = (record: any) => {
-//     const translate = useTranslate();
-//     return (
-//         <div>
-//             {record.status === 1
-//                 ? translate('resources.space.status.deployed')
-//                 : translate('resources.space.status.undeployed')}
-//         </div>
-//     );
-// };
-
 const SpaceCreateButton = (record: any) => (
     <Button
         icon={<AddIcon />}
@@ -94,11 +83,11 @@ const SpaceList: FC<ListProps> = (props) => {
             actions={<ListActions />}
         >
             <Datagrid>
-                {/* <StatusField
-                    label="resources.space.fields.status"
-                    source="status"
+                <TextField
+                    label="resources.space.fields.space_name"
+                    source="space_name"
                     sortable={false}
-                /> */}
+                />
                 <ReferenceField
                     label="resources.space.fields.user"
                     source="user_id"

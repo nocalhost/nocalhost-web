@@ -93,6 +93,7 @@ const customEnglishMessages: TranslationMessages = {
         space: {
             name: 'DevSpace |||| DevSpaces',
             fields: {
+                space_name: 'Space Name',
                 status: 'Status',
                 user: 'Owner',
                 namespace: 'Namespace',
@@ -162,6 +163,7 @@ const customEnglishMessages: TranslationMessages = {
         devSpace: {
             name: 'DevSpace |||| DevSpaces',
             fields: {
+                space_name: 'Space Name',
                 status: 'Status',
                 user: 'Owner',
                 namespace: 'Namespace',

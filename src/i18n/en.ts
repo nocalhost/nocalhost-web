@@ -56,6 +56,7 @@ const customEnglishMessages: TranslationMessages = {
                 user: 'Creator',
                 created_at: 'Created At',
                 kubeconfig: 'KubeConfig',
+                storage_class: 'Storage Class',
             },
             tips: { kubeconfig: 'How to get kubeconfig?' },
             delete: {

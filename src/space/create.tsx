@@ -50,7 +50,6 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         redirect('/application');
     }
     const postDefaultValue = () => ({ application_id: p.application });
-    // TODO: add cpu and memory value no implementation tips
     return (
         <Create title={<Title application={p.application} />} {...props}>
             <SimpleForm

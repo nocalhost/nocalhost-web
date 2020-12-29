@@ -105,6 +105,7 @@ const customEnglishMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: 'Resource Limit',
+                reset: 'Reset',
             },
             actions: {
                 create: 'Create Space',
@@ -112,6 +113,14 @@ const customEnglishMessages: TranslationMessages = {
                 list: 'Space List',
                 download: 'Download KubeConfig',
                 resource_limit_not_implemented: 'Resource limit has not been implemented',
+            },
+            reset: {
+                confirm: {
+                    title: 'Reset DevSpace',
+                    content:
+                        'Reset DevSpace will delete [%{name}] namespace resource and create new namespace',
+                },
+                successed: 'Reset DevSpace successed!',
             },
             status: { deployed: 'Deployed', undeployed: 'Not deployed' },
             empty: { title: 'Space is empty', content: 'Create a new Space' },

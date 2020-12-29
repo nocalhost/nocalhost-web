@@ -17,6 +17,7 @@ import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
 import ResourceLimitField from '../components/ResourceLimitField';
+import SpaceResetButton from '../components/SpaceResetButton';
 
 const StatusField = (record: any) => {
     const translate = useTranslate();
@@ -96,6 +97,7 @@ const DevSpaceList: FC<ListProps> = (props) => {
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
+                <SpaceResetButton />
                 <DeleteButton redirect={`/dev_space?cluster=${p.cluster}`} undoable={false} />
             </Datagrid>
         </List>

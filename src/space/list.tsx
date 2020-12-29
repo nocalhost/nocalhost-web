@@ -20,6 +20,7 @@ import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
 import ResourceLimitField from '../components/ResourceLimitField';
+import SpaceResetButton from '../components/SpaceResetButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -113,6 +114,7 @@ const SpaceList: FC<ListProps> = (props) => {
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
+                <SpaceResetButton />
                 <DeleteButton redirect={`/space?application=${p.application}`} undoable={false} />
             </Datagrid>
         </List>

@@ -106,6 +106,7 @@ const customChineseMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: '资源限制',
+                reset: '重置',
             },
             actions: {
                 create: '创建环境',
@@ -113,6 +114,13 @@ const customChineseMessages: TranslationMessages = {
                 list: '环境列表',
                 download: '下载 KubeConfig',
                 resource_limit_not_implemented: '资源限制还未实现',
+            },
+            reset: {
+                confirm: {
+                    title: '重置开发空间',
+                    content: '重置开发空间将删除 [%{name}] 命名空间内的所有资源，并重建',
+                },
+                successed: '开始空间重置成功！',
             },
             status: { deployed: '已部署', undeployed: '未部署' },
             empty: { title: '环境列表为空', content: '来创建一个环境' },

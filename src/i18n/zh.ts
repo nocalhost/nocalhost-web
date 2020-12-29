@@ -89,6 +89,7 @@ const customChineseMessages: TranslationMessages = {
         space: {
             name: '开发环境 |||| 开发环境列表',
             fields: {
+                space_name: '空间名称',
                 status: '状态',
                 user: '所有者',
                 namespace: '命名空间',
@@ -153,6 +154,7 @@ const customChineseMessages: TranslationMessages = {
         devSpace: {
             name: '开发环境 |||| 开发环境列表',
             fields: {
+                space_name: '空间名称',
                 status: '状态',
                 user: '所有者',
                 namespace: '命名空间',

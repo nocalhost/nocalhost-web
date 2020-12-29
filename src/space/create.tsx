@@ -10,6 +10,7 @@ import {
     useRedirect,
     useGetOne,
     useTranslate,
+    TextInput,
 } from 'react-admin';
 import { Typography } from '@material-ui/core';
 import searchToObj from '../utils/searchToObj';
@@ -57,6 +58,11 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 sanitizeEmptyValues={false}
                 initialValues={postDefaultValue()}
             >
+                <TextInput
+                    label="resources.space.fields.space_name"
+                    validate={validateText}
+                    source="space_name"
+                />
                 <ReferenceInput
                     label="resources.space.fields.application"
                     source="application_id"

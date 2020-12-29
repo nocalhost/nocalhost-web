@@ -99,6 +99,11 @@ const SpaceList: FC<ListProps> = (props) => {
                     source="status"
                     sortable={false}
                 />
+                <TextField
+                    label="resources.space.fields.space_name"
+                    source="space_name"
+                    sortable={false}
+                />
                 <ReferenceField
                     label="resources.space.fields.user"
                     source="user_id"

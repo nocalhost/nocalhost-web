@@ -8,6 +8,7 @@ import {
     ListProps,
     ReferenceField,
     Button,
+    EditButton,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
 import KubeConfigButton from '../components/KubeconfigButton';
@@ -23,6 +24,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     source="info.cluster_version"
                     sortable={false}
                 />
+                <TextField source="storage_class" />
                 <TextField
                     label="resources.cluster.fields.nodes_count"
                     source="info.nodes"
@@ -39,6 +41,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                 </ReferenceField>
                 <DateField sortable={false} source="created_at" />
                 <ShowButton />
+                <EditButton />
                 <KubeConfigButton />
                 <SpaceShowButton />
             </Datagrid>

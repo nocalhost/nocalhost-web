@@ -58,6 +58,7 @@ const customChineseMessages: TranslationMessages = {
                 user: '创建者',
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',
+                storage_class: '存储类型',
             },
             tips: { kubeconfig: '如何获取 kubeconfig？' },
             delete: {

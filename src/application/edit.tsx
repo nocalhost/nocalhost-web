@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { useCallback, FC, useEffect, useState } from 'react';
 import {
     Edit,
     SimpleForm,
@@ -8,6 +8,7 @@ import {
     FormDataConsumer,
     Record,
     useTranslate,
+    useDataProvider,
     ArrayInput,
     SimpleFormIterator,
 } from 'react-admin';
@@ -19,6 +20,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     resource: {
         width: '256px',
+    },
+    fullWidth: {
+        width: '100%',
     },
 });
 
@@ -33,6 +37,15 @@ const Title = ({ record }: any) => {
 };
 
 const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
+    const [config, setConfg] = useState('');
+    const dataProvider = useDataProvider();
+    const fetchNHConfig = useCallback(async () => {
+        const { data } = await dataProvider.getNHConfig('config');
+        setConfg(data.template);
+    }, []);
+    useEffect(() => {
+        fetchNHConfig();
+    }, []);
     const classes = useStyles();
     const translate = useTranslate();
     const transform = (data: Record) => {
@@ -105,12 +118,45 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                 </FormDataConsumer>
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
+                        formData.context.source === 'git' && (
+                            <>
+                                <Typography variant="subtitle2" gutterBottom>
+                                    {translate('resources.application.tips.config_path')}
+                                </Typography>
+                                <TextInput
+                                    {...rest}
+                                    label="resources.application.fields.config_path"
+                                    source="context.application_config_path"
+                                    placeholder="config.yaml"
+                                />
+                            </>
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
                         formData.context.source === 'helm_repo' && (
                             <TextInput
                                 {...rest}
                                 label="resources.application.fields.helm_repo_url"
                                 source="context.application_url"
                                 validate={validateText}
+                            />
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
+                        formData.context.source === 'helm_repo' && (
+                            <TextInput
+                                {...rest}
+                                label="resources.application.fields.nocalhost_config"
+                                source="context.nocalhost_config"
+                                multiline
+                                fullWidth={true}
+                                rowsMax={22}
+                                className={classes.fullWidth}
+                                placeholder={config}
                             />
                         )
                     }

@@ -1,14 +1,6 @@
 import React from 'react';
 import { FC } from 'react';
-import {
-    Create,
-    SimpleForm,
-    TextInput,
-    CreateProps,
-    useTranslate,
-    FormDataConsumer,
-} from 'react-admin';
-import StorageClassInput from './storage-class-input';
+import { Create, SimpleForm, TextInput, CreateProps, useTranslate } from 'react-admin';
 import { Base64 } from 'js-base64';
 import { validateText } from '../common/validation';
 import { Typography } from '@material-ui/core';
@@ -17,6 +9,7 @@ const ClusterCreate: FC<CreateProps> = (props) => {
     const transform = (data: any) => ({
         ...data,
         kubeconfig: Base64.encode(data.kubeconfig, false),
+        storage_class: '',
     });
     return (
         <Create {...props} transform={transform}>
@@ -55,9 +48,6 @@ const KubeConfigInput = () => {
                 source="kubeconfig"
                 validate={validateText}
             />
-            <FormDataConsumer>
-                {({ formData, ...rest }) => <StorageClassInput formData={formData} {...rest} />}
-            </FormDataConsumer>
         </>
     );
 };

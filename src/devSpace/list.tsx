@@ -19,17 +19,6 @@ import DateField from '../components/DateField';
 import ResourceLimitField from '../components/ResourceLimitField';
 import SpaceResetButton from '../components/SpaceResetButton';
 
-const StatusField = (record: any) => {
-    const translate = useTranslate();
-    return (
-        <div>
-            {record.status === 1
-                ? translate('resources.devSpace.status.deployed')
-                : translate('resources.devSpace.status.undeployed')}
-        </div>
-    );
-};
-
 const Title = () => {
     const translate = useTranslate();
     const hash = window.location.hash;
@@ -62,11 +51,6 @@ const DevSpaceList: FC<ListProps> = (props) => {
             hasCreate={true}
         >
             <Datagrid>
-                <StatusField
-                    label="resources.devSpace.fields.status"
-                    source="status"
-                    sortable={false}
-                />
                 <TextField
                     label="resources.devSpace.fields.space_name"
                     source="space_name"

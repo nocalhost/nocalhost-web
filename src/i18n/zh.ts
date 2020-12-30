@@ -78,12 +78,17 @@ const customChineseMessages: TranslationMessages = {
                 git_repo_url: 'Git 仓库地址',
                 helm_repo_url: 'Helm 仓库地址',
                 resource_dir: '路径',
+                config_path: '配置文件',
+                nocalhost_config: 'Nocalhost 配置信息',
                 cluster_count: '集群数',
                 status: '状态',
                 user: '创建者',
                 created_at: '创建于',
             },
-            tips: { resource_dir: 'Git 仓库的相对路径' },
+            tips: {
+                resource_dir: 'Git 仓库的相对路径',
+                config_path: '应用配置文件，一般存放于 .nocalhost 目录下',
+            },
         },
         space: {
             name: '开发环境 |||| 开发环境列表',

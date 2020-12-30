@@ -77,12 +77,17 @@ const customEnglishMessages: TranslationMessages = {
                 git_repo_url: 'Git Repo Url',
                 helm_repo_url: 'Helm Repo Url',
                 resource_dir: 'Resource Dir',
+                config_path: 'Config File',
+                nocalhost_config: 'Nocalhost Config',
                 cluster_count: 'Clusters Count',
                 status: 'Status',
                 user: 'Creator',
                 created_at: 'Created At',
             },
-            tips: { resource_dir: 'The relative path of the Git repository' },
+            tips: {
+                resource_dir: 'The relative path of the Git repository',
+                config_path: 'Application config file, basically under the .nocalhost directory',
+            },
         },
         space: {
             name: 'DevSpace |||| DevSpaces',

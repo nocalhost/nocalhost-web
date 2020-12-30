@@ -15,12 +15,17 @@ const StorageClassInput: FC<StorageClassInputProps> = (props: StorageClassInputP
         const options = {
             user: { authenticated: true, token: `Bearer ${token}` },
         };
+        let apiUrl = '';
         // eslint-disable-next-line
         // @ts-ignore
-        const apiUrl = window._env_.API_HOST || window.location.origin;
-        let url;
+        const apiHost = window._env_.API_HOST || window.location.origin;
+        if (apiHost.indexOf('http') >= 0) {
+            apiUrl = apiHost;
+        } else {
+            apiUrl = `http://${apiHost}`;
+        }
         if (props.formData.id) {
-            url = `http://${apiUrl}/v1/cluster/${props.formData.id}/storage_class`;
+            const url = `${apiUrl}/v1/cluster/${props.formData.id}/storage_class`;
             const result = await fetchUtils.fetchJson(url, options).then((result: Result) => {
                 if (result.json.code === 0) {
                     const list = result.json.data.type_name || [];

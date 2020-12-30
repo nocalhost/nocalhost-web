@@ -35,12 +35,18 @@ const SpaceResetButton: FC<DeleteWithConfirmButtonProps> = (
         const options = {
             user: { authenticated: true, token: `Bearer ${token}` },
         };
+        let apiUrl = '';
         // eslint-disable-next-line
         // @ts-ignore
-        const apiUrl = window._env_.API_HOST || window.location.origin;
+        const apiHost = window._env_.API_HOST || window.location.origin;
+        if (apiHost.indexOf('http') >= 0) {
+            apiUrl = apiHost;
+        } else {
+            apiUrl = `http://${apiHost}`;
+        }
         // eslint-disable-next-line
         // @ts-ignore
-        const url = `http://${apiUrl}/v1/dev_space/${record.id}/recreate`;
+        const url = `${apiUrl}/v1/dev_space/${record.id}/recreate`;
         fetchUtils.fetchJson(url, { method: 'POST', ...options }).then((result: Result) => {
             if (result.json.code === 0) {
                 notify('resources.space.reset.successed', 'info');

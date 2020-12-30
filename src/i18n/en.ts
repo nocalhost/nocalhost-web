@@ -85,8 +85,9 @@ const customEnglishMessages: TranslationMessages = {
                 created_at: 'Created At',
             },
             tips: {
-                resource_dir: 'The relative path of the Git repository',
-                config_path: 'Application config file, basically under the .nocalhost directory',
+                resource_dir: 'Specify dirs of manifests(relative path os Git repository)',
+                config_path:
+                    'Specify location of nocalhost config file.(Relative path of .nocalhost dir, default: config.yaml)',
             },
         },
         space: {

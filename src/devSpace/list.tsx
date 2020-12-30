@@ -17,17 +17,7 @@ import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
 import ResourceLimitField from '../components/ResourceLimitField';
-
-const StatusField = (record: any) => {
-    const translate = useTranslate();
-    return (
-        <div>
-            {record.status === 1
-                ? translate('resources.devSpace.status.deployed')
-                : translate('resources.devSpace.status.undeployed')}
-        </div>
-    );
-};
+import SpaceResetButton from '../components/SpaceResetButton';
 
 const Title = () => {
     const translate = useTranslate();
@@ -61,9 +51,9 @@ const DevSpaceList: FC<ListProps> = (props) => {
             hasCreate={true}
         >
             <Datagrid>
-                <StatusField
-                    label="resources.devSpace.fields.status"
-                    source="status"
+                <TextField
+                    label="resources.devSpace.fields.space_name"
+                    source="space_name"
                     sortable={false}
                 />
                 <ReferenceField
@@ -91,6 +81,7 @@ const DevSpaceList: FC<ListProps> = (props) => {
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
+                <SpaceResetButton />
                 <DeleteButton redirect={`/dev_space?cluster=${p.cluster}`} undoable={false} />
             </Datagrid>
         </List>

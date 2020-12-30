@@ -20,6 +20,7 @@ import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
 import ResourceLimitField from '../components/ResourceLimitField';
+import SpaceResetButton from '../components/SpaceResetButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -32,17 +33,6 @@ const ListActions = (props: any) => {
         </TopToolbar>
     );
 };
-
-// const StatusField = (record: any) => {
-//     const translate = useTranslate();
-//     return (
-//         <div>
-//             {record.status === 1
-//                 ? translate('resources.space.status.deployed')
-//                 : translate('resources.space.status.undeployed')}
-//         </div>
-//     );
-// };
 
 const SpaceCreateButton = (record: any) => (
     <Button
@@ -94,11 +84,11 @@ const SpaceList: FC<ListProps> = (props) => {
             actions={<ListActions />}
         >
             <Datagrid>
-                {/* <StatusField
-                    label="resources.space.fields.status"
-                    source="status"
+                <TextField
+                    label="resources.space.fields.space_name"
+                    source="space_name"
                     sortable={false}
-                /> */}
+                />
                 <ReferenceField
                     label="resources.space.fields.user"
                     source="user_id"
@@ -124,6 +114,7 @@ const SpaceList: FC<ListProps> = (props) => {
                 <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
+                <SpaceResetButton />
                 <DeleteButton redirect={`/space?application=${p.application}`} undoable={false} />
             </Datagrid>
         </List>

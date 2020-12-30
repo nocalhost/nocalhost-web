@@ -22,7 +22,7 @@ const Title = ({ record }: any) => {
     return (
         <span>
             {translate('resources.space.name', { smart_count: 1 })}{' '}
-            {record ? `"${record.namespace}"` : ''}
+            {record ? `"${record.space_name}"` : ''}
         </span>
     );
 };
@@ -62,6 +62,7 @@ const SpaceShow: FC<ShowProps> = (props) => {
         <>
             <Show {...props} title={<Title />}>
                 <SimpleShowLayout className={classes.spaceInfo}>
+                    <TextField label="resources.space.fields.space_name" source="space_name" />
                     <ReferenceField
                         label="resources.space.fields.application"
                         source="application_id"

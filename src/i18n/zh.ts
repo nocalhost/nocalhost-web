@@ -58,6 +58,7 @@ const customChineseMessages: TranslationMessages = {
                 user: '创建者',
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',
+                storage_class: '存储类型',
             },
             tips: { kubeconfig: '如何获取 kubeconfig？' },
             delete: {
@@ -93,6 +94,7 @@ const customChineseMessages: TranslationMessages = {
         space: {
             name: '开发环境 |||| 开发环境列表',
             fields: {
+                space_name: '空间名称',
                 status: '状态',
                 user: '所有者',
                 namespace: '命名空间',
@@ -104,6 +106,7 @@ const customChineseMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: '资源限制',
+                reset: '重置',
             },
             actions: {
                 create: '创建环境',
@@ -111,6 +114,13 @@ const customChineseMessages: TranslationMessages = {
                 list: '环境列表',
                 download: '下载 KubeConfig',
                 resource_limit_not_implemented: '资源限制还未实现',
+            },
+            reset: {
+                confirm: {
+                    title: '重置开发空间',
+                    content: '重置开发空间将删除 [%{name}] 命名空间内的所有资源，并重建',
+                },
+                successed: '开始空间重置成功！',
             },
             status: { deployed: '已部署', undeployed: '未部署' },
             empty: { title: '环境列表为空', content: '来创建一个环境' },
@@ -157,6 +167,7 @@ const customChineseMessages: TranslationMessages = {
         devSpace: {
             name: '开发环境 |||| 开发环境列表',
             fields: {
+                space_name: '空间名称',
                 status: '状态',
                 user: '所有者',
                 namespace: '命名空间',

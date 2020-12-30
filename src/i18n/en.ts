@@ -56,6 +56,7 @@ const customEnglishMessages: TranslationMessages = {
                 user: 'Creator',
                 created_at: 'Created At',
                 kubeconfig: 'KubeConfig',
+                storage_class: 'Storage Class',
             },
             tips: { kubeconfig: 'How to get kubeconfig?' },
             delete: {
@@ -92,6 +93,7 @@ const customEnglishMessages: TranslationMessages = {
         space: {
             name: 'DevSpace |||| DevSpaces',
             fields: {
+                space_name: 'Space Name',
                 status: 'Status',
                 user: 'Owner',
                 namespace: 'Namespace',
@@ -103,6 +105,7 @@ const customEnglishMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: 'Resource Limit',
+                reset: 'Reset',
             },
             actions: {
                 create: 'Create Space',
@@ -110,6 +113,14 @@ const customEnglishMessages: TranslationMessages = {
                 list: 'Space List',
                 download: 'Download KubeConfig',
                 resource_limit_not_implemented: 'Resource limit has not been implemented',
+            },
+            reset: {
+                confirm: {
+                    title: 'Reset DevSpace',
+                    content:
+                        'Reset DevSpace will delete [%{name}] namespace resource and create new namespace',
+                },
+                successed: 'Reset DevSpace successed!',
             },
             status: { deployed: 'Deployed', undeployed: 'Not deployed' },
             empty: { title: 'Space is empty', content: 'Create a new Space' },
@@ -161,6 +172,7 @@ const customEnglishMessages: TranslationMessages = {
         devSpace: {
             name: 'DevSpace |||| DevSpaces',
             fields: {
+                space_name: 'Space Name',
                 status: 'Status',
                 user: 'Owner',
                 namespace: 'Namespace',

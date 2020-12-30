@@ -34,6 +34,7 @@ const ClusterShow: FC<ShowProps> = (props) => {
                 />
                 <TextField label="resources.cluster.fields.nodes_count" source="info.nodes" />
                 <KubeConfigField source="kubeconfig" />
+                <TextField source="storage_class" />
                 <DeleteWithConfirmButton
                     confirmTitle={translate('resources.cluster.delete.confirm.title', {
                         name: record && record.name,

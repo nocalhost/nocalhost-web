@@ -7,6 +7,7 @@ import {
     useTranslate,
     fetchUtils,
     useNotify,
+    useRefresh,
 } from 'react-admin';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import classnames from 'classnames';
@@ -30,6 +31,7 @@ const SpaceResetButton: FC<DeleteWithConfirmButtonProps> = (
     });
     const translate = useTranslate();
     const notify = useNotify();
+    const refresh = useRefresh();
     const handleDelete = (event: any) => {
         const token = localStorage.getItem('token');
         const options = {
@@ -54,6 +56,7 @@ const SpaceResetButton: FC<DeleteWithConfirmButtonProps> = (
                 notify(result.json.message, 'error');
             }
             handleDialogClose(event);
+            refresh();
         });
     };
     return (

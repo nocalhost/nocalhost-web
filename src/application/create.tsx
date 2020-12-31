@@ -40,12 +40,12 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
     const transform = (data: Record) => {
         let context = data.context;
         context = { ...context, resource_dir: [context.resource_dir] };
-        if (data.context.source === 'git' && data.context.install_type === 'rawManifest') {
+        if (data.context.source === 'git') {
             context = {
                 ...context,
                 resource_dir:
                     data.dirs && data.dirs.length > 0
-                        ? data.dirs.map((d: { dir: string }) => d.dir)
+                        ? data.dirs.map((d: { dir: string }) => d.dir).filter((dir: string) => dir)
                         : [],
             };
         }
@@ -160,9 +160,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 <TextInput
                                     label="resources.application.fields.resource_dir"
                                     source="context.resource_dir"
-                                    defaultValue="."
                                     className={classes.resource}
-                                    validate={validateText}
                                 />
                             </>
                         )

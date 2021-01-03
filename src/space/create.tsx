@@ -10,6 +10,7 @@ import {
     useRedirect,
     useGetOne,
     useTranslate,
+    TextInput,
 } from 'react-admin';
 import { Typography } from '@material-ui/core';
 import searchToObj from '../utils/searchToObj';
@@ -49,15 +50,23 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     if (!p.application) {
         redirect('/application');
     }
+    const transform = (data: any) => ({
+        ...data,
+        cluster_id: data.cluster_id,
+        cpu: parseInt(data.cpu) || 0,
+        memory: parseInt(data.memory) || 0,
+        user_id: data.user_id,
+        space_name: data.space_name || '',
+    });
     const postDefaultValue = () => ({ application_id: p.application });
-    // TODO: add cpu and memory value no implementation tips
     return (
-        <Create title={<Title application={p.application} />} {...props}>
+        <Create title={<Title application={p.application} />} transform={transform} {...props}>
             <SimpleForm
                 redirect={`/space?application=${p.application}`}
                 sanitizeEmptyValues={false}
                 initialValues={postDefaultValue()}
             >
+                <TextInput label="resources.space.fields.space_name" source="space_name" />
                 <ReferenceInput
                     label="resources.space.fields.application"
                     source="application_id"

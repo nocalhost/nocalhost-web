@@ -1,5 +1,4 @@
-import React from 'react';
-import { FC } from 'react';
+import React, { useCallback, FC, useEffect, useState } from 'react';
 import {
     Create,
     SimpleForm,
@@ -10,6 +9,7 @@ import {
     Record,
     ArrayInput,
     SimpleFormIterator,
+    useDataProvider,
     useTranslate,
 } from 'react-admin';
 import { validateText } from '../common/validation';
@@ -20,20 +20,32 @@ const useStyles = makeStyles({
     resource: {
         width: '256px',
     },
+    fullWidth: {
+        width: '100%',
+    },
 });
 
 const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
+    const [config, setConfg] = useState('');
+    const dataProvider = useDataProvider();
+    const fetchNHConfig = useCallback(async () => {
+        const { data } = await dataProvider.getNHConfig('config');
+        setConfg(data.template);
+    }, []);
+    useEffect(() => {
+        fetchNHConfig();
+    }, []);
     const classes = useStyles();
     const translate = useTranslate();
     const transform = (data: Record) => {
         let context = data.context;
         context = { ...context, resource_dir: [context.resource_dir] };
-        if (data.context.source === 'git' && data.context.install_type === 'rawManifest') {
+        if (data.context.source === 'git') {
             context = {
                 ...context,
                 resource_dir:
                     data.dirs && data.dirs.length > 0
-                        ? data.dirs.map((d: { dir: string }) => d.dir)
+                        ? data.dirs.map((d: { dir: string }) => d.dir).filter((dir: string) => dir)
                         : [],
             };
         }
@@ -94,12 +106,45 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 </FormDataConsumer>
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
+                        formData.context.source === 'git' && (
+                            <>
+                                <Typography variant="subtitle2" gutterBottom>
+                                    {translate('resources.application.tips.config_path')}
+                                </Typography>
+                                <TextInput
+                                    {...rest}
+                                    label="resources.application.fields.config_path"
+                                    source="context.application_config_path"
+                                    placeholder="config.yaml"
+                                />
+                            </>
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
                         formData.context.source === 'helm_repo' && (
                             <TextInput
                                 {...rest}
                                 label="resources.application.fields.helm_repo_url"
                                 source="context.application_url"
                                 validate={validateText}
+                            />
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
+                        formData.context.source === 'helm_repo' && (
+                            <TextInput
+                                {...rest}
+                                label="resources.application.fields.nocalhost_config"
+                                source="context.nocalhost_config"
+                                multiline
+                                fullWidth={true}
+                                rowsMax={22}
+                                className={classes.fullWidth}
+                                placeholder={config}
                             />
                         )
                     }
@@ -115,9 +160,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 <TextInput
                                     label="resources.application.fields.resource_dir"
                                     source="context.resource_dir"
-                                    defaultValue="."
                                     className={classes.resource}
-                                    validate={validateText}
                                 />
                             </>
                         )

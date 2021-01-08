@@ -9,7 +9,6 @@ import {
     useShowController,
     DeleteWithConfirmButton,
 } from 'react-admin';
-import KubeConfigField from '../components/KubeConfigField';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -33,7 +32,6 @@ const ClusterShow: FC<ShowProps> = (props) => {
                     source="info.cluster_version"
                 />
                 <TextField label="resources.cluster.fields.nodes_count" source="info.nodes" />
-                <KubeConfigField source="kubeconfig" />
                 <TextField source="storage_class" />
                 <DeleteWithConfirmButton
                     confirmTitle={translate('resources.cluster.delete.confirm.title', {

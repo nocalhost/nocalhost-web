@@ -58,7 +58,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         user_id: data.user_id,
         space_name: data.space_name || '',
     });
-    const postDefaultValue = () => ({ application_id: p.application });
+    const postDefaultValue = () => ({ application_id: Number(p.application) });
     return (
         <Create title={<Title application={p.application} />} transform={transform} {...props}>
             <SimpleForm

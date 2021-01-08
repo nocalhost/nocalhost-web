@@ -39,7 +39,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
     const translate = useTranslate();
     const transform = (data: Record) => {
         let context = data.context;
-        context = { ...context, resource_dir: [context.resource_dir] };
+        context = { ...context, resource_dir: [] };
         if (data.context.source === 'git') {
             context = {
                 ...context,

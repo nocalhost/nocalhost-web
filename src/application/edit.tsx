@@ -50,7 +50,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
     const translate = useTranslate();
     const transform = (data: Record) => {
         let context = data.context;
-        context = { ...context, resource_dir: [context.resource_dir] };
+        context = { ...context, resource_dir: [] };
         if (data.context.source === 'git') {
             context = {
                 ...context,

@@ -11,7 +11,6 @@ import {
     EditButton,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
-import KubeConfigButton from '../components/KubeconfigButton';
 import DateField from '../components/DateField';
 
 const ClusterList: FC<ListProps> = (props: ListProps) => {
@@ -42,7 +41,6 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                 <DateField sortable={false} source="created_at" />
                 <ShowButton />
                 <EditButton />
-                <KubeConfigButton />
                 <SpaceShowButton />
             </Datagrid>
         </List>

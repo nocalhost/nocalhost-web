@@ -107,6 +107,17 @@ const customChineseMessages: TranslationMessages = {
                 kubeconfig: 'KubeConfig',
                 resource_limit: '资源限制',
                 reset: '重置',
+                requestTotalMem: '请求总内存',
+                requestTotalCPU: '请求总 CPU',
+                limitTotalMem: '限制总内存',
+                limitTotalCPU: '限制总 CPU',
+                PVC_num: 'PVC 个数',
+                storageCapacity: '存储容量',
+                lbNum: 'LoadBalancer 个数',
+                requestMem: '请求内存',
+                requestCPU: '请求 CPU',
+                limitMem: '限制内存',
+                limitCPU: '限制 CPU',
             },
             actions: {
                 create: '创建环境',
@@ -115,6 +126,8 @@ const customChineseMessages: TranslationMessages = {
                 download: '下载 KubeConfig',
                 resource_limit_not_implemented: '资源限制还未实现',
             },
+            devspaceLimitTitle: 'DevSpace 资源限制',
+            containerDefaultTitle: 'Container 默认值',
             reset: {
                 confirm: {
                     title: '重置开发空间',

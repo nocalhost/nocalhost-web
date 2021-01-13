@@ -18,7 +18,7 @@ const customChineseMessages: TranslationMessages = {
         },
         layout: { menu: { home: 'Nocalhost', document: '文档' } },
         dashboard: {
-            welcome: { title: '欢迎使用 Nocalhost', content: 'Nocalhost is Not localhost' },
+            welcome: { title: 'Nocalhost 控制台', content: '管理用户、集群、应用和开发空间。' },
         },
         validation: {
             required: {

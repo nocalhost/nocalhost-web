@@ -16,7 +16,10 @@ const customEnglishMessages: TranslationMessages = {
         },
         layout: { menu: { home: 'Nocalhost', document: 'Documents' } },
         dashboard: {
-            welcome: { title: 'Welcome to the Nocalhost', content: 'Nocalhost is Not localhost' },
+            welcome: {
+                title: 'Nocalhost Web Dashboard',
+                content: 'Manage users, clusters, applications and DevSpaces.',
+            },
         },
         validation: {
             required: {

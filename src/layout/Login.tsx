@@ -175,7 +175,7 @@ const Login = () => {
                     <form onSubmit={handleSubmit} noValidate>
                         <div className={classes.main}>
                             <Typography variant="h1" gutterBottom className={classes.h1}>
-                                Nocalhost Admin
+                                Nocalhost Web Dashboard
                             </Typography>
                             <div className={classes.box}>
                                 <Card className={classes.card}>

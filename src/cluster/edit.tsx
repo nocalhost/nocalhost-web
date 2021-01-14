@@ -10,7 +10,7 @@ const ClusterEdit: FC<EditProps> = (props) => {
         storage_class: data.storage_class ? data.storage_class : '',
     });
     return (
-        <Edit {...props} transform={transform}>
+        <Edit {...props} undoable={false} transform={transform}>
             <SimpleForm redirect="list">
                 <TextInput
                     label="resources.cluster.fields.name"

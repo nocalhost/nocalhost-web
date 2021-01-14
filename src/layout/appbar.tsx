@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
-import { AppBar, useLocale, useSetLocale, UserMenu, useTranslate } from 'react-admin';
+import { AppBar, useLocale, useSetLocale, UserMenu, useTranslate, MenuItemLink } from 'react-admin';
 import { IconButton, Typography, MenuItem, ListItemIcon } from '@material-ui/core';
 import TranslateIcon from '@material-ui/icons/Translate';
 import DescriptionIcon from '@material-ui/icons/Description';
+import UserIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -53,6 +54,15 @@ const Menu = forwardRef<any>((props: any, ref: any) => {
                     {translate('nh.layout.menu.document')}
                 </a>
             </MenuItem>
+            <MenuItemLink
+                className={classes.menuItem}
+                ref={ref}
+                to={`/profile`}
+                primaryText={translate('nh.layout.menu.profile', { smart_count: 2 })}
+                leftIcon={<UserIcon />}
+                dense={false}
+                sidebarIsOpen={false}
+            />
         </>
     );
 });

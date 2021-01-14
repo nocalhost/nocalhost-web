@@ -14,7 +14,7 @@ const customEnglishMessages: TranslationMessages = {
         theme: {
             name: 'Theme',
         },
-        layout: { menu: { home: 'Nocalhost', document: 'Documents' } },
+        layout: { menu: { home: 'Nocalhost', document: 'Documents', profile: 'Profile' } },
         dashboard: {
             welcome: {
                 title: 'Nocalhost Web Dashboard',
@@ -204,6 +204,40 @@ const customEnglishMessages: TranslationMessages = {
             },
             actions: { create: 'Create Space', show: 'Show Space', list: 'Space List' },
             status: { deployed: 'Deployed', undeployed: 'Not deployed' },
+        },
+        myDevSpace: {
+            name: 'DevSpace |||| DevSpaces',
+            fields: {
+                space_name: 'Space Name',
+                status: 'Status',
+                user: 'Owner',
+                namespace: 'Namespace',
+                created_at: 'Created At',
+                cluster: 'Cluster',
+                application: 'Application',
+                resource: 'Resource',
+                cpu: 'CPU',
+                memory: 'Memory',
+                kubeconfig: 'KubeConfig',
+                resource_limit: 'Resource Limit',
+            },
+            actions: { show: 'Show Space', list: 'Space List', download: 'Download KubeConfig' },
+            status: { deployed: 'Deployed', undeployed: 'Not deployed' },
+        },
+        profile: {
+            name: 'Profile',
+            fields: {
+                name: 'Name',
+                email: 'Email',
+                cluster_count: 'Clusters Count',
+                status: 'Status',
+                userType: 'User Type',
+                is_admin: 'Is Admin',
+                password: 'Password',
+                confirm_password: 'Confirm Password',
+            },
+            status: { active: 'Active', inactive: 'Inactive' },
+            userType: { admin: 'Admin', user: 'User' },
         },
     },
 };

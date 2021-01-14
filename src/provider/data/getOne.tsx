@@ -1,4 +1,4 @@
-import searchToObj from '../../utils/searchToObj';
+// import searchToObj from '../../utils/searchToObj';
 import { Result } from '../../types';
 import { GetOneParams } from 'react-admin';
 import { deserializeApplication, deserializeCluster } from './deserialize';
@@ -16,11 +16,11 @@ const getOne = async (
     if (resource === 'cluster') {
         url = `${url}/detail`;
     }
-    if (resource === 'space') {
-        const hash = window.location.hash;
-        const search = hash.substring(hash.indexOf('?'));
-        const p = searchToObj(search);
-        url = `${apiUrl}/cluster/${p.cluster}/dev_space/${params.id}/detail`;
+    if (['myDevSpace', 'space'].includes(resource)) {
+        url = `${apiUrl}/dev_space/${params.id}/detail`;
+    }
+    if (resource === 'profile') {
+        url = `${apiUrl}/me`;
     }
     return httpClient(url, options).then((result: Result) => {
         if (resource === 'cluster') {

@@ -16,7 +16,6 @@ import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
-import ResourceLimitField from '../components/ResourceLimitField';
 import SpaceResetButton from '../components/SpaceResetButton';
 
 const Title = () => {
@@ -78,7 +77,6 @@ const DevSpaceList: FC<ListProps> = (props) => {
                 >
                     <TextField source="context.application_name" />
                 </ReferenceField>
-                <ResourceLimitField sortable={false} />
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />

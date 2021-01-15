@@ -62,7 +62,11 @@ function App() {
                 permissions === 'admin' ? <Resource name="users" {...users} /> : '',
                 permissions === 'admin' ? <Resource name="space" {...space} /> : '',
                 permissions === 'admin' ? <Resource name="dev_space" {...devSpace} /> : '',
-                <Resource name="myDevSpace" {...myDevSpace} key="myDevSpace" />,
+                permissions !== 'admin' ? (
+                    <Resource name="myDevSpace" {...myDevSpace} key="myDevSpace" />
+                ) : (
+                    ''
+                ),
             ]}
         </Admin>
     );

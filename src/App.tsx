@@ -56,12 +56,14 @@ function App() {
             customRoutes={customRoute}
             theme={NhTheme}
         >
-            <Resource name="cluster" {...cluster} />
-            <Resource name="application" {...application} />
-            <Resource name="myDevSpace" {...myDevSpace} />
-            <Resource name="users" {...users} />
-            <Resource name="space" {...space} />
-            <Resource name="dev_space" {...devSpace} />
+            {(permissions) => [
+                permissions === 'admin' ? <Resource name="cluster" {...cluster} /> : '',
+                permissions === 'admin' ? <Resource name="application" {...application} /> : '',
+                permissions === 'admin' ? <Resource name="users" {...users} /> : '',
+                permissions === 'admin' ? <Resource name="space" {...space} /> : '',
+                permissions === 'admin' ? <Resource name="dev_space" {...devSpace} /> : '',
+                <Resource name="myDevSpace" {...myDevSpace} key="myDevSpace" />,
+            ]}
         </Admin>
     );
 }

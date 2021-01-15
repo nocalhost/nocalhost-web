@@ -47,14 +47,16 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
                     />
                 </Box>
             )}
-            <MenuItemLink
-                to={`/myDevSpace`}
-                primaryText={translate('resources.myDevSpace.name', { smart_count: 2 })}
-                leftIcon={<myDevSpace.icon />}
-                onClick={onMenuClick}
-                dense={dense}
-                sidebarIsOpen={false}
-            />
+            {permissions !== 'admin' && (
+                <MenuItemLink
+                    to={`/myDevSpace`}
+                    primaryText={translate('resources.myDevSpace.name', { smart_count: 2 })}
+                    leftIcon={<myDevSpace.icon />}
+                    onClick={onMenuClick}
+                    dense={dense}
+                    sidebarIsOpen={false}
+                />
+            )}
         </Box>
     );
 };

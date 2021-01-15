@@ -6,6 +6,8 @@ import cluster from './cluster';
 import application from './application';
 import devSpace from './devSpace';
 import space from './space';
+import myDevSpace from './myDevSpace';
+import customRoute from './customRoute';
 import Dashboard from './dashboard';
 import { englishMessages, chineseMessages } from './i18n';
 import { auth, data } from './provider';
@@ -51,13 +53,21 @@ function App() {
             authProvider={authProvider}
             dataProvider={dataProvider}
             i18nProvider={i18nProvider}
+            customRoutes={customRoute}
             theme={NhTheme}
         >
-            <Resource name="cluster" {...cluster} />
-            <Resource name="application" {...application} />
-            <Resource name="users" {...users} />
-            <Resource name="space" {...space} />
-            <Resource name="dev_space" {...devSpace} />
+            {(permissions) => [
+                permissions === 'admin' ? <Resource name="cluster" {...cluster} /> : '',
+                permissions === 'admin' ? <Resource name="application" {...application} /> : '',
+                permissions === 'admin' ? <Resource name="users" {...users} /> : '',
+                permissions === 'admin' ? <Resource name="space" {...space} /> : '',
+                permissions === 'admin' ? <Resource name="dev_space" {...devSpace} /> : '',
+                permissions !== 'admin' ? (
+                    <Resource name="myDevSpace" {...myDevSpace} key="myDevSpace" />
+                ) : (
+                    ''
+                ),
+            ]}
         </Admin>
     );
 }

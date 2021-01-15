@@ -16,9 +16,9 @@ const customChineseMessages: TranslationMessages = {
         theme: {
             name: '主题',
         },
-        layout: { menu: { home: 'Nocalhost', document: '文档' } },
+        layout: { menu: { home: 'Nocalhost', document: '文档', profile: '个人信息' } },
         dashboard: {
-            welcome: { title: '欢迎使用 Nocalhost', content: 'Nocalhost is Not localhost' },
+            welcome: { title: 'Nocalhost 控制台', content: '管理用户、集群、应用和开发空间。' },
         },
         validation: {
             required: {
@@ -107,6 +107,17 @@ const customChineseMessages: TranslationMessages = {
                 kubeconfig: 'KubeConfig',
                 resource_limit: '资源限制',
                 reset: '重置',
+                requestTotalMem: '请求总内存',
+                requestTotalCPU: '请求总 CPU',
+                limitTotalMem: '限制总内存',
+                limitTotalCPU: '限制总 CPU',
+                PVC_num: 'PVC 个数',
+                storageCapacity: '存储容量',
+                lbNum: 'LoadBalancer 个数',
+                requestMem: '请求内存',
+                requestCPU: '请求 CPU',
+                limitMem: '限制内存',
+                limitCPU: '限制 CPU',
             },
             actions: {
                 create: '创建环境',
@@ -115,6 +126,8 @@ const customChineseMessages: TranslationMessages = {
                 download: '下载 KubeConfig',
                 resource_limit_not_implemented: '资源限制还未实现',
             },
+            devspaceLimitTitle: 'DevSpace 资源限制',
+            containerDefaultTitle: 'Container 默认值',
             reset: {
                 confirm: {
                     title: '重置开发空间',
@@ -182,6 +195,40 @@ const customChineseMessages: TranslationMessages = {
             },
             actions: { create: '创建环境', show: '环境详情', list: '环境列表' },
             status: { deployed: '已部署', undeployed: '未部署' },
+        },
+        myDevSpace: {
+            name: '开发环境 |||| 开发环境列表',
+            fields: {
+                space_name: '空间名称',
+                status: '状态',
+                user: '所有者',
+                namespace: '命名空间',
+                created_at: '创建于',
+                cluster: '集群',
+                application: '应用',
+                resource: '资源',
+                cpu: 'CPU',
+                memory: 'Memory',
+                kubeconfig: 'KubeConfig',
+                resource_limit: '资源限制',
+            },
+            actions: { create: '创建环境', show: '环境详情', list: '环境列表' },
+            status: { deployed: '已部署', undeployed: '未部署' },
+        },
+        profile: {
+            name: '个人信息',
+            fields: {
+                name: '用户名',
+                email: '邮箱',
+                cluster_count: '集群数量',
+                status: '状态',
+                userType: '用户类型',
+                is_admin: '是否设置为管理员',
+                password: '密码',
+                confirm_password: '确认密码',
+            },
+            status: { active: '开启', inactive: '锁定' },
+            userType: { admin: '管理员', user: '普通用户' },
         },
     },
 };

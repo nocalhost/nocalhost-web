@@ -8,10 +8,10 @@ import {
     useTranslate,
 } from 'react-admin';
 import { Base64 } from 'js-base64';
-import ResourceLimitField from '../components/ResourceLimitField';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Document from './Document';
+import ResourceLimitButton from '../components/ResourceLimitButton';
 
 const useStyles = makeStyles(() => ({
     spaceInfo: { display: 'flex', justifyContent: 'space-between' },
@@ -85,7 +85,7 @@ const SpaceShow: FC<ShowProps> = (props) => {
                     >
                         <TextField source="name" />
                     </ReferenceField>
-                    <ResourceLimitField />
+                    <ResourceLimitButton />
                     <StatusField label="resources.space.fields.status" source="status" />
                     <DownloadButton />
                 </SimpleShowLayout>

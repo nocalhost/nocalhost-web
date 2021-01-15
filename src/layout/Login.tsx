@@ -174,9 +174,11 @@ const Login = () => {
                 render={({ handleSubmit }) => (
                     <form onSubmit={handleSubmit} noValidate>
                         <div className={classes.main}>
-                            <Typography variant="h1" gutterBottom className={classes.h1}>
-                                Nocalhost Admin
-                            </Typography>
+                            <Typography
+                                variant="h1"
+                                gutterBottom
+                                className={classes.h1}
+                            ></Typography>
                             <div className={classes.box}>
                                 <Card className={classes.card}>
                                     <Typography variant="h2" gutterBottom className={classes.title}>

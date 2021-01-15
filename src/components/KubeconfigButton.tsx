@@ -58,6 +58,9 @@ const KubeConfigButton = ({ record, resource }: any) => {
         if (resource === 'dev_space') {
             getResource = 'space';
         }
+        if (resource === 'myDevSpace') {
+            getResource = 'space';
+        }
         const { data } = await dataProvider.getOne(getResource, { id: record.id });
         if (data && data.kubeconfig) {
             setKubeconfig(data.kubeconfig);

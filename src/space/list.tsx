@@ -19,8 +19,8 @@ import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
-import ResourceLimitField from '../components/ResourceLimitField';
 import SpaceResetButton from '../components/SpaceResetButton';
+import ResourceLimitButton from '../components/ResourceLimitButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -111,7 +111,7 @@ const SpaceList: FC<ListProps> = (props) => {
                 >
                     <TextField source="name" />
                 </ReferenceField>
-                <ResourceLimitField sortable={false} />
+                <ResourceLimitButton />
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />

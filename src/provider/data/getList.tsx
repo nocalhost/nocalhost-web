@@ -37,6 +37,10 @@ const getList = async (
         const p = searchToObj(search);
         url = `${apiUrl}/application/${p.application}/dev_space_list`;
     }
+    if (resource === 'myDevSpace') {
+        const id = localStorage.getItem('userId') || '0';
+        url = `${apiUrl}/users/${id}/dev_space_list`;
+    }
 
     return httpClient(url, options).then((result: Result) => {
         const listData = result.json.data;

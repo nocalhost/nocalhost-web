@@ -17,6 +17,8 @@ const CustomToolbar = (props: any) => {
     const dataProvider = useDataProvider();
     const fetchData = useCallback(async (obj) => {
         await dataProvider.update<User>('users', obj);
+        localStorage.setItem('username', obj.data.email);
+        location.reload();
     }, []);
     return (
         <Toolbar {...props} classes={useStyles()}>

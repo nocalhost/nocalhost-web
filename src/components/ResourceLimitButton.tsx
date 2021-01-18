@@ -1,20 +1,39 @@
-import React, { useState } from 'react';
-import { Button, FieldProps, useTranslate } from 'react-admin';
+import React, { useState, useCallback } from 'react';
+import {
+    Button,
+    FieldProps,
+    useTranslate,
+    usePermissions,
+    useDataProvider,
+    SimpleForm,
+    NumberInput,
+    Toolbar,
+    SaveButton,
+} from 'react-admin';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
 import { createStyles, Theme, withStyles, WithStyles, makeStyles } from '@material-ui/core/styles';
 import { get } from 'lodash';
+
+const ResourceLimitTips = ({ title }: any) => {
+    const translate = useTranslate();
+
+    return (
+        <Typography variant="subtitle1" gutterBottom>
+            {translate(title)}
+        </Typography>
+    );
+};
 
 interface ResourceLimitDialogProps {
     open: boolean;
     onClose: () => void;
     resource: any;
+    isAdmin: boolean;
 }
 
 const styles = (theme: Theme) =>
@@ -61,118 +80,98 @@ const useStyles = makeStyles({
     space: {
         margin: '5px 5px',
     },
+    inlineBlock: { display: 'inline-flex', marginRight: '1rem' },
 });
 
 const ResourceLimitDialog = (props: ResourceLimitDialogProps) => {
     const translate = useTranslate();
     const classes = useStyles();
+
+    const CustomToolbar = (props: any) => {
+        const dataProvider = useDataProvider();
+        const updateData = useCallback(async (obj) => {
+            await dataProvider.update('resourceLimit', obj);
+            location.reload();
+        }, []);
+        return (
+            <Toolbar {...props} classes={useStyles()}>
+                <SaveButton
+                    onSave={(values: any) => {
+                        updateData({ id: values.id, data: values, previousData: props.record });
+                    }}
+                />
+            </Toolbar>
+        );
+    };
     return (
-        <Dialog onClose={props.onClose} aria-labelledby="simple-dialog-title" open={props.open}>
+        <Dialog
+            onClose={props.onClose}
+            aria-labelledby="simple-dialog-title"
+            open={props.open}
+            maxWidth="md"
+        >
             <DialogTitle id="customized-dialog-title" onClose={props.onClose}>
                 {translate('resources.space.fields.resource_limit')}
             </DialogTitle>
             <DialogContent dividers>
-                <form noValidate autoComplete="off">
-                    <Box>
-                        <p className={classes.space}>
-                            {translate('resources.space.devspaceLimitTitle')}
-                        </p>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.requestTotalMem')}
-                                disabled
-                                defaultValue={props.resource['space_req_mem'] || ''}
-                            />
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.limitTotalMem')}
-                                disabled
-                                defaultValue={props.resource['space_limits_mem'] || ''}
-                            />
-                        </Box>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.requestTotalCPU')}
-                                disabled
-                                defaultValue={props.resource['space_req_cpu'] || ''}
-                            />
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.limitTotalCPU')}
-                                disabled
-                                defaultValue={props.resource['space_limits_cpu'] || ''}
-                            />
-                        </Box>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.PVC_num')}
-                                disabled
-                                defaultValue={props.resource['space_pvc_count'] || ''}
-                            />
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.storageCapacity')}
-                                disabled
-                                defaultValue={props.resource['space_storage_capacity'] || ''}
-                            />
-                        </Box>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.lbNum')}
-                                disabled
-                                defaultValue={props.resource['space_lb_count'] || ''}
-                            />
-                        </Box>
-                    </Box>
-                    <Box>
-                        <p className={classes.space}>
-                            {translate('resources.space.containerDefaultTitle')}
-                        </p>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.requestMem')}
-                                disabled
-                                defaultValue={props.resource['container_req_mem'] || ''}
-                            />
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.requestCPU')}
-                                disabled
-                                defaultValue={props.resource['container_req_cpu'] || ''}
-                            />
-                        </Box>
-                        <Box>
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.limitMem')}
-                                disabled
-                                defaultValue={props.resource['container_limits_mem'] || ''}
-                            />
-                            <TextField
-                                className={classes.space}
-                                variant="filled"
-                                label={translate('resources.space.fields.limitCPU')}
-                                disabled
-                                defaultValue={props.resource['container_limits_cpu'] || ''}
-                            />
-                        </Box>
-                    </Box>
-                </form>
+                <SimpleForm record={props.resource} toolbar={<CustomToolbar />}>
+                    <ResourceLimitTips title="resources.space.devspaceLimitTitle" />
+                    <NumberInput
+                        label="resources.space.fields.requestTotalMem"
+                        source="space_req_mem"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput
+                        label="resources.space.fields.limitTotalMem"
+                        source="space_limits_mem"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <div />
+                    <NumberInput
+                        label="resources.space.fields.requestTotalCPU"
+                        source="space_req_cpu"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput
+                        label="resources.space.fields.limitTotalCPU"
+                        source="space_limits_cpu"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <div />
+                    <NumberInput
+                        label="resources.space.fields.PVC_num"
+                        source="space_pvc_count"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput
+                        label="resources.space.fields.storageCapacity"
+                        source="space_storage_capacity"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput label="resources.space.fields.lbNum" source="space_lb_count" />
+                    <ResourceLimitTips title="resources.space.containerDefaultTitle" />
+                    <NumberInput
+                        label="resources.space.fields.requestMem"
+                        source="container_req_mem"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput
+                        label="resources.space.fields.requestCPU"
+                        source="container_req_cpu"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <div />
+                    <NumberInput
+                        label="resources.space.fields.limitMem"
+                        source="container_limits_mem"
+                        formClassName={classes.inlineBlock}
+                    />
+                    <NumberInput
+                        label="resources.space.fields.limitCPU"
+                        source="container_limits_cpu"
+                        formClassName={classes.inlineBlock}
+                    />
+                </SimpleForm>
             </DialogContent>
         </Dialog>
     );
@@ -180,13 +179,22 @@ const ResourceLimitDialog = (props: ResourceLimitDialogProps) => {
 
 const ResourceLimitButton = (props: FieldProps) => {
     const [open, setOpen] = useState(false);
+    const { permissions } = usePermissions();
     const { record } = props;
     const resourceLimitStr = get(record, 'space_resource_limit' || '{}');
-    let resourceLimit = {};
+    let resourceLimit: any = {};
     if (typeof resourceLimitStr !== 'string') {
         resourceLimit = resourceLimitStr;
     } else {
         resourceLimit = JSON.parse(resourceLimitStr || '{}');
+    }
+    resourceLimit['id'] = get(record, 'id');
+    const reg = /([0-9.]+)[MG]i/g;
+    for (const key in resourceLimit) {
+        if (Object.prototype.hasOwnProperty.call(resourceLimit, key)) {
+            const value = `${resourceLimit[key]}`;
+            resourceLimit[key] = value.replace(reg, '$1');
+        }
     }
 
     const handleClickOpen = () => {
@@ -197,8 +205,16 @@ const ResourceLimitButton = (props: FieldProps) => {
     };
     return (
         <>
-            <ResourceLimitDialog onClose={handleClose} open={open} resource={resourceLimit} />
-            <Button onClick={handleClickOpen} label={'ra.action.show'} />
+            <ResourceLimitDialog
+                onClose={handleClose}
+                open={open}
+                resource={resourceLimit}
+                isAdmin={permissions === 'admin'}
+            />
+            <Button
+                onClick={handleClickOpen}
+                label={permissions === 'admin' ? 'ra.action.edit' : 'ra.action.show'}
+            />
         </>
     );
 };

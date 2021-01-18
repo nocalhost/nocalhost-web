@@ -1,6 +1,32 @@
 import { UpdateParams } from 'react-admin';
 import { Result } from '../../types';
 
+const formatResourceLimit = (obj: any, key: string) => {
+    const value = obj[key];
+    function getUnit(key: string) {
+        const Mi = [
+            'space_limits_mem',
+            'container_limits_mem',
+            'container_req_mem',
+            'space_req_mem',
+        ];
+        const Gi = ['space_storage_capacity'];
+        let unit = '';
+        if (Mi.includes(key)) {
+            unit = 'Mi';
+        } else if (Gi.includes(key)) {
+            unit = 'Gi';
+        }
+
+        return unit;
+    }
+    if (value !== undefined && value !== null && value !== '') {
+        obj[key] = `${value}${getUnit(key)}`;
+    } else {
+        delete obj[key];
+    }
+};
+
 const update = async (
     apiUrl: string,
     httpClient: (url: any, options?: any) => Promise<any>,
@@ -10,7 +36,19 @@ const update = async (
     const options = {
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
     };
-    return httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    let url = `${apiUrl}/${resource}/${params.id}`;
+    if (resource === 'resourceLimit') {
+        url = `${apiUrl}/dev_space/${params.id}/update_resource_limit`;
+        delete params.data.id;
+        const resourceLimit = params.data;
+        for (const key in resourceLimit) {
+            if (Object.prototype.hasOwnProperty.call(resourceLimit, key)) {
+                formatResourceLimit(resourceLimit, key);
+            }
+        }
+    }
+
+    return httpClient(url, {
         method: 'PUT',
         body: JSON.stringify(params.data),
         ...options,

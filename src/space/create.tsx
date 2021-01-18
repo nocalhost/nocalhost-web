@@ -49,9 +49,9 @@ const useStyles = makeStyles({
     inlineBlock: { display: 'inline-flex', marginRight: '1rem' },
 });
 
-const reg = /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/;
+const reg = /^([0-9.]+)$/;
 
-const validateMemOrCPU = regex(reg, 'Must be a valid value');
+const validate = regex(reg, 'Must be a valid value');
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     const hash = window.location.hash;
@@ -117,10 +117,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.requestTotalMem"
                                 source="space_resource_limit.space_req_mem"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -129,10 +129,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.limitTotalMem"
                                 source="space_resource_limit.space_limits_mem"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -142,10 +142,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.requestTotalCPU"
                                 source="space_resource_limit.space_req_cpu"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -154,10 +154,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.limitTotalCPU"
                                 source="space_resource_limit.space_limits_cpu"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -178,9 +178,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.storageCapacity"
                                 source="space_resource_limit.space_storage_capacity"
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -210,10 +211,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.requestMem"
                                 source="space_resource_limit.container_req_mem"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -222,10 +223,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.requestCPU"
                                 source="space_resource_limit.container_req_cpu"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -235,10 +236,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.limitMem"
                                 source="space_resource_limit.container_limits_mem"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )
@@ -247,10 +248,10 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer formClassName={classes.inlineBlock}>
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
-                            <TextInput
+                            <NumberInput
                                 label="resources.space.fields.limitCPU"
                                 source="space_resource_limit.container_limits_cpu"
-                                validate={validateMemOrCPU}
+                                validate={validate}
                                 {...rest}
                             />
                         )

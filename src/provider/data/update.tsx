@@ -20,8 +20,10 @@ const formatResourceLimit = (obj: any, key: string) => {
 
         return unit;
     }
-    if (value !== undefined || value !== null) {
+    if (value !== undefined && value !== null && value !== '') {
         obj[key] = `${value}${getUnit(key)}`;
+    } else {
+        delete obj[key];
     }
 };
 

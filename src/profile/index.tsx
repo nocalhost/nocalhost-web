@@ -11,6 +11,7 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    inlineBlock: { display: 'inline-flex', marginRight: '1rem' },
 });
 
 const CustomToolbar = (props: any) => {
@@ -71,17 +72,20 @@ const Profile: FC = () => {
         }
         return errors;
     };
+    const classes = useStyles();
     return (
         <SimpleForm validate={validateUserUpdate} toolbar={<CustomToolbar />} record={user}>
             <TextInput
                 source="email"
                 validate={validateEmail}
                 label="resources.profile.fields.email"
+                className={classes.inlineBlock}
             />
             <TextInput
                 source="name"
                 validate={validateText}
                 label="resources.profile.fields.name"
+                className={classes.inlineBlock}
             />
             <PasswordInput source="password" label="resources.profile.fields.password" />
             <PasswordInput

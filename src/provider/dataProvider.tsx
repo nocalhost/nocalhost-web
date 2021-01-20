@@ -1,7 +1,19 @@
-import { fetchUtils, DataProvider } from 'react-admin';
+import { fetchUtils, DataProvider, HttpError } from 'react-admin';
 import data from './data';
 
-export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider => {
+const timeout: number = 5000;
+const httpClient = function (url: any, options?: fetchUtils.Options | undefined) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(
+                new HttpError('Request timeout, please check your networks and try again.', 405)
+            );
+        }, timeout);
+        fetchUtils.fetchJson(url, options).then(resolve, reject);
+    });
+};
+
+export default (apiUrl: string): DataProvider => {
     return {
         getList: (resource, params) => data.getList(apiUrl, httpClient, resource, params),
         getOne: (resource, params) => data.getOne(apiUrl, httpClient, resource, params),

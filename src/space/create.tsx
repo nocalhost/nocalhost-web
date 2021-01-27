@@ -224,8 +224,8 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
                             <NumberInput
-                                label="resources.space.fields.requestCPU"
-                                source="space_resource_limit.container_req_cpu"
+                                label="resources.space.fields.limitMem"
+                                source="space_resource_limit.container_limits_mem"
                                 validate={validate}
                                 {...rest}
                             />
@@ -237,8 +237,8 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                     {({ formData, ...rest }) =>
                         formData.isLimit && (
                             <NumberInput
-                                label="resources.space.fields.limitMem"
-                                source="space_resource_limit.container_limits_mem"
+                                label="resources.space.fields.requestCPU"
+                                source="space_resource_limit.container_req_cpu"
                                 validate={validate}
                                 {...rest}
                             />

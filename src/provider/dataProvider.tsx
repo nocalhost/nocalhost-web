@@ -6,7 +6,7 @@ const httpClient = function (url: any, options?: fetchUtils.Options | undefined)
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             reject(
-                new HttpError('Request timeout, please check your networks and try again.', 405)
+                new HttpError('Request timeout, please check your networks and try again.', 408)
             );
         }, timeout);
         fetchUtils.fetchJson(url, options).then(resolve, reject);

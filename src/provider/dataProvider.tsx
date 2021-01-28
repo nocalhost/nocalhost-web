@@ -2,7 +2,15 @@ import { fetchUtils, DataProvider, HttpError } from 'react-admin';
 import data from './data';
 
 const timeout: number = 5000;
-const httpClient = function (url: any, options?: fetchUtils.Options | undefined) {
+const withTimeout = function (
+    url: any,
+    options?: fetchUtils.Options | undefined
+): Promise<{
+    status: number;
+    headers: Headers;
+    body: string;
+    json: any;
+}> {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             reject(
@@ -13,7 +21,15 @@ const httpClient = function (url: any, options?: fetchUtils.Options | undefined)
     });
 };
 
-export default (apiUrl: string): DataProvider => {
+async function fetchJson(url: any, options?: fetchUtils.Options | undefined) {
+    const res = await withTimeout(url, options);
+    if (res && res.json && res.json.code === 20103) {
+        return Promise.reject(new HttpError('Invalid token.', 403));
+    }
+    return res;
+}
+
+export default (apiUrl: string, httpClient = fetchJson): DataProvider => {
     return {
         getList: (resource, params) => data.getList(apiUrl, httpClient, resource, params),
         getOne: (resource, params) => data.getOne(apiUrl, httpClient, resource, params),

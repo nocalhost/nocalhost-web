@@ -156,14 +156,14 @@ const ResourceLimitDialog = (props: ResourceLimitDialogProps) => {
                         formClassName={classes.inlineBlock}
                     />
                     <NumberInput
-                        label="resources.space.fields.requestCPU"
-                        source="container_req_cpu"
+                        label="resources.space.fields.limitMem"
+                        source="container_limits_mem"
                         formClassName={classes.inlineBlock}
                     />
                     <div />
                     <NumberInput
-                        label="resources.space.fields.limitMem"
-                        source="container_limits_mem"
+                        label="resources.space.fields.requestCPU"
+                        source="container_req_cpu"
                         formClassName={classes.inlineBlock}
                     />
                     <NumberInput

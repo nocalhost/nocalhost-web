@@ -1,10 +1,30 @@
-import { fetchUtils, DataProvider } from 'react-admin';
+import { fetchUtils, DataProvider, HttpError } from 'react-admin';
 import data from './data';
 
+const timeout: number = 5000;
+const withTimeout = function (
+    url: any,
+    options?: fetchUtils.Options | undefined
+): Promise<{
+    status: number;
+    headers: Headers;
+    body: string;
+    json: any;
+}> {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(
+                new HttpError('Request timeout, please check your networks and try again.', 408)
+            );
+        }, timeout);
+        fetchUtils.fetchJson(url, options).then(resolve, reject);
+    });
+};
+
 async function fetchJson(url: any, options?: fetchUtils.Options | undefined) {
-    const res = await fetchUtils.fetchJson(url, options);
+    const res = await withTimeout(url, options);
     if (res && res.json && res.json.code === 20103) {
-        return Promise.reject({ status: 403, msg: 'invalid token' });
+        return Promise.reject(new HttpError('Invalid token.', 403));
     }
     return res;
 }

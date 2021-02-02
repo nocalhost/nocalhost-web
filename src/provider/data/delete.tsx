@@ -1,4 +1,5 @@
 import { DeleteParams } from 'react-admin';
+import { REQUEST_TIMEOUT } from '../../constants';
 
 const deleteMethod = async (
     apiUrl: string,
@@ -15,6 +16,7 @@ const deleteMethod = async (
     }
     return httpClient(`${url}`, {
         method: 'DELETE',
+        timeout: resource === 'cluster' ? REQUEST_TIMEOUT : 0,
         ...options,
     }).then(({ json }) => ({ data: json }));
 };

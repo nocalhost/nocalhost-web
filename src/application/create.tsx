@@ -157,11 +157,18 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 <Typography variant="subtitle2" gutterBottom>
                                     {translate('resources.application.tips.resource_dir')}
                                 </Typography>
-                                <TextInput
+                                <ArrayInput
+                                    source="dirs"
                                     label="resources.application.fields.resource_dir"
-                                    source="context.resource_dir"
-                                    className={classes.resource}
-                                />
+                                >
+                                    <SimpleFormIterator>
+                                        <TextInput
+                                            label="resources.application.fields.resource_dir"
+                                            source="dir"
+                                            defaultValue="."
+                                        />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
                             </>
                         )
                     }

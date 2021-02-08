@@ -1,10 +1,14 @@
 import { fetchUtils, DataProvider, HttpError } from 'react-admin';
 import data from './data';
+import { REQUEST_TIMEOUT } from '../constants';
 
-const timeout: number = 5000;
+export interface IRequestOptions extends fetchUtils.Options {
+    timeout?: number;
+}
+
 const withTimeout = function (
     url: any,
-    options?: fetchUtils.Options | undefined
+    options?: IRequestOptions | undefined
 ): Promise<{
     status: number;
     headers: Headers;
@@ -16,13 +20,18 @@ const withTimeout = function (
             reject(
                 new HttpError('Request timeout, please check your networks and try again.', 408)
             );
-        }, timeout);
+        }, REQUEST_TIMEOUT);
         fetchUtils.fetchJson(url, options).then(resolve, reject);
     });
 };
 
-async function fetchJson(url: any, options?: fetchUtils.Options | undefined) {
-    const res = await withTimeout(url, options);
+async function fetchJson(url: any, options?: IRequestOptions | undefined) {
+    let res;
+    if (options && options.timeout) {
+        res = await withTimeout(url, options);
+    } else {
+        res = await fetchUtils.fetchJson(url, options);
+    }
     if (res && res.json && res.json.code === 20103) {
         return Promise.reject(new HttpError('Invalid token.', 403));
     }

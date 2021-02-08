@@ -49,6 +49,12 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                         : [],
             };
         }
+        if (data.context.source === 'local') {
+            context = {
+                ...context,
+                application_url: ' ',
+            };
+        }
         // eslint-disable-next-line
         // @ts-ignore
         const result: Record = {
@@ -73,6 +79,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                     choices={[
                         { id: 'git', name: 'Git' },
                         { id: 'helm_repo', name: 'Helm Repo' },
+                        { id: 'local', name: 'Local' },
                     ]}
                 />
                 <FormDataConsumer>
@@ -87,6 +94,23 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 choices={[
                                     { id: 'rawManifest', name: 'Manifest' },
                                     { id: 'helm_chart', name: 'Helm Chart' },
+                                ]}
+                            />
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
+                        formData.context.source === 'local' && (
+                            <SelectInput
+                                validate={validateText}
+                                {...rest}
+                                label="resources.application.fields.install_type"
+                                source="context.install_type"
+                                initialValue="rawManifest"
+                                choices={[
+                                    { id: 'rawManifestLocal', name: 'Manifest' },
+                                    { id: 'helmLocal', name: 'Helm Chart' },
                                 ]}
                             />
                         )
@@ -157,11 +181,18 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 <Typography variant="subtitle2" gutterBottom>
                                     {translate('resources.application.tips.resource_dir')}
                                 </Typography>
-                                <TextInput
+                                <ArrayInput
+                                    source="dirs"
                                     label="resources.application.fields.resource_dir"
-                                    source="context.resource_dir"
-                                    className={classes.resource}
-                                />
+                                >
+                                    <SimpleFormIterator>
+                                        <TextInput
+                                            label="resources.application.fields.resource_dir"
+                                            source="dir"
+                                            defaultValue="."
+                                        />
+                                    </SimpleFormIterator>
+                                </ArrayInput>
                             </>
                         )
                     }

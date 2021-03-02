@@ -55,7 +55,7 @@ const customEnglishMessages: TranslationMessages = {
                 cluster_version: 'Cluster Version',
                 status: 'Is Ready',
                 nodes_count: 'Nodes Count',
-                users_count: 'Users Count',
+                users_count: 'DevSpaces Count',
                 user: 'Creator',
                 created_at: 'Created At',
                 kubeconfig: 'KubeConfig',

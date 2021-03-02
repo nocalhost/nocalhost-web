@@ -92,6 +92,8 @@ const customEnglishMessages: TranslationMessages = {
                 resource_dir: 'Specify dirs of manifests(relative path os Git repository)',
                 config_path:
                     'Specify location of nocalhost config file.(Relative path of .nocalhost dir, default: config.yaml)',
+                helm_repo: 'Application name will be used for release name',
+                helm_chart_name: 'Name will be used for chart name',
             },
         },
         space: {

@@ -63,14 +63,24 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
         };
         return result;
     };
+    const postDefaultValue = () => ({ context: { source: 'git' } });
     return (
         <Create {...props} transform={transform}>
-            <SimpleForm redirect="list">
+            <SimpleForm redirect="list" initialValues={postDefaultValue()}>
                 <TextInput
                     label="resources.application.fields.application_name"
                     source="context.application_name"
                     validate={validateText}
                 />
+                <FormDataConsumer>
+                    {({ formData }) =>
+                        formData.context.source === 'helm_repo' && (
+                            <Typography variant="subtitle2" gutterBottom>
+                                {translate('resources.application.tips.helm_repo')}
+                            </Typography>
+                        )
+                    }
+                </FormDataConsumer>
                 <SelectInput
                     source="context.source"
                     label="resources.application.fields.source"
@@ -160,16 +170,21 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
                         formData.context.source === 'helm_repo' && (
-                            <TextInput
-                                {...rest}
-                                label="resources.application.fields.nocalhost_config"
-                                source="context.nocalhost_config"
-                                multiline
-                                fullWidth={true}
-                                rowsMax={22}
-                                className={classes.fullWidth}
-                                placeholder={config}
-                            />
+                            <>
+                                <TextInput
+                                    {...rest}
+                                    label="resources.application.fields.nocalhost_config"
+                                    source="context.nocalhost_config"
+                                    multiline
+                                    fullWidth={true}
+                                    rowsMax={22}
+                                    className={classes.fullWidth}
+                                    placeholder={config}
+                                />
+                                <Typography variant="subtitle2" gutterBottom>
+                                    {translate('resources.application.tips.helm_chart_name')}
+                                </Typography>
+                            </>
                         )
                     }
                 </FormDataConsumer>

@@ -54,7 +54,7 @@ const customChineseMessages: TranslationMessages = {
                 cluster_version: '集群版本',
                 status: '是否可用',
                 nodes_count: '节点数量',
-                users_count: '用户数量',
+                users_count: 'DevSpace 数量',
                 user: '创建者',
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',

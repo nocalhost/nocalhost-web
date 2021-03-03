@@ -18,6 +18,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, Theme, withStyles, WithStyles, makeStyles } from '@material-ui/core/styles';
 import { get } from 'lodash';
+import {
+    cpuLimitValidate,
+    cpuReqValidate,
+    memLimitValidate,
+    memReqValidate,
+} from '../space/validation';
 
 const ResourceLimitTips = ({ title }: any) => {
     const translate = useTranslate();
@@ -154,22 +160,26 @@ const ResourceLimitDialog = (props: ResourceLimitDialogProps) => {
                         label="resources.space.fields.requestMem"
                         source="container_req_mem"
                         formClassName={classes.inlineBlock}
+                        validate={memReqValidate}
                     />
                     <NumberInput
                         label="resources.space.fields.limitMem"
                         source="container_limits_mem"
                         formClassName={classes.inlineBlock}
+                        validate={memLimitValidate}
                     />
                     <div />
                     <NumberInput
                         label="resources.space.fields.requestCPU"
                         source="container_req_cpu"
                         formClassName={classes.inlineBlock}
+                        validate={cpuReqValidate}
                     />
                     <NumberInput
                         label="resources.space.fields.limitCPU"
                         source="container_limits_cpu"
                         formClassName={classes.inlineBlock}
+                        validate={cpuLimitValidate}
                     />
                 </SimpleForm>
             </DialogContent>

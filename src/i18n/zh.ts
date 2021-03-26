@@ -54,7 +54,7 @@ const customChineseMessages: TranslationMessages = {
                 cluster_version: '集群版本',
                 status: '是否可用',
                 nodes_count: '节点数量',
-                users_count: '用户数量',
+                users_count: 'DevSpace 数量',
                 user: '创建者',
                 created_at: '创建于',
                 kubeconfig: 'KubeConfig',
@@ -89,6 +89,8 @@ const customChineseMessages: TranslationMessages = {
             tips: {
                 resource_dir: 'Git 仓库的相对路径',
                 config_path: '应用配置文件，一般存放于 .nocalhost 目录下',
+                helm_repo: '应用名称将用作 release 名称',
+                helm_chart_name: '配置名称将用作 chart 名称',
             },
         },
         space: {

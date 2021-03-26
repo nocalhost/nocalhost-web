@@ -13,9 +13,23 @@ import {
 import { Link } from 'react-router-dom';
 import DateField from '../components/DateField';
 
-const SourceField = ({ record }: any) => (
-    <div>{record.context.source === 'git' ? 'Git' : 'Helm'}</div>
-);
+const SourceField = ({ record }: any) => <div>{getSourceType(record.context.source)}</div>;
+
+function getSourceType(source: string) {
+    let type = '';
+    switch (source) {
+        case 'git':
+            type = 'Git';
+            break;
+        case 'local':
+            type = 'Local';
+            break;
+        default:
+            type = 'Helm';
+    }
+
+    return type;
+}
 
 const ApplicationList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>

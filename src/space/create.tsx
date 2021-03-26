@@ -20,6 +20,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import searchToObj from '../utils/searchToObj';
 import { validateText } from '../common/validation';
+import { cpuLimitValidate, cpuReqValidate, memLimitValidate, memReqValidate } from './validation';
 
 const Title = ({ application }: any) => {
     const translate = useTranslate();
@@ -214,7 +215,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                             <NumberInput
                                 label="resources.space.fields.requestMem"
                                 source="space_resource_limit.container_req_mem"
-                                validate={validate}
+                                validate={memReqValidate}
                                 {...rest}
                             />
                         )
@@ -226,7 +227,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                             <NumberInput
                                 label="resources.space.fields.limitMem"
                                 source="space_resource_limit.container_limits_mem"
-                                validate={validate}
+                                validate={memLimitValidate}
                                 {...rest}
                             />
                         )
@@ -239,7 +240,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                             <NumberInput
                                 label="resources.space.fields.requestCPU"
                                 source="space_resource_limit.container_req_cpu"
-                                validate={validate}
+                                validate={cpuReqValidate}
                                 {...rest}
                             />
                         )
@@ -251,7 +252,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                             <NumberInput
                                 label="resources.space.fields.limitCPU"
                                 source="space_resource_limit.container_limits_cpu"
-                                validate={validate}
+                                validate={cpuLimitValidate}
                                 {...rest}
                             />
                         )

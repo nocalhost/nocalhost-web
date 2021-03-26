@@ -38,7 +38,7 @@ const customEnglishMessages: TranslationMessages = {
             fields: {
                 name: 'Name',
                 email: 'Email',
-                cluster_count: 'Devspace Count',
+                cluster_count: 'DevSpaces Count',
                 status: 'Status',
                 userType: 'User Type',
                 is_admin: 'Is Admin',

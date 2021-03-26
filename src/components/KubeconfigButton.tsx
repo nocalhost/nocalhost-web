@@ -56,10 +56,10 @@ const KubeConfigButton = ({ record, resource }: any) => {
     const fetchKubeconfig = async () => {
         let getResource = resource;
         if (resource === 'dev_space') {
-            getResource = 'space';
+            getResource = 'devspace';
         }
         if (resource === 'myDevSpace') {
-            getResource = 'space';
+            getResource = 'devspace';
         }
         const { data } = await dataProvider.getOne(getResource, { id: record.id });
         if (data && data.kubeconfig) {

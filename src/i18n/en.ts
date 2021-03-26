@@ -95,6 +95,20 @@ const customEnglishMessages: TranslationMessages = {
                 helm_repo: 'Application name will be used for release name',
                 helm_chart_name: 'Name will be used for chart name',
             },
+            auth: {
+                bt: {
+                    public: 'PUBLIC',
+                    private: 'PRIVATE',
+                    auth: 'AUTHORIZATION',
+                    add: 'add',
+                    delete: 'delete',
+                    return: 'return',
+                },
+                fields: {
+                    name: 'name',
+                    email: 'email',
+                },
+            },
         },
         space: {
             name: 'DevSpace |||| DevSpaces',

@@ -11,7 +11,7 @@ import {
 import users from '../users';
 import clusters from '../cluster';
 import applications from '../application';
-import myDevSpace from '../myDevSpace';
+import space from '../space';
 
 const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
     const translate = useTranslate();
@@ -37,26 +37,24 @@ const Menu: FC<MenuProps> = ({ onMenuClick, dense = false }: MenuProps) => {
                         dense={dense}
                         sidebarIsOpen={false}
                     />
-                    <MenuItemLink
-                        to={`/application`}
-                        primaryText={translate('resources.application.name', { smart_count: 2 })}
-                        leftIcon={<applications.icon />}
-                        onClick={onMenuClick}
-                        dense={dense}
-                        sidebarIsOpen={false}
-                    />
                 </Box>
             )}
-            {permissions !== 'admin' && (
-                <MenuItemLink
-                    to={`/myDevSpace`}
-                    primaryText={translate('resources.myDevSpace.name', { smart_count: 2 })}
-                    leftIcon={<myDevSpace.icon />}
-                    onClick={onMenuClick}
-                    dense={dense}
-                    sidebarIsOpen={false}
-                />
-            )}
+            <MenuItemLink
+                to={`/application`}
+                primaryText={translate('resources.application.name', { smart_count: 2 })}
+                leftIcon={<applications.icon />}
+                onClick={onMenuClick}
+                dense={dense}
+                sidebarIsOpen={false}
+            />
+            <MenuItemLink
+                to={`/devspace`}
+                primaryText={translate('resources.space.name', { smart_count: 2 })}
+                leftIcon={<space.icon />}
+                onClick={onMenuClick}
+                dense={dense}
+                sidebarIsOpen={false}
+            />
         </Box>
     );
 };

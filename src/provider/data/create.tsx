@@ -34,7 +34,7 @@ const create = async (
     const options = {
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
     };
-    if (resource === 'space') {
+    if (resource === 'devspace') {
         if (!params.data.isLimit) {
             params.data['space_resource_limit'] = {};
         } else {
@@ -45,7 +45,7 @@ const create = async (
                 }
             }
         }
-        return httpClient(`${apiUrl}/application/${params.data.application_id}/create_space`, {
+        return httpClient(`${apiUrl}/dev_space`, {
             method: 'POST',
             body: JSON.stringify(params.data),
             ...options,

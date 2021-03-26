@@ -1,5 +1,8 @@
 import React from 'react';
 import { FC } from 'react';
+import { LockOpen, Lock, PersonAdd } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import {
     List,
     Datagrid,
@@ -8,9 +11,12 @@ import {
     EditButton,
     ShowButton,
     ListProps,
-    Button,
+    useTranslate,
+    useDataProvider,
+    useRefresh,
+    usePermissions,
 } from 'react-admin';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import DateField from '../components/DateField';
 
 const SourceField = ({ record }: any) => <div>{getSourceType(record.context.source)}</div>;
@@ -31,54 +37,123 @@ function getSourceType(source: string) {
     return type;
 }
 
-const ApplicationList: FC<ListProps> = (props) => (
-    <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
-        <Datagrid>
-            <TextField
-                label="resources.application.fields.application_name"
-                source="context.application_name"
-                sortable={false}
-            />
-            <SourceField
-                label="resources.application.fields.source"
-                source="context.source"
-                sortable={false}
-            />
-            <ReferenceField
-                label="resources.application.fields.user"
-                source="user_id"
-                reference="users"
-                sortable={false}
-            >
-                <TextField source="name" />
-            </ReferenceField>
-            <DateField sortable={false} source="created_at" />
-            <ShowButton />
-            <EditButton />
-            <SpaceListButton />
-            <SpaceCreateButton />
-        </Datagrid>
-    </List>
-);
+const useStyles = makeStyles({
+    bt: {
+        color: '#6f38ff',
+    },
+});
 
-const SpaceCreateButton = ({ record }: any) => (
-    <Button
-        to={`space/create?application=${record.id}`}
-        label={'resources.space.actions.create'}
-        onClick={(e) => e.stopPropagation()}
-        component={Link}
-    />
-);
+const ApplicationList: FC<ListProps> = (props) => {
+    const { permissions } = usePermissions();
+    const dataProvider = useDataProvider();
+    const refresh = useRefresh();
+    async function authApp(appId: string, ispublic: boolean) {
+        await dataProvider.authApp(appId, ispublic);
+        refresh();
+    }
 
-const SpaceListButton = ({ record }: any) => {
     return (
-        <Button
-            to={`space?application=${record.id}`}
-            label={'resources.space.actions.list'}
-            onClick={(e) => e.stopPropagation()}
-            component={Link}
-        />
+        <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
+            <Datagrid>
+                <TextField
+                    label="resources.application.fields.application_name"
+                    source="context.application_name"
+                    sortable={false}
+                />
+                <SourceField
+                    label="resources.application.fields.source"
+                    source="context.source"
+                    sortable={false}
+                />
+                {permissions === 'admin' && (
+                    <ReferenceField
+                        label="resources.application.fields.user"
+                        source="user_id"
+                        reference="users"
+                        sortable={false}
+                    >
+                        <TextField source="name" />
+                    </ReferenceField>
+                )}
+                <DateField sortable={false} source="created_at" />
+                <ShowButton />
+                <MyEditButton />
+                <PermissionAdd permissions={permissions} />
+                <IsPublicButton permissions={permissions} authApp={authApp} />
+            </Datagrid>
+        </List>
     );
 };
+
+const MyEditButton = (props: any) => {
+    return <EditButton {...props} disabled={!props.record.editable} />;
+};
+
+const IsPublicButton = ({ record, authApp, permissions }: any) => {
+    const translate = useTranslate();
+    const classes = useStyles();
+    if (record.public) {
+        return (
+            <Button
+                onClick={() => authApp(record.id, false)}
+                disabled={!record.editable || permissions !== 'admin'}
+                className={classes.bt}
+                startIcon={<LockOpen />}
+            >
+                {translate('resources.application.auth.bt.public')}
+            </Button>
+        );
+    }
+    return (
+        <Button
+            onClick={() => authApp(record.id, true)}
+            disabled={!record.editable || permissions !== 'admin'}
+            className={classes.bt}
+            startIcon={<Lock />}
+        >
+            {translate('resources.application.auth.bt.private')}
+        </Button>
+    );
+};
+
+const PermissionAdd = (props: any) => {
+    const translate = useTranslate();
+    const classes = useStyles();
+    const history = useHistory();
+    return (
+        <Button
+            disabled={
+                props.record.public || !props.record.editable || props.permissions !== 'admin'
+            }
+            className={classes.bt}
+            startIcon={<PersonAdd />}
+            onClick={() => {
+                history.push(`/application/${props.record.id}/auth`);
+            }}
+        >
+            {translate('resources.application.auth.bt.auth')}
+        </Button>
+    );
+};
+
+// const SpaceCreateButton = ({ record }: any) => (
+//     <Button
+//         to={`space/create?application=${record.id}`}
+//         label={'resources.space.actions.create'}
+//         onClick={(e) => e.stopPropagation()}
+//         component={Link}
+//     />
+// );
+
+// const SpaceListButton = ({ record }: any) => {
+//     return (
+//         <Button
+//             to={`space?application=${record.id}`}
+//             label={'resources.space.actions.list'}
+//             onClick={(e) => e.stopPropagation()}
+//             component={Link}
+//         />
+//     );
+// };
 
 export default ApplicationList;

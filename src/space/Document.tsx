@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslate, useDataProvider, ShowProps, Loading } from 'react-admin';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Link } from '@material-ui/core';
-import { Space, Application, ApplicationContext } from '../types';
+import { Space, ApplicationContext } from '../types';
 import VSCodeImage1 from '../images/vscode-plugin-1.png';
 import VSCodeImage2 from '../images/vscode-plugin-2.png';
 import VSCodeImage3 from '../images/vscode-plugin-3.png';
@@ -41,7 +41,7 @@ export default function Document(props: ShowProps) {
     const dataProvider = useDataProvider();
 
     const [space, setSpace] = useState<Space>({ id: 0, cluster_id: 0, application_id: 0 });
-    const [app, setApp] = useState<ApplicationContext>({
+    const [app] = useState<ApplicationContext>({
         application_name: '',
         application_url: '',
         source: '',
@@ -50,28 +50,17 @@ export default function Document(props: ShowProps) {
     });
 
     const fetchSpace = async () => {
-        const { data } = await dataProvider.getOne<Space>('space', {
+        const { data } = await dataProvider.getOne<Space>('devspace', {
             id: parseInt(props.id || '0'),
         });
         setSpace(data);
     };
 
-    const fetchApplication = async () => {
-        const { data } = await dataProvider.getOne<Application>('application', {
-            id: space.application_id,
-        });
-        // eslint-disable-next-line
-        // @ts-ignore
-        setApp(data.context);
-    };
     useEffect(() => {
         fetchSpace();
-        if (space.application_id > 0) {
-            fetchApplication();
-        }
     }, [space.id]);
 
-    if (space.id <= 0 || !app.application_name) {
+    if (space.id <= 0) {
         return <Loading />;
     } else {
         return (

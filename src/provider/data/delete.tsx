@@ -11,7 +11,7 @@ const deleteMethod = async (
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
     };
     let url = `${apiUrl}/${resource}/${params.id}`;
-    if (resource === 'space') {
+    if (resource === 'devspace') {
         url = `${apiUrl}/dev_space/${params.id}`;
     }
     return httpClient(`${url}`, {

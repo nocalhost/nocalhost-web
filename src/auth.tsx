@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2),
         },
         tableHead: {
-            // fontWeight: 'bold',
+            height: '30.5px',
         },
         visuallyHidden: {
             border: 0,
@@ -213,7 +213,7 @@ const Auth: React.FC = () => {
             </div>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
-                    <TableHead>
+                    <TableHead className={classes.tableHead}>
                         <TableRow>
                             <TableCell padding="checkbox">
                                 <Checkbox
@@ -229,10 +229,10 @@ const Auth: React.FC = () => {
                                     inputProps={{ 'aria-label': 'select all desserts' }}
                                 />
                             </TableCell>
-                            <TableCell className={classes.tableHead} align="left">
+                            <TableCell align="left">
                                 {translate('resources.application.auth.fields.name')}
                             </TableCell>
-                            <TableCell className={classes.tableHead} align="left">
+                            <TableCell align="left">
                                 {translate('resources.application.auth.fields.email')}
                             </TableCell>
                         </TableRow>

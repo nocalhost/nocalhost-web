@@ -29,7 +29,7 @@ const ClusterList: FC<ListProps> = (props: ListProps) => {
                     source="info.nodes"
                     sortable={false}
                 />
-                <TextField source="users_count" sortable={false} />
+                <SpaceLinkButton source="users_count" sortable={false} />
                 <ReferenceField
                     label="resources.cluster.fields.user"
                     source="user_id"
@@ -52,6 +52,17 @@ const SpaceShowButton = ({ record }: any) => {
         <Button
             to={`/dev_space?cluster=${record.id}`}
             label={'resources.devSpace.actions.list'}
+            onClick={(e) => e.stopPropagation()}
+            component={Link}
+        />
+    );
+};
+
+const SpaceLinkButton = ({ record }: any) => {
+    return (
+        <Button
+            to={`/dev_space?cluster=${record.id}`}
+            label={`${record.users_count}`}
             onClick={(e) => e.stopPropagation()}
             component={Link}
         />

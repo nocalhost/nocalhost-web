@@ -8,6 +8,8 @@ import {
     EmailField,
     EditButton,
     useTranslate,
+    Button,
+    Link,
 } from 'react-admin';
 
 const StatusField = ({ record }: any) => {
@@ -32,12 +34,23 @@ const UserTypeField = ({ record }: any) => {
     );
 };
 
+const DevspaceCountButton = ({ record }: any) => {
+    return (
+        <Button
+            to={`/devspace?user_id=${record.id}`}
+            label={`${record.cluster_count}`}
+            onClick={(e) => e.stopPropagation()}
+            component={Link}
+        ></Button>
+    );
+};
+
 const UserList: FC<ListProps> = (props) => (
     <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
         <Datagrid>
             <TextField source="name" sortable={false} />
             <EmailField source="email" sortable={false} />
-            <TextField source="cluster_count" sortable={false} />
+            <DevspaceCountButton source="cluster_count" sortable={false}></DevspaceCountButton>
             <StatusField source="status" sortable={false} />
             <UserTypeField
                 source="is_admin"

@@ -69,14 +69,6 @@ const DevSpaceList: FC<ListProps> = (props) => {
                     sortable={false}
                 />
                 <DateField sortable={false} source="created_at" />
-                <ReferenceField
-                    label="resources.devSpace.fields.application"
-                    source="application_id"
-                    reference="application"
-                    sortable={false}
-                >
-                    <TextField source="context.application_name" />
-                </ReferenceField>
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />
@@ -88,7 +80,7 @@ const DevSpaceList: FC<ListProps> = (props) => {
 
 const SpaceShowButton = ({ record }: any) => (
     <Button
-        to={`/space/${record.id}/show?cluster=${record.cluster_id}`}
+        to={`/devspace/${record.id}/show?cluster=${record.cluster_id}`}
         label={'resources.devSpace.actions.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}

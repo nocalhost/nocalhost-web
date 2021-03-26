@@ -37,7 +37,7 @@ const customChineseMessages: TranslationMessages = {
             fields: {
                 name: '用户名',
                 email: '邮箱',
-                cluster_count: '集群数量',
+                cluster_count: '开发空间数量',
                 status: '状态',
                 userType: '用户类型',
                 is_admin: '是否设置为管理员',
@@ -91,6 +91,20 @@ const customChineseMessages: TranslationMessages = {
                 config_path: '应用配置文件，一般存放于 .nocalhost 目录下',
                 helm_repo: '应用名称将用作 release 名称',
                 helm_chart_name: '配置名称将用作 chart 名称',
+            },
+            auth: {
+                bt: {
+                    public: '公有',
+                    private: '私有',
+                    auth: '授权',
+                    add: '新增',
+                    delete: '删除',
+                    return: '返回',
+                },
+                fields: {
+                    name: '名称',
+                    email: '邮箱',
+                },
             },
         },
         space: {

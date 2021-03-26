@@ -57,5 +57,13 @@ export default (apiUrl: string, httpClient = fetchJson): DataProvider => {
         updateMany: async () => {
             throw Error('No support updateMany');
         },
+        getAuthAppUsers: (appId: string, isAuth: boolean) =>
+            data.appApi.getAuthAppUsers(apiUrl, appId, isAuth, httpClient),
+        authApp: (appId: string, ispublic: boolean) =>
+            data.appApi.authApp(apiUrl, appId, ispublic, httpClient),
+        addAuthAppUser: (appId: string, users: Array<number>) =>
+            data.appApi.addAuthAppUser(apiUrl, appId, users, httpClient),
+        deleteAuthAppUser: (appId: string, users: Array<number>) =>
+            data.appApi.deleteAuthAppUser(apiUrl, appId, users, httpClient),
     };
 };

@@ -16,7 +16,7 @@ const getOne = async (
     if (resource === 'cluster') {
         url = `${url}/detail`;
     }
-    if (['myDevSpace', 'space'].includes(resource)) {
+    if (['devspace'].includes(resource)) {
         url = `${apiUrl}/dev_space/${params.id}/detail`;
     }
     if (resource === 'profile') {
@@ -33,7 +33,7 @@ const getOne = async (
                 data: deserializeApplication(result.json.data),
             };
         }
-        if (resource === 'space') {
+        if (resource === 'devspace') {
             return { data: { ...result.json.data, status: result.json.data.status === 1 } };
         }
         return {

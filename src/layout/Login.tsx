@@ -131,17 +131,20 @@ const Login = () => {
 
     const handleSubmit = (auth: FormValues) => {
         setLoading(true);
-        login(auth, location.state ? location.state.nextPathname : '/').catch((error: Error) => {
-            setLoading(false);
-            notify(
-                typeof error === 'string'
-                    ? error
-                    : typeof error === 'undefined' || !error.message
-                    ? 'ra.auth.sign_in_error'
-                    : error.message,
-                'warning'
-            );
-        });
+        login(auth, location.state ? location.state.nextPathname : '/')
+            .catch((error: Error) => {
+                notify(
+                    typeof error === 'string'
+                        ? error
+                        : typeof error === 'undefined' || !error.message
+                        ? 'ra.auth.sign_in_error'
+                        : error.message,
+                    'warning'
+                );
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const validate = (values: FormValues) => {

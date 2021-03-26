@@ -6,7 +6,6 @@ import cluster from './cluster';
 import application from './application';
 import devSpace from './devSpace';
 import space from './space';
-import myDevSpace from './myDevSpace';
 import customRoute from './customRoute';
 import Dashboard from './dashboard';
 import { englishMessages, chineseMessages } from './i18n';
@@ -44,6 +43,7 @@ function App() {
 
     const dataProvider = data(`${apiUrl}/v1`);
     const authProvider = auth(`${apiUrl}/v1`);
+    const normalSpace = { list: space.list, show: space.show, icon: space.icon };
     return (
         <Admin
             title="Nocalhost"
@@ -58,14 +58,13 @@ function App() {
         >
             {(permissions) => [
                 permissions === 'admin' ? <Resource name="cluster" {...cluster} /> : '',
-                permissions === 'admin' ? <Resource name="application" {...application} /> : '',
                 permissions === 'admin' ? <Resource name="users" {...users} /> : '',
-                permissions === 'admin' ? <Resource name="space" {...space} /> : '',
                 permissions === 'admin' ? <Resource name="dev_space" {...devSpace} /> : '',
-                permissions !== 'admin' ? (
-                    <Resource name="myDevSpace" {...myDevSpace} key="myDevSpace" />
+                <Resource name="application" {...application} key="application" />,
+                permissions === 'admin' ? (
+                    <Resource name="devspace" {...space} key="devspace" />
                 ) : (
-                    ''
+                    <Resource name="devspace" {...normalSpace} key="devspace" />
                 ),
             ]}
         </Admin>

@@ -38,7 +38,7 @@ const customEnglishMessages: TranslationMessages = {
             fields: {
                 name: 'Name',
                 email: 'Email',
-                cluster_count: 'Clusters Count',
+                cluster_count: 'DevSpaces Count',
                 status: 'Status',
                 userType: 'User Type',
                 is_admin: 'Is Admin',
@@ -94,6 +94,20 @@ const customEnglishMessages: TranslationMessages = {
                     'Specify location of nocalhost config file.(Relative path of .nocalhost dir, default: config.yaml)',
                 helm_repo: 'Application name will be used for release name',
                 helm_chart_name: 'Name will be used for chart name',
+            },
+            auth: {
+                bt: {
+                    public: 'PUBLIC',
+                    private: 'PRIVATE',
+                    auth: 'AUTHORIZATION',
+                    add: 'add',
+                    delete: 'delete',
+                    return: 'return',
+                },
+                fields: {
+                    name: 'name',
+                    email: 'email',
+                },
             },
         },
         space: {

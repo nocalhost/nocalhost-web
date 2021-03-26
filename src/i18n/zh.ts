@@ -37,7 +37,7 @@ const customChineseMessages: TranslationMessages = {
             fields: {
                 name: '用户名',
                 email: '邮箱',
-                cluster_count: '集群数量',
+                cluster_count: '开发空间数量',
                 status: '状态',
                 userType: '用户类型',
                 is_admin: '是否设置为管理员',

@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2),
         },
         tableHead: {
-            fontWeight: 'bold',
+            // fontWeight: 'bold',
         },
         visuallyHidden: {
             border: 0,
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            height: '40px',
+            height: '72px',
             marginRight: '20px',
         },
         bt: {
@@ -84,6 +84,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         deleteBt: {
             color: '#ff0000',
+        },
+        background: {
+            color: '#ffffff',
+            background: '#6f38ff',
+            '&:hover': {
+                color: '#6f38ff',
+            },
         },
     })
 );
@@ -186,7 +193,7 @@ const Auth: React.FC = () => {
         );
     }
     return (
-        <Paper>
+        <>
             <div className={classes.toolBar}>
                 <Button
                     onClick={() => {
@@ -204,7 +211,7 @@ const Auth: React.FC = () => {
                         : translate('resources.application.auth.bt.return')}
                 </Button>
             </div>
-            <TableContainer>
+            <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -262,14 +269,14 @@ const Auth: React.FC = () => {
                 {!isInitPage && (
                     <Button
                         onClick={() => operateAuthUser('add')}
-                        className={classes.bt}
+                        className={classes.background}
                         startIcon={<Add />}
                     >
                         {translate('resources.application.auth.bt.add')}
                     </Button>
                 )}
             </div>
-        </Paper>
+        </>
     );
 };
 

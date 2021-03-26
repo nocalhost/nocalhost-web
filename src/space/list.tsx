@@ -95,7 +95,9 @@ const SpaceList: FC<ListProps> = (props) => {
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />
-                <DeleteButton redirect={`/devspace`} undoable={false} />
+                {permissions === 'admin' && (
+                    <DeleteButton redirect={`/devspace`} undoable={false} />
+                )}
             </Datagrid>
         </List>
     );

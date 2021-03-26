@@ -43,6 +43,7 @@ function App() {
 
     const dataProvider = data(`${apiUrl}/v1`);
     const authProvider = auth(`${apiUrl}/v1`);
+    const normalSpace = { list: space.list, show: space.show, icon: space.icon };
     return (
         <Admin
             title="Nocalhost"
@@ -60,7 +61,11 @@ function App() {
                 permissions === 'admin' ? <Resource name="users" {...users} /> : '',
                 permissions === 'admin' ? <Resource name="dev_space" {...devSpace} /> : '',
                 <Resource name="application" {...application} key="application" />,
-                <Resource name="devspace" {...space} key="devspace" />,
+                permissions === 'admin' ? (
+                    <Resource name="devspace" {...space} key="devspace" />
+                ) : (
+                    <Resource name="devspace" {...normalSpace} key="devspace" />
+                ),
             ]}
         </Admin>
     );

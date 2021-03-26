@@ -10,12 +10,11 @@ import {
     sanitizeListRestProps,
     ReferenceField,
     DeleteButton,
-    useGetOne,
     useTranslate,
+    usePermissions,
 } from 'react-admin';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
-import searchToObj from '../utils/searchToObj';
 import KubeConfigButton from '../components/KubeconfigButton';
 import Empty from '../components/Empty';
 import DateField from '../components/DateField';
@@ -24,20 +23,17 @@ import ResourceLimitButton from '../components/ResourceLimitButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
-    const hash = window.location.hash;
-    const search = hash.substring(hash.indexOf('?'));
-    const p = searchToObj(search);
     return (
         <TopToolbar {...sanitizeListRestProps(rest)}>
-            <SpaceCreateButton application={p.application} />
+            <SpaceCreateButton />
         </TopToolbar>
     );
 };
 
-const SpaceCreateButton = (record: any) => (
+const SpaceCreateButton = () => (
     <Button
         icon={<AddIcon />}
-        to={`space/create?application=${record.application}`}
+        to={`/devspace/create`}
         label={'ra.action.create'}
         onClick={(e) => e.stopPropagation()}
         component={Link}
@@ -48,40 +44,20 @@ const SpaceCreateButton = (record: any) => (
 
 const Title = () => {
     const translate = useTranslate();
-    const hash = window.location.hash;
-    const search = hash.substring(hash.indexOf('?'));
-    const p = searchToObj(search);
-    const { data, loading } = useGetOne('application', p.application);
-    if (loading || !data) {
-        return <span>{translate('resources.space.name', { smart_count: 2 })}</span>;
-    }
-    return (
-        <span>
-            {translate('resources.application.name', { smart_count: 1 })}{' '}
-            {`"${data.context.application_name}"`}{' '}
-            {translate('resources.space.name', { smart_count: 2 })}
-        </span>
-    );
+    return <span>{translate('resources.space.name', { smart_count: 2 })}</span>;
 };
 
 const SpaceList: FC<ListProps> = (props) => {
-    const hash = window.location.hash;
-    const search = hash.substring(hash.indexOf('?'));
-    const p = searchToObj(search);
+    const { permissions } = usePermissions();
     return (
         <List
             {...props}
-            empty={
-                <Empty
-                    createUrl={`space/create?application=${p.application}`}
-                    returnUrl={`/application`}
-                />
-            }
+            empty={<Empty createUrl={`/devspace/create`} returnUrl={`/devspace`} />}
             title={<Title />}
             bulkActionButtons={false}
             pagination={false}
             exporter={false}
-            actions={<ListActions />}
+            actions={permissions === 'admin' && <ListActions />}
         >
             <Datagrid>
                 <TextField
@@ -89,33 +65,37 @@ const SpaceList: FC<ListProps> = (props) => {
                     source="space_name"
                     sortable={false}
                 />
-                <ReferenceField
-                    label="resources.space.fields.user"
-                    source="user_id"
-                    reference="users"
-                    sortable={false}
-                >
-                    <TextField source="name" />
-                </ReferenceField>
+                {permissions === 'admin' && (
+                    <ReferenceField
+                        label="resources.space.fields.user"
+                        source="user_id"
+                        reference="users"
+                        sortable={false}
+                    >
+                        <TextField source="name" />
+                    </ReferenceField>
+                )}
                 <TextField
                     label="resources.space.fields.namespace"
                     source="namespace"
                     sortable={false}
                 />
                 <DateField sortable={false} source="created_at" />
-                <ReferenceField
-                    label="resources.space.fields.cluster"
-                    source="cluster_id"
-                    reference="cluster"
-                    sortable={false}
-                >
-                    <TextField source="name" />
-                </ReferenceField>
+                {permissions === 'admin' && (
+                    <ReferenceField
+                        label="resources.space.fields.cluster"
+                        source="cluster_id"
+                        reference="cluster"
+                        sortable={false}
+                    >
+                        <TextField source="name" />
+                    </ReferenceField>
+                )}
                 <ResourceLimitButton />
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />
-                <DeleteButton redirect={`/space?application=${p.application}`} undoable={false} />
+                <DeleteButton redirect={`/devspace`} undoable={false} />
             </Datagrid>
         </List>
     );
@@ -123,7 +103,7 @@ const SpaceList: FC<ListProps> = (props) => {
 
 const SpaceShowButton = ({ record }: any) => (
     <Button
-        to={`/space/${record.id}/show?cluster=${record.cluster_id}`}
+        to={`/devspace/${record.id}/show?cluster=${record.cluster_id}`}
         label={'ra.action.show'}
         onClick={(e) => e.stopPropagation()}
         component={Link}

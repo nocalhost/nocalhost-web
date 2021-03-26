@@ -6,11 +6,11 @@ import {
     ShowProps,
     ReferenceField,
     useTranslate,
+    usePermissions,
 } from 'react-admin';
 import { Base64 } from 'js-base64';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Document from './Document';
 import ResourceLimitButton from '../components/ResourceLimitButton';
 
 const useStyles = makeStyles(() => ({
@@ -58,39 +58,36 @@ DownloadButton.defaultProps = { addLabel: false };
 
 const SpaceShow: FC<ShowProps> = (props) => {
     const classes = useStyles();
+    const { permissions } = usePermissions();
     return (
         <>
             <Show {...props} title={<Title />}>
                 <SimpleShowLayout className={classes.spaceInfo}>
                     <TextField label="resources.space.fields.space_name" source="space_name" />
-                    <ReferenceField
-                        label="resources.space.fields.application"
-                        source="application_id"
-                        reference="application"
-                    >
-                        <TextField source="context.application_name" />
-                    </ReferenceField>
-                    <ReferenceField
-                        label="resources.space.fields.cluster"
-                        source="cluster_id"
-                        reference="cluster"
-                    >
-                        <TextField source="name" />
-                    </ReferenceField>
+                    {permissions === 'admin' && (
+                        <ReferenceField
+                            label="resources.space.fields.cluster"
+                            source="cluster_id"
+                            reference="cluster"
+                        >
+                            <TextField source="name" />
+                        </ReferenceField>
+                    )}
                     <TextField source="namespace" />
-                    <ReferenceField
-                        label="resources.space.fields.user"
-                        source="user_id"
-                        reference="users"
-                    >
-                        <TextField source="name" />
-                    </ReferenceField>
+                    {permissions === 'admin' && (
+                        <ReferenceField
+                            label="resources.space.fields.user"
+                            source="user_id"
+                            reference="users"
+                        >
+                            <TextField source="name" />
+                        </ReferenceField>
+                    )}
                     <ResourceLimitButton />
                     <StatusField label="resources.space.fields.status" source="status" />
                     <DownloadButton />
                 </SimpleShowLayout>
             </Show>
-            <Document {...props} />
         </>
     );
 };

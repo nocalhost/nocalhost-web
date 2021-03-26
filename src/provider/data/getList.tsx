@@ -3,6 +3,7 @@ import searchToObj from '../../utils/searchToObj';
 import { Application, Result, Cluster } from '../../types';
 import { GetListParams } from 'react-admin';
 import { deserializeApplication, deserializeCluster } from './deserialize';
+import * as qs from 'query-string';
 
 const getList = async (
     apiUrl: string,
@@ -31,15 +32,21 @@ const getList = async (
         const p = searchToObj(search);
         url = `${apiUrl}/cluster/${p.cluster}/dev_space`;
     }
-    if (resource === 'space') {
+    if (resource === 'devspace') {
+        // const hash = window.location.hash;
+        // const search = hash.substring(hash.indexOf('?'));
+        // const p = searchToObj(search);
+        // url = `${apiUrl}/application/${p.application}/dev_space_list`;
         const hash = window.location.hash;
         const search = hash.substring(hash.indexOf('?'));
-        const p = searchToObj(search);
-        url = `${apiUrl}/application/${p.application}/dev_space_list`;
+        const p = qs.parse(search);
+        url = `${apiUrl}/dev_space${p['user_id'] ? `?user_id=${p['user_id']}` : ''}`;
     }
     if (resource === 'myDevSpace') {
-        const id = localStorage.getItem('userId') || '0';
-        url = `${apiUrl}/users/${id}/dev_space_list`;
+        const hash = window.location.hash;
+        const search = hash.substring(hash.indexOf('?'));
+        const p = qs.parse(search);
+        url = `${apiUrl}/dev_space${p['user_id'] ? `?user_id=${p['user_id']}` : ''}`;
     }
 
     return httpClient(url, options).then((result: Result) => {

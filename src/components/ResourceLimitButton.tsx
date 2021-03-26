@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+// import Alert from '@material-ui/lab/Alert';
 import {
     Button,
     FieldProps,
@@ -96,8 +97,13 @@ const ResourceLimitDialog = (props: ResourceLimitDialogProps) => {
     const CustomToolbar = (props: any) => {
         const dataProvider = useDataProvider();
         const updateData = useCallback(async (obj) => {
-            await dataProvider.update('resourceLimit', obj);
-            location.reload();
+            dataProvider
+                .update('resourceLimit', obj)
+                .then(() => location.reload())
+                .catch(() => {
+                    // TODO: SHOW ALERT
+                    // <Alert></Alert>;
+                });
         }, []);
         return (
             <Toolbar {...props} classes={useStyles()}>

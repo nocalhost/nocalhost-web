@@ -92,6 +92,20 @@ const customChineseMessages: TranslationMessages = {
                 helm_repo: '应用名称将用作 release 名称',
                 helm_chart_name: '配置名称将用作 chart 名称',
             },
+            auth: {
+                bt: {
+                    public: '公有',
+                    private: '私有',
+                    auth: '授权',
+                    add: '新增',
+                    delete: '删除',
+                    return: '返回',
+                },
+                fields: {
+                    name: '名称',
+                    email: '邮箱',
+                },
+            },
         },
         space: {
             name: '开发环境 |||| 开发环境列表',

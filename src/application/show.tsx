@@ -11,6 +11,7 @@ import {
 } from 'react-admin';
 import { get } from 'lodash';
 import { Typography } from '@material-ui/core';
+import Document from './Document';
 
 const Title = ({ record }: any) => {
     const translate = useTranslate();
@@ -39,36 +40,42 @@ ResourceDirField.defaultProps = { source: 'context.resource_dir', addLabel: true
 const ApplicationShow: FC<ShowProps> = (props) => {
     const { record } = useShowController(props);
     return (
-        <Show {...props} title={<Title />}>
-            <SimpleShowLayout>
-                <TextField
-                    label="resources.application.fields.application_name"
-                    source="context.application_name"
-                />
-                <TextField label="resources.application.fields.source" source="context.source" />
-                {record && record.context.source === 'git' && (
+        <>
+            <Show {...props} title={<Title />}>
+                <SimpleShowLayout>
                     <TextField
-                        label="resources.application.fields.install_type"
-                        source="context.install_type"
+                        label="resources.application.fields.application_name"
+                        source="context.application_name"
                     />
-                )}
-                {record && record.context.source === 'git' && (
                     <TextField
-                        label="resources.application.fields.git_repo_url"
-                        source="context.application_url"
+                        label="resources.application.fields.source"
+                        source="context.source"
                     />
-                )}
-                {record && record.context.source === 'helm_repo' && (
-                    <TextField
-                        label="resources.application.fields.helm_repo_url"
-                        source="context.application_url"
-                    />
-                )}
-                {record && record.context.source === 'git' && (
-                    <ResourceDirField label="resources.application.fields.resource_dir" />
-                )}
-            </SimpleShowLayout>
-        </Show>
+                    {record && record.context.source === 'git' && (
+                        <TextField
+                            label="resources.application.fields.install_type"
+                            source="context.install_type"
+                        />
+                    )}
+                    {record && record.context.source === 'git' && (
+                        <TextField
+                            label="resources.application.fields.git_repo_url"
+                            source="context.application_url"
+                        />
+                    )}
+                    {record && record.context.source === 'helm_repo' && (
+                        <TextField
+                            label="resources.application.fields.helm_repo_url"
+                            source="context.application_url"
+                        />
+                    )}
+                    {record && record.context.source === 'git' && (
+                        <ResourceDirField label="resources.application.fields.resource_dir" />
+                    )}
+                </SimpleShowLayout>
+            </Show>
+            <Document {...props} />
+        </>
     );
 };
 

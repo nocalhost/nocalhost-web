@@ -7,8 +7,6 @@ import {
     SelectInput,
     NumberInput,
     CreateProps,
-    useRedirect,
-    useGetOne,
     useTranslate,
     TextInput,
     BooleanInput,
@@ -17,23 +15,12 @@ import {
 } from 'react-admin';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-import searchToObj from '../utils/searchToObj';
 import { validateText } from '../common/validation';
 import { cpuLimitValidate, cpuReqValidate, memLimitValidate, memReqValidate } from './validation';
 
-const Title = ({ application }: any) => {
+const Title = () => {
     const translate = useTranslate();
-    const { data, loading } = useGetOne('application', application);
-    if (loading || !data) {
-        return <span>{translate('resources.space.actions.create')}</span>;
-    }
-    return (
-        <span>
-            {translate('resources.application.name', { smart_count: 1 })}{' '}
-            {`"${data.context.application_name}"`} {translate('resources.space.actions.create')}
-        </span>
-    );
+    return <span>{translate('resources.space.actions.create')}</span>;
 };
 
 const ResourceLimitTips = ({ title }: any) => {
@@ -55,15 +42,8 @@ const reg = /^([0-9.]+)$/;
 const validate = regex(reg, 'Must be a valid value');
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
-    const hash = window.location.hash;
-    const search = hash.substring(hash.indexOf('?'));
-    const p = searchToObj(search);
-    const redirect = useRedirect();
     // eslint-disable-next-line
     // @ts-ignore
-    if (!p.application) {
-        redirect('/application');
-    }
     const transform = (data: any) => ({
         ...data,
         cluster_id: data.cluster_id,
@@ -72,24 +52,16 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         user_id: data.user_id,
         space_name: data.space_name || '',
     });
-    const postDefaultValue = () => ({ application_id: Number(p.application) });
+    const postDefaultValue = () => ({});
     const classes = useStyles();
     return (
-        <Create title={<Title application={p.application} />} transform={transform} {...props}>
+        <Create title={<Title />} transform={transform} {...props}>
             <SimpleForm
-                redirect={`/space?application=${p.application}`}
+                redirect={`/devspace`}
                 sanitizeEmptyValues={false}
                 initialValues={postDefaultValue()}
             >
                 <TextInput label="resources.space.fields.space_name" source="space_name" />
-                <ReferenceInput
-                    label="resources.space.fields.application"
-                    source="application_id"
-                    disabled
-                    reference="application"
-                >
-                    <SelectInput validate={validateText} optionText="context.application_name" />
-                </ReferenceInput>
                 <ReferenceInput
                     label="resources.space.fields.cluster"
                     source="cluster_id"

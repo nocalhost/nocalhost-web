@@ -115,6 +115,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                                 choices={[
                                     { id: 'rawManifest', name: 'Manifest' },
                                     { id: 'helm_chart', name: 'Helm Chart' },
+                                    { id: 'kustomize', name: 'Kustomize' },
                                 ]}
                             />
                         )
@@ -202,31 +203,9 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                 <FormDataConsumer>
                     {({ formData }) =>
                         formData.context.source === 'git' &&
-                        formData.context.install_type === 'helm_chart' && (
-                            <>
-                                <Typography variant="subtitle2" gutterBottom>
-                                    {translate('resources.application.tips.resource_dir')}
-                                </Typography>
-                                <ArrayInput
-                                    source="dirs"
-                                    label="resources.application.fields.resource_dir"
-                                >
-                                    <SimpleFormIterator>
-                                        <TextInput
-                                            label="resources.application.fields.resource_dir"
-                                            source="dir"
-                                            defaultValue="."
-                                        />
-                                    </SimpleFormIterator>
-                                </ArrayInput>
-                            </>
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer>
-                    {({ formData }) =>
-                        formData.context.source === 'git' &&
-                        formData.context.install_type === 'rawManifest' && (
+                        ['helm_chart', 'kustomize', 'rawManifest'].includes(
+                            formData.context.install_type
+                        ) && (
                             <>
                                 <Typography variant="subtitle2" gutterBottom>
                                     {translate('resources.application.tips.resource_dir')}

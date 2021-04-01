@@ -78,6 +78,7 @@ const customChineseMessages: TranslationMessages = {
                 application_url: '安装地址',
                 git_repo_url: 'Git 仓库地址',
                 helm_repo_url: 'Helm 仓库地址',
+                kustomize_dir: 'Kustomize 路径',
                 resource_dir: '路径',
                 config_path: '配置文件',
                 nocalhost_config: 'Nocalhost 配置信息',

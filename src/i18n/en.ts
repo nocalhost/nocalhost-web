@@ -80,6 +80,7 @@ const customEnglishMessages: TranslationMessages = {
                 application_url: 'Application Url',
                 git_repo_url: 'Git Repo Url',
                 helm_repo_url: 'Helm Repo Url',
+                kustomize_dir: 'Kustomize path',
                 resource_dir: 'Resource Dir',
                 config_path: 'Config File',
                 nocalhost_config: 'Nocalhost Config',

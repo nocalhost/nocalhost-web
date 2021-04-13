@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { FC } from 'react';
 import { LockOpen, Lock, PersonAdd } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,7 @@ import {
     useDataProvider,
     useRefresh,
     usePermissions,
+    Confirm,
 } from 'react-admin';
 import { useHistory } from 'react-router-dom';
 import DateField from '../components/DateField';
@@ -51,7 +52,6 @@ const ApplicationList: FC<ListProps> = (props) => {
         await dataProvider.authApp(appId, ispublic);
         refresh();
     }
-
     return (
         <List {...props} bulkActionButtons={false} pagination={false} exporter={false}>
             <Datagrid>
@@ -92,27 +92,33 @@ const MyEditButton = (props: any) => {
 const IsPublicButton = ({ record, authApp, permissions }: any) => {
     const translate = useTranslate();
     const classes = useStyles();
-    if (record.public) {
-        return (
+    const [open, setOpen] = useState(false);
+    const handleConfirm = () => {
+        authApp(record.id, record.public ? false : true);
+        setOpen(false);
+    };
+    return (
+        <Fragment>
             <Button
-                onClick={() => authApp(record.id, false)}
+                onClick={() => setOpen(true)}
                 disabled={!record.editable || permissions !== 'admin'}
                 className={classes.bt}
-                startIcon={<LockOpen />}
+                startIcon={record.public ? <LockOpen /> : <Lock />}
             >
-                {translate('resources.application.auth.bt.public')}
+                {record.public
+                    ? translate('resources.application.auth.bt.public')
+                    : translate('resources.application.auth.bt.private')}
             </Button>
-        );
-    }
-    return (
-        <Button
-            onClick={() => authApp(record.id, true)}
-            disabled={!record.editable || permissions !== 'admin'}
-            className={classes.bt}
-            startIcon={<Lock />}
-        >
-            {translate('resources.application.auth.bt.private')}
-        </Button>
+            <Confirm
+                isOpen={open}
+                title={translate('resources.application.permission.confirm.title', {
+                    name: record && record.context.application_name,
+                })}
+                content={translate('resources.application.permission.confirm.content')}
+                onConfirm={handleConfirm}
+                onClose={() => setOpen(false)}
+            ></Confirm>
+        </Fragment>
     );
 };
 

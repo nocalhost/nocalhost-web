@@ -110,6 +110,12 @@ const customEnglishMessages: TranslationMessages = {
                     email: 'Email',
                 },
             },
+            permission: {
+                confirm: {
+                    title: 'Modify Applications permissions # [%{name}]',
+                    content: 'Are you sure you want to modify this item?',
+                },
+            },
         },
         space: {
             name: 'DevSpace |||| DevSpaces',

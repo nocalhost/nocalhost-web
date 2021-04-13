@@ -107,6 +107,12 @@ const customChineseMessages: TranslationMessages = {
                     email: '邮箱',
                 },
             },
+            permission: {
+                confirm: {
+                    title: '修改应用权限 #[%{name}]',
+                    content: '您确定修改该应用权限吗？',
+                },
+            },
         },
         space: {
             name: '开发环境 |||| 开发环境列表',

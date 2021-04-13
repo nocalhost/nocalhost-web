@@ -106,8 +106,8 @@ const customEnglishMessages: TranslationMessages = {
                     return: 'return',
                 },
                 fields: {
-                    name: 'name',
-                    email: 'email',
+                    name: 'Name',
+                    email: 'Email',
                 },
             },
         },

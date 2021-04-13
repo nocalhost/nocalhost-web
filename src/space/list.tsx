@@ -80,7 +80,11 @@ const SpaceList: FC<ListProps> = (props) => {
                     source="namespace"
                     sortable={false}
                 />
-                <DateField sortable={false} source="created_at" />
+                <DateField
+                    sortable={false}
+                    source="created_at"
+                    label="resources.space.fields.created_at"
+                />
                 {permissions === 'admin' && (
                     <ReferenceField
                         label="resources.space.fields.cluster"

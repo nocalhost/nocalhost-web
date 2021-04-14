@@ -35,9 +35,12 @@ const create = async (
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
     };
     if (resource === 'devspace') {
-        if (!params.data.isLimit) {
+        if (!params.data.isLimit || params.data.cluster_admin) {
+            params.data.isLimit = false;
+            params.data.cluster_admin = 1;
             params.data['space_resource_limit'] = {};
         } else {
+            params.data.cluster_admin = 0;
             const resourceLimit = params.data['space_resource_limit'];
             for (const key in resourceLimit) {
                 if (Object.prototype.hasOwnProperty.call(resourceLimit, key)) {

@@ -129,6 +129,7 @@ const customChineseMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: '资源限制',
+                cluster_admin: '集群管理员',
                 reset: '重置',
                 requestTotalMem: '请求总内存 (MiB)',
                 requestTotalCPU: '请求总 CPU (核)',

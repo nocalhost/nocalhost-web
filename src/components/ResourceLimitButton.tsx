@@ -228,6 +228,7 @@ const ResourceLimitButton = (props: FieldProps) => {
                 isAdmin={permissions === 'admin'}
             />
             <Button
+                disabled={!!(record && record.cluster_admin)}
                 onClick={handleClickOpen}
                 label={permissions === 'admin' ? 'ra.action.edit' : 'ra.action.show'}
             />

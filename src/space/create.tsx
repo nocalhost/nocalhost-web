@@ -34,12 +34,98 @@ const ResourceLimitTips = ({ title }: any) => {
 };
 
 const useStyles = makeStyles({
-    inlineBlock: { display: 'inline-flex', marginRight: '1rem' },
+    inlineBlock: {
+        width: '257px',
+        marginRight: '1rem',
+    },
 });
-
 const reg = /^([0-9.]+)$/;
 
 const validate = regex(reg, 'Must be a valid value');
+
+const ResourceLimitForm = ({ ...rest }: any) => {
+    const classes = useStyles();
+    return (
+        <div>
+            <ResourceLimitTips title="resources.space.devspaceLimitTitle" {...rest} />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.requestTotalMem"
+                source="space_resource_limit.space_req_mem"
+                validate={validate}
+                className={classes.inlineBlock}
+            />
+            <NumberInput
+                label="resources.space.fields.limitTotalMem"
+                source="space_resource_limit.space_limits_mem"
+                validate={validate}
+                className={classes.inlineBlock}
+            />
+            <br />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.requestTotalCPU"
+                source="space_resource_limit.space_req_cpu"
+                validate={validate}
+                className={classes.inlineBlock}
+            />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.limitTotalCPU"
+                source="space_resource_limit.space_limits_cpu"
+                validate={validate}
+            />
+            <br />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.PVC_num"
+                source="space_resource_limit.space_pvc_count"
+                className={classes.inlineBlock}
+            />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.storageCapacity"
+                source="space_resource_limit.space_storage_capacity"
+                validate={validate}
+                className={classes.inlineBlock}
+            />
+            <br />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.lbNum"
+                source="space_resource_limit.space_lb_count"
+            />
+            <ResourceLimitTips title="resources.space.containerDefaultTitle" {...rest} />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.requestMem"
+                source="space_resource_limit.container_req_mem"
+                validate={memReqValidate}
+                className={classes.inlineBlock}
+            />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.limitMem"
+                source="space_resource_limit.container_limits_mem"
+                validate={memLimitValidate}
+            />
+            <br />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.requestCPU"
+                source="space_resource_limit.container_req_cpu"
+                validate={cpuReqValidate}
+                className={classes.inlineBlock}
+            />
+            <NumberInput
+                {...rest}
+                label="resources.space.fields.limitCPU"
+                source="space_resource_limit.container_limits_cpu"
+                validate={cpuLimitValidate}
+            />
+        </div>
+    );
+};
 
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     // eslint-disable-next-line
@@ -53,7 +139,7 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         space_name: data.space_name || '',
     });
     const postDefaultValue = () => ({});
-    const classes = useStyles();
+
     return (
         <Create title={<Title />} transform={transform} {...props}>
             <SimpleForm
@@ -76,157 +162,19 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                 >
                     <SelectInput validate={validateText} optionText="name" />
                 </ReferenceInput>
-                <BooleanInput source="isLimit" label="resources.space.fields.resource_limit" />
+                <BooleanInput source="cluster_admin" label="resources.space.fields.cluster_admin" />
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <ResourceLimitTips
-                                title="resources.space.devspaceLimitTitle"
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.requestTotalMem"
-                                source="space_resource_limit.space_req_mem"
-                                validate={validate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.limitTotalMem"
-                                source="space_resource_limit.space_limits_mem"
-                                validate={validate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <div />
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.requestTotalCPU"
-                                source="space_resource_limit.space_req_cpu"
-                                validate={validate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.limitTotalCPU"
-                                source="space_resource_limit.space_limits_cpu"
-                                validate={validate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <div />
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.PVC_num"
-                                source="space_resource_limit.space_pvc_count"
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.storageCapacity"
-                                source="space_resource_limit.space_storage_capacity"
-                                validate={validate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.lbNum"
-                                source="space_resource_limit.space_lb_count"
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <ResourceLimitTips
-                                title="resources.space.containerDefaultTitle"
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.requestMem"
-                                source="space_resource_limit.container_req_mem"
-                                validate={memReqValidate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.limitMem"
-                                source="space_resource_limit.container_limits_mem"
-                                validate={memLimitValidate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <div />
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.requestCPU"
-                                source="space_resource_limit.container_req_cpu"
-                                validate={cpuReqValidate}
-                                {...rest}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer formClassName={classes.inlineBlock}>
-                    {({ formData, ...rest }) =>
-                        formData.isLimit && (
-                            <NumberInput
-                                label="resources.space.fields.limitCPU"
-                                source="space_resource_limit.container_limits_cpu"
-                                validate={cpuLimitValidate}
-                                {...rest}
-                            />
+                        !formData.cluster_admin && (
+                            <div>
+                                <BooleanInput
+                                    source="isLimit"
+                                    label="resources.space.fields.resource_limit"
+                                />
+                                {formData.isLimit && (
+                                    <ResourceLimitForm {...rest}></ResourceLimitForm>
+                                )}
+                            </div>
                         )
                     }
                 </FormDataConsumer>

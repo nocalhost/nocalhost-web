@@ -129,7 +129,7 @@ const PermissionAdd = (props: any) => {
     return (
         <Button
             disabled={
-                props.record.public || !props.record.editable || props.permissions !== 'admin'
+                !!(props.record.public || !props.record.editable || props.permissions !== 'admin')
             }
             className={classes.bt}
             startIcon={<PersonAdd />}

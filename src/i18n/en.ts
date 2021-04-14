@@ -132,6 +132,7 @@ const customEnglishMessages: TranslationMessages = {
                 memory: 'Memory',
                 kubeconfig: 'KubeConfig',
                 resource_limit: 'Resource Limit',
+                cluster_admin: 'Cluster Admin',
                 reset: 'Reset',
                 requestTotalMem: 'Request Memory (MiB)',
                 requestTotalCPU: 'Request CPU (cores)',

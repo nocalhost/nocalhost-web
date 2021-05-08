@@ -37,10 +37,8 @@ const create = async (
     if (resource === 'devspace') {
         if (!params.data.isLimit || params.data.cluster_admin) {
             params.data.isLimit = false;
-            params.data.cluster_admin = 1;
             params.data['space_resource_limit'] = {};
         } else {
-            params.data.cluster_admin = 0;
             const resourceLimit = params.data['space_resource_limit'];
             for (const key in resourceLimit) {
                 if (Object.prototype.hasOwnProperty.call(resourceLimit, key)) {
@@ -48,6 +46,7 @@ const create = async (
                 }
             }
         }
+        params.data.cluster_admin = params.data?.cluster_admin ? 1 : 0;
         return httpClient(`${apiUrl}/dev_space`, {
             method: 'POST',
             body: JSON.stringify(params.data),

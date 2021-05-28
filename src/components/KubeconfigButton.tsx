@@ -79,11 +79,7 @@ const KubeConfigButton = ({ record, resource }: any) => {
     return (
         <>
             <KubeConfigDialog onClose={handleClose} open={open} kubeconfig={kubeconfig} />
-            <Button
-                disabled={!!(record && record.cluster_admin)}
-                onClick={handleClickOpen}
-                label="KubeConfig"
-            />
+            <Button onClick={handleClickOpen} label="KubeConfig" />
         </>
     );
 };

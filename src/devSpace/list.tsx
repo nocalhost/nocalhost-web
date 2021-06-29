@@ -47,7 +47,7 @@ const DevSpaceList: FC<ListProps> = (props) => {
             pagination={false}
             exporter={false}
             empty={<Empty returnUrl={'/cluster'} />}
-            hasCreate={true}
+            hasCreate={false}
         >
             <Datagrid>
                 <TextField

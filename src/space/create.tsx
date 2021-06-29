@@ -1,5 +1,5 @@
 import React from 'react';
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import {
     Create,
     SimpleForm,
@@ -12,6 +12,7 @@ import {
     BooleanInput,
     FormDataConsumer,
     regex,
+    useDataProvider,
 } from 'react-admin';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -127,6 +128,76 @@ const ResourceLimitForm = ({ ...rest }: any) => {
     );
 };
 
+const MeshDevSpaceForm = () => {
+    const classes = useStyles();
+    const dataProvider = useDataProvider();
+
+    const [apps, setApps] = useState([]);
+    const [spaceId, setSpaceId] = useState('');
+
+    const queryMeshInfo = async (id: string) => {
+        try {
+            const result = await dataProvider.getMeshAppInfo(id);
+            const tmpData = result.data ? result.data.apps : [];
+            setApps(tmpData);
+        } catch (e) {
+            setApps([]);
+        }
+    };
+
+    useEffect(() => {
+        queryMeshInfo(spaceId);
+    }, [spaceId]);
+
+    return (
+        <FormDataConsumer>
+            {({ formData, ...rest }) => {
+                formData.base_dev_space_id && setSpaceId(formData.base_dev_space_id);
+                return (
+                    formData.base_dev_space_id && (
+                        <div>
+                            <ul>
+                                {apps.map((item: any, key) => {
+                                    return (
+                                        <li key={key}>
+                                            <div>{item.name}</div>
+                                            <ul>
+                                                {item.workloads.map(
+                                                    (workload: any, loadIndex: number) => {
+                                                        return (
+                                                            <li key={loadIndex}>
+                                                                <BooleanInput
+                                                                    label={workload.name}
+                                                                    source={`mesh_dev_info.apps.${item.name}.${workload.name}`}
+                                                                ></BooleanInput>
+                                                            </li>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <TextInput
+                                {...rest}
+                                label="resources.space.fields.header_key"
+                                source="mesh_dev_info.header.key"
+                                className={classes.inlineBlock}
+                            />
+                            <TextInput
+                                {...rest}
+                                label="resources.space.fields.header_value"
+                                source="mesh_dev_info.header.value"
+                            />
+                        </div>
+                    )
+                );
+            }}
+        </FormDataConsumer>
+    );
+};
+
 const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
     // eslint-disable-next-line
     // @ts-ignore
@@ -139,6 +210,8 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
         space_name: data.space_name || '',
     });
     const postDefaultValue = () => ({});
+
+    const classes = useStyles();
 
     return (
         <Create title={<Title />} transform={transform} {...props}>
@@ -174,6 +247,27 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                                 {formData.isLimit && (
                                     <ResourceLimitForm {...rest}></ResourceLimitForm>
                                 )}
+                            </div>
+                        )
+                    }
+                </FormDataConsumer>
+                <BooleanInput
+                    source="mesh_dev_space"
+                    label="resources.space.fields.mesh_dev_space"
+                />
+                <FormDataConsumer>
+                    {({ formData }) =>
+                        formData.mesh_dev_space && (
+                            <div>
+                                <ReferenceInput
+                                    label="resources.space.fields.base_space_name"
+                                    source="base_dev_space_id"
+                                    reference="devspace"
+                                    className={classes.inlineBlock}
+                                >
+                                    <SelectInput optionValue="id" optionText="space_name" />
+                                </ReferenceInput>
+                                <MeshDevSpaceForm></MeshDevSpaceForm>
                             </div>
                         )
                     }

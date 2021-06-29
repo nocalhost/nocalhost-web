@@ -47,6 +47,7 @@ export default (apiUrl: string, httpClient = fetchJson): DataProvider => {
         update: (resource, params) => data.update(apiUrl, httpClient, resource, params),
         create: (resource, params) => data.create(apiUrl, httpClient, resource, params),
         delete: (resource, params) => data.delete(apiUrl, httpClient, resource, params),
+        getMeshAppInfo: (params: string) => data.getMeshAppInfo(apiUrl, httpClient, params),
         // NO SUPPORT API
         deleteMany: async () => {
             throw Error('No support deleteMany');

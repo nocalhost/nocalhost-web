@@ -48,6 +48,7 @@ module.exports = {
         camelcase: 0,
         'no-console': 1,
         'no-alert': 2,
+        'no-debugger': 0,
         'no-var': 2,
         'no-return-assign': 0,
         'no-confusing-arrow': 0,

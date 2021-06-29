@@ -2,6 +2,7 @@ import getList from './getList';
 import getOne from './getOne';
 import getMany from './getMany';
 import getNHConfig from './getNHConfig';
+import getMeshAppInfo from './getMeshAppInfo';
 import * as appApi from './applications';
 import deleteMethod from './delete';
 import update from './update';
@@ -16,4 +17,5 @@ export default {
     getNHConfig,
     delete: deleteMethod,
     appApi,
+    getMeshAppInfo,
 };

@@ -25,6 +25,29 @@ const formatResourceLimit = (obj: any, key: string) => {
     }
 };
 
+const formatWorkload = (obj: any) => {
+    return Object.keys(obj).map((item: any) => {
+        return {
+            name: item,
+            status: obj[item] ? 1 : 0,
+        };
+    });
+};
+
+const formatMeshInfo = (obj: any) => {
+    const { apps, header } = obj;
+    const result = Object.keys(apps).map((item) => {
+        return {
+            name: item,
+            workloads: formatWorkload(apps[item]),
+        };
+    });
+    return {
+        header,
+        apps: result,
+    };
+};
+
 const create = async (
     apiUrl: string,
     httpClient: (url: any, options?: any) => Promise<any>,
@@ -45,6 +68,11 @@ const create = async (
                     formatResourceLimit(resourceLimit, key);
                 }
             }
+        }
+        // 处理mesh_info字段提交
+        if (params.data.mesh_dev_space) {
+            const meshDevInfo = params.data['mesh_dev_info'];
+            params.data['mesh_dev_info'] = formatMeshInfo(meshDevInfo);
         }
         params.data.cluster_admin = params.data?.cluster_admin ? 1 : 0;
         return httpClient(`${apiUrl}/dev_space`, {

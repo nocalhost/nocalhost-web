@@ -20,8 +20,7 @@ const useStyles = makeStyles({
     resource: {
         width: '256px',
     },
-
-    fullwidth: {
+    fullWidth: {
         width: '100%',
     },
 });
@@ -113,20 +112,6 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 </FormDataConsumer>
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
-                        formData.context.source === 'helm_repo' && (
-                            <SelectInput
-                                validate={validateText}
-                                {...rest}
-                                label="resources.application.fields.install_type"
-                                source="context.install_type"
-                                initialValue="helm_chart"
-                                choices={[{ id: 'helm_chart', name: 'Helm Chart' }]}
-                            />
-                        )
-                    }
-                </FormDataConsumer>
-                <FormDataConsumer>
-                    {({ formData, ...rest }) =>
                         formData.context.source === 'local' && (
                             <SelectInput
                                 validate={validateText}
@@ -194,7 +179,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                     multiline
                                     fullWidth={true}
                                     rowsMax={22}
-                                    className={classes.fullwidth}
+                                    className={classes.fullWidth}
                                     placeholder={config}
                                 />
                                 <Typography variant="subtitle2" gutterBottom>

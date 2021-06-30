@@ -26,10 +26,11 @@ const formatResourceLimit = (obj: any, key: string) => {
 };
 
 const formatWorkload = (obj: any) => {
-    return Object.keys(obj).map((item: any) => {
+    return Object.keys(obj).map((item) => {
         return {
             name: item,
-            status: obj[item] ? 1 : 0,
+            ...obj[item],
+            status: obj[item]['status'] ? 1 : 0,
         };
     });
 };
@@ -69,6 +70,7 @@ const create = async (
                 }
             }
         }
+
         // 处理mesh_info字段提交
         if (params.data.mesh_dev_space) {
             const meshDevInfo = params.data['mesh_dev_info'];

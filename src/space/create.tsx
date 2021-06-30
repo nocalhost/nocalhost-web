@@ -41,6 +41,14 @@ const useStyles = makeStyles({
     },
     liItem: {
         listStyle: 'none',
+        height: '48px',
+    },
+    hidden: {
+        visibility: 'hidden',
+        width: 0,
+        height: 0,
+        margin: 0,
+        padding: 0,
     },
 });
 const reg = /^([0-9.]+)$/;
@@ -179,8 +187,13 @@ const MeshDevSpaceForm = () => {
                                                                             ? true
                                                                             : false
                                                                     }
-                                                                    source={`mesh_dev_info.apps.${item.name}.${workload.name}`}
+                                                                    source={`mesh_dev_info.apps.${item.name}.${workload.name}.status`}
                                                                 ></BooleanInput>
+                                                                <TextInput
+                                                                    source={`mesh_dev_info.apps.${item.name}.${workload.name}.kind`}
+                                                                    defaultValue={workload.kind}
+                                                                    className={classes.hidden}
+                                                                ></TextInput>
                                                             </li>
                                                         );
                                                     }
@@ -274,12 +287,9 @@ const SpaceCreate: FC<CreateProps> = (props: CreateProps) => {
                                     label="resources.space.fields.base_space_name"
                                     source="base_dev_space_id"
                                     reference="devspace"
-                                    allowEmpty
-                                    allowNull
-                                    format={(v: any) => (!v ? null : v)}
                                     className={classes.inlineBlock}
                                 >
-                                    <SelectInput optionText="space_name" />
+                                    <SelectInput validate={validateText} optionText="space_name" />
                                 </ReferenceInput>
                                 <MeshDevSpaceForm></MeshDevSpaceForm>
                             </div>

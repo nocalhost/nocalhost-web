@@ -112,6 +112,20 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                 </FormDataConsumer>
                 <FormDataConsumer>
                     {({ formData, ...rest }) =>
+                        formData.context.source === 'helm_repo' && (
+                            <SelectInput
+                                validate={validateText}
+                                {...rest}
+                                label="resources.application.fields.install_type"
+                                source="context.install_type"
+                                initialValue="helm_chart"
+                                choices={[{ id: 'helm_chart', name: 'Helm Chart' }]}
+                            />
+                        )
+                    }
+                </FormDataConsumer>
+                <FormDataConsumer>
+                    {({ formData, ...rest }) =>
                         formData.context.source === 'local' && (
                             <SelectInput
                                 validate={validateText}

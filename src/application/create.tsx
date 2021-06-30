@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     resource: {
         width: '256px',
     },
-    fullwidth: {
+    fullWidth: {
         width: '100%',
     },
 });
@@ -193,7 +193,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                     multiline
                                     fullWidth={true}
                                     rowsMax={22}
-                                    className={classes.fullwidth}
+                                    className={classes.fullWidth}
                                     placeholder={config}
                                 />
                                 <Typography variant="subtitle2" gutterBottom>

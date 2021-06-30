@@ -43,8 +43,12 @@ const formatMeshInfo = (obj: any) => {
             workloads: formatWorkload(apps[item]),
         };
     });
+    const tmpObj: { [index: string]: any } = {};
+    if (header['key']) {
+        tmpObj[header['key']] = header['value'];
+    }
     return {
-        header,
+        header: tmpObj,
         apps: result,
     };
 };

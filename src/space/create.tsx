@@ -212,6 +212,7 @@ const MeshDevSpaceForm = () => {
                             <TextInput
                                 {...rest}
                                 label="resources.space.fields.header_value"
+                                className={classes.inlineBlock}
                                 source="mesh_dev_info.header.value"
                             />
                         </div>

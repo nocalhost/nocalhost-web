@@ -13,19 +13,26 @@ const getMany = async (
     };
     const url = `${apiUrl}/${resource}`;
     return httpClient(url, options).then((result: Result) => {
-        const listData = result.json.data;
-        const filterList = listData.filter((l: Record) => params.ids.includes(l.id));
-        let list;
-        if (resource === 'cluster') {
-            list = filterList.map((l: Cluster) => deserializeCluster(l));
-        } else if (resource === 'application') {
-            list = filterList.map((l: Application) => deserializeApplication(l));
-        } else {
-            list = listData;
+        try {
+            const listData = result.json.data;
+            const filterList = listData.filter((l: Record) => params.ids.includes(l.id));
+            let list;
+            if (resource === 'cluster') {
+                list = filterList.map((l: Cluster) => deserializeCluster(l));
+            } else if (resource === 'application') {
+                list = filterList.map((l: Application) => deserializeApplication(l));
+            } else {
+                list = listData;
+            }
+            return {
+                data: list ? list : [],
+            };
+        } catch (e) {
+            // fix Associated reference no longer appears to be available
+            return {
+                data: [],
+            };
         }
-        return {
-            data: list ? list : [],
-        };
     });
 };
 

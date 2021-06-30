@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     resource: {
         width: '256px',
     },
-
     fullwidth: {
         width: '100%',
     },

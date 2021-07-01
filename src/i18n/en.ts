@@ -150,6 +150,7 @@ const customEnglishMessages: TranslationMessages = {
                 requestCPU: 'Request CPU (cores)',
                 limitMem: 'Memory limit (MiB)',
                 limitCPU: 'CPU limit (cores)',
+                meshDevSpace: 'Mesh DevSpace',
             },
             devspaceLimitTitle: 'DevSpace Resource Limit',
             containerDefaultTitle: 'Container Default',

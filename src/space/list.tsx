@@ -20,6 +20,7 @@ import Empty from '../components/Empty';
 import DateField from '../components/DateField';
 import SpaceResetButton from '../components/SpaceResetButton';
 import ResourceLimitButton from '../components/ResourceLimitButton';
+import MeshDevSpaceButton from '../components/MeshDevSpaceButton';
 
 const ListActions = (props: any) => {
     const { ...rest } = props;
@@ -96,6 +97,7 @@ const SpaceList: FC<ListProps> = (props) => {
                     </ReferenceField>
                 )}
                 <ResourceLimitButton />
+                <MeshDevSpaceButton />
                 <SpaceShowButton />
                 <KubeConfigButton />
                 <SpaceResetButton />

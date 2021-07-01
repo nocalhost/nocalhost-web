@@ -1,5 +1,7 @@
-import { UpdateParams } from 'react-admin';
+// import { UpdateParams } from 'react-admin';
 import { Result } from '../../types';
+
+import { formatMeshInfo } from './create';
 
 const formatResourceLimit = (obj: any, key: string) => {
     const value = obj[key];
@@ -31,7 +33,7 @@ const update = async (
     apiUrl: string,
     httpClient: (url: any, options?: any) => Promise<any>,
     resource: string,
-    params: UpdateParams
+    params: any
 ) => {
     const options = {
         user: { authenticated: true, token: `Bearer ${localStorage.getItem('token')}` },
@@ -46,6 +48,12 @@ const update = async (
                 formatResourceLimit(resourceLimit, key);
             }
         }
+    }
+
+    if (resource === 'resourceMeshInfo') {
+        const { id, mesh_dev_info } = params;
+        url = `${apiUrl}/dev_space/${id}/update_mesh_dev_space_info`;
+        params.data = formatMeshInfo(mesh_dev_info);
     }
 
     return httpClient(url, {

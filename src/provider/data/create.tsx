@@ -35,7 +35,7 @@ const formatWorkload = (obj: any) => {
     });
 };
 
-const formatMeshInfo = (obj: any) => {
+export const formatMeshInfo = (obj: any) => {
     const { apps, header } = obj;
     const result = Object.keys(apps).map((item) => {
         return {

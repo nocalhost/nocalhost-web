@@ -147,6 +147,7 @@ const customChineseMessages: TranslationMessages = {
                 requestCPU: '请求 CPU (核)',
                 limitMem: '限制内存 (MiB)',
                 limitCPU: '限制 CPU (核)',
+                meshDevSpace: 'Mesh DevSpace',
             },
             actions: {
                 create: '创建环境',

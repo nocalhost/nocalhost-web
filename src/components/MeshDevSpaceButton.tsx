@@ -10,6 +10,7 @@ import {
     TextInput,
     Toolbar,
     SaveButton,
+    SelectInput,
 } from 'react-admin';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -85,10 +86,12 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
+    const [header, setHeader] = useState<{ key: string; value: string } | null>(null);
     const [apps, setApps] = useState([]);
 
     const queryMeshInfo = async () => {
         const result = await dataProvider.getMeshAppInfo(resource.id);
+        setHeader(result.data.header);
         setApps(result.data ? result.data.apps : []);
     };
 
@@ -140,18 +143,27 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
                             );
                         })}
                     </ul>
-                    <div>
-                        <TextInput
-                            label="resources.space.fields.header_key"
-                            source="mesh_dev_info.header.key"
-                            className={classes.inlineBlock}
-                        />
-                        <TextInput
-                            label="resources.space.fields.header_value"
-                            source="mesh_dev_info.header.value"
-                            className={classes.inlineBlock}
-                        />
-                    </div>
+                    {header && (
+                        <div>
+                            <SelectInput
+                                className={classes.inlineBlock}
+                                label="resources.space.fields.header_key"
+                                source="mesh_dev_info.header.key"
+                                choices={[
+                                    { id: 'jaeger', name: 'jaeger' },
+                                    { id: 'zipkin', name: 'zipkin' },
+                                    { id: 'no', name: 'no' },
+                                ]}
+                                defaultValue={header.key}
+                            />
+                            <TextInput
+                                label="resources.space.fields.header_value"
+                                source="mesh_dev_info.header.value"
+                                className={classes.inlineBlock}
+                                defaultValue={header.value}
+                            />
+                        </div>
+                    )}
                 </SimpleForm>
             </DialogContent>
         </Dialog>

@@ -203,11 +203,15 @@ const MeshDevSpaceForm = () => {
                                     );
                                 })}
                             </ul>
-                            <TextInput
-                                {...rest}
+                            <SelectInput
+                                className={classes.inlineBlock}
                                 label="resources.space.fields.header_key"
                                 source="mesh_dev_info.header.key"
-                                className={classes.inlineBlock}
+                                choices={[
+                                    { id: 'jaeger', name: 'jaeger' },
+                                    { id: 'zipkin', name: 'zipkin' },
+                                    { id: 'no', name: 'no' },
+                                ]}
                             />
                             <TextInput
                                 {...rest}

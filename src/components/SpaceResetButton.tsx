@@ -66,7 +66,7 @@ const SpaceResetButton: FC<DeleteWithConfirmButtonProps> = (
                 label={label}
                 className={classnames('ra-delete-button', classes.deleteButton)}
                 key="button"
-                disabled={record && record.space_name === 'admin'}
+                disabled={!!(record && record.cluster_admin)}
                 {...rest}
             >
                 {icon}

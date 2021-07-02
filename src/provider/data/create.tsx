@@ -44,12 +44,11 @@ export const formatMeshInfo = (obj: any) => {
         };
     });
 
-    const { prefix, key, value } = header;
-
-    const headerObj = prefix ? { key: `${prefix}-${key}`, value } : { key, value };
+    // const { prefix, key, value } = header;
+    // const headerObj = prefix ? { key: `${prefix}-${key}`, value } : { key, value };
 
     return {
-        header: headerObj,
+        header,
         apps: result,
     };
 };

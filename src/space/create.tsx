@@ -206,7 +206,7 @@ const MeshDevSpaceForm = () => {
                                     );
                                 })}
                             </ul>
-                            <SelectInput
+                            {/* <SelectInput
                                 label="resources.space.fields.header_key"
                                 source="mesh_dev_info.header.prefix"
                                 className={classes.marginRight}
@@ -215,12 +215,12 @@ const MeshDevSpaceForm = () => {
                                     { id: 'baggage', name: 'zipkin' },
                                     { id: '', name: 'no' },
                                 ]}
-                            />
+                            /> */}
                             <TextInput
                                 {...rest}
                                 label="resources.space.fields.header_value"
                                 source="mesh_dev_info.header.key"
-                                className={classes.marginRight}
+                                className={classes.inlineBlock}
                             />
                             <br />
                             <TextInput

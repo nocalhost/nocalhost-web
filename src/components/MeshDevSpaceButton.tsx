@@ -10,7 +10,7 @@ import {
     TextInput,
     Toolbar,
     SaveButton,
-    SelectInput,
+    // SelectInput,
 } from 'react-admin';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -103,23 +103,24 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
     const queryMeshInfo = async () => {
         const result = await dataProvider.getMeshAppInfo(resource.id);
 
-        try {
-            const header = result.data.header;
-            const { key, value } = header;
-            const tmp = key.split('-');
-            setHeader({
-                prefix: tmp[1] ? tmp[0] : '',
-                key: tmp[1] ? tmp[1] : key,
-                value,
-            });
-        } catch (e) {
-            setHeader({
-                prefix: '',
-                key: '',
-                value: '',
-            });
-        }
+        // try {
+        //     const header = result.data.header;
+        //     const { key, value } = header;
+        //     const tmp = key.split('-');
+        //     setHeader({
+        //         prefix: tmp[1] ? tmp[0] : '',
+        //         key: tmp[1] ? tmp[1] : key,
+        //         value,
+        //     });
+        // } catch (e) {
+        //     setHeader({
+        //         prefix: '',
+        //         key: '',
+        //         value: '',
+        //     });
+        // }
 
+        setHeader(result.data.header);
         setApps(result.data ? result.data.apps : []);
     };
 
@@ -174,7 +175,7 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
                     {header && (
                         <div>
                             <div className={classes.flexBlock}>
-                                <SelectInput
+                                {/* <SelectInput
                                     label="resources.space.fields.header_key_prefix"
                                     source="mesh_dev_info.header.prefix"
                                     choices={[
@@ -184,7 +185,7 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
                                     ]}
                                     defaultValue={header.prefix}
                                     className={classes.mr1}
-                                />
+                                /> */}
                                 <TextInput
                                     label="resources.space.fields.header_key"
                                     source="mesh_dev_info.header.key"

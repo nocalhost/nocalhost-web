@@ -51,8 +51,17 @@ const styles = (theme: Theme) =>
             margin: 0,
             padding: 0,
         },
+        flexBlock: {
+            minWidth: '400px',
+            display: 'flex',
+        },
+        mr1: {
+            width: '340px',
+            marginRight: '1rem',
+        },
         inlineBlock: {
-            width: '257px',
+            width: '384px',
+            display: 'inline-flex',
             marginRight: '1rem',
         },
     });
@@ -86,12 +95,31 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const [header, setHeader] = useState<{ key: string; value: string } | null>(null);
+    const [header, setHeader] = useState<{ key: string; value: string; prefix: string } | null>(
+        null
+    );
     const [apps, setApps] = useState([]);
 
     const queryMeshInfo = async () => {
         const result = await dataProvider.getMeshAppInfo(resource.id);
-        setHeader(result.data.header);
+
+        try {
+            const header = result.data.header;
+            const { key, value } = header;
+            const tmp = key.split('-');
+            setHeader({
+                prefix: tmp[1] ? tmp[0] : '',
+                key: tmp[1] ? tmp[1] : key,
+                value,
+            });
+        } catch (e) {
+            setHeader({
+                prefix: '',
+                key: '',
+                value: '',
+            });
+        }
+
         setApps(result.data ? result.data.apps : []);
     };
 
@@ -145,17 +173,25 @@ const MeshDialog = withStyles(styles)((props: MeshDialogProps) => {
                     </ul>
                     {header && (
                         <div>
-                            <SelectInput
-                                className={classes.inlineBlock}
-                                label="resources.space.fields.header_key"
-                                source="mesh_dev_info.header.key"
-                                choices={[
-                                    { id: 'jaeger', name: 'jaeger' },
-                                    { id: 'zipkin', name: 'zipkin' },
-                                    { id: 'no', name: 'no' },
-                                ]}
-                                defaultValue={header.key}
-                            />
+                            <div className={classes.flexBlock}>
+                                <SelectInput
+                                    label="resources.space.fields.header_key_prefix"
+                                    source="mesh_dev_info.header.prefix"
+                                    choices={[
+                                        { id: 'uberctx', name: 'jaeger' },
+                                        { id: 'baggage', name: 'zipkin' },
+                                        { id: '', name: 'no' },
+                                    ]}
+                                    defaultValue={header.prefix}
+                                    className={classes.mr1}
+                                />
+                                <TextInput
+                                    label="resources.space.fields.header_key"
+                                    source="mesh_dev_info.header.key"
+                                    defaultValue={header.key}
+                                    className={classes.inlineBlock}
+                                />
+                            </div>
                             <TextInput
                                 label="resources.space.fields.header_value"
                                 source="mesh_dev_info.header.value"
@@ -185,7 +221,7 @@ const MeshDevSpaceButton = (props: FieldProps) => {
             <Button
                 disabled={!(record && record.id > 0)}
                 onClick={handleClick}
-                label="Edit"
+                label="ra.action.edit"
             ></Button>
         </>
     );

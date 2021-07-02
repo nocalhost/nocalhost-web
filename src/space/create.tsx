@@ -36,7 +36,10 @@ const ResourceLimitTips = ({ title }: any) => {
 
 const useStyles = makeStyles({
     inlineBlock: {
-        width: '257px',
+        width: '364px',
+        marginRight: '1rem',
+    },
+    marginRight: {
         marginRight: '1rem',
     },
     liItem: {
@@ -204,15 +207,22 @@ const MeshDevSpaceForm = () => {
                                 })}
                             </ul>
                             <SelectInput
-                                className={classes.inlineBlock}
                                 label="resources.space.fields.header_key"
-                                source="mesh_dev_info.header.key"
+                                source="mesh_dev_info.header.prefix"
+                                className={classes.marginRight}
                                 choices={[
-                                    { id: 'jaeger', name: 'jaeger' },
-                                    { id: 'zipkin', name: 'zipkin' },
-                                    { id: 'no', name: 'no' },
+                                    { id: 'uberctx', name: 'jaeger' },
+                                    { id: 'baggage', name: 'zipkin' },
+                                    { id: '', name: 'no' },
                                 ]}
                             />
+                            <TextInput
+                                {...rest}
+                                label="resources.space.fields.header_value"
+                                source="mesh_dev_info.header.key"
+                                className={classes.marginRight}
+                            />
+                            <br />
                             <TextInput
                                 {...rest}
                                 label="resources.space.fields.header_value"

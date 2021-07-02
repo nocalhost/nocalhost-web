@@ -124,6 +124,7 @@ const customEnglishMessages: TranslationMessages = {
                 base_space_name: 'Base Space Name',
                 header: 'Header',
                 header_key: 'Header Key',
+                header_key_prefix: 'Key Prefix',
                 header_value: 'Header Value',
                 status: 'Status',
                 user: 'Owner',

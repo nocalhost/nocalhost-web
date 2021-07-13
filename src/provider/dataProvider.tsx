@@ -1,7 +1,6 @@
 import { fetchUtils, DataProvider, HttpError } from 'react-admin';
 import data from './data';
 import { REQUEST_TIMEOUT } from '../constants';
-
 export interface IRequestOptions extends fetchUtils.Options {
     timeout?: number;
 }
@@ -25,15 +24,66 @@ const withTimeout = function (
     });
 };
 
+// 当前是否正在重新获取token
+let isRefreshing = true;
+
 async function fetchJson(url: any, options?: IRequestOptions | undefined) {
     let res;
+    const headers = new Headers({
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
     if (options && options.timeout) {
-        res = await withTimeout(url, options);
+        res = await withTimeout(url, {
+            ...options,
+            headers,
+        });
     } else {
-        res = await fetchUtils.fetchJson(url, options);
+        res = await fetchUtils.fetchJson(url, {
+            ...options,
+            headers,
+        });
     }
     if (res && res.json && res.json.code === 20103) {
-        return Promise.reject(new HttpError('Invalid token.', 403));
+        // token expire, refresh token
+        let apiUrl = '';
+        // eslint-disable-next-line
+        // @ts-ignore
+        const apiHost = window._env_.API_HOST || window.location.origin;
+        if (apiHost.indexOf('http') >= 0) {
+            apiUrl = apiHost;
+        } else {
+            apiUrl = `http://${apiHost}`;
+        }
+        if (isRefreshing) {
+            isRefreshing = false;
+
+            const headers = new Headers({
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+                Reraeb: `${localStorage.getItem('refreshToken')}`,
+            });
+
+            const result = await fetchUtils.fetchJson(`${apiUrl}/v1/token/refresh`, {
+                method: 'POST',
+                headers,
+            });
+
+            if (result && result.json && result.json.code === 0) {
+                const {
+                    data: { token },
+                } = result.json;
+                localStorage.setItem('token', token);
+                isRefreshing = true;
+                // Not good TODO
+                location.reload();
+                res = await fetchUtils.fetchJson(url, {
+                    ...options,
+                    headers,
+                });
+            } else {
+                location.hash = 'login';
+                return Promise.reject(new HttpError('Invalid token.', 403));
+            }
+        }
     }
     return res;
 }

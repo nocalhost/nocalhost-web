@@ -69,16 +69,13 @@ async function fetchJson(url: any, options?: IRequestOptions | undefined) {
 
             if (result && result.json && result.json.code === 0) {
                 const {
-                    data: { token },
+                    data: { token, refresh_token },
                 } = result.json;
                 localStorage.setItem('token', token);
+                localStorage.setItem('refreshToken', refresh_token);
                 isRefreshing = true;
                 // Not good TODO
                 location.reload();
-                res = await fetchUtils.fetchJson(url, {
-                    ...options,
-                    headers,
-                });
             } else {
                 location.hash = 'login';
                 return Promise.reject(new HttpError('Invalid token.', 403));

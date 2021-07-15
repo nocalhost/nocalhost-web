@@ -133,6 +133,7 @@ const ApplicationEdit: FC<EditProps> = (props: EditProps) => {
                                 choices={[
                                     { id: 'rawManifestLocal', name: 'Manifest' },
                                     { id: 'helmLocal', name: 'Helm Chart' },
+                                    { id: 'kustomize', name: 'Kustomize' },
                                 ]}
                             />
                         )

@@ -19,12 +19,14 @@ export default (apiUrl: string): AuthProvider => ({
             throw new Error(login.message);
         }
         const token = login.data.token;
+        const refreshToken = login.data.refresh_token;
         const decodeToken: any = decodeJwt(token);
         const loginToken: LoginToken = decodeToken;
         localStorage.setItem('token', token);
         localStorage.setItem('username', loginToken.email);
         localStorage.setItem('permissions', loginToken.is_admin === 1 ? 'admin' : 'user');
         localStorage.setItem('userInfo', JSON.stringify(loginToken));
+        localStorage.setItem('refreshToken', refreshToken);
 
         const getUserRequest = new Request(`${apiUrl}/me`, {
             method: 'GET',

@@ -66,11 +66,15 @@ const Dashboard: FC = () => {
     }, [dataProvider]);
 
     const fetchData = () => {
-        if (permissions === 'admin') {
-            setState((state: State) => ({ ...state, isFetch: true }));
-            fetchUsers();
-            fetchClusters();
-            fetchApplications();
+        try {
+            if (permissions === 'admin') {
+                setState((state: State) => ({ ...state, isFetch: true }));
+                fetchUsers();
+                fetchClusters();
+                fetchApplications();
+            }
+        } catch (e) {
+            console.log(e);
         }
     };
 

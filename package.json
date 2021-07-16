@@ -42,6 +42,7 @@
         "typescript": "^4.0.3",
         "web-vitals": "^0.2.4"
     },
+    "proxy": "http://139.186.120.223",
     "scripts": {
         "start": "GIT_COMMIT_SHA=`git describe --match=NeVeRmAtCh --always --abbrev=40 --dirty` ./env.sh && cp env.js ./public/ && react-scripts start",
         "build": "react-scripts build",

@@ -136,6 +136,7 @@ const ApplicationCreate: FC<CreateProps> = (props: CreateProps) => {
                                 choices={[
                                     { id: 'rawManifestLocal', name: 'Manifest' },
                                     { id: 'helmLocal', name: 'Helm Chart' },
+                                    { id: 'kustomize', name: 'Kustomize' },
                                 ]}
                             />
                         )

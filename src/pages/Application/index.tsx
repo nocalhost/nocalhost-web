@@ -1,12 +1,8 @@
 import React from 'react';
-import { Main, Card } from './style-components';
+import SummaryCard from '../../components/SummaryCard';
 
 function Application() {
-    return (
-        <Main>
-            <Card>123</Card>
-        </Main>
-    );
+    return <SummaryCard title="Application"></SummaryCard>;
 }
 
 export default Application;

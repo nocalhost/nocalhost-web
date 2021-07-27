@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 body {
     padding: 0;
     margin: 0;
@@ -9,4 +10,72 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.ant-table-thead > tr > th {
+    width: 56px;
+    height: 20px;
+    color: rgb(121, 135, 156);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: normal;
+    background: #fff;
+    box-shadow: 0px 4px 8px 2px rgba(40, 47, 55, 0.03);
+}
+.ant-table-thead
+    > tr
+    > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    background-color: transparent;
+    width: 0px;
+    height: 0px;
+}
+
+.ant-table-tbody {
+    border-collapse: 0 10px;
+}
+
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td,
+.ant-table-row-hover,
+.ant-table-row-hover > td {
+    background: #f3f6fa;
+    box-shadow: inset 0px -1px 0px 0px rgb(243, 246, 250);
+}
+.ant-table-fixed .ant-table-row-hover,
+.ant-table-row-hover > td {
+    background: #f3f6fa;
+}
+
+.ant-table-tbody > tr > td {
+    border: none;
+    box-shadow: inset 0px -1px 0px 0px rgb(243, 246, 250);
+}
+
+.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination-disabled:hover .ant-pagination-item-link,
+.ant-pagination-disabled:focus-visible .ant-pagination-item-link {
+    border: none;
+}
+
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
+    border: none;
+}
+
+.ant-pagination-item {
+    border: none;
+    background-color: #eff4f9;
+    color: #36435c;
+}
+
+.ant-pagination-item-active {
+    background: rgb(0, 128, 255);
+    color: #fff !important;
+}
+
+.ant-pagination-item-active a {
+    color: #fff !important;
+}
+
+.ant-pagination-total-text {
+    color: #79879c;
 }

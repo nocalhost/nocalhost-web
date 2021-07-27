@@ -1,14 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const MainContent = styled.div`
-    background-color: ${(props) => props.theme.mainBgColor};
-    width: 100%;
-    height: 60px;
-`;
+import { Logo, MainContent, LogoName, Flex } from './style-components';
+import Icon from '../../images/logo.png';
 
 function MainHeader() {
-    return <MainContent>我是头部</MainContent>;
+    return (
+        <MainContent>
+            <Flex>
+                <Logo src={Icon}></Logo>
+                <LogoName>Nocalhost管理中心</LogoName>
+            </Flex>
+        </MainContent>
+    );
 }
 
 export default MainHeader;

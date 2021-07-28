@@ -3,10 +3,10 @@ import MainHeader from '../../components/MainHeader';
 import Dashbord from '../../components/Dashbord';
 import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
-import Application from '../Application';
-import User from '../User';
+import { routes } from './routes';
 import HTTP from '../../api/fetch';
 import { UserContext, UPDATE_USER } from '../../provider/appContext';
+import AuthorizedRoute from './AuthorizedRoute';
 const Flex = styled.div`
     display: flex;
 `;
@@ -29,7 +29,7 @@ function Home() {
                 const user = await HTTP.get('me');
                 if (user.code === 0) {
                     localStorage.setItem('user', JSON.stringify(user));
-                    dispatch(UPDATE_USER, user?.data);
+                    dispatch({ type: UPDATE_USER, user: user?.data });
                     localStorage.setItem('userId', user.id);
                 }
             }
@@ -43,9 +43,14 @@ function Home() {
                 <Dashbord></Dashbord>
                 <Content>
                     <Switch>
-                        <Route exact path="/application" component={Application} />
-                        <Route exact path="/user" component={User} />
-                        <Route exact path="/403" render={() => <div>123</div>} />
+                        {routes.map((item: any) => {
+                            return <AuthorizedRoute key={item.path} {...item}></AuthorizedRoute>;
+                        })}
+                        <Route
+                            path="/dashboard/403"
+                            exact
+                            render={() => <div>没有权限</div>}
+                        ></Route>
                     </Switch>
                 </Content>
             </Flex>

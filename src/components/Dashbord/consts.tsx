@@ -2,11 +2,11 @@ export const DASHBOARD = [
     {
         icon: '',
         name: '用户',
-        url: '/user',
+        url: '/dashboard/user',
     },
     {
         icon: '',
         name: '应用',
-        url: '/application',
+        url: '/dashboard/application',
     },
 ];

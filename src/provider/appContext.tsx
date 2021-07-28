@@ -22,7 +22,7 @@ export const initState = {
 export const reducer = (state: any, action: any) => {
     switch (action.type) {
         case UPDATE_USER:
-            return [...state, ...action.user];
+            return { ...state, ...action.user };
         case DELETE_USER:
             return initState;
         default:

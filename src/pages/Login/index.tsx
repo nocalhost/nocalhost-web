@@ -27,10 +27,10 @@ function Login() {
                 localStorage.setItem('refreshToken', refreshToken);
 
                 const user = await HTTP.get('me');
-                location.replace('/');
+                location.replace('/dashboard');
                 if (user.code === 0) {
                     localStorage.setItem('user', JSON.stringify(user));
-                    dispatch(UPDATE_USER, user?.data);
+                    dispatch({ type: UPDATE_USER, user: user?.data });
                     localStorage.setItem('userId', user.id);
                 }
             }

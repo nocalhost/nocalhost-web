@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login';
@@ -14,8 +14,11 @@ function App() {
         <ThemeProvider theme={theme1}>
             <Provider value={{ user, dispatch }}>
                 <BrowserRouter>
-                    <Route exact path="/login" component={Login} />
-                    <Route path="/" component={Home} />
+                    <Switch>
+                        <Route exact path="/login" component={Login} />
+                        <Route path="/dashboard" component={Home} />
+                        <Route path="*" render={() => <Redirect to={{ pathname: '/login' }} />} />
+                    </Switch>
                     {/* <Route  component={NoMatch} /> */}
                 </BrowserRouter>
             </Provider>

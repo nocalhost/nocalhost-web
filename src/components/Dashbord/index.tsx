@@ -10,7 +10,7 @@ function Dashbord() {
     const { user } = useContext(UserContext);
     let FILTER_DASHBOARD: any[] = [];
     if (user.is_admin === 0) {
-        FILTER_DASHBOARD = DASHBOARD.filter((item) => item.url !== '/user');
+        FILTER_DASHBOARD = DASHBOARD.filter((item) => item.url !== '/dashboard/user');
     } else {
         FILTER_DASHBOARD = DASHBOARD;
     }

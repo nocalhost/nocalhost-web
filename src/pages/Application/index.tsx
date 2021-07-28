@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover } from 'antd';
 import HTTP from '../../api/fetch';
@@ -8,10 +8,13 @@ import Dialog from '../../components/Dialog';
 import { TableBox, TableHeader, TableWrap, PopItem } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
+import CreateApplicationForm from './CreateApplicationForm';
+import { useTranslation } from 'react-i18next';
 
 function Application() {
     const [data, setData] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
+    const { t } = useTranslation();
     // const [openDialog, setOpenDialog] = useState(false);
     useEffect(() => {
         const getApplication = async () => {
@@ -81,16 +84,20 @@ function Application() {
                             trigger="click"
                             placement="bottom"
                             content={
-                                <PopItem
-                                    onClick={() => {
-                                        const filterData = data.filter(
-                                            (item: { id: string }) => item.id !== record.id
-                                        );
-                                        setData(filterData);
-                                    }}
-                                >
-                                    删除
-                                </PopItem>
+                                <Fragment>
+                                    <PopItem>授权管理</PopItem>
+                                    <PopItem>公有</PopItem>
+                                    <PopItem
+                                        onClick={() => {
+                                            const filterData = data.filter(
+                                                (item: { id: string }) => item.id !== record.id
+                                            );
+                                            setData(filterData);
+                                        }}
+                                    >
+                                        删除
+                                    </PopItem>
+                                </Fragment>
                             }
                         >
                             <EllipsisOutlined></EllipsisOutlined>
@@ -100,6 +107,7 @@ function Application() {
             },
         },
     ];
+
     return (
         <div>
             <Dialog
@@ -107,7 +115,11 @@ function Application() {
                 title="添加应用"
                 width={680}
                 onCancel={() => setOpenDialog(false)}
-            ></Dialog>
+            >
+                <CreateApplicationForm
+                    onCancel={() => setOpenDialog(false)}
+                ></CreateApplicationForm>
+            </Dialog>
             <SummaryCard title="Application"></SummaryCard>
             <TableBox>
                 <TableHeader>
@@ -117,7 +129,7 @@ function Application() {
                         onClick={() => setOpenDialog(true)}
                         icon={<PlusOutlined style={{ color: '#fff' }} />}
                     >
-                        添加应用
+                        {t('resources.application.add')}
                     </Button>
                 </TableHeader>
                 <TableWrap>

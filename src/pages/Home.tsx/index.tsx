@@ -20,7 +20,6 @@ const Content = styled.div`
     width: 100%;
 `;
 
-// 有头 有sidebar
 function Home() {
     const { user, dispatch } = useContext(UserContext);
     useEffect(() => {

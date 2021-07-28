@@ -9,4 +9,9 @@ export const DASHBOARD = [
         name: '应用',
         url: '/dashboard/application',
     },
+    {
+        icon: '',
+        name: '集群',
+        url: '/dashboard/clusters',
+    },
 ];

@@ -1,15 +1,20 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import HTTP from '../../api/fetch';
-import { TableBox, TableHeader, TableWrap } from './styled-components';
+import { TableBox, TableHeader, TableWrap, PopItem } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
-import { Table } from 'antd';
-import { columns } from './columns';
-// const tableHeader = ['用户名称', '用户类型', '状态', '开发空间数量', '操作', ''];
+import { Table, Button, Popover } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import Dialog from '../../components/Dialog';
+import CreateUserForm from './CreateUserForm';
+import { Dot } from './style-components';
+import { EllipsisOutlined } from '@ant-design/icons';
 
+// const tableHeader = ['用户名称', '用户类型', '状态', '开发空间数量', '操作', ''];
 function User() {
     const [data, setData] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false);
+    // const [openDialog, setOpenDialog] = useState(false);
     useEffect(() => {
         const getUser = async () => {
             const result = await HTTP.get('users', {
@@ -17,22 +22,115 @@ function User() {
                 range: [0, 9],
                 sort: ['id', 'ASC'],
             });
-            setData(result.data);
+            setData(result.data || []);
         };
         getUser();
     }, []);
     const showTotal = (total: number) => {
         return `共${total}条`;
     };
+    const columns = [
+        {
+            title: '用户名称',
+            dataIndex: 'name',
+            key: '1',
+            // eslint-disable-next-line react/display-name
+            render: (...args: any) => {
+                const record = args[1];
+                return <div>{record.name}</div>;
+            },
+        },
+        {
+            title: '用户类型',
+            dataIndex: 'is_admin',
+            key: '2',
+            // eslint-disable-next-line react/display-name
+            render: (...args: any) => {
+                const record = args[1];
+                return (
+                    <div>
+                        <span>{record.is_admin === 1 ? '管理员' : '普通用户'}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+            key: '3',
+            // eslint-disable-next-line react/display-name
+            render: (...args: any) => {
+                const record = args[1];
+                return (
+                    <div>
+                        <Dot isActive={record.status === 1}></Dot>
+                        <span>{record.status === 1 ? '已激活' : '未激活'}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            title: '开发空间数量',
+            key: '4',
+            dataIndex: 'cluster_count',
+        },
+        {
+            title: '操作',
+            key: '5',
+            width: 80,
+            // eslint-disable-next-line react/display-name
+            render: (...args: any) => {
+                const record = args[1];
+                return (
+                    <div>
+                        <Popover
+                            trigger="click"
+                            placement="bottom"
+                            content={
+                                <PopItem
+                                    onClick={() => {
+                                        const filterData = data.filter(
+                                            (item: { id: string }) => item.id !== record.id
+                                        );
+                                        setData(filterData);
+                                    }}
+                                >
+                                    删除
+                                </PopItem>
+                            }
+                        >
+                            <EllipsisOutlined></EllipsisOutlined>
+                        </Popover>
+                    </div>
+                );
+            },
+        },
+    ];
     return (
         <div>
+            <Dialog
+                visible={openDialog}
+                title="添加用户"
+                width={680}
+                onCancel={() => setOpenDialog(false)}
+            >
+                <CreateUserForm onCancel={() => setOpenDialog(false)}></CreateUserForm>
+            </Dialog>
             <SummaryCard title="User"></SummaryCard>
             <TableBox>
                 <TableHeader>
                     <TableSearchInput></TableSearchInput>
+                    <Button
+                        type="primary"
+                        onClick={() => setOpenDialog(true)}
+                        icon={<PlusOutlined style={{ color: '#fff' }} />}
+                    >
+                        添加用户
+                    </Button>
                 </TableHeader>
                 <TableWrap>
                     <Table
+                        scroll={{ x: '100%' }}
                         pagination={{
                             position: ['bottomCenter'],
                             showTotal: showTotal,

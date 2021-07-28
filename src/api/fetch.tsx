@@ -15,7 +15,8 @@ let isRefreshing = true;
 
 export async function fetchJson(url: string, options?: IRequestOptions) {
     const headers = new Headers({
-        authorization: `Bearer ${localStorage.getItem('token')}`,
+        authorization: url.startsWith('login') ? '' : `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': options?.method === 'GET' ? '' : 'application/json',
     });
     let apiUrl = '';
     const initOptions: IRequestOptions = {};
@@ -80,10 +81,20 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
 
 class HTTP {
     async get(url: string, data?: any) {
-        return await fetchJson(url, { method: 'GET', body: data });
+        try {
+            return await fetchJson(url, { method: 'GET', body: data });
+        } catch (error) {
+            console.log(error);
+            return Promise.resolve({});
+        }
     }
     async post(url: string, data?: any) {
-        return await fetchJson(url, { method: 'POST', body: data });
+        try {
+            return await fetchJson(url, { method: 'POST', body: JSON.stringify(data) });
+        } catch (error) {
+            console.log(error);
+            return Promise.resolve({});
+        }
     }
 }
 

@@ -1,0 +1,42 @@
+#creareUserForm .ant-row {
+    display: block;
+}
+
+#creareUserForm .ant-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#creareUserForm .ant-form-item {
+    width: 50%;
+    padding-right: 6px;
+}
+
+#creareUserForm .ant-input:hover {
+    border-color: #0080ff !important;
+}
+#creareUserForm .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #0080ff !important;
+}
+
+#creareUserForm .ant-form-item:nth-of-type(2n) {
+    padding-left: 6px;
+}
+
+#creareUserForm .ant-form-item-control-input-content {
+    border-radius: 2px;
+}
+#creareUserForm .ant-input-affix-wrapper {
+    border: 1px solid #dae1e8;
+}
+#creareUserForm .ant-form-item-control-input-content .ant-input {
+    border: 1px solid #dae1e8;
+}
+#creareUserForm .ant-input-affix-wrapper > input.ant-input {
+    border: none;
+}
+#creareUserForm .ant-form-item-required {
+    color: rgb(54, 67, 92);
+    font-size: 14px;
+    font-weight: 600;
+}

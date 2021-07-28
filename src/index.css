@@ -79,3 +79,56 @@ code {
 .ant-pagination-total-text {
     color: #79879c;
 }
+
+.ant-table-tbody > tr > td {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.ant-modal-title {
+    color: rgb(44, 66, 93);
+    font-family: PingFangSC-Semibold;
+    font-size: 18px;
+    font-weight: 600;
+    height: 24px;
+    line-height: 24px;
+}
+
+.ant-modal-content {
+    border-radius: 4px;
+    box-shadow: 0px 8px 20px 0px rgba(54, 67, 92, 0.2);
+}
+
+.ant-modal-header {
+    border-bottom: 0px;
+}
+
+.ant-switch-checked {
+    background: #0080ff !important;
+}
+.ant-switch {
+    background: #dee8f1;
+}
+
+.ant-btn {
+    color: #202d40;
+}
+
+.ant-btn-primary {
+    color: #fff !important;
+}
+
+.ant-table-tbody > tr > td {
+    color: #36435c;
+}
+
+/* .ant-pagination-item {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    line-height: 26px;
+} */
+
+.ant-popover-inner-content {
+    padding: 4px 0;
+}

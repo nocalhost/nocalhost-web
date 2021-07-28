@@ -1,25 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
-
-const MainContent = styled.div`
-    background-color: ${(props) => props.theme.mainBgColor};
-    width: 220px;
-    height: calc(100vh - 60px);
-`;
-
+import React, { useContext } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { DASHBOARD } from './consts';
+import { ListItem, MainContent } from './style-components';
+import { UserContext } from '../../provider/appContext';
 function Dashbord() {
-    const history = useHistory();
-    const toAppliction = () => {
-        history.push('/application');
-    };
-    const toUser = () => {
-        history.push('/user');
-    };
+    // const history = useHistory();
+    const urlParams = useLocation();
+    const pathName = urlParams.pathname;
+    const { user } = useContext(UserContext);
+    let FILTER_DASHBOARD: any[] = [];
+    if (user.is_admin === 0) {
+        FILTER_DASHBOARD = DASHBOARD.filter((item) => item.url !== '/user');
+    } else {
+        FILTER_DASHBOARD = DASHBOARD;
+    }
     return (
         <MainContent>
-            <div onClick={toAppliction}>application</div>
-            <div onClick={toUser}>user</div>
+            {FILTER_DASHBOARD.map((item) => {
+                return (
+                    <ListItem key={item.name} isActive={pathName.startsWith(item.url)}>
+                        <Link to={item.url}>{item.name}</Link>
+                    </ListItem>
+                );
+            })}
+            {/* <div onClick={toAppliction}>application</div>
+            <div onClick={toUser}>user</div> */}
         </MainContent>
     );
 }

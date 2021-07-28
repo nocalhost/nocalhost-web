@@ -27,4 +27,30 @@ export const TableHeader = styled.div`
     align-items: center;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+`;
+// eslint-disable-next-line no-undef
+export const Dot = styled.span<{ isActive: boolean | undefined }>`
+    display: inline-block;
+    background: ${(props) => (props.isActive ? 'rgb(30, 231, 231)' : '#c6d2dd')};
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+`;
+
+export const PopItem = styled.div`
+    height: 40px;
+    min-width: 140px;
+    color: #36435c;
+    background: #fff;
+    font-size: 14px;
+    padding-left: 12px;
+    line-height: 40px;
+    cursor: pointer;
+    &:hover {
+        color: #ff3f3f;
+        background: rgb(255, 63, 63, 0.08);
+    }
 `;

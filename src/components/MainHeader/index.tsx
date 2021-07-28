@@ -9,7 +9,7 @@ function MainHeader() {
         <MainContent>
             <Flex>
                 <Logo src={Icon}></Logo>
-                <LogoName>Nocalhost管理中心{user.name}</LogoName>
+                <LogoName>Nocalhost管理中心</LogoName>
             </Flex>
         </MainContent>
     );

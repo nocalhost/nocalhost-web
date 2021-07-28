@@ -10,10 +10,14 @@ import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
 import CreateApplicationForm from './CreateApplicationForm';
 import { useTranslation } from 'react-i18next';
+import DeleteModal from '../../components/DeleteModal';
 
 function Application() {
     const [data, setData] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
+    // const [selectId, setSelectId] = useState('');
     const { t } = useTranslation();
     // const [openDialog, setOpenDialog] = useState(false);
     useEffect(() => {
@@ -77,22 +81,27 @@ function Application() {
             title: '操作',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
-                const record = args[1];
+                const index = args[2];
                 return (
                     <div>
                         <Popover
                             trigger="click"
                             placement="bottom"
+                            visible={index === popVisibleIndex}
+                            onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
                             content={
                                 <Fragment>
+                                    <DeleteModal
+                                        onCancel={() => setDeleteModalShow(false)}
+                                        visible={deleteModalShow}
+                                        message="你确认要公开该应用「devpool」吗？"
+                                    ></DeleteModal>
                                     <PopItem>授权管理</PopItem>
                                     <PopItem>公有</PopItem>
                                     <PopItem
                                         onClick={() => {
-                                            const filterData = data.filter(
-                                                (item: { id: string }) => item.id !== record.id
-                                            );
-                                            setData(filterData);
+                                            setDeleteModalShow(true);
+                                            setPopVisibleIndex(-1);
                                         }}
                                     >
                                         删除

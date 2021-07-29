@@ -1,7 +1,13 @@
 import Application from '../Application';
 import ApplicationAuthorize from '../ApplicationAuthorize';
+import Overview from '../OverView';
 import User from '../User';
 export const routes = [
+    {
+        path: '/dashboard/overview',
+        exact: true,
+        component: Overview,
+    },
     {
         path: '/dashboard/application',
         exact: true,

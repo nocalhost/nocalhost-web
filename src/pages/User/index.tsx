@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import HTTP from '../../api/fetch';
-import { TableBox, TableHeader, TableWrap, PopItem } from './style-components';
+import { TableBox, TableHeader, TableWrap, PopItem, Filter } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import { Table, Button, Popover } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
@@ -10,6 +10,8 @@ import CreateUserForm from './CreateUserForm';
 import { Dot } from './style-components';
 import { EllipsisOutlined } from '@ant-design/icons';
 import DeleteModal from '../../components/DeleteModal';
+import LabelSelect from '../../components/LabelSelect';
+import { userOptions } from './const';
 
 // const tableHeader = ['用户名称', '用户类型', '状态', '开发空间数量', '操作', ''];
 function User() {
@@ -31,6 +33,9 @@ function User() {
     }, []);
     const showTotal = (total: number) => {
         return `共${total}条`;
+    };
+    const handleSelectChange = (v: any) => {
+        console.log(v);
     };
     const columns = [
         {
@@ -130,7 +135,15 @@ function User() {
             <SummaryCard title="User"></SummaryCard>
             <TableBox>
                 <TableHeader>
-                    <TableSearchInput></TableSearchInput>
+                    <Filter>
+                        <TableSearchInput></TableSearchInput>
+                        <LabelSelect
+                            label="用户类型"
+                            option={userOptions}
+                            onChange={handleSelectChange}
+                        ></LabelSelect>
+                    </Filter>
+
                     <Button
                         type="primary"
                         onClick={() => setOpenDialog(true)}

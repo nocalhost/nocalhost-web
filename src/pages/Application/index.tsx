@@ -5,12 +5,14 @@ import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
 import { EllipsisOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
-import { TableBox, TableHeader, TableWrap, PopItem } from './style-components';
+import { TableBox, TableHeader, TableWrap, PopItem, Filter } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
 import CreateApplicationForm from './CreateApplicationForm';
 import { useTranslation } from 'react-i18next';
 import DeleteModal from '../../components/DeleteModal';
+import LabelSelect from '../../components/LabelSelect';
+import { applictionOptions } from './const';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -33,6 +35,9 @@ function Application() {
     }, []);
     const showTotal = (total: number) => {
         return `共${total}条`;
+    };
+    const handleSelectChange = (v: any) => {
+        console.log(v);
     };
     const columns = [
         {
@@ -132,7 +137,14 @@ function Application() {
             <SummaryCard title="Application"></SummaryCard>
             <TableBox>
                 <TableHeader>
-                    <TableSearchInput></TableSearchInput>
+                    <Filter>
+                        <TableSearchInput></TableSearchInput>
+                        <LabelSelect
+                            label="安装来源"
+                            option={applictionOptions}
+                            onChange={handleSelectChange}
+                        ></LabelSelect>
+                    </Filter>
                     <Button
                         type="primary"
                         onClick={() => setOpenDialog(true)}

@@ -62,3 +62,25 @@ export const PopItem = styled.div`
 export const Filter = styled.div`
     display: flex;
 `;
+
+export const AIcon = styled.div`
+    width: 32px;
+    height: 32px;
+    background: black;
+    margin-right: 8px;
+    flex-shrink: 0;
+`;
+
+export const Flex = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const Sub = styled.div`
+    color: rgb(121, 135, 156);
+    font-size: 12px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;

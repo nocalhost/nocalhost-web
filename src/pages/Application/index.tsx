@@ -5,7 +5,16 @@ import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
 import { EllipsisOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
-import { TableBox, TableHeader, TableWrap, PopItem, Filter } from './style-components';
+import {
+    TableBox,
+    TableHeader,
+    TableWrap,
+    PopItem,
+    Filter,
+    AIcon,
+    Flex,
+    Sub,
+} from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
 import CreateApplicationForm from './CreateApplicationForm';
@@ -13,12 +22,14 @@ import { useTranslation } from 'react-i18next';
 import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
 import { applictionOptions } from './const';
+import { useHistory } from 'react-router-dom';
 
 function Application() {
     const [data, setData] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
+    const history = useHistory();
     // const [selectId, setSelectId] = useState('');
     const { t } = useTranslation();
     // const [openDialog, setOpenDialog] = useState(false);
@@ -48,7 +59,19 @@ function Application() {
             render: (...args: any) => {
                 const record = args[1];
                 const object = JSON.parse(record?.context);
-                return <div>{object.application_name}</div>;
+                return (
+                    <Flex>
+                        <AIcon></AIcon>
+                        <div>
+                            <Flex>
+                                <div>{object.application_name}</div>
+                            </Flex>
+                            <Flex>
+                                <Sub>{object.application_url}</Sub>
+                            </Flex>
+                        </div>
+                    </Flex>
+                );
             },
         },
         {
@@ -87,6 +110,7 @@ function Application() {
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const index = args[2];
+                const record = args[1];
                 return (
                     <div>
                         <Popover
@@ -101,7 +125,15 @@ function Application() {
                                         visible={deleteModalShow}
                                         message="你确认要公开该应用「devpool」吗？"
                                     ></DeleteModal>
-                                    <PopItem>授权管理</PopItem>
+                                    <PopItem
+                                        onClick={() =>
+                                            history.push(
+                                                `/dashboard/application/authorize/${record.id}`
+                                            )
+                                        }
+                                    >
+                                        授权管理
+                                    </PopItem>
                                     <PopItem>公有</PopItem>
                                     <PopItem
                                         onClick={() => {
@@ -121,7 +153,6 @@ function Application() {
             },
         },
     ];
-
     return (
         <div>
             <Dialog
@@ -155,6 +186,7 @@ function Application() {
                 </TableHeader>
                 <TableWrap>
                     <Table
+                        tableLayout="fixed"
                         scroll={{ x: '100%' }}
                         pagination={{
                             position: ['bottomCenter'],

@@ -85,7 +85,7 @@ function User() {
         {
             title: '操作',
             key: '5',
-            width: 80,
+            width: 132,
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const index = args[2];

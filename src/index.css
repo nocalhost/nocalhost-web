@@ -16,8 +16,8 @@ code {
 }
 
 .ant-table-thead > tr > th {
-    width: 56px;
-    height: 20px;
+    /* width: 56px;
+    height: 20px; */
     color: rgb(121, 135, 156);
     font-size: 14px;
     font-family: PingFangSC-Regular;
@@ -32,11 +32,6 @@ code {
     width: 0px;
     height: 0px;
 }
-
-.ant-table-tbody {
-    border-collapse: 0 10px;
-}
-
 .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td,
 .ant-table-row-hover,
 .ant-table-row-hover > td {
@@ -83,10 +78,10 @@ code {
     color: #79879c;
 }
 
-.ant-table-tbody > tr > td {
+/* .ant-table-tbody > tr > td {
     word-wrap: break-word;
     word-break: break-all;
-}
+} */
 
 .ant-modal-title {
     color: rgb(44, 66, 93);
@@ -167,3 +162,41 @@ code {
 /* .ant-select-selection-item {
 
 } */
+.ant-input-group-addon {
+    color: rgb(121, 135, 156);
+    background: rgb(239, 244, 249);
+}
+
+/* .ant-table-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+
+.ant-table-tbody > tr.ant-table-row-selected > td {
+    background: #fff;
+}
+
+.ant-checkbox-indeterminate .ant-checkbox-inner {
+    background: #1890ff;
+    border: none;
+}
+
+.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 2px;
+    background-color: #fff;
+    border: 0;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    content: ' ';
+}
+
+.ant-breadcrumb > span:last-child a {
+    color: #36435c;
+}
+
+.ant-breadcrumb-link {
+    color: #79879c;
+}

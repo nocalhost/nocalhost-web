@@ -5,6 +5,7 @@
 #creareUserForm .ant-form {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 #creareUserForm .ant-form-item {

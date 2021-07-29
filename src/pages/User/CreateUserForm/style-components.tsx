@@ -12,7 +12,8 @@ export const Card = styled.div`
     padding: 0 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;f
+    justify-content: space-between;
+    width: 100%;
 `;
 
 export const Title = styled.div`
@@ -33,6 +34,7 @@ export const Footer = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+    width: 100%;
 `;
 
 export const ButtonBox = styled.div`

@@ -1,13 +1,15 @@
 import { Button, Form, Input, Radio, Select } from 'antd';
 import React, { useState } from 'react';
-import { ButtonBox, Footer, FormBox } from './style-components';
+import { ButtonBox, Footer, FormBox, AddInputBtn } from './style-components';
 import './resetAntd.css';
+import { MinusCircleFilled } from '@ant-design/icons';
 
 interface PropsType {
     onCancel(): void;
 }
 function CreateApplicationForm(props: PropsType) {
-    const [value, setValue] = useState(2);
+    const [value, setValue] = useState(1);
+
     const onChange = (e: any) => {
         setValue(e.target.value);
     };
@@ -24,6 +26,9 @@ function CreateApplicationForm(props: PropsType) {
         }
     };
     const handleChange = () => {
+        console.log(123);
+    };
+    const deleteGitUrl = () => {
         console.log(123);
     };
     const renderGitForm = () => {
@@ -46,6 +51,25 @@ function CreateApplicationForm(props: PropsType) {
                 <Form.Item label="应用配置文件，一般存放于 .nocalhost 目录下" name="yalm">
                     <Input placeholder="请输入应用配置文件 config.yalm" />
                 </Form.Item>
+                <Form.Item label="Git 仓库的相对路径" name="git">
+                    <Input
+                        addonBefore="路径1"
+                        addonAfter={
+                            <MinusCircleFilled
+                                onClick={() => deleteGitUrl}
+                                style={{
+                                    color: '#ff3f3f',
+                                    fontSize: '18px',
+                                    position: 'relative',
+                                    top: '2px',
+                                    cursor: 'pointer',
+                                }}
+                            />
+                        }
+                        placeholder="请输入路径"
+                    />
+                </Form.Item>
+                <AddInputBtn>添加路径</AddInputBtn>
             </>
         );
     };
@@ -106,7 +130,7 @@ function CreateApplicationForm(props: PropsType) {
                         name="k8sType"
                         rules={[{ required: true }]}
                     >
-                        <Radio.Group defaultValue={1} value={value} onChange={onChange}>
+                        <Radio.Group value={value} onChange={onChange}>
                             <Radio value={1}>Git</Radio>
                             <Radio value={2}>Helm Repo</Radio>
                             <Radio value={3}>Local</Radio>

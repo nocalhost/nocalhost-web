@@ -4,11 +4,12 @@ import { ButtonBox, Content, Message } from './style-components';
 interface PropsType {
     visible: boolean;
     onCancel(): void;
+    onConfirm(): void;
     message: string;
 }
 
 function Dialog(props: PropsType) {
-    const { visible, onCancel, message } = props;
+    const { visible, onCancel, message, onConfirm } = props;
     return (
         <Modal
             title=""
@@ -23,7 +24,7 @@ function Dialog(props: PropsType) {
                     <Message>{message}</Message>
                 </Content>
                 <ButtonBox>
-                    <Button type="primary" danger>
+                    <Button type="primary" onClick={onConfirm} danger>
                         确认
                     </Button>
                     <Button onClick={() => onCancel()}>取消</Button>

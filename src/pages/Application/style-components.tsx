@@ -27,7 +27,6 @@ export const TableHeader = styled.div`
     align-items: center;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    display: flex;
     justify-content: space-between;
 `;
 
@@ -74,6 +73,7 @@ export const AIcon = styled.div`
 export const Flex = styled.div`
     display: flex;
     align-items: center;
+    max-width: 85%;
 `;
 
 export const Sub = styled.div`
@@ -83,4 +83,5 @@ export const Sub = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
 `;

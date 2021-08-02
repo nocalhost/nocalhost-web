@@ -200,3 +200,38 @@ code {
 .ant-breadcrumb-link {
     color: #79879c;
 }
+
+.ant-message-notice-content {
+    padding: 0px;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.ant-message-error {
+    background: rgb(249, 236, 236);
+    border-radius: 2px;
+    border: 1px solid rgb(255, 63, 63);
+    box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.1);
+    height: 44px;
+    padding: 12px 17px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: rgb(54, 67, 92);
+    line-height: normal;
+}
+
+.ant-message-success {
+    background: #e3f6ec;
+    border-radius: 2px;
+    border: 1px solid rgb(74, 194, 133);
+    box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.1);
+    height: 44px;
+    padding: 12px 17px;
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    font-size: 14px;
+    color: rgb(54, 67, 92);
+}

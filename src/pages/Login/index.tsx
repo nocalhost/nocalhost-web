@@ -27,7 +27,7 @@ function Login() {
                 localStorage.setItem('refreshToken', refreshToken);
 
                 const user = await HTTP.get('me');
-                location.replace('/dashboard');
+                location.replace('/dashboard/overview');
                 if (user.code === 0) {
                     localStorage.setItem('user', JSON.stringify(user));
                     dispatch({ type: UPDATE_USER, user: user?.data });

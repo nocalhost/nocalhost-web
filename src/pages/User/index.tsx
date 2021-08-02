@@ -8,27 +8,26 @@ import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import CreateUserForm from './CreateUserForm';
 import { Dot } from './style-components';
-import { EllipsisOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, FormOutlined } from '@ant-design/icons';
 import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
 import { userOptions } from './const';
 
-// const tableHeader = ['用户名称', '用户类型', '状态', '开发空间数量', '操作', ''];
 function User() {
     const [data, setData] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
-    // const [openDialog, setOpenDialog] = useState(false);
+    const [formData, setFormData] = useState({});
+    const getUser = async () => {
+        const result = await HTTP.get('users', {
+            filter: {},
+            range: [0, 9],
+            sort: ['id', 'ASC'],
+        });
+        setData(result.data || []);
+    };
     useEffect(() => {
-        const getUser = async () => {
-            const result = await HTTP.get('users', {
-                filter: {},
-                range: [0, 9],
-                sort: ['id', 'ASC'],
-            });
-            setData(result.data || []);
-        };
         getUser();
     }, []);
     const showTotal = (total: number) => {
@@ -36,6 +35,26 @@ function User() {
     };
     const handleSelectChange = (v: any) => {
         console.log(v);
+    };
+    const handleEdit = async (id: number) => {
+        const result = await HTTP.get(`users/${id}`);
+        setFormData({
+            status: result?.data?.status,
+            is_admin: result?.data?.is_admin,
+            name: result?.data?.name,
+            email: result?.data?.email,
+            id: result?.data?.id,
+        });
+        setOpenDialog(true);
+    };
+    const handleDelete = async (id: number) => {
+        await HTTP.delete(`users/${id}`);
+        setDeleteModalShow(false);
+    };
+    const handleOkUserForm = () => {
+        getUser();
+        setOpenDialog(false);
+        setFormData({});
     };
     const columns = [
         {
@@ -92,6 +111,7 @@ function User() {
                 const record = args[1];
                 return (
                     <div>
+                        <FormOutlined onClick={() => handleEdit(record.id)} />
                         <Popover
                             trigger="click"
                             placement="bottom"
@@ -101,6 +121,7 @@ function User() {
                                 <Fragment>
                                     <DeleteModal
                                         onCancel={() => setDeleteModalShow(false)}
+                                        onConfirm={() => handleDelete(record.id)}
                                         visible={deleteModalShow}
                                         message={`你确认要删除该用户 ${record.name} 吗？`}
                                     ></DeleteModal>
@@ -122,16 +143,34 @@ function User() {
             },
         },
     ];
+
     return (
         <div>
-            <Dialog
-                visible={openDialog}
-                title="添加用户"
-                width={680}
-                onCancel={() => setOpenDialog(false)}
-            >
-                <CreateUserForm onCancel={() => setOpenDialog(false)}></CreateUserForm>
-            </Dialog>
+            {openDialog && (
+                <Dialog
+                    visible={openDialog}
+                    title={
+                        Object.prototype.hasOwnProperty.call(formData, 'id')
+                            ? '修改用户'
+                            : '新增用户'
+                    }
+                    width={680}
+                    onCancel={() => {
+                        setOpenDialog(false);
+                        setFormData({});
+                    }}
+                >
+                    <CreateUserForm
+                        onOk={handleOkUserForm}
+                        onCancel={() => {
+                            setOpenDialog(false);
+                            setFormData({});
+                        }}
+                        formData={formData}
+                    ></CreateUserForm>
+                </Dialog>
+            )}
+
             <SummaryCard title="User"></SummaryCard>
             <TableBox>
                 <TableHeader>

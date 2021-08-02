@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Switch } from 'antd';
 import { FormBox, Card, Title, Info, Footer, ButtonBox } from './style-components';
 import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import './resetAntd.css';
-
+import HTTP from '../../../api/fetch';
 interface PropsType {
     onCancel(): void;
+    onOk(): void;
+    formData?: FormType;
+}
+
+interface FormType {
+    email?: string;
+    is_admin?: number;
+    name?: string;
+    status?: number;
+    id?: number | string;
 }
 
 // confirm_password: "a19930731"
@@ -25,7 +35,16 @@ const initFormValue = {
 };
 
 function CreateUserForm(props: PropsType) {
-    const [values, setValues] = useState(initFormValue);
+    const [values, setValues] = useState({ ...initFormValue });
+    const [form] = Form.useForm();
+    const isEdit = Object.prototype.hasOwnProperty.call(props.formData, 'id');
+    useEffect(() => {
+        setValues({ ...initFormValue, ...props.formData });
+        form.setFieldsValue({
+            name: props?.formData?.name,
+            email: props?.formData?.email,
+        });
+    }, [props.formData]);
     const onChangeStatus = (checked: boolean) => {
         setValues({ ...values, status: checked ? 1 : 0 });
     };
@@ -39,8 +58,22 @@ function CreateUserForm(props: PropsType) {
             [name]: value,
         });
     };
-    const onFinish = () => {
-        console.log(values);
+    const onFinish = async () => {
+        if (isEdit) {
+            try {
+                await HTTP.put(`/users/${props?.formData?.id}`, {
+                    ...values,
+                });
+                props.onOk();
+            } catch (error) {}
+        } else {
+            try {
+                await HTTP.post(`/users`, {
+                    ...values,
+                });
+                props.onOk();
+            } catch (error) {}
+        }
     };
     const checkConfirmPassword = (_: any, value: any) => {
         if (value !== values.password) {
@@ -51,7 +84,7 @@ function CreateUserForm(props: PropsType) {
     return (
         <div id="creareUserForm">
             <FormBox>
-                <Form onFinish={onFinish} validateTrigger="onBlur">
+                <Form onFinish={onFinish} form={form} validateTrigger="onBlur">
                     <Form.Item
                         label="用户名称"
                         name="name"
@@ -99,14 +132,14 @@ function CreateUserForm(props: PropsType) {
                             <Title>是否激活使用状态</Title>
                             <Info>状态开启则用户可以正常使用 Nocalhost 产品</Info>
                         </div>
-                        <Switch defaultChecked onChange={onChangeStatus} />
+                        <Switch checked={values.status === 1} onChange={onChangeStatus} />
                     </Card>
                     <Card>
                         <div>
                             <Title>是否设置为管理员</Title>
                             <Info>设置为管理员，则该用户有权限添加编辑用户、集群</Info>
                         </div>
-                        <Switch onChange={onChangeAdmin} />
+                        <Switch checked={values.is_admin === 1} onChange={onChangeAdmin} />
                     </Card>
                     <Footer>
                         <ButtonBox>
@@ -115,9 +148,11 @@ function CreateUserForm(props: PropsType) {
                         <ButtonBox>
                             <Button htmlType="submit">完成</Button>
                         </ButtonBox>
-                        <ButtonBox>
-                            <Button type="primary">完成并继续添加</Button>
-                        </ButtonBox>
+                        {!isEdit && (
+                            <ButtonBox>
+                                <Button type="primary">完成并继续添加</Button>
+                            </ButtonBox>
+                        )}
                     </Footer>
                 </Form>
             </FormBox>

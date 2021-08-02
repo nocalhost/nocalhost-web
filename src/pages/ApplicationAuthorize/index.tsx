@@ -3,23 +3,28 @@ import HTTP from '../../api/fetch';
 import { Breadcrumb, Button, Table } from 'antd';
 import { TableBox, TableHeader, TableWrap, Flex, Amount } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import Dialog from '../../components/Dialog';
+import AuthorizeTree from './AuthorizeTree';
 function ApplicationAuthorize() {
     // /v1/application/7/users
     const [data, setData] = useState([]);
     const [selectList, setSelectList] = useState([]);
-    const history = useHistory();
-    const urlParams = useParams();
-    console.log(urlParams);
-    useEffect(() => {
-        const getApplicationUser = async () => {
-            const result = await HTTP.get('users', {
-                filter: {},
-                range: [0, 9],
-                sort: ['id', 'ASC'],
+    const urlParams = useParams<{ id: string }>();
+    const [openDialog, setOpenDialog] = useState(false);
+    const getApplicationUser = async () => {
+        const result = await HTTP.get(`/application/${urlParams.id}/users`);
+        setData(result.data || []);
+    };
+    const handleDeleteUser = async () => {
+        try {
+            await HTTP.delete(`/application/${urlParams.id}/users`, {
+                users: selectList.map((item: { id: number }) => item.id),
             });
-            setData(result.data || []);
-        };
+            getApplicationUser();
+        } catch (error) {}
+    };
+    useEffect(() => {
         getApplicationUser();
     }, []);
     const showTotal = (total: number) => {
@@ -70,32 +75,39 @@ function ApplicationAuthorize() {
     };
     return (
         <div>
+            {openDialog && (
+                <Dialog
+                    visible={openDialog}
+                    title="添加授权"
+                    width={680}
+                    onCancel={() => setOpenDialog(false)}
+                >
+                    <AuthorizeTree
+                        onCancel={() => setOpenDialog(false)}
+                        onOk={getApplicationUser}
+                    ></AuthorizeTree>
+                </Dialog>
+            )}
+
             <Breadcrumb>
-                <Breadcrumb.Item>应用</Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    <a href="">授权管理</a>
+                    <Link to="/dashboard/application">应用</Link>
                 </Breadcrumb.Item>
+                <Breadcrumb.Item>授权管理</Breadcrumb.Item>
             </Breadcrumb>
             <TableBox>
                 <TableHeader>
                     <Flex>
                         <TableSearchInput></TableSearchInput>
-                        <Amount>Coding-Repos · 已授权 123 人</Amount>
+                        <Amount>Coding-Repos · 已授权{data.length}人</Amount>
                     </Flex>
 
                     <Flex>
                         {selectList.length > 0 && (
-                            <Button
-                                onClick={() => history.push(`/dashboard/application/notauthorize`)}
-                            >
-                                取消授权
-                            </Button>
+                            <Button onClick={handleDeleteUser}>取消授权</Button>
                         )}
                         <div style={{ marginLeft: '12px' }}>
-                            <Button
-                                type="primary"
-                                onClick={() => history.push(`/dashboard/application/notauthorize`)}
-                            >
+                            <Button type="primary" onClick={() => setOpenDialog(true)}>
                                 添加授权
                             </Button>
                         </div>

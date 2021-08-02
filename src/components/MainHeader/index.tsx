@@ -34,6 +34,12 @@ function MainHeader() {
     const { user } = useContext(UserContext);
     const [dialogType, setDialogType] = useState('');
     const { i18n } = useTranslation();
+    const handleOkUserForm = () => {
+        setDialogType('');
+    };
+    const handleOkApplicationForm = () => {
+        setDialogType('');
+    };
     return (
         <MainContent>
             <FlexBetween>
@@ -97,22 +103,32 @@ function MainHeader() {
                     </Popover>
                 </Flex>
             </FlexBetween>
-            <Dialog
-                visible={dialogType === DIALOG_TYPE.USER}
-                title="添加用户"
-                width={680}
-                onCancel={() => setDialogType('')}
-            >
-                <CreateUserForm onCancel={() => setDialogType('')}></CreateUserForm>
-            </Dialog>
-            <Dialog
-                visible={dialogType === DIALOG_TYPE.APPLICATION}
-                title="添加应用"
-                width={680}
-                onCancel={() => setDialogType('')}
-            >
-                <CreateApplicationForm onCancel={() => setDialogType('')}></CreateApplicationForm>
-            </Dialog>
+            {dialogType === DIALOG_TYPE.USER && (
+                <Dialog
+                    visible={dialogType === DIALOG_TYPE.USER}
+                    title="添加用户"
+                    width={680}
+                    onCancel={() => setDialogType('')}
+                >
+                    <CreateUserForm
+                        onCancel={() => setDialogType('')}
+                        onOk={handleOkUserForm}
+                    ></CreateUserForm>
+                </Dialog>
+            )}
+            {dialogType === DIALOG_TYPE.APPLICATION && (
+                <Dialog
+                    visible={dialogType === DIALOG_TYPE.APPLICATION}
+                    title="添加应用"
+                    width={680}
+                    onCancel={() => setDialogType('')}
+                >
+                    <CreateApplicationForm
+                        onOk={handleOkApplicationForm}
+                        onCancel={() => setDialogType('')}
+                    ></CreateApplicationForm>
+                </Dialog>
+            )}
         </MainContent>
     );
 }

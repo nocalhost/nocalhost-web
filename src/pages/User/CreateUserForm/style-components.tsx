@@ -18,9 +18,10 @@ export const Card = styled.div`
 
 export const Title = styled.div`
     color: rgb(54, 67, 92);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 16px;
+    margin-bottom: 4px;
 `;
 
 export const Info = styled.div`

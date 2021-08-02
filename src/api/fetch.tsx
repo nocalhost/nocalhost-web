@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 import * as qs from 'query-string';
-
+import { message } from 'antd';
 interface IRequestOptions {
     method?: string;
     body?: any;
@@ -71,30 +71,31 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
                 // Not good TODO
                 location.reload();
             } else {
-                location.hash = 'login';
-                return Promise.reject(new Error('Invalid token.'));
+                location.replace('/login');
+                message.error('Invalid token.');
+                return Promise.resolve({});
             }
         }
+    }
+    if (res && res.code !== 0) {
+        message.error(res.message);
+        return Promise.reject(new Error(res.message));
     }
     return res;
 }
 
 class HTTP {
     async get(url: string, data?: any) {
-        try {
-            return await fetchJson(url, { method: 'GET', body: data });
-        } catch (error) {
-            console.log(error);
-            return Promise.resolve({});
-        }
+        return await fetchJson(url, { method: 'GET', body: data });
     }
     async post(url: string, data?: any) {
-        try {
-            return await fetchJson(url, { method: 'POST', body: JSON.stringify(data) });
-        } catch (error) {
-            console.log(error);
-            return Promise.resolve({});
-        }
+        return await fetchJson(url, { method: 'POST', body: JSON.stringify(data) });
+    }
+    async put(url: string, data?: any) {
+        return await fetchJson(url, { method: 'PUT', body: JSON.stringify(data) });
+    }
+    async delete(url: string, data?: any) {
+        return await fetchJson(url, { method: 'DELETE', body: JSON.stringify(data) });
     }
 }
 

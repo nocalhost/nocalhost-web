@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import SummaryCard from '../../components/SummaryCard';
-import { Table, Button, Popover } from 'antd';
+import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
 import { EllipsisOutlined, FormOutlined } from '@ant-design/icons';
@@ -66,6 +66,15 @@ function Application() {
             await HTTP.put(`/application/${id}/public`, {
                 public: type === 'public' ? 0 : 1,
             });
+            getApplication();
+            setDeleteModalShow(false);
+        } else {
+            try {
+                await HTTP.delete(`/application/${id}`);
+                message.success('删除成功');
+                getApplication();
+                setDeleteModalShow(false);
+            } catch (error) {}
         }
         console.log(id);
     };
@@ -163,6 +172,13 @@ function Application() {
                             content={
                                 <Fragment>
                                     <DeleteModal
+                                        title={
+                                            type === 'delte'
+                                                ? '你确认要删除应用？'
+                                                : `你确认要${
+                                                      type === 'public' ? '公开' : '隐秘'
+                                                  }应用？`
+                                        }
                                         onCancel={() => setDeleteModalShow(false)}
                                         onConfirm={() => handleDelete(record.id)}
                                         visible={deleteModalShow}

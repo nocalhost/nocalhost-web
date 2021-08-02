@@ -123,7 +123,8 @@ function User() {
                                         onCancel={() => setDeleteModalShow(false)}
                                         onConfirm={() => handleDelete(record.id)}
                                         visible={deleteModalShow}
-                                        message={`你确认要删除该用户 ${record.name} 吗？`}
+                                        title="你确认要删除用户？"
+                                        message={` 删除用户「${record.name}」后，则该用户将无法登录操作控制台。`}
                                     ></DeleteModal>
                                     <PopItem
                                         onClick={() => {

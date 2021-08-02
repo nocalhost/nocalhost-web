@@ -1,15 +1,16 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { ButtonBox, Content, Message } from './style-components';
+import { ButtonBox, Content, Message, Title } from './style-components';
 interface PropsType {
     visible: boolean;
+    title: string;
     onCancel(): void;
     onConfirm(): void;
     message: string;
 }
 
 function Dialog(props: PropsType) {
-    const { visible, onCancel, message, onConfirm } = props;
+    const { visible, onCancel, message, onConfirm, title } = props;
     return (
         <Modal
             title=""
@@ -21,8 +22,9 @@ function Dialog(props: PropsType) {
         >
             <div>
                 <Content>
-                    <Message>{message}</Message>
+                    <Title>{title}</Title>
                 </Content>
+                <Message>{message}</Message>
                 <ButtonBox>
                     <Button type="primary" onClick={onConfirm} danger>
                         确认

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Box = styled.div`
     min-height: 100vh;
     background-image: linear-gradient(180deg, #0078f9 0%, #fff 200%);
+    /* background: linear-gradient(-135deg, rgba(239, 244, 249, 0) 0%, rgba(239, 244, 249, 0.4) 100%); */
 `;
 
 export const LoginHeader = styled.div`

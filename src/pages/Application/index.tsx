@@ -5,6 +5,7 @@ import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
 import { FormOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
+import Icon from '@ant-design/icons';
 import {
     TableBox,
     TableHeader,
@@ -24,7 +25,7 @@ import LabelSelect from '../../components/LabelSelect';
 // import { applictionOptions } from './const';
 import { useHistory } from 'react-router-dom';
 import { UserType } from '../User/const';
-import logoBack from '../../images/icon/icon_active.svg';
+import { ReactComponent as IconActive } from '../../images/icon/icon_active.svg';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -235,7 +236,7 @@ function Application() {
                                 </Fragment>
                             }
                         >
-                            <img style={{ color: 'red' }} src={logoBack}></img>
+                            <Icon component={IconActive} />
                         </Popover>
                     </div>
                 );

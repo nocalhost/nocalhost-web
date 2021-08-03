@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Box, LoginHeader, Card, Title, AdminCount } from './style-components';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo-white.png';
-import './reset.css';
+import './reset.less';
 import { Form, Input, Typography, Button } from 'antd';
 import HTTP from '../../api/fetch';
 import decodeJwt from 'jwt-decode';

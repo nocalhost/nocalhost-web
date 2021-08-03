@@ -3,7 +3,6 @@ import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
-import { FormOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import Icon from '@ant-design/icons';
 import {
@@ -15,6 +14,7 @@ import {
     AIcon,
     Flex,
     Sub,
+    IconBox,
 } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
@@ -25,7 +25,10 @@ import LabelSelect from '../../components/LabelSelect';
 // import { applictionOptions } from './const';
 import { useHistory } from 'react-router-dom';
 import { UserType } from '../User/const';
-import { ReactComponent as IconActive } from '../../images/icon/icon_active.svg';
+import CommonIcon from '../../components/CommonIcon';
+import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
+import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
+import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -175,8 +178,16 @@ function Application() {
                 const index = args[2];
                 const record = args[1];
                 return (
-                    <div>
-                        <FormOutlined onClick={() => handleEdit(record.id)} />
+                    <div style={{ display: 'flex' }}>
+                        <IconBox onClick={() => handleEdit(record.id)}>
+                            <CommonIcon
+                                title={t('common.bt.edit')}
+                                HoverIcon={IconSelectedEdit}
+                                NormalIcon={IconNormalEdit}
+                                style={{ fontSize: '20px' }}
+                            ></CommonIcon>
+                        </IconBox>
+
                         <Popover
                             trigger="click"
                             placement="bottom"
@@ -236,7 +247,7 @@ function Application() {
                                 </Fragment>
                             }
                         >
-                            <Icon component={IconActive} />
+                            <Icon component={IconMore} style={{ fontSize: '20px' }} />
                         </Popover>
                     </div>
                 );

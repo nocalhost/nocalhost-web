@@ -20,12 +20,22 @@ export const ListItem = styled.div<{ isActive: boolean | undefined }>`
     margin-bottom: 4px;
     display: flex;
     align-items: center;
+    width: 100%;
+    &:hover {
+        background: rgb(0, 128, 255, 0.08);
+        border-radius: 4px;
+    }
     font-family: PingFangSC-Regular;
     font-size: 14px;
     font-weight: normal;
     cursor: pointer;
     > a {
         color: ${(props) => (props.isActive ? '#0080ff' : '#202d40')};
+        display: flex;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0px 10px;
     }
 `;
 // eslint-disable-next-line no-undef
@@ -39,4 +49,8 @@ export const Bottom = styled.div<{ expand: boolean }>`
     display: flex;
     align-items: center;
     justify-content: ${(props) => (props.expand ? 'flex-end' : 'center')};
+`;
+
+export const Label = styled.div`
+    margin-left: 12px;
 `;

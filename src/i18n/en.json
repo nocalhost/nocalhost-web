@@ -37,7 +37,10 @@
             "delete": "Delete",
             "cancel": "Cancel",
             "submit": "Submit",
-            "submitGoon": "Submit and Continue"
+            "submitGoon": "Submit and Continue",
+            "edit": "Edit",
+            "expand": "Expand",
+            "collapse": "Collapse"
         },
         "select": {
             "all": "All"

@@ -254,3 +254,9 @@ code {
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     content: '';
 }
+
+.ant-tooltip-inner {
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    padding: 8px 12px;
+}

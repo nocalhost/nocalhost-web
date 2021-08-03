@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_quarantine_space</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-317.000000, -230.000000)">
+            <g id="编组-15" transform="translate(317.000000, 230.000000)">
+                <g id="编组备份" transform="translate(0.000000, 2.000000)" fill="#B6C2CD" fill-rule="nonzero">
+                    <path d="M9.37575757,0 C11.5909091,0 13.5,1.2825 14.4181818,3.1425 C15.2700812,3.19329739 16.0737348,3.42293573 16.7917514,3.7945012 L5.585,15 L5,15 C2.28658476,14.8519257 0.119946875,12.7779565 0.00481335575,10.214706 L0,10 C0,7.74375 1.58909091,5.836875 3.77121212,5.215 C3.98181818,2.3009375 6.40787878,0 9.37575757,0 Z" id="形状结合"></path>
+                </g>
+                <rect id="矩形" fill="#B6C2CD" transform="translate(11.646447, 12.353553) rotate(-315.000000) translate(-11.646447, -12.353553) " x="10.6464466" y="-1.14644661" width="2" height="27" rx="1"></rect>
+                <g id="编组" transform="translate(6.000000, 10.000195)">
+                    <path d="M12.2417607,-1.7582634e-13 C15.0987689,0.0209427791 17.5573673,1.72511165 18.7436364,4.18980479 C22.7905758,4.43730479 26,7.86897147 26,12.0831381 C26,16.4543881 22.7236061,19.9998048 18.6884848,19.9998048 L18.6884848,19.9998048 L6.5,19.9998048 C2.87457575,19.7968881 0,16.8814715 0,13.3331381 C0,12.92197 0.0385903806,12.5195039 0.112465091,12.1289247 Z" id="形状结合" fill="#36435C" fill-rule="nonzero"></path>
+                    <g id="编组-12" transform="translate(5.730000, 6.999805)" stroke="#E8EEF4" stroke-width="2">
+                        <polyline id="路径" points="2.77048547 8 -7.77156117e-15 5 2.77048547 2"></polyline>
+                        <polyline id="路径" points="12.77 8 15.5404855 5 12.77 2"></polyline>
+                        <line x1="9.77" y1="0" x2="5.77" y2="10" id="路径-3"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

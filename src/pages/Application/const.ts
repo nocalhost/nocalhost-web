@@ -1,10 +1,3 @@
-export const applictionOptions = [
-    { value: 'all', text: '全部' },
-    { value: 'git', text: 'Git' },
-    { value: 'helm_repo', text: 'Helm' },
-    { value: 'local', text: 'Local' },
-];
-
 export const MANIFEST_TYPE = {
     MANIFEST: 'rawManifest',
     HELMCHART: 'helm_chart',

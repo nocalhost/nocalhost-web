@@ -3,7 +3,7 @@ import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
 import { PlusOutlined } from '@ant-design/icons';
-import { EllipsisOutlined, FormOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import {
     TableBox,
@@ -21,9 +21,10 @@ import CreateApplicationForm from './CreateApplicationForm';
 import { useTranslation } from 'react-i18next';
 import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
-import { applictionOptions } from './const';
+// import { applictionOptions } from './const';
 import { useHistory } from 'react-router-dom';
 import { UserType } from '../User/const';
+import logoBack from '../../images/icon/icon_active.svg';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -34,6 +35,7 @@ function Application() {
     const [type, setType] = useState('');
     const [formData, setFormData] = useState({});
     const history = useHistory();
+    const [filterValue, setFilterValue] = useState('');
     const { t } = useTranslation();
     const getUser = async () => {
         try {
@@ -86,9 +88,19 @@ function Application() {
         });
         setOpenDialog(true);
     };
+    const filterInputConfirm = (value: string) => {
+        setFilterValue(value);
+        console.log(filterValue);
+    };
+    const applictionOptions = [
+        { value: 'all', text: t('common.select.all') },
+        { value: 'git', text: 'Git' },
+        { value: 'helm_repo', text: 'Helm' },
+        { value: 'local', text: 'Local' },
+    ];
     const columns = [
         {
-            title: '应用名称',
+            title: t('resources.application.fields.application_name'),
             dataIndex: 'name',
             key: '1',
             // eslint-disable-next-line react/display-name
@@ -111,7 +123,7 @@ function Application() {
             },
         },
         {
-            title: 'Kubernetes Manifest 安装来源',
+            title: t('resources.application.fields.source'),
             dataIndex: 'name',
             key: '2',
             // eslint-disable-next-line react/display-name
@@ -122,7 +134,7 @@ function Application() {
             },
         },
         {
-            title: 'Manifest 类型',
+            title: t('resources.application.fields.install_type'),
             dataIndex: 'name',
             key: '3',
             // eslint-disable-next-line react/display-name
@@ -133,7 +145,7 @@ function Application() {
             },
         },
         {
-            title: '创建时间',
+            title: t('resources.application.fields.created_date'),
             key: '4',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
@@ -142,7 +154,7 @@ function Application() {
             },
         },
         {
-            title: '创建者',
+            title: t('resources.application.fields.user'),
             key: '5',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
@@ -155,7 +167,7 @@ function Application() {
             },
         },
         {
-            title: '操作',
+            title: t('common.operation'),
             width: '100px',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
@@ -173,21 +185,21 @@ function Application() {
                                 <Fragment>
                                     <DeleteModal
                                         title={
-                                            type === 'delte'
-                                                ? '你确认要删除应用？'
-                                                : `你确认要${
-                                                      type === 'public' ? '公开' : '隐秘'
-                                                  }应用？`
+                                            type === 'delete'
+                                                ? t('resources.application.delete.deleteTitle')
+                                                : type === 'public'
+                                                ? t('resources.application.auth.public.title')
+                                                : t('resources.application.auth.private.title')
                                         }
                                         onCancel={() => setDeleteModalShow(false)}
                                         onConfirm={() => handleDelete(record.id)}
                                         visible={deleteModalShow}
                                         message={
-                                            type === 'delte'
-                                                ? '删除应用「xxxxxx」后，则该应用的所有资源将被删除。'
-                                                : `${
-                                                      type === 'public' ? '公开' : '隐秘'
-                                                  }应用「xxxxxx」后，则该应用的所有资源将被用户可见。`
+                                            type === 'delete'
+                                                ? t('resources.application.delete.info')
+                                                : type === 'public'
+                                                ? t('resources.application.auth.public.info')
+                                                : t('resources.application.auth.private.info')
                                         }
                                     ></DeleteModal>
 
@@ -198,7 +210,7 @@ function Application() {
                                             )
                                         }
                                     >
-                                        授权管理
+                                        {t('resources.application.bt.auth')}
                                     </PopItem>
                                     <PopItem
                                         onClick={() => {
@@ -207,7 +219,9 @@ function Application() {
                                             setType(record.public === 1 ? 'public' : 'private');
                                         }}
                                     >
-                                        {record.public === 1 ? '公有' : '私密'}
+                                        {record.public === 1
+                                            ? t('resources.application.auth.bt.public')
+                                            : t('resources.application.auth.bt.private')}
                                     </PopItem>
                                     <PopItem
                                         onClick={() => {
@@ -216,12 +230,12 @@ function Application() {
                                             setType('delete');
                                         }}
                                     >
-                                        删除
+                                        {t('common.bt.delete')}
                                     </PopItem>
                                 </Fragment>
                             }
                         >
-                            <EllipsisOutlined></EllipsisOutlined>
+                            <img style={{ color: 'red' }} src={logoBack}></img>
                         </Popover>
                     </div>
                 );
@@ -233,7 +247,7 @@ function Application() {
             {openDialog && (
                 <Dialog
                     visible={openDialog}
-                    title="添加应用"
+                    title={t('resources.application.bt.add')}
                     width={680}
                     onCancel={() => {
                         setFormData({});
@@ -259,9 +273,12 @@ function Application() {
             <TableBox>
                 <TableHeader>
                     <Filter>
-                        <TableSearchInput></TableSearchInput>
+                        <TableSearchInput
+                            onConfirm={filterInputConfirm}
+                            placeholder={t('resources.application.form.placeholder.search')}
+                        ></TableSearchInput>
                         <LabelSelect
-                            label="安装来源"
+                            label={t('resources.application.fields.source')}
                             option={applictionOptions}
                             onChange={handleSelectChange}
                         ></LabelSelect>

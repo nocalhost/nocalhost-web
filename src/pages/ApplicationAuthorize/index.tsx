@@ -6,12 +6,16 @@ import TableSearchInput from '../../components/TableSearchInput';
 import { useParams, Link } from 'react-router-dom';
 import Dialog from '../../components/Dialog';
 import AuthorizeTree from './AuthorizeTree';
+import { useTranslation } from 'react-i18next';
+
 function ApplicationAuthorize() {
     // /v1/application/7/users
     const [data, setData] = useState([]);
     const [selectList, setSelectList] = useState([]);
     const urlParams = useParams<{ id: string }>();
     const [openDialog, setOpenDialog] = useState(false);
+    const [filterValue, setFilterValue] = useState('');
+    const { t } = useTranslation();
     const getApplicationUser = async () => {
         const result = await HTTP.get(`/application/${urlParams.id}/users`);
         setData(result.data || []);
@@ -32,7 +36,7 @@ function ApplicationAuthorize() {
     };
     const columns = [
         {
-            title: '用户名称',
+            title: t('resources.users.fields.name'),
             dataIndex: 'name',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
@@ -41,24 +45,28 @@ function ApplicationAuthorize() {
             },
         },
         {
-            title: '用户类型',
+            title: t('resources.users.fields.userType'),
             dataIndex: 'is_admin',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const record = args[1];
                 return (
                     <div>
-                        <span>{record.is_admin === 1 ? '管理员' : '普通用户'}</span>
+                        <span>
+                            {record.is_admin === 1
+                                ? t('resources.users.userType.admin')
+                                : t('resources.users.userType.user')}
+                        </span>
                     </div>
                 );
             },
         },
         {
-            title: '邮箱',
+            title: t('resources.users.fields.email'),
             dataIndex: 'email',
         },
         {
-            title: '操作',
+            title: t('common.operation'),
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const record = args[1];
@@ -67,6 +75,10 @@ function ApplicationAuthorize() {
             },
         },
     ];
+    const filterInputConfirm = (value: string) => {
+        setFilterValue(value);
+        console.log(filterValue);
+    };
     const rowSelection = {
         onChange: (...args: any) => {
             const selectedRows = args[1];
@@ -78,7 +90,7 @@ function ApplicationAuthorize() {
             {openDialog && (
                 <Dialog
                     visible={openDialog}
-                    title="添加授权"
+                    title={t('resources.application.bt.addAuth')}
                     width={680}
                     onCancel={() => setOpenDialog(false)}
                 >
@@ -91,24 +103,32 @@ function ApplicationAuthorize() {
 
             <Breadcrumb>
                 <Breadcrumb.Item>
-                    <Link to="/dashboard/application">应用</Link>
+                    <Link to="/dashboard/application">{t('resources.application.name')}</Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>授权管理</Breadcrumb.Item>
+                <Breadcrumb.Item>{t('resources.application.bt.auth')}</Breadcrumb.Item>
             </Breadcrumb>
             <TableBox>
                 <TableHeader>
                     <Flex>
-                        <TableSearchInput></TableSearchInput>
-                        <Amount>Coding-Repos · 已授权{data.length}人</Amount>
+                        <TableSearchInput
+                            onConfirm={filterInputConfirm}
+                            placeholder={t('resources.users.form.placeholder.name')}
+                        ></TableSearchInput>
+                        <Amount>
+                            Coding-Repos ·&nbsp;
+                            {t('resources.application.auth.amount', { amount: data.length })}
+                        </Amount>
                     </Flex>
 
                     <Flex>
                         {selectList.length > 0 && (
-                            <Button onClick={handleDeleteUser}>取消授权</Button>
+                            <Button onClick={handleDeleteUser}>
+                                {t('resources.application.bt.deleteAuth')}
+                            </Button>
                         )}
                         <div style={{ marginLeft: '12px' }}>
                             <Button type="primary" onClick={() => setOpenDialog(true)}>
-                                添加授权
+                                {t('resources.application.bt.addAuth')}
                             </Button>
                         </div>
                     </Flex>

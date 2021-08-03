@@ -1,23 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { DASHBOARD } from './consts';
 import { ListItem, MainContent, Bottom } from './style-components';
-import { UserContext } from '../../provider/appContext';
+// import { UserContext } from '../../provider/appContext';
+import { useTranslation } from 'react-i18next';
 function Dashbord() {
     // const history = useHistory();
     const urlParams = useLocation();
     const pathName = urlParams.pathname;
-    const { user } = useContext(UserContext);
+    // const { user } = useContext(UserContext);
     const [expand, setExpand] = useState(true);
-    let FILTER_DASHBOARD: any[] = [];
-    if (user.is_admin === 0) {
-        FILTER_DASHBOARD = DASHBOARD.filter((item) => item.url !== '/dashboard/user');
-    } else {
-        FILTER_DASHBOARD = DASHBOARD;
-    }
+    const { t } = useTranslation();
+
+    const DASHBOARD = [
+        {
+            icon: '',
+            name: t('resources.dashboard.name'),
+            url: '/dashboard/overview',
+        },
+        {
+            icon: '',
+            name: t('resources.users.name'),
+            url: '/dashboard/user',
+        },
+        {
+            icon: '',
+            name: t('resources.application.name'),
+            url: '/dashboard/application',
+        },
+    ];
     return (
         <MainContent expand={expand}>
-            {FILTER_DASHBOARD.map((item) => {
+            {DASHBOARD.map((item) => {
                 return (
                     <ListItem key={item.name} isActive={pathName.startsWith(item.url)}>
                         <Link to={item.url}>{item.name}</Link>

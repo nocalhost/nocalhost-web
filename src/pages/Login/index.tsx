@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Box, LoginHeader, Card } from './style-components';
+import { Box, LoginHeader, Card, Title, AdminCount } from './style-components';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo-white.png';
 import './reset.css';
@@ -34,9 +34,7 @@ function Login() {
                     localStorage.setItem('userId', user.id);
                 }
             }
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
     return (
         <div id="login">
@@ -47,41 +45,53 @@ function Login() {
                     </Link>
                     <Link to="https://nocalhost.dev/getting-started/">Docs</Link>
                 </LoginHeader>
+                <Title>
+                    <Typography.Title level={1}>Login</Typography.Title>
+                </Title>
+
                 <Card>
-                    <Typography.Title level={2}>Sign in</Typography.Title>
                     <Form onFinish={onFinish}>
                         <Form.Item
-                            label=""
+                            label="Email Address"
                             name="username"
                             rules={[{ required: true, type: 'email', message: '请输入正确Email.' }]}
                         >
                             <Input
-                                placeholder="Email"
+                                placeholder="Email address"
                                 value={email}
-                                onChange={(e) => {
+                                onChange={(e: any) => {
                                     setEmail(e.target.value);
                                 }}
                             />
                         </Form.Item>
                         <Form.Item
-                            label=""
+                            label="Password"
                             name="password"
                             rules={[{ required: true, message: '请输入密码.' }]}
                         >
-                            <Input
+                            <Input.Password
                                 placeholder="Password"
                                 value={password}
-                                onChange={(e) => {
+                                onChange={(e: any) => {
                                     setPassword(e.target.value);
                                 }}
-                            />
+                            ></Input.Password>
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Submit
+                                Login
                             </Button>
                         </Form.Item>
                     </Form>
+                    <AdminCount>
+                        <a
+                            href="https://nocalhost.dev/FAQ/default-account"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Get the default admin account
+                        </a>
+                    </AdminCount>
                 </Card>
             </Box>
         </div>

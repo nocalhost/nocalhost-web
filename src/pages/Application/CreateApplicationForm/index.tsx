@@ -5,6 +5,7 @@ import { ButtonBox, Footer, FormBox, AddInputBtn } from './style-components';
 import './resetAntd.css';
 import { MinusCircleFilled } from '@ant-design/icons';
 import HTTP from '../../../api/fetch';
+import { useTranslation } from 'react-i18next';
 interface PropsType {
     onCancel(): void;
     onOk(): void;
@@ -22,6 +23,7 @@ function CreateApplicationForm(props: PropsType) {
     const [resourceDirList, setResourceDirList] = useState(['']);
     const [form] = Form.useForm();
     const isEdit = Object.prototype.hasOwnProperty.call(props.formData, 'id');
+    const { t } = useTranslation();
     useEffect(() => {
         if (isEdit) {
             const context = JSON.parse(props?.formData?.context || '{}');
@@ -90,8 +92,12 @@ function CreateApplicationForm(props: PropsType) {
     const renderGitForm = () => {
         return (
             <>
-                <Form.Item label="Git 仓库地址" name="application_url" rules={[{ required: true }]}>
-                    <Input placeholder="请输入 Git 仓库地址." />
+                <Form.Item
+                    label={t('resources.application.fields.git_repo_url')}
+                    name="application_url"
+                    rules={[{ required: true }]}
+                >
+                    <Input placeholder={t('resources.application.form.placeholder.git')} />
                 </Form.Item>
                 <Form.Item label="Manifest 类型" name="install_type" rules={[{ required: true }]}>
                     <Select style={{ width: '100%' }}>
@@ -101,16 +107,18 @@ function CreateApplicationForm(props: PropsType) {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="应用配置文件，一般存放于 .nocalhost 目录下"
+                    label={t('resources.application.tips.config_path')}
                     name="application_config_path"
                 >
-                    <Input placeholder="请输入应用配置文件 config.yaml" />
+                    <Input placeholder={t('resources.application.form.placeholder.config')} />
                 </Form.Item>
-                <Form.Item label="Git 仓库的相对路径">
+                <Form.Item label={t('resources.application.tips.resource_dir')}>
                     {resourceDirList.map((item, index) => (
                         <div style={{ marginBottom: '8PX' }} key={index}>
                             <Input
-                                addonBefore={`路径${index + 1}`}
+                                addonBefore={t('resources.application.tips.path', {
+                                    index: index + 1,
+                                })}
                                 value={item}
                                 onChange={(e) => {
                                     const newResourceDirList = resourceDirList.concat([]);
@@ -134,7 +142,9 @@ function CreateApplicationForm(props: PropsType) {
                                         }}
                                     />
                                 }
-                                placeholder="请输入路径"
+                                placeholder={t(
+                                    'resources.application.form.placeholder.resource_dir'
+                                )}
                             />
                         </div>
                     ))}
@@ -145,7 +155,7 @@ function CreateApplicationForm(props: PropsType) {
                         setResourceDirList(newResourceDirList);
                     }}
                 >
-                    添加路径
+                    {t('resources.application.tips.addPath')}
                 </AddInputBtn>
             </>
         );
@@ -154,20 +164,28 @@ function CreateApplicationForm(props: PropsType) {
         return (
             <>
                 <Form.Item
-                    label="Helm 仓库地址"
+                    label={t('resources.application.fields.helm_repo_url')}
                     name="application_url"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder="请输入 Helm 仓库地址." />
+                    <Input placeholder={t('resources.application.form.placeholder.helm')} />
                 </Form.Item>
-                <Form.Item label="Manifest 类型" name="install_type" rules={[{ required: true }]}>
+                <Form.Item
+                    label={t('resources.application.fields.install_type')}
+                    name="install_type"
+                    rules={[{ required: true }]}
+                >
                     <Select style={{ width: '100%' }}>
                         <Select.Option value={MANIFEST_TYPE.HELMCHART}>Helm Chart</Select.Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label="Nocalhost 配置信息" name="nocalhost_config">
+
+                <Form.Item
+                    label={t('resources.application.fields.nocalhost_config')}
+                    name="nocalhost_config"
+                >
                     <Input.TextArea
-                        placeholder="请输入正确的配置信息"
+                        placeholder={t('resources.application.form.placeholder.nc_config')}
                         autoSize={{ minRows: 3 }}
                     ></Input.TextArea>
                 </Form.Item>
@@ -177,7 +195,11 @@ function CreateApplicationForm(props: PropsType) {
     const renderLocalForm = () => {
         return (
             <>
-                <Form.Item label="Manifest 类型" name="install_type" rules={[{ required: true }]}>
+                <Form.Item
+                    label={t('resources.application.fields.install_type')}
+                    name="install_type"
+                    rules={[{ required: true }]}
+                >
                     <Select style={{ width: '100%' }}>
                         <Select.Option value={MANIFEST_TYPE.MANIFESTLOCAL}>Manifest</Select.Option>
                         <Select.Option value={MANIFEST_TYPE.HELMCHARTLOCAL}>
@@ -203,12 +225,17 @@ function CreateApplicationForm(props: PropsType) {
                     }}
                 >
                     <Form.Item
-                        label="应用名称"
+                        label={t('resources.application.fields.application_name')}
                         name="application_name"
-                        rules={[{ required: true, message: '请输入应用名称.' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('resources.application.form.placeholder.name'),
+                            },
+                        ]}
                     >
                         <Input
-                            placeholder="请输入应用名称."
+                            placeholder={t('resources.application.form.placeholder.name')}
                             value={name}
                             onChange={(e) => {
                                 setName(e.target.value);
@@ -216,7 +243,7 @@ function CreateApplicationForm(props: PropsType) {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Kubernetes Manifest 安装来源"
+                        label={t('resources.application.fields.source')}
                         name="source"
                         rules={[{ required: true }]}
                     >
@@ -229,11 +256,13 @@ function CreateApplicationForm(props: PropsType) {
                     {renderSwitchForm()}
                     <Footer>
                         <ButtonBox>
-                            <Button onClick={() => props.onCancel()}>取消</Button>
+                            <Button onClick={() => props.onCancel()}>
+                                {t('common.bt.cancel')}
+                            </Button>
                         </ButtonBox>
                         <ButtonBox>
                             <Button type="primary" htmlType="submit">
-                                完成
+                                {t('common.bt.submit')}
                             </Button>
                         </ButtonBox>
                     </Footer>

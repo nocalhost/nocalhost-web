@@ -22,6 +22,5 @@ export const routes = [
         path: '/dashboard/user',
         exact: true,
         component: User,
-        adminPage: true,
     },
 ];

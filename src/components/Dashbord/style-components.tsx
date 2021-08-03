@@ -4,6 +4,8 @@ export const MainContent = styled.div<{ expand: boolean }>`
     background-color: ${(props) => props.theme.mainBgColor};
     width: ${(props) => (props.expand ? '220px' : '72px')};
     height: calc(100vh - 60px);
+    /* min-height: 100%;
+    max-height: 100vh; */
     padding-top: 12px;
     position: relative;
     transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;

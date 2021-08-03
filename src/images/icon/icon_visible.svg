@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_visible</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-579.000000, -299.000000)">
+            <g id="编组-8" transform="translate(579.000000, 299.000000)">
+                <path d="M10,4 C14.9705627,4 19,8.6862915 19,10 C19,11.3137085 14.9705627,16 10,16 C5.02943725,16 1,11.3137085 1,10 C1,8.6862915 5.02943725,4 10,4 Z M10,5.5 C7.51471863,5.5 5.5,7.51471863 5.5,10 C5.5,12.4852814 7.51471863,14.5 10,14.5 C12.4852814,14.5 14.5,12.4852814 14.5,10 C14.5,7.51471863 12.4852814,5.5 10,5.5 Z" id="形状结合" fill="#B6C2CD"></path>
+                <circle id="椭圆形" fill="#36435C" cx="10" cy="10" r="3"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

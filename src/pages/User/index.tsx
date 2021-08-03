@@ -11,7 +11,7 @@ import { Dot } from './style-components';
 import { EllipsisOutlined, FormOutlined } from '@ant-design/icons';
 import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
-import { userOptions } from './const';
+import { useTranslation } from 'react-i18next';
 
 function User() {
     const [data, setData] = useState([]);
@@ -19,6 +19,8 @@ function User() {
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
     const [formData, setFormData] = useState({});
+    const [filterValue, setFilterValue] = useState('');
+    const { t } = useTranslation();
     const getUser = async () => {
         const result = await HTTP.get('users', {
             filter: {},
@@ -56,9 +58,18 @@ function User() {
         setOpenDialog(false);
         setFormData({});
     };
+    const filterInputConfirm = (value: string) => {
+        setFilterValue(value);
+        console.log(filterValue);
+    };
+    const userOptions = [
+        { value: 'all', text: t('common.select.all') },
+        { value: 'user', text: t('resources.users.userType.user') },
+        { value: 'admin', text: t('resources.users.userType.admin') },
+    ];
     const columns = [
         {
-            title: '用户名称',
+            title: t('resources.users.fields.name'),
             dataIndex: 'name',
             key: '1',
             // eslint-disable-next-line react/display-name
@@ -68,7 +79,7 @@ function User() {
             },
         },
         {
-            title: '用户类型',
+            title: t('resources.users.fields.userType'),
             dataIndex: 'is_admin',
             key: '2',
             // eslint-disable-next-line react/display-name
@@ -76,13 +87,17 @@ function User() {
                 const record = args[1];
                 return (
                     <div>
-                        <span>{record.is_admin === 1 ? '管理员' : '普通用户'}</span>
+                        <span>
+                            {record.is_admin === 1
+                                ? t('resources.users.userType.admin')
+                                : t('resources.users.userType.user')}
+                        </span>
                     </div>
                 );
             },
         },
         {
-            title: '状态',
+            title: t('resources.users.fields.status'),
             dataIndex: 'status',
             key: '3',
             // eslint-disable-next-line react/display-name
@@ -91,18 +106,22 @@ function User() {
                 return (
                     <div>
                         <Dot isActive={record.status === 1}></Dot>
-                        <span>{record.status === 1 ? '已激活' : '未激活'}</span>
+                        <span>
+                            {record.status === 1
+                                ? t('resources.users.status.active')
+                                : t('resources.users.status.inactive')}
+                        </span>
                     </div>
                 );
             },
         },
         {
-            title: '开发空间数量',
+            title: t('resources.users.fields.cluster_count'),
             key: '4',
             dataIndex: 'cluster_count',
         },
         {
-            title: '操作',
+            title: t('common.operation'),
             key: '5',
             width: 132,
             // eslint-disable-next-line react/display-name
@@ -123,8 +142,10 @@ function User() {
                                         onCancel={() => setDeleteModalShow(false)}
                                         onConfirm={() => handleDelete(record.id)}
                                         visible={deleteModalShow}
-                                        title="你确认要删除用户？"
-                                        message={` 删除用户「${record.name}」后，则该用户将无法登录操作控制台。`}
+                                        title={t('resources.users.delete.deleteTitle')}
+                                        message={t('resources.users.delete.info', {
+                                            name: record.name,
+                                        })}
                                     ></DeleteModal>
                                     <PopItem
                                         onClick={() => {
@@ -132,7 +153,7 @@ function User() {
                                             setPopVisibleIndex(-1);
                                         }}
                                     >
-                                        删除
+                                        {t('common.bt.delete')}
                                     </PopItem>
                                 </Fragment>
                             }
@@ -152,8 +173,8 @@ function User() {
                     visible={openDialog}
                     title={
                         Object.prototype.hasOwnProperty.call(formData, 'id')
-                            ? '修改用户'
-                            : '新增用户'
+                            ? t('resources.users.bt.edit')
+                            : t('resources.users.bt.add')
                     }
                     width={680}
                     onCancel={() => {
@@ -176,9 +197,12 @@ function User() {
             <TableBox>
                 <TableHeader>
                     <Filter>
-                        <TableSearchInput></TableSearchInput>
+                        <TableSearchInput
+                            onConfirm={filterInputConfirm}
+                            placeholder={t('resources.users.form.placeholder.name')}
+                        ></TableSearchInput>
                         <LabelSelect
-                            label="用户类型"
+                            label={t('resources.users.fields.userType')}
                             option={userOptions}
                             onChange={handleSelectChange}
                         ></LabelSelect>
@@ -189,7 +213,7 @@ function User() {
                         onClick={() => setOpenDialog(true)}
                         icon={<PlusOutlined style={{ color: '#fff' }} />}
                     >
-                        添加用户
+                        {t('resources.users.bt.add')}
                     </Button>
                 </TableHeader>
                 <TableWrap>

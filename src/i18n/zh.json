@@ -31,11 +31,26 @@
             "copied": "已复制！"
         }
     },
+    "common": {
+        "operation": "操作",
+        "bt": {
+            "delete": "删除",
+            "cancel": "取消",
+            "submit": "完成",
+            "submitGoon": "完成并继续添加"
+        },
+        "select": {
+            "all": "全部"
+        }
+    },
     "resources": {
+        "dashboard": {
+            "name": "概览"
+        },
         "users": {
-            "name": "用户 |||| 用户列表",
+            "name": "用户",
             "fields": {
-                "name": "用户名",
+                "name": "用户名称",
                 "email": "邮箱",
                 "cluster_count": "开发空间数量",
                 "status": "状态",
@@ -45,16 +60,44 @@
                 "confirm_password": "确认密码"
             },
             "status": {
-                "active": "开启",
-                "inactive": "锁定"
+                "active": "已激活",
+                "inactive": "未激活"
             },
             "userType": {
                 "admin": "管理员",
                 "user": "普通用户"
+            },
+            "delete": {
+                "deleteTitle": "你确认要删除用户？",
+                "info": "删除用户「{{name}}」后，则该用户将无法登录操作控制台。"
+            },
+            "bt": {
+                "add": "新增用户",
+                "edit": "修改用户"
+            },
+            "form": {
+                "placeholder": {
+                    "name": "请输入用户名称",
+                    "email": "请输入邮箱",
+                    "password": "请输入密码",
+                    "confirm_password": "请输入确认密码"
+                }
+            },
+            "valid": {
+                "comfirmPassword": "密码输入不一致。",
+                "name": "请输入用户名。",
+                "password": "请输入六位数以上密码。",
+                "email": "请输入正确的邮箱号。"
+            },
+            "formLabel": {
+                "statusTitle": "是否激活使用状态",
+                "statusInfo": "状态开启则用户可以正常使用 Nocalhost 产品",
+                "adminTitle": "是否设置为管理员",
+                "adminInfo": "设置为管理员，则该用户有权限添加编辑用户、集群"
             }
         },
         "cluster": {
-            "name": "集群 |||| 集群列表",
+            "name": "集群",
             "fields": {
                 "name": "集群名称",
                 "cluster_version": "集群版本",
@@ -81,7 +124,7 @@
             }
         },
         "application": {
-            "name": "应用 |||| 应用列表",
+            "name": "应用",
             "add": "添加应用",
             "fields": {
                 "application_name": "应用名称",
@@ -97,13 +140,38 @@
                 "cluster_count": "集群数",
                 "status": "状态",
                 "user": "创建者",
-                "created_at": "创建于"
+                "created_at": "创建于",
+                "created_date": "创建时间"
+            },
+            "form": {
+                "placeholder": {
+                    "git": "请输入 Git 仓库地址",
+                    "config": "请输入应用配置文件 config.yaml",
+                    "resource_dir": "请输入路径",
+                    "search": "搜索应用名称",
+                    "helm": "请输入 Helm 仓库地址.",
+                    "nc_config": "请输入正确的配置信息",
+                    "name": "请输入应用名称"
+                }
             },
             "tips": {
                 "resource_dir": "Git 仓库的相对路径",
                 "config_path": "应用配置文件，一般存放于 .nocalhost 目录下",
                 "helm_repo": "应用名称将用作 release 名称",
-                "helm_chart_name": "配置名称将用作 chart 名称"
+                "helm_chart_name": "配置名称将用作 chart 名称",
+                "path": "路径 {{index}}",
+                "addPath": "添加路径"
+            },
+            "bt": {
+                "add": "添加应用",
+                "edit": "修改应用",
+                "auth": "授权管理",
+                "addAuth": "添加授权",
+                "deleteAuth": "取消授权"
+            },
+            "delete": {
+                "deleteTitle": "你确认要删除该应用？",
+                "info": "删除应用「{{name}}」后，则该应用的所有资源将被删除。"
             },
             "auth": {
                 "bt": {
@@ -113,6 +181,17 @@
                     "add": "新增",
                     "delete": "删除",
                     "return": "返回"
+                },
+                "amount": "已授权 {{amount}} 人",
+                "notAuth": "未授权用户",
+                "select": "已选择 {{select}} 项目",
+                "public": {
+                    "title": "你确认要公开该应用？",
+                    "info": "公开应用「{{name}}」后，则该应用的所有资源将被用户可见。"
+                },
+                "private": {
+                    "title": "你确认要隐藏该应用？",
+                    "info": "隐藏应用「{{name}}」后，则该应用的所有资源将不被用户可见。"
                 },
                 "fields": {
                     "name": "名称",
@@ -127,7 +206,7 @@
             }
         },
         "space": {
-            "name": "开发环境 |||| 开发环境列表",
+            "name": "开发环境",
             "fields": {
                 "space_name": "空间名称",
                 "status": "状态",
@@ -213,7 +292,7 @@
             }
         },
         "devSpace": {
-            "name": "开发环境 |||| 开发环境列表",
+            "name": "开发环境",
             "fields": {
                 "space_name": "空间名称",
                 "status": "状态",
@@ -239,7 +318,7 @@
             }
         },
         "myDevSpace": {
-            "name": "开发环境 |||| 开发环境列表",
+            "name": "开发环境",
             "fields": {
                 "space_name": "空间名称",
                 "status": "状态",

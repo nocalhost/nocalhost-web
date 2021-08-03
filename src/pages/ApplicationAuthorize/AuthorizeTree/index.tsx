@@ -7,7 +7,7 @@ import { notUsersType } from '../const';
 import CheckItem from '../CheckItem';
 import SelectedItem from '../SelectedItem';
 import { Button } from 'antd';
-
+import { useTranslation } from 'react-i18next';
 interface AuthorizeTreePropsType {
     onCancel(): void;
     onOk(): void;
@@ -17,6 +17,8 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const [data, setData] = useState([]);
     const [selectData, setSelectData] = useState([]);
     const urlParams = useParams<{ id: string }>();
+    const [filterValue, setFilterValue] = useState('');
+    const { t } = useTranslation();
     useEffect(() => {
         const getApplicationUser = async () => {
             const result = await HTTP.get(`/application/${urlParams.id}/!users`, {
@@ -32,6 +34,10 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const handleSetSelectData = (selectData: never[]) => {
         setSelectData(selectData);
     };
+    const filterInputConfirm = (value: string) => {
+        setFilterValue(value);
+        console.log(filterValue);
+    };
     const addUser = async () => {
         try {
             await HTTP.post(`/application/${urlParams.id}/users`, {
@@ -45,8 +51,13 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
         <>
             <Content>
                 <Box>
-                    <TableSearchInput></TableSearchInput>
-                    <Amount>未授权用户 {data.length}</Amount>
+                    <TableSearchInput
+                        onConfirm={filterInputConfirm}
+                        placeholder={t('resources.users.form.placeholder.name')}
+                    ></TableSearchInput>
+                    <Amount>
+                        {t('resources.application.auth.notAuth')} {data.length}
+                    </Amount>
                     <TreeList height={300}>
                         {data.map((item: notUsersType) => {
                             return (
@@ -62,7 +73,9 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
                     </TreeList>
                 </Box>
                 <Box>
-                    <Amount>已选择 {selectData.length} 项目</Amount>
+                    <Amount>
+                        {t('resources.application.auth.select', { select: selectData.length })}
+                    </Amount>
                     <TreeList height={332}>
                         {selectData.map((item: notUsersType) => {
                             return (
@@ -80,11 +93,11 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
             </Content>
             <Footer>
                 <ButtonBox>
-                    <Button onClick={() => props.onCancel()}>取消</Button>
+                    <Button onClick={() => props.onCancel()}>{t('common.bt.cancel')}</Button>
                 </ButtonBox>
                 <ButtonBox>
                     <Button type="primary" onClick={addUser}>
-                        完成
+                        {t('common.bt.submit')}
                     </Button>
                 </ButtonBox>
             </Footer>

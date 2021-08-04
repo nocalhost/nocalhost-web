@@ -36,6 +36,7 @@
         "bt": {
             "delete": "删除",
             "cancel": "取消",
+            "confirm": "确认",
             "submit": "完成",
             "submitGoon": "完成并继续添加"
         },
@@ -98,8 +99,15 @@
         },
         "cluster": {
             "name": "集群",
+            "edit": "编辑",
+            "envList": "环境列表",
+            "add": "添加集群",
+            "info": "集群信息",
+            "workload": "集群资源负载",
+            "storage_class": "存储类型",
             "fields": {
                 "name": "集群名称",
+                "provider": "供应商",
                 "cluster_version": "集群版本",
                 "status": "是否可用",
                 "nodes_count": "节点数量",
@@ -110,7 +118,8 @@
                 "storage_class": "存储类型"
             },
             "tips": {
-                "kubeconfig": "如何获取 kubeconfig？"
+                "kubeconfig": "如何获取 kubeconfig？",
+                "inputPlaceholder": "请输入 Kubeconfig"
             },
             "delete": {
                 "confirm": {
@@ -209,6 +218,7 @@
             "name": "开发环境",
             "fields": {
                 "space_name": "空间名称",
+                "space_type": "空间类型",
                 "status": "状态",
                 "user": "所有者",
                 "namespace": "命名空间",

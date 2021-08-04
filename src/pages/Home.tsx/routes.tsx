@@ -3,6 +3,7 @@ import ApplicationAuthorize from '../ApplicationAuthorize';
 import Overview from '../OverView';
 import User from '../User';
 import Clusters from '../Clusters';
+import EnvList from '../EnvList';
 export const routes = [
     {
         path: '/dashboard/overview',
@@ -28,5 +29,13 @@ export const routes = [
         path: '/dashboard/clusters',
         exact: true,
         component: Clusters,
+    },
+    {
+        path: '/dashboard/env-list/:id',
+        component: EnvList,
+    },
+    {
+        path: '/dashboard/devspace/',
+        component: EnvList,
     },
 ];

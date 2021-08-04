@@ -1,14 +1,13 @@
 import { Button } from 'antd';
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import i18n from '../../../i18n/i18n';
 import F2 from '@antv/f2';
 import moment from 'moment';
 import EditCluster from './EditCluster';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const { Shape, Util, Global, G, Animate } = F2;
-
 const { Vector2 } = G;
 
 interface IProps extends PropsWithChildren<{}> {
@@ -127,6 +126,7 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
     const info = JSON.parse(data.info);
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const history = useHistory();
+    const { t } = useTranslation();
     useEffect(() => {
         const loadInfoData = [
             {
@@ -331,46 +331,46 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                 </DetailTitle>
                 <ul>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.cluster_version')}</span>
+                        <span>{t('resources.cluster.fields.cluster_version')}</span>
                         <span>{info.cluster_version}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.provider')}</span>
+                        <span>{t('resources.cluster.fields.provider')}</span>
                         <span>{}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.storage_class')}</span>
+                        <span>{t('resources.cluster.fields.storage_class')}</span>
                         <span>{data.storage_class}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.nodes_count')}</span>
+                        <span>{t('resources.cluster.fields.nodes_count')}</span>
                         <span>{info.nodes}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.users_count')}</span>
+                        <span>{t('resources.cluster.fields.users_count')}</span>
                         <span>{data.users_count}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.created_at')}</span>
+                        <span>{t('resources.cluster.fields.created_at')}</span>
                         <span>{moment(data.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{i18n.t('resources.cluster.fields.user')}</span>
+                        <span>{t('resources.cluster.fields.user')}</span>
                         <span>{data.user_id}</span>
                     </DetailItem>
                 </ul>
                 <Line1px />
                 <BtnBox>
                     <Button style={{ marginRight: 20 }} onClick={handleEdit}>
-                        {i18n.t('resources.cluster.edit')}
+                        {t('resources.cluster.edit')}
                     </Button>
                     <Button onClick={() => handleEnvList(data.id)}>
-                        {i18n.t('resources.cluster.envList')}
+                        {t('resources.cluster.envList')}
                     </Button>
                 </BtnBox>
             </DetailContainer>
             <LoadContainer>
-                <InfoTitle>集群资源负载</InfoTitle>
+                <InfoTitle>{t('resources.cluster.workload')}</InfoTitle>
                 <WorkLoadInfo>
                     <canvas id={`chart${data.id}`} width="400" height="300"></canvas>
                     <Flex1Ul>

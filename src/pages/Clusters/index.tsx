@@ -5,7 +5,8 @@ import ListItem from './components/ListItem';
 import { ContentTitle, ClusterCount, FlexContainer } from './style-components';
 import { Button } from 'antd';
 import i18n from '../../i18n/i18n';
-import AddCluster from '../../components/Cluster/AddCluster';
+import AddCluster from '../../components/AddCluster';
+import { PlusOutlined } from '@ant-design/icons';
 
 const Clusters: FC<{}> = () => {
     const [clusterList, setClusterList] = useState([]);
@@ -33,7 +34,7 @@ const Clusters: FC<{}> = () => {
                         <span>{i18n.t('resources.cluster.info')}</span>
                         <ClusterCount>{clusterList.length}</ClusterCount>
                     </FlexContainer>
-                    <Button onClick={handleAddCluster} type="primary">
+                    <Button onClick={handleAddCluster} type="primary" icon={<PlusOutlined />}>
                         {i18n.t('resources.cluster.add')}
                     </Button>
                 </ContentTitle>

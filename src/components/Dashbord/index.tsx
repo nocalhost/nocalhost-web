@@ -27,6 +27,16 @@ function Dashbord() {
             name: t('resources.application.name'),
             url: '/dashboard/application',
         },
+        {
+            icon: '',
+            name: t('resources.cluster.name'),
+            url: '/dashboard/clusters',
+        },
+        {
+            icon: '',
+            name: t('resources.space.name'),
+            url: '/dashboard/devspace',
+        },
     ];
     return (
         <MainContent expand={expand}>

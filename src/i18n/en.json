@@ -36,6 +36,7 @@
         "bt": {
             "delete": "Delete",
             "cancel": "Cancel",
+            "confirm": "Confirm",
             "submit": "Submit",
             "submitGoon": "Submit and Continue"
         },
@@ -98,9 +99,16 @@
         },
         "cluster": {
             "name": "Cluster",
+            "edit": "Edit",
+            "envList": "Env List",
+            "add": "Add Cluster",
+            "info": "Cluster Info",
+            "workload": "Cluster Workload",
+            "storage_class": "Storage Class",
             "fields": {
                 "name": "Name",
                 "cluster_version": "Cluster Version",
+                "Provider": "Provider",
                 "status": "Is Ready",
                 "nodes_count": "Nodes Count",
                 "users_count": "DevSpaces Count",
@@ -110,7 +118,8 @@
                 "storage_class": "Storage Class"
             },
             "tips": {
-                "kubeconfig": "How to get kubeconfig?"
+                "kubeconfig": "How to get kubeconfig?",
+                "inputPlaceholder": "Please input Kubeconfig"
             },
             "delete": {
                 "confirm": {
@@ -209,6 +218,7 @@
             "name": "DevSpace",
             "fields": {
                 "space_name": "Space Name",
+                "space_type": "Space Type",
                 "status": "Status",
                 "user": "Owner",
                 "namespace": "Namespace",

@@ -47,6 +47,10 @@ const EnvList = () => {
             key: 'user',
             dataIndex: 'user_id',
         },
+        {
+            title: t('common.operation'),
+            key: 'operation',
+        },
     ];
 
     const [spaceList, setSpaceList] = useState([]);
@@ -56,7 +60,7 @@ const EnvList = () => {
     }, []);
 
     async function querySpaceList() {
-        const response = await HTTP.get(`cluster/${id}/dev_space`);
+        const response = await HTTP.get(id ? `cluster/${id}/dev_space` : 'dev_space');
         setSpaceList(response.data);
     }
 

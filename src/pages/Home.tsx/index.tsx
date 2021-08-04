@@ -9,6 +9,7 @@ import { UserContext, UPDATE_USER } from '../../provider/appContext';
 import AuthorizedRoute from './AuthorizedRoute';
 const Flex = styled.div`
     display: flex;
+    height: 100%;
 `;
 
 const Main = styled.div`
@@ -18,9 +19,10 @@ const Main = styled.div`
 const Content = styled.div`
     padding: 12px 24px 24px 24px;
     width: 100%;
+    height: calc(100vh - 60px);
+    overflow: auto;
 `;
 
-// 有头 有sidebar
 function Home() {
     const { user, dispatch } = useContext(UserContext);
     useEffect(() => {

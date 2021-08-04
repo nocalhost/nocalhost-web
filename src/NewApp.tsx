@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login';
 import { UserContext, reducer, initState } from './provider/appContext';
+import './i18n/i18n';
 const theme1 = {
     mainBgColor: '#f0f4f8',
 };

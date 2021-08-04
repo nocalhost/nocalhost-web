@@ -27,7 +27,6 @@ export const TableHeader = styled.div`
     align-items: center;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    display: flex;
     justify-content: space-between;
 `;
 
@@ -57,4 +56,32 @@ export const PopItem = styled.div`
         color: #ff3f3f;
         background: rgb(255, 63, 63, 0.08);
     }
+`;
+
+export const Filter = styled.div`
+    display: flex;
+`;
+
+export const AIcon = styled.div`
+    width: 32px;
+    height: 32px;
+    background: black;
+    margin-right: 8px;
+    flex-shrink: 0;
+`;
+
+export const Flex = styled.div`
+    display: flex;
+    align-items: center;
+    max-width: 85%;
+`;
+
+export const Sub = styled.div`
+    color: rgb(121, 135, 156);
+    font-size: 12px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 `;

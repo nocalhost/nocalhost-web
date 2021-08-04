@@ -5,14 +5,18 @@
 #creareUserForm .ant-form {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 #creareUserForm .ant-form-item {
     width: 50%;
     padding-right: 6px;
 }
+#creareUserForm .ant-form-item:nth-of-type(2n) {
+    padding-left: 6px;
+}
 
-#creareUserForm .ant-input:hover {
+/* #creareUserForm .ant-input:hover {
     border-color: #0080ff !important;
 }
 #creareUserForm .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
@@ -39,4 +43,4 @@
     color: rgb(54, 67, 92);
     font-size: 14px;
     font-weight: 600;
-}
+} */

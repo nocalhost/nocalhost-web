@@ -54,3 +54,7 @@ export const PopItem = styled.div`
         background: rgb(255, 63, 63, 0.08);
     }
 `;
+
+export const Filter = styled.div`
+    display: flex;
+`;

@@ -10,6 +10,7 @@ export const InputWrap = styled.div`
     align-items: center;
     padding: 0 4px;
     overflow: hidden;
+    margin-right: 12px;
 `;
 
 export const Input = styled.input`

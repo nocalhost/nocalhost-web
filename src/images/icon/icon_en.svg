@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_en</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-259.000000, -299.000000)">
+            <g id="icon_close" transform="translate(259.000000, 299.000000)">
+                <rect id="形状结合" stroke="#B6C2CD" stroke-width="1.5" x="5" y="2" width="13" height="13" rx="1.42857143"></rect>
+                <g id="编组-22" transform="translate(2.000000, 4.000000)">
+                    <rect id="形状结合" fill="#36435C" x="0" y="0" width="14" height="14" rx="1.42857143"></rect>
+                    <path d="M5.63736264,10.8571429 L6.09171598,9.21764142 L8.41631445,9.21764142 L8.87066779,10.8571429 L10.8571429,10.8571429 L8.41631445,3.71428571 L6.15511412,3.71428571 L3.71428571,10.8571429 L5.63736264,10.8571429 Z M8.05705833,7.894535 L6.4509721,7.894535 L6.62003381,7.29050815 C6.82079459,6.5810163 7.03212172,5.74688399 7.22231615,4.99904123 L7.26458157,4.99904123 C7.47590871,5.72770853 7.67666948,6.5810163 7.88799662,7.29050815 L8.05705833,7.894535 Z" id="A" fill="#FFFFFF" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

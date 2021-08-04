@@ -13,13 +13,15 @@ export const Card = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 `;
 
 export const Title = styled.div`
     color: rgb(54, 67, 92);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 16px;
+    margin-bottom: 4px;
 `;
 
 export const Info = styled.div`
@@ -33,6 +35,7 @@ export const Footer = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+    width: 100%;
 `;
 
 export const ButtonBox = styled.div`

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_normal_devspace</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-75.000000, -182.000000)">
+            <g id="编组-15" transform="translate(75.000000, 182.000000)">
+                <path d="M9.37575757,2 C11.5909091,2 13.5,3.2825 14.4181818,5.1425 C16.6917693,5.27807037 18.6217149,6.68747722 19.4972316,8.6690085 C19.1312784,8.2555857 18.5960934,7.99480559 18,7.99480559 L18,7.99480559 L10,7.99480559 C8.8954305,7.99480559 8,8.89023609 8,9.99480559 L8,9.99480559 L8,15 C8,16.1045695 8.8954305,17 10,17 L10,17 L14.418,16.999 L14.3757576,17 L5,17 C2.21121212,16.8478125 0,14.66125 0,12 C0,9.74375 1.58909091,7.836875 3.77121212,7.215 C3.98181818,4.3009375 6.40787878,2 9.37575757,2 Z" id="形状结合" fill="#B6C2CD" fill-rule="nonzero"></path>
+                <polyline id="路径" stroke="#36435C" stroke-width="2" points="13.1745386 15.8401964 10.4040531 12.8401964 13.1745386 9.84019643"></polyline>
+                <polyline id="路径" stroke="#36435C" stroke-width="2" points="15.8588923 15.8401964 18.6293778 12.8401964 15.8588923 9.84019643"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

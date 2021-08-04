@@ -8,7 +8,7 @@ export const MainContent = styled.div`
     background-color: ${(props) => props.theme.mainBgColor};
     width: 100%;
     height: 60px;
-    padding: 18px 8px 18px 20px;
+    padding: 18px 24px 18px 20px;
 `;
 
 export const LogoName = styled.div`
@@ -25,4 +25,68 @@ export const LogoName = styled.div`
 export const Flex = styled.div`
     display: flex;
     align-items: center;
+`;
+
+export const FlexBetween = styled(Flex)`
+    justify-content: space-between;
+`;
+
+export const Section = styled.div`
+    border-top: 1px solid rgb(243, 246, 250);
+    border-bottom: 1px solid rgb(243, 246, 250);
+`;
+export const Info = styled.div`
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const Name = styled.div`
+    color: rgb(54, 67, 92);
+    font-size: 14px;
+    line-height: 20px;
+`;
+
+export const Email = styled.div`
+    height: 16px;
+    line-height: 16px;
+    color: rgb(121, 135, 156);
+`;
+
+export const AvatarBox = styled.div`
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: red;
+`;
+
+export const AvatarItem = styled.div`
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    color: rgb(54, 67, 92);
+    font-size: 14px;
+    &:hover {
+        background: rgb(243, 246, 250);
+    }
+    padding: 0 10px;
+    cursor: pointer;
+`;
+
+export const AvatarPop = styled.div`
+    width: 220px;
+    background: #fff;
+`;
+
+export const TranItem = styled(AvatarItem)`
+    width: 220px;
+`;
+
+export const AddIcon = styled.div`
+    width: 20px;
+    height: 20px;
+    background: blue;
 `;

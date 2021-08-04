@@ -3,7 +3,7 @@ import { Item, Name, DeleteIcon } from '../CheckItem/style-components';
 import { notUsersType } from '../const';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
-import { ReactComponent as IconAdmin } from '../../../images/icon/icon_label_admin.svg';
+import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.svg';
 import CommonIcon from '../../../components/CommonIcon';
 import { useTranslation } from 'react-i18next';
 interface CheckItemProps {
@@ -24,7 +24,11 @@ function CheckItem(props: CheckItemProps) {
             <Icon component={IconUserAvater} style={{ fontSize: '24px' }}></Icon>
             <Name>{name}</Name>
             <DeleteIcon onClick={handleCheck}>
-                <CommonIcon NormalIcon={IconAdmin} title={t('common.bt.remove')}></CommonIcon>
+                <CommonIcon
+                    NormalIcon={IconDelete}
+                    title={t('common.bt.remove')}
+                    style={{ fontSize: '16px' }}
+                ></CommonIcon>
             </DeleteIcon>
         </Item>
     );

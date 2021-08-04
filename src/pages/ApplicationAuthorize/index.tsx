@@ -11,9 +11,12 @@ import CommonIcon from '../../components/CommonIcon';
 import Icon from '@ant-design/icons';
 import DeleteModal from '../../components/DeleteModal';
 import { ReactComponent as IconUserAvater } from '../../images/icon/profile_boy.svg';
-import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
-import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
+import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_addPeople.svg';
+import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_addPeople.svg';
 import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
+import { ReactComponent as IconAdd } from '../../images/icon/icon_btn_addPeople.svg';
+import './reset.less';
+
 function ApplicationAuthorize() {
     // /v1/application/7/users
     const [data, setData] = useState([]);
@@ -111,7 +114,7 @@ function ApplicationAuthorize() {
                 const record = args[1];
                 return (
                     <div
-                        style={{ width: '20px' }}
+                        style={{ width: '20px', height: '20px' }}
                         onClick={() => {
                             setDeleteId(record.id);
                             setDeleteModalShow(true);
@@ -182,6 +185,16 @@ function ApplicationAuthorize() {
                     <Flex>
                         {selectList.length > 0 && (
                             <Button
+                                icon={
+                                    <Icon
+                                        className="iconT"
+                                        component={IconNormalEdit}
+                                        style={{
+                                            fontSize: '18px',
+                                            height: '18px',
+                                        }}
+                                    ></Icon>
+                                }
                                 onClick={() => {
                                     setDeleteModalShow(true);
                                     setDeleteId('');
@@ -191,7 +204,21 @@ function ApplicationAuthorize() {
                             </Button>
                         )}
                         <div style={{ marginLeft: '12px' }}>
-                            <Button type="primary" onClick={() => setOpenDialog(true)}>
+                            <Button
+                                type="primary"
+                                icon={
+                                    <Icon
+                                        className="iconFix"
+                                        component={IconAdd}
+                                        style={{
+                                            color: '#fff',
+                                            fontSize: '18px',
+                                            height: '18px',
+                                        }}
+                                    ></Icon>
+                                }
+                                onClick={() => setOpenDialog(true)}
+                            >
                                 {t('resources.application.bt.addAuth')}
                             </Button>
                         </div>

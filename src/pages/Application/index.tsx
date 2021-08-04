@@ -146,8 +146,8 @@ function Application() {
                         <Icon component={IconApplication} style={{ fontSize: '32px' }}></Icon>
                         <div style={{ maxWidth: '100%', marginLeft: '10px' }}>
                             <Filter>
-                                <div>{object.application_name}</div>
-                                {record.publish === 0 && (
+                                <div style={{ marginRight: '8px' }}>{object.application_name}</div>
+                                {record.public === 1 && (
                                     <Icon component={IconAdmin} style={{ fontSize: '18px' }}></Icon>
                                 )}
                             </Filter>
@@ -222,6 +222,7 @@ function Application() {
             render: (...args: any) => {
                 const index = args[2];
                 const record = args[1];
+                const object = JSON.parse(record?.context);
                 return (
                     <div style={{ display: 'flex' }}>
                         <IconBox onClick={() => handleEdit(record.id)}>
@@ -255,8 +256,12 @@ function Application() {
                                             type === 'delete'
                                                 ? t('resources.application.delete.info')
                                                 : type === 'public'
-                                                ? t('resources.application.auth.public.info')
-                                                : t('resources.application.auth.private.info')
+                                                ? t('resources.application.auth.public.info', {
+                                                      name: object.application_name,
+                                                  })
+                                                : t('resources.application.auth.private.info', {
+                                                      name: object.application_name,
+                                                  })
                                         }
                                     ></DeleteModal>
 

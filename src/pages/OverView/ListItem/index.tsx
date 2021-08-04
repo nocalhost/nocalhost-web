@@ -1,14 +1,17 @@
 import React from 'react';
-import { List, Icon, H, I, Flex } from './style-components';
+import { List, H, I, Flex } from './style-components';
 import { Row, Col } from 'antd';
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
+import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
 export function ListItem() {
     return (
         <List>
             <Row gutter={20}>
                 <Col span={6}>
                     <Flex>
-                        <Icon></Icon>
-                        <div>
+                        <Icon component={IconCluster} style={{ fontSize: '32px' }}></Icon>
+                        <div style={{ marginLeft: '12px' }}>
                             <H>devpool</H>
                             <I>集群描述信息集群描述信息…</I>
                         </div>
@@ -39,7 +42,14 @@ export function ListItem() {
                     <I>创建时间</I>
                 </Col>
                 <Col span={2}>
-                    <H>百慕大大</H>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ marginRight: '4px' }}>
+                            <Icon component={IconUserAvater} style={{ fontSize: '20px' }}></Icon>
+                        </div>
+
+                        <H>百慕大大</H>
+                    </div>
+
                     <I>创建者</I>
                 </Col>
             </Row>

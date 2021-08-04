@@ -7,6 +7,7 @@ import { notUsersType } from '../const';
 import CheckItem from '../CheckItem';
 import SelectedItem from '../SelectedItem';
 import { Button } from 'antd';
+
 import { useTranslation } from 'react-i18next';
 interface AuthorizeTreePropsType {
     onCancel(): void;
@@ -17,7 +18,8 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const [data, setData] = useState([]);
     const [selectData, setSelectData] = useState([]);
     const urlParams = useParams<{ id: string }>();
-    const [filterValue, setFilterValue] = useState('');
+    const [copyData, setCopyData] = useState([]);
+    const [filterValue, setFilterValue] = useState({ name: '' });
     const { t } = useTranslation();
     useEffect(() => {
         const getApplicationUser = async () => {
@@ -27,6 +29,7 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
                 sort: ['id', 'ASC'],
             });
             setData(result.data || []);
+            setCopyData(result.data || []);
         };
         getApplicationUser();
     }, []);
@@ -34,10 +37,19 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const handleSetSelectData = (selectData: never[]) => {
         setSelectData(selectData);
     };
-    const filterInputConfirm = (value: string) => {
-        setFilterValue(value);
-        console.log(filterValue);
+    const handleFilterData = () => {
+        const filterData = copyData.filter((item: { name: string }) => {
+            const isNameValid = item.name.indexOf(filterValue.name) !== -1;
+            return isNameValid;
+        });
+        setData(filterData);
     };
+    const filterInputConfirm = (value: string) => {
+        setFilterValue({ name: value });
+    };
+    useEffect(() => {
+        handleFilterData();
+    }, [filterValue]);
     const addUser = async () => {
         try {
             await HTTP.post(`/application/${urlParams.id}/users`, {

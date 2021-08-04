@@ -41,3 +41,8 @@ export const Amount = styled.div`
     font-size: 14px;
     margin-left: 20px;
 `;
+
+export const BtnIcon = styled.i`
+    position: relative;
+    top: 1px;
+`;

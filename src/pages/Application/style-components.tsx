@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const IconBox = styled.div`
+    margin-right: 20px;
+`;
+
 export const TableBox = styled.div`
     width: 100%;
     height: 100%;
@@ -74,6 +78,7 @@ export const Flex = styled.div`
     display: flex;
     align-items: center;
     max-width: 85%;
+    flex-wrap: nowrap;
 `;
 
 export const Sub = styled.div`
@@ -84,4 +89,5 @@ export const Sub = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    margin-right: 6px;
 `;

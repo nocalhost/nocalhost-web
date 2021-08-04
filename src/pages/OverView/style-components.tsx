@@ -86,3 +86,8 @@ export const Dot = styled.div`
     font-size: 12px;
     color: rgb(54, 67, 92);
 `;
+
+export const IconBox = styled.div`
+    position: relative;
+    top: 8px;
+`;

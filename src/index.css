@@ -16,6 +16,19 @@ li {
     list-style: none;
 }
 
+input::-webkit-input-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+input:-ms-input-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+input:-moz-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -258,4 +271,10 @@ code {
 .ant-form-item-label
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     content: '';
+}
+
+.ant-tooltip-inner {
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    padding: 8px 12px;
 }

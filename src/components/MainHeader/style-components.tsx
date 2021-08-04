@@ -30,6 +30,9 @@ export const Flex = styled.div`
 export const FlexBetween = styled(Flex)`
     justify-content: space-between;
 `;
+export const FlexHeader = styled(FlexBetween)`
+    /* width: 120px; */
+`;
 
 export const Section = styled.div`
     border-top: 1px solid rgb(243, 246, 250);
@@ -74,6 +77,7 @@ export const AvatarItem = styled.div`
     }
     padding: 0 10px;
     cursor: pointer;
+    position: relative;
 `;
 
 export const AvatarPop = styled.div`
@@ -83,10 +87,37 @@ export const AvatarPop = styled.div`
 
 export const TranItem = styled(AvatarItem)`
     width: 220px;
+    position: relative;
 `;
 
 export const AddIcon = styled.div`
     width: 20px;
     height: 20px;
     background: blue;
+`;
+
+export const Label = styled.div`
+    margin-left: 10px;
+`;
+
+export const IconRight = styled.div`
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    height: 20px;
+    transform: translateY(-50%);
+`;
+
+export const HeaderSection = styled.div`
+    border-left: 1px solid rgb(219, 228, 236);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    margin-left: 20px;
+`;
+
+export const Tran = styled.div`
+    position: relative;
+    cursor: pointer;
+    /* top: -2px; */
 `;

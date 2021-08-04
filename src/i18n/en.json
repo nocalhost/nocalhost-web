@@ -42,6 +42,10 @@
             "expand": "Expand",
             "collapse": "Collapse"
         },
+        "info": {
+            "logout": "Sign out",
+            "language": "Language"
+        },
         "select": {
             "all": "All"
         }

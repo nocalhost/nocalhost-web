@@ -4,12 +4,13 @@ export const MainContent = styled.div<{ expand: boolean }>`
     background-color: ${(props) => props.theme.mainBgColor};
     width: ${(props) => (props.expand ? '220px' : '72px')};
     height: calc(100vh - 60px);
+    overflow: hidden;
     /* min-height: 100%;
     max-height: 100vh; */
     padding-top: 12px;
     position: relative;
     transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-
+    margin-right: ${(props) => (props.expand ? '24px' : '0px')};
     padding: 0 16px;
 `;
 
@@ -20,6 +21,7 @@ export const ListItem = styled.div<{ isActive: boolean | undefined }>`
     margin-bottom: 4px;
     display: flex;
     align-items: center;
+    overflow: hidden;
     width: 100%;
     &:hover {
         background: rgb(0, 128, 255, 0.08);
@@ -31,7 +33,6 @@ export const ListItem = styled.div<{ isActive: boolean | undefined }>`
     cursor: pointer;
     > a {
         color: ${(props) => (props.isActive ? '#0080ff' : '#202d40')};
-        display: flex;
         display: flex;
         align-items: center;
         width: 100%;
@@ -50,7 +51,8 @@ export const Bottom = styled.div<{ expand: boolean }>`
     align-items: center;
     justify-content: ${(props) => (props.expand ? 'flex-end' : 'center')};
 `;
-
-export const Label = styled.div`
+// eslint-disable-next-line no-undef
+export const Label = styled.div<{ expand: boolean }>`
     margin-left: 12px;
+    opacity: ${(props) => (props.expand ? 1 : 0)};
 `;

@@ -5,6 +5,17 @@ export const Main = styled.div`
     /* height: 100%; */
 `;
 
+export const IconBox = styled.div`
+    margin-right: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(239, 244, 249);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+`;
+
 export const Card = styled.div`
     height: 176px;
     width: 100%;
@@ -18,6 +29,7 @@ export const CardTop = styled.div`
     height: 88px;
     display: flex;
     align-items: center;
+    padding: 0 20px;
 `;
 
 export const CardInfo = styled.div`

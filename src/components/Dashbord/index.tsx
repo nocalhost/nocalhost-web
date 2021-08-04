@@ -56,7 +56,7 @@ function Dashbord() {
                                 }
                                 style={{ fontSize: '20px' }}
                             ></Icon>
-                            {expand && <Label>{item.name}</Label>}
+                            <Label expand={expand}>{item.name}</Label>
                         </Link>
                     </ListItem>
                 );
@@ -66,14 +66,14 @@ function Dashbord() {
             <Bottom expand={expand} onClick={() => setExpand(!expand)}>
                 {expand ? (
                     <CommonIcon
-                        title={t('common.bt.expand')}
+                        // title={t('common.bt.expand')}
                         HoverIcon={IconArrowLeftHover}
                         NormalIcon={IconArrowLeftNormal}
                         style={{ fontSize: '20px' }}
                     ></CommonIcon>
                 ) : (
                     <CommonIcon
-                        title={t('common.bt.collapse')}
+                        // title={t('common.bt.collapse')}
                         HoverIcon={IconArrowRightHover}
                         NormalIcon={IconArrowRightNormal}
                         style={{ fontSize: '20px' }}

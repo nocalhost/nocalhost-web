@@ -1,18 +1,21 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import HTTP from '../../api/fetch';
-import { TableBox, TableHeader, TableWrap, PopItem, Filter } from './style-components';
+import { TableBox, TableHeader, TableWrap, PopItem, Filter, IconBox } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import { Table, Button, Popover } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import CreateUserForm from './CreateUserForm';
 import { Dot } from './style-components';
-import { EllipsisOutlined, FormOutlined } from '@ant-design/icons';
 import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
 import { useTranslation } from 'react-i18next';
-
+import CommonIcon from '../../components/CommonIcon';
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
+import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
+import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 function User() {
     const [data, setData] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
@@ -129,8 +132,15 @@ function User() {
                 const index = args[2];
                 const record = args[1];
                 return (
-                    <div>
-                        <FormOutlined onClick={() => handleEdit(record.id)} />
+                    <div style={{ display: 'flex' }}>
+                        <IconBox onClick={() => handleEdit(record.id)}>
+                            <CommonIcon
+                                title={t('common.bt.edit')}
+                                HoverIcon={IconSelectedEdit}
+                                NormalIcon={IconNormalEdit}
+                                style={{ fontSize: '20px' }}
+                            ></CommonIcon>
+                        </IconBox>
                         <Popover
                             trigger="click"
                             placement="bottom"
@@ -158,7 +168,7 @@ function User() {
                                 </Fragment>
                             }
                         >
-                            <EllipsisOutlined></EllipsisOutlined>
+                            <Icon component={IconMore} style={{ fontSize: '20px' }} />
                         </Popover>
                     </div>
                 );

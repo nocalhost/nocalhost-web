@@ -11,6 +11,19 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+input::-webkit-input-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+input:-ms-input-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+input:-moz-placeholder {
+    font-size: 14px;
+    color: rgb(121, 135, 156, 0.5);
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Content, Label } from './style-components';
 import { Select } from 'antd';
-import './reset.css';
-
+import './reset.less';
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconArrow } from '../../images/icon/icon_arrow_down.svg';
 interface PropsType {
     label: string;
     option: Array<OptionsType>;
@@ -21,7 +22,16 @@ function LabelSelect(props: PropsType) {
         <div id="labelSelect">
             <Content>
                 <Label>{label}</Label>
-                <Select defaultValue={value} onChange={onChange}>
+                <Select
+                    defaultValue={value}
+                    onChange={onChange}
+                    suffixIcon={
+                        <Icon
+                            component={IconArrow}
+                            style={{ fontSize: '20px', color: '#36435c' }}
+                        ></Icon>
+                    }
+                >
                     {option.map((item) => {
                         return (
                             <Select.Option key={item.value} value={item.value}>

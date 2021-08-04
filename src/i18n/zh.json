@@ -7,7 +7,7 @@
         "layout": {
             "menu": {
                 "home": "Nocalhost",
-                "document": "文档",
+                "document": "帮助文档",
                 "profile": "个人信息"
             }
         },
@@ -33,6 +33,10 @@
     },
     "common": {
         "operation": "操作",
+        "info": {
+            "logout": "退出登录",
+            "language": "语言"
+        },
         "bt": {
             "delete": "删除",
             "cancel": "取消",

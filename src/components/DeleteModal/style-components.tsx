@@ -27,3 +27,13 @@ export const ButtonBox = styled.div`
     width: 170px;
     justify-content: space-between;
 `;
+
+export const IconBox = styled.div`
+    width: 30px;
+    height: 30px;
+    background: #fff3ce;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;

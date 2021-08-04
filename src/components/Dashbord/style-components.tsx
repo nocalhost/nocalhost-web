@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const MainContent = styled.div<{ expand: boolean }>`
     background-color: ${(props) => props.theme.mainBgColor};
     width: ${(props) => (props.expand ? '220px' : '72px')};
-    height: calc(100vh - 60px);
+    height: calc(100vh - 68px);
     overflow: hidden;
     /* min-height: 100%;
     max-height: 100vh; */

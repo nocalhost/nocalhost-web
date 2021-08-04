@@ -51,7 +51,7 @@ function MainHeader() {
     const { user } = useContext(UserContext);
     const [dialogType, setDialogType] = useState('');
     const { i18n, t } = useTranslation();
-    console.log(i18n);
+    // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
     };
@@ -63,7 +63,7 @@ function MainHeader() {
             <FlexBetween>
                 <Flex>
                     <Logo src={IconLogo}></Logo>
-                    <LogoName>Nocalhost管理中心</LogoName>
+                    <LogoName>Nocalhost Service Dashboard</LogoName>
                 </Flex>
                 <FlexHeader>
                     <Popover

@@ -32,7 +32,7 @@ import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 import { ReactComponent as IconApplication } from '../../images/icon/icon_application.svg';
 import { ReactComponent as IconColorCopy } from '../../images/icon/icon_btn_elected_copy.svg';
 import { ReactComponent as IconCopy } from '../../images/icon/icon_btn_normal_copy.svg';
-import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
+import { ReactComponent as IconPrivate } from '../../images/icon/icon_label_private.svg';
 import { SelectValue } from './const';
 
 function Application() {
@@ -148,7 +148,11 @@ function Application() {
                             <Filter>
                                 <div style={{ marginRight: '8px' }}>{object.application_name}</div>
                                 {record.public === 1 && (
-                                    <Icon component={IconAdmin} style={{ fontSize: '18px' }}></Icon>
+                                    <CommonIcon
+                                        title={t('resources.application.auth.bt.private')}
+                                        NormalIcon={IconPrivate}
+                                        style={{ fontSize: '18px' }}
+                                    ></CommonIcon>
                                 )}
                             </Filter>
                             {!!object.application_url.replace(/\s+/g, '') && (

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Radio, Select, message } from 'antd';
+import { Button, Form, Input, Radio, Select, message, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { MANIFEST_TYPE, SOURCE_TYPE } from '../const';
 import { ButtonBox, Footer, FormBox, AddInputBtn } from './style-components';
@@ -126,21 +126,23 @@ function CreateApplicationForm(props: PropsType) {
                                     setResourceDirList(newResourceDirList);
                                 }}
                                 addonAfter={
-                                    <MinusCircleFilled
-                                        onClick={() => {
-                                            const newResourceDirList = resourceDirList.filter(
-                                                (item, ind) => index !== ind
-                                            );
-                                            setResourceDirList(newResourceDirList);
-                                        }}
-                                        style={{
-                                            color: '#ff3f3f',
-                                            fontSize: '18px',
-                                            position: 'relative',
-                                            top: '2px',
-                                            cursor: 'pointer',
-                                        }}
-                                    />
+                                    <Tooltip title={t('common.bt.remove')} placement="top">
+                                        <MinusCircleFilled
+                                            onClick={() => {
+                                                const newResourceDirList = resourceDirList.filter(
+                                                    (item, ind) => index !== ind
+                                                );
+                                                setResourceDirList(newResourceDirList);
+                                            }}
+                                            style={{
+                                                color: '#ff3f3f',
+                                                fontSize: '18px',
+                                                position: 'relative',
+                                                top: '2px',
+                                                cursor: 'pointer',
+                                            }}
+                                        />
+                                    </Tooltip>
                                 }
                                 placeholder={t(
                                     'resources.application.form.placeholder.resource_dir'

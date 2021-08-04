@@ -11,7 +11,7 @@ export const MainContent = styled.div<{ expand: boolean }>`
     position: relative;
     transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
     margin-right: ${(props) => (props.expand ? '24px' : '0px')};
-    padding: 0 16px;
+    padding: 12px 16px 0;
 `;
 
 // eslint-disable-next-line no-undef

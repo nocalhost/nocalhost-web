@@ -115,3 +115,9 @@ export const HeaderSection = styled.div`
     padding-left: 20px;
     margin-left: 20px;
 `;
+
+export const Tran = styled.div`
+    position: relative;
+    cursor: pointer;
+    /* top: -2px; */
+`;

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Item, Name, Icon, CheckBox, CheckBoxInner } from './style-components';
+import { Item, Name, CheckBox, CheckBoxInner } from './style-components';
 import { notUsersType } from '../const';
-
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
 interface CheckItemProps {
     name: string;
     id: number;
@@ -24,7 +25,7 @@ function CheckItem(props: CheckItemProps) {
             <CheckBox checked={isChecked}>
                 <CheckBoxInner checked={isChecked}></CheckBoxInner>
             </CheckBox>
-            <Icon></Icon>
+            <Icon component={IconUserAvater} style={{ fontSize: '24px' }}></Icon>
             <Name>{name}</Name>
         </Item>
     );

@@ -31,10 +31,10 @@ export const Icon = styled.div`
 `;
 
 export const CheckBox = styled.div<CheckBoxInnerStyleType>`
-    margin-right: 8px;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    margin-right: 8px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     font-variant: tabular-nums;
@@ -104,10 +104,8 @@ export const CheckBoxInner = styled.div<CheckBoxInnerStyleType>`
 `;
 
 export const DeleteIcon = styled.div`
-    background: rgb(255, 63, 63);
-    border-radius: 4px;
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
     position: absolute;
     right: 20px;
     top: 50%;

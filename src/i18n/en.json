@@ -40,7 +40,8 @@
             "submitGoon": "Submit and Continue",
             "edit": "Edit",
             "expand": "Expand",
-            "collapse": "Collapse"
+            "collapse": "Collapse",
+            "remove": "Remove"
         },
         "info": {
             "logout": "Sign out",
@@ -179,6 +180,10 @@
             "delete": {
                 "deleteTitle": "Are you sure you want to delete this application?",
                 "info": "After deleting the application「{{name}}」, all resources of the application will be deleted."
+            },
+            "deleteAuth": {
+                "deleteTitle": "You confirm that you want to cancel the authorization?",
+                "info": "After the user cancels the authorization, he cannot access the application."
             },
             "auth": {
                 "bt": {

@@ -62,3 +62,13 @@ export const PopItem = styled.div`
 export const Filter = styled.div`
     display: flex;
 `;
+
+export const Flex = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const Sub = styled.div`
+    color: rgb(121, 135, 156);
+    font-size: 12px;
+`;

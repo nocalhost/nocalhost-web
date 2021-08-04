@@ -11,11 +11,11 @@ import {
     TableWrap,
     PopItem,
     Filter,
-    AIcon,
     Flex,
     Sub,
     IconBox,
 } from './style-components';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import TableSearchInput from '../../components/TableSearchInput';
 import moment from 'moment';
 import CreateApplicationForm from './CreateApplicationForm';
@@ -29,17 +29,23 @@ import CommonIcon from '../../components/CommonIcon';
 import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
 import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
 import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
+import { ReactComponent as IconApplication } from '../../images/icon/icon_application.svg';
+import { ReactComponent as IconColorCopy } from '../../images/icon/icon_btn_elected_copy.svg';
+import { ReactComponent as IconCopy } from '../../images/icon/icon_btn_normal_copy.svg';
+import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
+import { SelectValue } from './const';
 
 function Application() {
     const [data, setData] = useState([]);
+    const [copyData, setCopyData] = useState([]);
     const [userList, setUserList] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
+    const [filterValue, setFilterValue] = useState({ name: '', type: 'all' });
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
     const [type, setType] = useState('');
     const [formData, setFormData] = useState({});
     const history = useHistory();
-    const [filterValue, setFilterValue] = useState('');
     const { t } = useTranslation();
     const getUser = async () => {
         try {
@@ -55,6 +61,7 @@ function Application() {
                 sort: ['id', 'ASC'],
             });
             setData(result.data || []);
+            setCopyData(result.data || []);
         } catch (error) {}
     };
     useEffect(() => {
@@ -64,9 +71,7 @@ function Application() {
     const showTotal = (total: number) => {
         return `共${total}条`;
     };
-    const handleSelectChange = (v: any) => {
-        console.log(v);
-    };
+
     const handleDelete = async (id: string) => {
         if (type === 'public' || type === 'private') {
             await HTTP.put(`/application/${id}/public`, {
@@ -82,7 +87,24 @@ function Application() {
                 setDeleteModalShow(false);
             } catch (error) {}
         }
-        console.log(id);
+    };
+    const handleFilterData = () => {
+        const filterData = copyData.filter((item: { context: string }) => {
+            const context = JSON.parse(item?.context);
+            const isNameValid = context.application_name.indexOf(filterValue.name) !== -1;
+            const type = filterValue.type;
+            switch (type) {
+                case 'all':
+                    return isNameValid;
+                case 'git':
+                    return isNameValid && context?.source === 'git';
+                case 'local':
+                    return isNameValid && context?.source === 'local';
+                default:
+                    return isNameValid && context?.source === 'helm_repo';
+            }
+        });
+        setData(filterData);
     };
     const handleEdit = async (id: number) => {
         const result = await HTTP.get(`application/${id}`);
@@ -93,15 +115,23 @@ function Application() {
         setOpenDialog(true);
     };
     const filterInputConfirm = (value: string) => {
-        setFilterValue(value);
-        console.log(filterValue);
+        setFilterValue({ ...filterValue, name: value });
     };
+    const handleSelectChange = (v: SelectValue) => {
+        setFilterValue({ ...filterValue, type: v });
+    };
+    useEffect(() => {
+        handleFilterData();
+    }, [filterValue]);
     const applictionOptions = [
         { value: 'all', text: t('common.select.all') },
         { value: 'git', text: 'Git' },
         { value: 'helm_repo', text: 'Helm' },
         { value: 'local', text: 'Local' },
     ];
+    const onCopy = () => {
+        message.success(t('nh.action.copied'));
+    };
     const columns = [
         {
             title: t('resources.application.fields.application_name'),
@@ -113,14 +143,29 @@ function Application() {
                 const object = JSON.parse(record?.context);
                 return (
                     <Flex>
-                        <AIcon></AIcon>
-                        <div style={{ maxWidth: '100%' }}>
-                            <Flex>
+                        <Icon component={IconApplication} style={{ fontSize: '32px' }}></Icon>
+                        <div style={{ maxWidth: '100%', marginLeft: '10px' }}>
+                            <Filter>
                                 <div>{object.application_name}</div>
-                            </Flex>
-                            <Flex>
-                                <Sub>{object.application_url}</Sub>
-                            </Flex>
+                                {record.publish === 0 && (
+                                    <Icon component={IconAdmin} style={{ fontSize: '18px' }}></Icon>
+                                )}
+                            </Filter>
+                            {!!object.application_url.replace(/\s+/g, '') && (
+                                <Flex>
+                                    <Sub>{object.application_url}</Sub>
+                                    <CopyToClipboard text={object.application_url} onCopy={onCopy}>
+                                        <div style={{ height: '20px' }}>
+                                            <CommonIcon
+                                                title={t('nh.action.copy')}
+                                                style={{ fontSize: '20px' }}
+                                                HoverIcon={IconColorCopy}
+                                                NormalIcon={IconCopy}
+                                            ></CommonIcon>
+                                        </div>
+                                    </CopyToClipboard>
+                                </Flex>
+                            )}
                         </div>
                     </Flex>
                 );
@@ -172,7 +217,7 @@ function Application() {
         },
         {
             title: t('common.operation'),
-            width: '100px',
+            width: '160px',
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const index = args[2];

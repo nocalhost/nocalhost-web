@@ -44,7 +44,8 @@
             "submitGoon": "完成并继续添加",
             "edit": "编辑",
             "expand": "展开",
-            "collapse": "收起"
+            "collapse": "收起",
+            "remove": "移除"
         },
         "select": {
             "all": "全部"
@@ -179,6 +180,10 @@
             "delete": {
                 "deleteTitle": "你确认要删除该应用？",
                 "info": "删除应用「{{name}}」后，则该应用的所有资源将被删除。"
+            },
+            "deleteAuth": {
+                "deleteTitle": "你确认要取消授权？",
+                "info": "用户取消授权后，则无法访问应用。"
             },
             "auth": {
                 "bt": {

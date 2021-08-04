@@ -7,25 +7,37 @@ import { useParams, Link } from 'react-router-dom';
 import Dialog from '../../components/Dialog';
 import AuthorizeTree from './AuthorizeTree';
 import { useTranslation } from 'react-i18next';
-
+import CommonIcon from '../../components/CommonIcon';
+import Icon from '@ant-design/icons';
+import DeleteModal from '../../components/DeleteModal';
+import { ReactComponent as IconUserAvater } from '../../images/icon/profile_boy.svg';
+import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
+import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
+import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
 function ApplicationAuthorize() {
     // /v1/application/7/users
     const [data, setData] = useState([]);
     const [selectList, setSelectList] = useState([]);
     const urlParams = useParams<{ id: string }>();
     const [openDialog, setOpenDialog] = useState(false);
-    const [filterValue, setFilterValue] = useState('');
+    const [copyData, setCopyData] = useState([]);
+    const [filterValue, setFilterValue] = useState({ name: '' });
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
     const { t } = useTranslation();
     const getApplicationUser = async () => {
         const result = await HTTP.get(`/application/${urlParams.id}/users`);
         setData(result.data || []);
+        setCopyData(result.data || []);
     };
+
     const handleDeleteUser = async () => {
         try {
             await HTTP.delete(`/application/${urlParams.id}/users`, {
-                users: selectList.map((item: { id: number }) => item.id),
+                users: deleteId ? [deleteId] : selectList.map((item: { id: number }) => item.id),
             });
             getApplicationUser();
+            setDeleteModalShow(false);
         } catch (error) {}
     };
     useEffect(() => {
@@ -34,6 +46,16 @@ function ApplicationAuthorize() {
     const showTotal = (total: number) => {
         return `共${total}条`;
     };
+    const handleFilterData = () => {
+        const filterData = copyData.filter((item: { name: string }) => {
+            const isNameValid = item.name.indexOf(filterValue.name) !== -1;
+            return isNameValid;
+        });
+        setData(filterData);
+    };
+    useEffect(() => {
+        handleFilterData();
+    }, [filterValue]);
     const columns = [
         {
             title: t('resources.users.fields.name'),
@@ -41,7 +63,23 @@ function ApplicationAuthorize() {
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const record = args[1];
-                return <div>{record.name}</div>;
+                return (
+                    <Flex>
+                        <Icon component={IconUserAvater} style={{ fontSize: '32px' }}></Icon>
+                        <div style={{ maxWidth: '100%', marginLeft: '10px' }}>
+                            <Flex>
+                                <div style={{ marginRight: '6px' }}>{record.name}</div>
+                                {record.is_admin === 1 && (
+                                    <CommonIcon
+                                        NormalIcon={IconAdmin}
+                                        title={t('resources.users.userType.admin')}
+                                        style={{ fontSize: '18px' }}
+                                    ></CommonIcon>
+                                )}
+                            </Flex>
+                        </div>
+                    </Flex>
+                );
             },
         },
         {
@@ -67,17 +105,31 @@ function ApplicationAuthorize() {
         },
         {
             title: t('common.operation'),
+            width: 120,
             // eslint-disable-next-line react/display-name
             render: (...args: any) => {
                 const record = args[1];
-                console.log(record);
-                return <div>123</div>;
+                return (
+                    <div
+                        style={{ width: '20px' }}
+                        onClick={() => {
+                            setDeleteId(record.id);
+                            setDeleteModalShow(true);
+                        }}
+                    >
+                        <CommonIcon
+                            title={t('resources.application.bt.deleteAuth')}
+                            HoverIcon={IconSelectedEdit}
+                            NormalIcon={IconNormalEdit}
+                            style={{ fontSize: '20px' }}
+                        ></CommonIcon>
+                    </div>
+                );
             },
         },
     ];
     const filterInputConfirm = (value: string) => {
-        setFilterValue(value);
-        console.log(filterValue);
+        setFilterValue({ name: value });
     };
     const rowSelection = {
         onChange: (...args: any) => {
@@ -87,6 +139,13 @@ function ApplicationAuthorize() {
     };
     return (
         <div>
+            <DeleteModal
+                onCancel={() => setDeleteModalShow(false)}
+                onConfirm={handleDeleteUser}
+                visible={deleteModalShow}
+                title={t('resources.application.deleteAuth.deleteTitle')}
+                message={t('resources.application.deleteAuth.info')}
+            ></DeleteModal>
             {openDialog && (
                 <Dialog
                     visible={openDialog}
@@ -122,7 +181,12 @@ function ApplicationAuthorize() {
 
                     <Flex>
                         {selectList.length > 0 && (
-                            <Button onClick={handleDeleteUser}>
+                            <Button
+                                onClick={() => {
+                                    setDeleteModalShow(true);
+                                    setDeleteId('');
+                                }}
+                            >
                                 {t('resources.application.bt.deleteAuth')}
                             </Button>
                         )}

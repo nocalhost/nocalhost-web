@@ -16,6 +16,7 @@ import {
     IconRight,
     FlexHeader,
     HeaderSection,
+    Tran,
 } from './style-components';
 import IconLogo from '../../images/logo.png';
 import { UserContext } from '../../provider/appContext';
@@ -88,7 +89,9 @@ function MainHeader() {
                             </>
                         }
                     >
-                        <Icon component={IconBtnAdd} style={{ fontSize: '24px' }}></Icon>
+                        <Tran>
+                            <Icon component={IconBtnAdd} style={{ fontSize: '28px' }}></Icon>
+                        </Tran>
                     </Popover>
                     <HeaderSection>
                         <a

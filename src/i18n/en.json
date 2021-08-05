@@ -42,7 +42,8 @@
             "edit": "Edit",
             "expand": "Expand",
             "collapse": "Collapse",
-            "remove": "Remove"
+            "remove": "Remove",
+            "reset": "Reset"
         },
         "info": {
             "logout": "Sign out",
@@ -127,7 +128,8 @@
             },
             "tips": {
                 "kubeconfig": "How to get kubeconfig?",
-                "inputPlaceholder": "Please input Kubeconfig"
+                "inputPlaceholder": "Please input Kubeconfig",
+                "addSuccess": "Add Cluster Success!"
             },
             "delete": {
                 "confirm": {

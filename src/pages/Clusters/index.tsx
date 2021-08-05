@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import i18n from '../../i18n/i18n';
 import AddCluster from '../../components/AddCluster';
 import { PlusOutlined } from '@ant-design/icons';
+import { queryAllUser } from '../../services';
 
 const Clusters: FC<{}> = () => {
     const [clusterList, setClusterList] = useState([]);
@@ -17,8 +18,15 @@ const Clusters: FC<{}> = () => {
     }, []);
 
     async function queryClusters() {
+        const nameMap = await queryAllUser();
         const response = await HTTP.get('cluster');
-        setClusterList(response.data);
+        const tmpList = response.data.map((item: any) => {
+            return {
+                ...item,
+                userName: nameMap.get(item.user_id),
+            };
+        });
+        setClusterList(tmpList);
     }
 
     const handleAddCluster = () => {

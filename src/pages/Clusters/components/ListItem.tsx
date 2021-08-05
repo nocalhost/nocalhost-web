@@ -3,13 +3,24 @@ import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import F2 from '@antv/f2';
 import moment from 'moment';
-import EditCluster from './EditCluster';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Icon from '@ant-design/icons';
+
+import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
+import AddCluster from '../../../components/AddCluster';
 
 const { Shape, Util, Global, G, Animate } = F2;
 const { Vector2 } = G;
 
+const UNITMAP: {
+    [index: string]: any;
+} = {
+    pods: '',
+    cpu: 'Core',
+    memory: 'GB',
+    storage: 'Gi',
+};
 interface IProps extends PropsWithChildren<{}> {
     data: {
         id: number;
@@ -21,11 +32,19 @@ interface IProps extends PropsWithChildren<{}> {
         users_count: number;
         created_at: string;
         user_id: number;
+        userName: string;
+        resources: {
+            [key: string]: any;
+            capacity: number;
+            percentage: number;
+            resource_name: string;
+            used: number;
+        }[];
     };
 }
 
 const ListBox = styled.div`
-    padding: 10px;
+    padding: 20px;
     display: flex;
     background: #ffffff;
     border-radius: 8px;
@@ -64,6 +83,7 @@ const Flex1Ul = styled.ul`
 
 const DetailTitle = styled.div`
     display: flex;
+    align-items: center;
     margin-bottom: 20px;
 `;
 
@@ -82,6 +102,10 @@ const DetailItem = styled.li`
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
+`;
+
+const DetailItemLabel = styled.span`
+    color: #79879c;
 `;
 
 const Line1px = styled.div`
@@ -127,34 +151,16 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const history = useHistory();
     const { t } = useTranslation();
+    const { resources } = data;
+
     useEffect(() => {
-        const loadInfoData = [
-            {
-                name: '本地存储',
-                percent: 23,
-                icon: 'stand.png',
-                color: '#fe8afe',
-            },
-            {
-                name: '容器组',
-                percent: 40,
-                icon: 'walk.png',
-                color: '#ffd05a',
-            },
-            {
-                name: '内存',
-                percent: 65,
-                icon: 'run.png',
-                color: '#1ee7e7',
-            },
-            {
-                name: 'CPU',
-                percent: 65,
-                icon: 'run.png',
-                color: '#49a5ff',
-            },
-        ];
-        // 注册自定义Shape——极坐标下的条形
+        const loadInfoData = resources.map((item: any) => {
+            return {
+                ...item,
+                percentage: item.percentage * 100 * 0.75,
+            };
+        });
+
         Shape.registerShape('interval', 'tick', {
             draw: function draw(cfg: any, container: any) {
                 const points = this.parsePoints(cfg.points);
@@ -206,7 +212,7 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                                 endAngle,
                                 r: newRadius,
                                 lineWidth,
-                                lineCap: 'round',
+                                lineCap: 'react',
                                 shadowColor: 'rgba(0, 0, 0, 0.6)',
                                 shadowOffsetX: 0,
                                 shadowOffsetY: 0,
@@ -241,8 +247,8 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
             pixelRatio: window.devicePixelRatio,
         });
 
-        chart.source(loadInfoData, {
-            percent: {
+        chart.source(loadInfoData.reverse(), {
+            percentage: {
                 max: 100,
             },
         });
@@ -261,11 +267,11 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
         // 将数据映射到上面注册的Shape——interval，并绑定动画
         chart
             .interval()
-            .position('name*percent')
+            .position('resource_name*percentage')
             // .color('color', function (val) {
             //     return val;
             // })
-            .color('name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
+            .color('resource_name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
             .shape('tick')
             .size(12)
             .animate({
@@ -282,8 +288,8 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
 
         loadInfoData.forEach(function (obj) {
             chart.guide().arc({
-                start: [obj.name, 0],
-                end: [obj.name, 75],
+                start: [obj.resource_name, 0],
+                end: [obj.resource_name, 75],
                 top: false,
                 style: {
                     lineWidth: 12,
@@ -292,17 +298,24 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
             });
         });
 
+        const listStr = resources
+            .map((item) => {
+                return `<li><span>${
+                    item.resource_name
+                }</span><span style="display: inline-block; width: 30px;"> ${(
+                    item.percentage * 100
+                ).toFixed(0)}%</span></li>`;
+            })
+
+            .join('');
         chart.guide().html({
             position: [0, 0],
-            offsetX: -100,
+            offsetX: -80,
             offsetY: -22,
             html: `
                 <div>
                     <ul style="width: 120px;text-align: right; font-size: 12px; color: #36435c">
-                     <li><span>CPU</span><span></span></li>
-                     <li><span>内存</span><span></span></li>
-                     <li><span>容器组</span><span></span></li>
-                     <li><span>本地存储</span><span></span></li>
+                     ${listStr}
                     </ul>
                 </div>
             `,
@@ -316,14 +329,16 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
     };
 
     const handleEnvList = (id: number) => {
-        history.push(`/dashboard/env-list/${id}`);
+        history.push(`/dashboard/clusters-env-list/${id}`);
     };
 
     return (
         <ListBox>
             <DetailContainer>
                 <DetailTitle>
-                    <DetailIcon />
+                    <DetailIcon>
+                        <Icon style={{ fontSize: '32px' }} component={IconCluster} />
+                    </DetailIcon>
                     <FlexColumnDiv>
                         <span>{data.name}</span>
                         <span>集群描述信息</span>
@@ -331,32 +346,42 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                 </DetailTitle>
                 <ul>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.cluster_version')}</span>
+                        <DetailItemLabel>
+                            {t('resources.cluster.fields.cluster_version')}
+                        </DetailItemLabel>
                         <span>{info.cluster_version}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.provider')}</span>
+                        <DetailItemLabel>{t('resources.cluster.fields.provider')}</DetailItemLabel>
                         <span>{}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.storage_class')}</span>
+                        <DetailItemLabel>
+                            {t('resources.cluster.fields.storage_class')}
+                        </DetailItemLabel>
                         <span>{data.storage_class}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.nodes_count')}</span>
+                        <DetailItemLabel>
+                            {t('resources.cluster.fields.nodes_count')}
+                        </DetailItemLabel>
                         <span>{info.nodes}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.users_count')}</span>
+                        <DetailItemLabel>
+                            {t('resources.cluster.fields.users_count')}
+                        </DetailItemLabel>
                         <span>{data.users_count}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.created_at')}</span>
+                        <DetailItemLabel>
+                            {t('resources.cluster.fields.created_at')}
+                        </DetailItemLabel>
                         <span>{moment(data.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>
                     </DetailItem>
                     <DetailItem>
-                        <span>{t('resources.cluster.fields.user')}</span>
-                        <span>{data.user_id}</span>
+                        <DetailItemLabel>{t('resources.cluster.fields.user')}</DetailItemLabel>
+                        <span>{data.userName}</span>
                     </DetailItem>
                 </ul>
                 <Line1px />
@@ -374,19 +399,25 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                 <WorkLoadInfo>
                     <canvas id={`chart${data.id}`} width="400" height="300"></canvas>
                     <Flex1Ul>
-                        {[0, 1, 2, 3].map((item, key) => {
+                        {data.resources.map((item, key) => {
                             return (
                                 <WorkLoadItem key={key}>
                                     <WorkLoadInfoItem>
-                                        <NumSpan>88%</NumSpan>
-                                        <LabelSpan>CPU</LabelSpan>
+                                        <NumSpan>{`${(item.percentage * 100).toFixed(
+                                            0
+                                        )}%`}</NumSpan>
+                                        <LabelSpan>{item.resource_name}</LabelSpan>
                                     </WorkLoadInfoItem>
                                     <WorkLoadInfoItem>
-                                        <NumSpan>12Core</NumSpan>
+                                        <NumSpan>{`${item.used} ${
+                                            UNITMAP[item.resource_name]
+                                        }`}</NumSpan>
                                         <LabelSpan>已使用</LabelSpan>
                                     </WorkLoadInfoItem>
                                     <WorkLoadInfoItem>
-                                        <NumSpan>16Core</NumSpan>
+                                        <NumSpan>{`${item.capacity} ${
+                                            UNITMAP[item.resource_name]
+                                        }`}</NumSpan>
                                         <LabelSpan>总计</LabelSpan>
                                     </WorkLoadInfoItem>
                                 </WorkLoadItem>
@@ -396,7 +427,8 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                 </WorkLoadInfo>
             </LoadContainer>
             {showEdit && (
-                <EditCluster
+                <AddCluster
+                    isEdit={true}
                     name={data.name}
                     storage_class={data.storage_class}
                     onCancel={() => setShowEdit(false)}

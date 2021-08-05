@@ -9,6 +9,7 @@ interface PropsType {
     option: Array<OptionsType>;
     value?: string;
     onChange(v: any): void;
+    style?: { [key: string]: any };
 }
 
 interface OptionsType {
@@ -17,10 +18,10 @@ interface OptionsType {
 }
 
 function LabelSelect(props: PropsType) {
-    const { label, option, value = 'all', onChange } = props;
+    const { label, option, value = 'all', onChange, style = {} } = props;
     return (
         <div id="labelSelect">
-            <Content>
+            <Content style={style}>
                 <Label>{label}</Label>
                 <Select
                     defaultValue={value}

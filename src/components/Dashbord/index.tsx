@@ -15,6 +15,10 @@ import { ReactComponent as IconElectedApplications } from '../../images/icon/ico
 import { ReactComponent as IconNormalUser } from '../../images/icon/icon_normal_users.svg';
 import { ReactComponent as IconNormalDashboard } from '../../images/icon/icon_normal_dashboard.svg';
 import { ReactComponent as IconNormalApplications } from '../../images/icon/icon_normal_applications.svg';
+import { ReactComponent as IconNormalClusters } from '../../images/icon/icon_normal_clusters.svg';
+import { ReactComponent as IconSelectedClusters } from '../../images/icon/icon_electedl_clusters.svg';
+import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconSelectedDevspace } from '../../images/icon/icon_elected_devspace.svg';
 
 function Dashbord() {
     // const history = useHistory();
@@ -38,18 +42,20 @@ function Dashbord() {
             url: '/dashboard/user',
         },
         {
+            icon: IconNormalClusters,
+            selectedIcon: IconSelectedClusters,
+            name: t('resources.cluster.name'),
+            url: '/dashboard/clusters',
+        },
+        {
             icon: IconNormalApplications,
             selectedIcon: IconElectedApplications,
             name: t('resources.application.name'),
             url: '/dashboard/application',
         },
         {
-            icon: '',
-            name: t('resources.cluster.name'),
-            url: '/dashboard/clusters',
-        },
-        {
-            icon: '',
+            icon: IconNormalDevspace,
+            selectedIcon: IconSelectedDevspace,
             name: t('resources.space.name'),
             url: '/dashboard/devspace',
         },

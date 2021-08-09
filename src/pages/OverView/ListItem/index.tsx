@@ -1,10 +1,23 @@
 import React from 'react';
-import { List, H, I, Flex } from './style-components';
+import { List, H, I, Flex, Name } from './style-components';
 import { Row, Col } from 'antd';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
-export function ListItem() {
+import { useTranslation } from 'react-i18next';
+import { ClusterItemType } from '../type';
+import { UserType } from '../../User/const';
+import moment from 'moment';
+interface PropsType {
+    item: ClusterItemType;
+    user: UserType;
+}
+
+export function ListItem(props: PropsType) {
+    const { t } = useTranslation();
+    const item = props.item;
+    const infoParse = JSON.parse(item?.info || '{}');
+    const time = moment(item.created_at).format('YYYY-MM-DD hh:mm:ss');
     return (
         <List>
             <Row gutter={20}>
@@ -12,45 +25,40 @@ export function ListItem() {
                     <Flex>
                         <Icon component={IconCluster} style={{ fontSize: '32px' }}></Icon>
                         <div style={{ marginLeft: '12px' }}>
-                            <H>devpool</H>
-                            <I>集群描述信息集群描述信息…</I>
+                            <Name>{item.name}</Name>
                         </div>
                     </Flex>
                 </Col>
-                <Col span={4}>
-                    <H>coding-nocalhost</H>
-                    <I>集群版本</I>
+                <Col span={5}>
+                    <H>{infoParse.cluster_version}</H>
+                    <I>{t('resources.cluster.fields.cluster_version')}</I>
                 </Col>
                 <Col span={2}>
-                    <H>腾讯云</H>
-                    <I>服务商</I>
+                    <H>{item.storage_class || ' '}</H>
+                    <I>{t('resources.cluster.fields.storage_class')}</I>
                 </Col>
                 <Col span={2}>
-                    <H>cbs</H>
-                    <I>存储类型</I>
+                    <H>{infoParse.nodes}</H>
+                    <I>{t('resources.cluster.fields.nodes_count')}</I>
                 </Col>
                 <Col span={2}>
-                    <H>8</H>
-                    <I>节点数量</I>
-                </Col>
-                <Col span={2}>
-                    <H>98</H>
-                    <I>DevSpace数量</I>
+                    <H>{item.users_count || ' '}</H>
+                    <I>{t('resources.cluster.fields.users_count')}</I>
                 </Col>
                 <Col span={4}>
-                    <H>2021/02/08 09:46:32</H>
-                    <I>创建时间</I>
+                    <H>{time}</H>
+                    <I>{t('resources.cluster.fields.created_at')}</I>
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     <div style={{ display: 'flex' }}>
                         <div style={{ marginRight: '4px' }}>
                             <Icon component={IconUserAvater} style={{ fontSize: '20px' }}></Icon>
                         </div>
 
-                        <H>百慕大大</H>
+                        <H>{props.user.name}</H>
                     </div>
 
-                    <I>创建者</I>
+                    <I>{t('resources.cluster.fields.user')}</I>
                 </Col>
             </Row>
         </List>

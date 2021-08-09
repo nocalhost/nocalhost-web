@@ -13,7 +13,7 @@ import {
 } from './style-components';
 import { ReactComponent as IconUserAvater } from '../../images/icon/profile_boy.svg';
 import TableSearchInput from '../../components/TableSearchInput';
-import { Table, Button, Popover } from 'antd';
+import { Table, Button, Popover, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import CreateUserForm from './CreateUserForm';
@@ -66,6 +66,7 @@ function User() {
     };
     const handleDelete = async (id: number) => {
         await HTTP.delete(`users/${id}`);
+        message.success(t('common.message.delete'));
         setDeleteModalShow(false);
     };
     const handleOkUserForm = () => {

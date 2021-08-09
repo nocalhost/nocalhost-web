@@ -33,6 +33,11 @@
     },
     "common": {
         "operation": "Operation",
+        "message": {
+            "add": "Success Add",
+            "edit": "Success Edit",
+            "delete": "Success Delete"
+        },
         "bt": {
             "delete": "Delete",
             "cancel": "Cancel",

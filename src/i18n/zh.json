@@ -37,6 +37,11 @@
             "logout": "退出登录",
             "language": "语言"
         },
+        "message": {
+            "add": "新增成功",
+            "edit": "修改成功",
+            "delete": "删除成功"
+        },
         "bt": {
             "delete": "删除",
             "cancel": "取消",
@@ -113,7 +118,7 @@
                 "nodes_count": "节点数量",
                 "users_count": "DevSpace 数量",
                 "user": "创建者",
-                "created_at": "创建于",
+                "created_at": "创建时间",
                 "kubeconfig": "KubeConfig",
                 "storage_class": "存储类型"
             },

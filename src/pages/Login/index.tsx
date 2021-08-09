@@ -1,13 +1,27 @@
 import React, { useState, useContext } from 'react';
-import { Box, LoginHeader, Card, Title, AdminCount } from './style-components';
+import {
+    Box,
+    LoginHeader,
+    Card,
+    Title,
+    AdminCount,
+    Flex,
+    Logo,
+    LogoName,
+    DocBox,
+} from './style-components';
 import { Link } from 'react-router-dom';
-import Logo from '../../images/logo-white.png';
+import IconLogo from '../../images/logo.png';
 import './reset.less';
 import { Form, Input, Typography, Button } from 'antd';
 import HTTP from '../../api/fetch';
 import decodeJwt from 'jwt-decode';
 import { LoginToken } from '../../types';
 import { UserContext, UPDATE_USER } from '../../provider/appContext';
+import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_docs.svg';
+// icon_state_enter.svg
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,9 +55,24 @@ function Login() {
             <Box>
                 <LoginHeader>
                     <Link to="https://nocalhost.dev">
-                        <img src={Logo} height="48" />
+                        <Flex>
+                            <Logo src={IconLogo}></Logo>
+                            <LogoName>Nocalhost Service Dashboard</LogoName>
+                        </Flex>
                     </Link>
-                    <Link to="https://nocalhost.dev/getting-started/">Docs</Link>
+                    <a
+                        href="https://nocalhost.dev/getting-started/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <DocBox>
+                            <Icon
+                                component={IconDoc}
+                                style={{ fontSize: '20px', color: '#b6c2cd' }}
+                            ></Icon>
+                            <div style={{ color: '#36435c', marginLeft: '6px' }}>Docs</div>
+                        </DocBox>
+                    </a>
                 </LoginHeader>
                 <Title>
                     <Typography.Title level={1}>Login</Typography.Title>
@@ -80,6 +109,10 @@ function Login() {
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Login
+                                <Icon
+                                    component={IconEnter}
+                                    style={{ fontSize: '20px', color: '#fff' }}
+                                ></Icon>
                             </Button>
                         </Form.Item>
                     </Form>

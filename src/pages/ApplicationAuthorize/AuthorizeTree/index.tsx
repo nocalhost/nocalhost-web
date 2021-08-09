@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { notUsersType } from '../const';
 import CheckItem from '../CheckItem';
 import SelectedItem from '../SelectedItem';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 
 import { useTranslation } from 'react-i18next';
 interface AuthorizeTreePropsType {
@@ -55,6 +55,7 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
             await HTTP.post(`/application/${urlParams.id}/users`, {
                 users: selectData.map((item: notUsersType) => item.id),
             });
+            message.success(t('common.message.add'));
             props.onOk();
             props.onCancel();
         } catch (error) {}

@@ -77,12 +77,13 @@ function Application() {
             await HTTP.put(`/application/${id}/public`, {
                 public: type === 'public' ? 0 : 1,
             });
+            message.success(t('common.message.edit'));
             getApplication();
             setDeleteModalShow(false);
         } else {
             try {
                 await HTTP.delete(`/application/${id}`);
-                message.success('删除成功');
+                message.success(t('common.message.delete'));
                 getApplication();
                 setDeleteModalShow(false);
             } catch (error) {}

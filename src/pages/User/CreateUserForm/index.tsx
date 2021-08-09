@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Switch } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button, Form, Input, Switch, message } from 'antd';
 import { FormBox, Card, Title, Info, Footer, ButtonBox } from './style-components';
 import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import './resetAntd.css';
@@ -38,7 +38,8 @@ const initFormValue = {
 function CreateUserForm(props: PropsType) {
     const [values, setValues] = useState({ ...initFormValue });
     const [form] = Form.useForm();
-    const isEdit = Object.prototype.hasOwnProperty.call(props.formData, 'id');
+    const isEdit = Object.prototype.hasOwnProperty.call(props?.formData || {}, 'id');
+    const couterRef = useRef<boolean>();
     const { t } = useTranslation();
     useEffect(() => {
         setValues({ ...initFormValue, ...props.formData });
@@ -67,13 +68,19 @@ function CreateUserForm(props: PropsType) {
                     ...values,
                 });
                 props.onOk();
+                message.success(t('common.message.edit'));
             } catch (error) {}
         } else {
             try {
                 await HTTP.post(`/users`, {
                     ...values,
                 });
-                props.onOk();
+                message.success(t('common.message.add'));
+                if (couterRef.current) {
+                    form.resetFields();
+                } else {
+                    props.onOk();
+                }
             } catch (error) {}
         }
     };
@@ -174,11 +181,27 @@ function CreateUserForm(props: PropsType) {
                             </Button>
                         </ButtonBox>
                         <ButtonBox>
-                            <Button htmlType="submit"> {t('common.bt.submit')}</Button>
+                            <Button
+                                htmlType="submit"
+                                onClick={() => {
+                                    couterRef.current = false;
+                                }}
+                            >
+                                {' '}
+                                {t('common.bt.submit')}
+                            </Button>
                         </ButtonBox>
                         {!isEdit && (
                             <ButtonBox>
-                                <Button type="primary">{t('common.bt.submitGoon')}</Button>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    onClick={() => {
+                                        couterRef.current = true;
+                                    }}
+                                >
+                                    {t('common.bt.submitGoon')}
+                                </Button>
                             </ButtonBox>
                         )}
                     </Footer>

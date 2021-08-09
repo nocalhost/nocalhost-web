@@ -24,31 +24,33 @@ import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_doc
 // icon_state_enter.svg
 function Login() {
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
     const [password, setPassword] = useState('');
     const { dispatch } = useContext(UserContext);
     const onFinish = async () => {
-        try {
-            const result = await HTTP.post('login', { email, password });
-            if (result.code === 0) {
-                const token = result.data.token;
-                const refreshToken = result.data.refresh_token;
-                const decodeToken: any = decodeJwt(token);
-                const loginToken: LoginToken = decodeToken;
-                localStorage.setItem('token', token);
-                localStorage.setItem('username', loginToken.email);
-                localStorage.setItem('permissions', loginToken.is_admin === 1 ? 'admin' : 'user');
-                localStorage.setItem('userInfo', JSON.stringify(loginToken));
-                localStorage.setItem('refreshToken', refreshToken);
+        setLoading(true);
+        const result = await HTTP.post('login', { email, password });
+        if (result.code === 0) {
+            const token = result.data.token;
+            const refreshToken = result.data.refresh_token;
+            const decodeToken: any = decodeJwt(token);
+            const loginToken: LoginToken = decodeToken;
+            localStorage.setItem('token', token);
+            localStorage.setItem('username', loginToken.email);
+            localStorage.setItem('permissions', loginToken.is_admin === 1 ? 'admin' : 'user');
+            localStorage.setItem('userInfo', JSON.stringify(loginToken));
+            localStorage.setItem('refreshToken', refreshToken);
 
-                const user = await HTTP.get('me');
-                location.replace('/dashboard/overview');
-                if (user.code === 0) {
-                    localStorage.setItem('user', JSON.stringify(user));
-                    dispatch({ type: UPDATE_USER, user: user?.data });
-                    localStorage.setItem('userId', user.id);
-                }
+            const user = await HTTP.get('me');
+            setLoading(false);
+            location.replace('/dashboard/overview');
+            if (user.code === 0) {
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch({ type: UPDATE_USER, user: user?.data });
+                localStorage.setItem('userId', user.id);
             }
-        } catch (error) {}
+        }
+        setLoading(false);
     };
     return (
         <div id="login">
@@ -107,7 +109,7 @@ function Login() {
                             ></Input.Password>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={loading}>
                                 Login
                                 <Icon
                                     component={IconEnter}

@@ -17,6 +17,7 @@ interface FormType {
     name?: string;
     status?: number;
     id?: number | string;
+    isDetail?: boolean | undefined;
 }
 
 // confirm_password: "a19930731"
@@ -100,6 +101,7 @@ function CreateUserForm(props: PropsType) {
                         rules={[{ required: true, message: t('resources.users.valid.name') }]}
                     >
                         <Input
+                            disabled={props.formData?.isDetail}
                             value={values.name}
                             name="name"
                             placeholder={t('resources.users.form.placeholder.name')}
@@ -118,6 +120,7 @@ function CreateUserForm(props: PropsType) {
                         ]}
                     >
                         <Input
+                            disabled={props.formData?.isDetail}
                             value={values.email}
                             placeholder={t('resources.users.form.placeholder.email')}
                             name="email"
@@ -136,6 +139,7 @@ function CreateUserForm(props: PropsType) {
                         ]}
                     >
                         <Input.Password
+                            disabled={props.formData?.isDetail}
                             value={values.password}
                             name="password"
                             placeholder={t('resources.users.form.placeholder.password')}
@@ -152,6 +156,7 @@ function CreateUserForm(props: PropsType) {
                         rules={[{ validator: checkConfirmPassword, required: true, min: 6 }]}
                     >
                         <Input.Password
+                            disabled={props.formData?.isDetail}
                             onChange={handleInputChange}
                             name="confirm_password"
                             placeholder={t('resources.users.form.placeholder.confirm_password')}
@@ -165,46 +170,56 @@ function CreateUserForm(props: PropsType) {
                             <Title>{t('resources.users.formLabel.statusTitle')}</Title>
                             <Info>{t('resources.users.formLabel.statusInfo')}</Info>
                         </div>
-                        <Switch checked={values.status === 1} onChange={onChangeStatus} />
+                        <Switch
+                            disabled={props.formData?.isDetail}
+                            checked={values.status === 1}
+                            onChange={onChangeStatus}
+                        />
                     </Card>
                     <Card>
                         <div>
                             <Title>{t('resources.users.formLabel.adminTitle')}</Title>
                             <Info>{t('resources.users.formLabel.adminInfo')}</Info>
                         </div>
-                        <Switch checked={values.is_admin === 1} onChange={onChangeAdmin} />
+                        <Switch
+                            disabled={props.formData?.isDetail}
+                            checked={values.is_admin === 1}
+                            onChange={onChangeAdmin}
+                        />
                     </Card>
-                    <Footer>
-                        <ButtonBox>
-                            <Button onClick={() => props.onCancel()}>
-                                {t('common.bt.cancel')}
-                            </Button>
-                        </ButtonBox>
-                        <ButtonBox>
-                            <Button
-                                htmlType="submit"
-                                onClick={() => {
-                                    couterRef.current = false;
-                                }}
-                            >
-                                {' '}
-                                {t('common.bt.submit')}
-                            </Button>
-                        </ButtonBox>
-                        {!isEdit && (
+                    {!props.formData?.isDetail && (
+                        <Footer>
                             <ButtonBox>
-                                <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    onClick={() => {
-                                        couterRef.current = true;
-                                    }}
-                                >
-                                    {t('common.bt.submitGoon')}
+                                <Button onClick={() => props.onCancel()}>
+                                    {t('common.bt.cancel')}
                                 </Button>
                             </ButtonBox>
-                        )}
-                    </Footer>
+                            <ButtonBox>
+                                <Button
+                                    htmlType="submit"
+                                    onClick={() => {
+                                        couterRef.current = false;
+                                    }}
+                                >
+                                    {' '}
+                                    {t('common.bt.submit')}
+                                </Button>
+                            </ButtonBox>
+                            {!isEdit && (
+                                <ButtonBox>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        onClick={() => {
+                                            couterRef.current = true;
+                                        }}
+                                    >
+                                        {t('common.bt.submitGoon')}
+                                    </Button>
+                                </ButtonBox>
+                            )}
+                        </Footer>
+                    )}
                 </Form>
             </FormBox>
         </div>

@@ -3,16 +3,16 @@ import SummaryCard from '../../components/SummaryCard';
 import { ListItem } from './ListItem';
 import { Row, Col } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Icon from '@ant-design/icons';
-import { ReactComponent as IconColorUser } from '../../images/icon/icon_color_users.svg';
-import { ReactComponent as IconColorApplications } from '../../images/icon/icon_color_applications.svg';
-import { ReactComponent as IconColorDevspace } from '../../images/icon/icon_color_devspace.svg';
+import IconColorUser from '../../images/icon/icon_color_users.svg';
+import IconColorApplications from '../../images/icon/icon_color_applications.svg';
+import IconColorDevspace from '../../images/icon/icon_color_devspace.svg';
 import HTTP from '../../api/fetch';
 import { ClusterItemType } from './type';
 import {
     Card,
     CardBox,
     H,
+    SvgIcon,
     // Time,
     FlexBetween,
     Total,
@@ -70,11 +70,7 @@ function Overview() {
                                     {/* <I>人</I> */}
                                 </AmountBox>
                                 <IconBox>
-                                    <Icon
-                                        component={IconColorUser}
-                                        style={{ fontSize: '80px' }}
-                                        // width="60px"
-                                    ></Icon>
+                                    <SvgIcon src={IconColorUser} alt="" />
                                 </IconBox>
                             </FlexBetween>
                         </Card>
@@ -90,11 +86,7 @@ function Overview() {
                                     {/* <I>人</I> */}
                                 </AmountBox>
                                 <IconBox>
-                                    <Icon
-                                        component={IconColorApplications}
-                                        style={{ fontSize: '80px' }}
-                                        // width="60px"
-                                    ></Icon>
+                                    <SvgIcon src={IconColorApplications} alt="" />
                                 </IconBox>
                             </FlexBetween>
                         </Card>
@@ -110,11 +102,7 @@ function Overview() {
                                     {/* <I>人</I> */}
                                 </AmountBox>
                                 <IconBox>
-                                    <Icon
-                                        component={IconColorDevspace}
-                                        style={{ fontSize: '80px' }}
-                                        // width="60px"
-                                    ></Icon>
+                                    <SvgIcon src={IconColorDevspace} alt="" />
                                 </IconBox>
                             </FlexBetween>
                         </Card>

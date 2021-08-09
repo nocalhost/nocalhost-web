@@ -65,9 +65,11 @@ function User() {
         setOpenDialog(true);
     };
     const handleDelete = async (id: number) => {
-        await HTTP.delete(`users/${id}`);
-        message.success(t('common.message.delete'));
-        setDeleteModalShow(false);
+        const result = await HTTP.delete(`users/${id}`);
+        if (result.code === 0) {
+            message.success(t('common.message.delete'));
+            setDeleteModalShow(false);
+        }
     };
     const handleOkUserForm = () => {
         getUser();

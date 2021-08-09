@@ -63,25 +63,25 @@ function CreateUserForm(props: PropsType) {
     };
     const onFinish = async () => {
         if (isEdit) {
-            try {
-                await HTTP.put(`/users/${props?.formData?.id}`, {
-                    ...values,
-                });
+            const result = await HTTP.put(`/users/${props?.formData?.id}`, {
+                ...values,
+            });
+            if (result.code === 0) {
                 props.onOk();
                 message.success(t('common.message.edit'));
-            } catch (error) {}
+            }
         } else {
-            try {
-                await HTTP.post(`/users`, {
-                    ...values,
-                });
+            const result = await HTTP.post(`/users`, {
+                ...values,
+            });
+            if (result.code === 0) {
                 message.success(t('common.message.add'));
                 if (couterRef.current) {
                     form.resetFields();
                 } else {
                     props.onOk();
                 }
-            } catch (error) {}
+            }
         }
     };
     const checkConfirmPassword = (_: any, value: any) => {

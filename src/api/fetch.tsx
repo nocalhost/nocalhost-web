@@ -73,13 +73,18 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
             } else {
                 location.replace('/login');
                 message.error('Invalid token.');
-                return Promise.resolve({});
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('permissions');
+                localStorage.removeItem('userInfo');
+                localStorage.removeItem('refreshToken');
+                // return Promise.resolve({});
             }
         }
     }
     if (res && res.code !== 0) {
         message.error(res.message);
-        return Promise.reject(new Error(res.message));
+        // return Promise.reject(new Error(res.message));
     }
     return res;
 }

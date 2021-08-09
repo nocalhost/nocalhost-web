@@ -48,21 +48,21 @@ function Application() {
     const history = useHistory();
     const { t } = useTranslation();
     const getUser = async () => {
-        try {
-            const result = await HTTP.get('users');
+        const result = await HTTP.get('users');
+        if (result.code === 0) {
             setUserList(result.data || []);
-        } catch (error) {}
+        }
     };
     const getApplication = async () => {
-        try {
-            const result = await HTTP.get('application', {
-                filter: {},
-                range: [0, 9],
-                sort: ['id', 'ASC'],
-            });
+        const result = await HTTP.get('application', {
+            filter: {},
+            range: [0, 9],
+            sort: ['id', 'ASC'],
+        });
+        if (result.code === 0) {
             setData(result.data || []);
             setCopyData(result.data || []);
-        } catch (error) {}
+        }
     };
     useEffect(() => {
         getApplication();
@@ -74,19 +74,21 @@ function Application() {
 
     const handleDelete = async (id: string) => {
         if (type === 'public' || type === 'private') {
-            await HTTP.put(`/application/${id}/public`, {
+            const result = await HTTP.put(`/application/${id}/public`, {
                 public: type === 'public' ? 0 : 1,
             });
-            message.success(t('common.message.edit'));
-            getApplication();
-            setDeleteModalShow(false);
+            if (result.code === 0) {
+                message.success(t('common.message.edit'));
+                getApplication();
+                setDeleteModalShow(false);
+            }
         } else {
-            try {
-                await HTTP.delete(`/application/${id}`);
+            const result = await HTTP.delete(`/application/${id}`);
+            if (result.code === 0) {
                 message.success(t('common.message.delete'));
                 getApplication();
                 setDeleteModalShow(false);
-            } catch (error) {}
+            }
         }
     };
     const handleFilterData = () => {
@@ -109,11 +111,14 @@ function Application() {
     };
     const handleEdit = async (id: number) => {
         const result = await HTTP.get(`application/${id}`);
-        setFormData({
-            id: result?.data?.id,
-            context: result?.data?.context,
-        });
-        setOpenDialog(true);
+
+        if (result.code === 0) {
+            setFormData({
+                id: result?.data?.id,
+                context: result?.data?.context,
+            });
+            setOpenDialog(true);
+        }
     };
     const filterInputConfirm = (value: string) => {
         setFilterValue({ ...filterValue, name: value });

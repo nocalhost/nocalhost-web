@@ -30,8 +30,10 @@ function ApplicationAuthorize() {
     const { t } = useTranslation();
     const getApplicationUser = async () => {
         const result = await HTTP.get(`/application/${urlParams.id}/users`);
-        setData(result.data || []);
-        setCopyData(result.data || []);
+        if (result.code === 0) {
+            setData(result.data || []);
+            setCopyData(result.data || []);
+        }
     };
 
     const handleDeleteUser = async () => {

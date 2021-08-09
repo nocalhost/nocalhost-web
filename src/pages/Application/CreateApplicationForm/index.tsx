@@ -69,23 +69,23 @@ function CreateApplicationForm(props: PropsType) {
             resource_dir: values.source === 'git' ? resourceDirList : [],
         });
         if (isEdit) {
-            try {
-                await HTTP.put(`/application/${props?.formData?.id}`, {
-                    context,
-                    status: 1,
-                });
+            const result = await HTTP.put(`/application/${props?.formData?.id}`, {
+                context,
+                status: 1,
+            });
+            if (result.code === 0) {
                 message.success(t('common.message.edit'));
                 props.onOk();
-            } catch (error) {}
+            }
         } else {
-            try {
-                await HTTP.post(`/application`, {
-                    context,
-                    status: 1,
-                });
+            const result = await HTTP.post(`/application`, {
+                context,
+                status: 1,
+            });
+            if (result.code === 0) {
                 message.success(t('common.message.add'));
                 props.onOk();
-            } catch (error) {}
+            }
         }
     };
     // resource_dir

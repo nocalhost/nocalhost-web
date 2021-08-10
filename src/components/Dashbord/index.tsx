@@ -80,11 +80,17 @@ function Dashbord() {
             {/* <div onClick={toAppliction}>application</div>
             <div onClick={toUser}>user</div> */}
             <Bottom expand={expand} onClick={() => setExpand(!expand)}>
-                {expand ? (
+                <CommonIcon
+                    // title={t('common.bt.expand')}
+                    HoverIcon={expand ? IconArrowLeftHover : IconArrowRightHover}
+                    NormalIcon={expand ? IconArrowLeftNormal : IconArrowRightNormal}
+                    style={{ fontSize: '20px' }}
+                ></CommonIcon>
+                {/* {expand ? (
                     <CommonIcon
                         // title={t('common.bt.expand')}
-                        HoverIcon={IconArrowLeftHover}
-                        NormalIcon={IconArrowLeftNormal}
+                        HoverIcon={expand ? IconArrowLeftHover : IconArrowRightHover}
+                        NormalIcon={expand ? IconArrowLeftNormal : IconArrowRightNormal}
                         style={{ fontSize: '20px' }}
                     ></CommonIcon>
                 ) : (
@@ -94,7 +100,7 @@ function Dashbord() {
                         NormalIcon={IconArrowRightNormal}
                         style={{ fontSize: '20px' }}
                     ></CommonIcon>
-                )}
+                )} */}
             </Bottom>
         </MainContent>
     );

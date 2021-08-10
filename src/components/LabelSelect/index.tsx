@@ -26,6 +26,7 @@ function LabelSelect(props: PropsType) {
                 <Select
                     defaultValue={value}
                     onChange={onChange}
+                    dropdownClassName="dropdown"
                     suffixIcon={
                         <Icon
                             component={IconArrow}

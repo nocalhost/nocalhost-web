@@ -21,6 +21,7 @@ export const routes = [
         path: '/dashboard/application/authorize/:id',
         exact: true,
         component: ApplicationAuthorize,
+        adminPage: true,
     },
     {
         path: '/dashboard/user',

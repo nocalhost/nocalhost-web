@@ -15,7 +15,6 @@ export const SOURCE_TYPE = {
 
 export type SelectValue = 'all' | 'git' | 'helm_repo' | 'local';
 
-// {
-//     "status":1,
-//     "context":"{\"source\":\"git\",\"install_type\":\"rawManifest\",\"application_name\":\"bookinfo-copy\",\"application_url\":\"https://github.com/nocalhost/bookinfo.git\",\"application_config_path\":\"config.yaml\",\"resource_dir\":[\"dir\"]}"
-// }
+export interface DisabledType {
+    disabled?: boolean;
+}

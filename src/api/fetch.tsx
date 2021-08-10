@@ -13,7 +13,13 @@ interface IRequestOptions {
 
 // 当前是否正在重新获取token
 let isRefreshing = true;
-
+function checkStatus(res: any) {
+    if (res.status >= 200 && res.status < 300) {
+        return res;
+    }
+    const error = new Error(res.statusText);
+    throw error;
+}
 export async function fetchJson(url: string, options?: IRequestOptions) {
     const headers = new Headers({
         authorization: url.startsWith('login') ? '' : `Bearer ${localStorage.getItem('token')}`,
@@ -40,56 +46,63 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
     } else {
         requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}`;
     }
-
     delete options?.config;
-
-    const res = await fetch(requestUrl, {
-        ...options,
-        headers,
-    }).then((res) => res.json());
-    // eslint-disable-next-line
-    // @ts-ignore
-    if (res && res.code === 20103) {
-        // token expire, refresh token
-
-        if (isRefreshing) {
-            isRefreshing = false;
-            const headers = new Headers({
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-                Reraeb: `${localStorage.getItem('refreshToken')}`,
+    try {
+        const res = await fetch(requestUrl, {
+            ...options,
+            headers,
+        })
+            .then(checkStatus)
+            .then((res) => {
+                return res.json();
             });
+        // eslint-disable-next-line
+        // @ts-ignore
+        if (res && res.code === 20103) {
+            // token expire, refresh token
 
-            const result = await fetch(`${apiUrl}/v1/token/refresh`, {
-                method: 'POST',
-                headers,
-            }).then((res) => res.json());
+            if (isRefreshing) {
+                isRefreshing = false;
+                const headers = new Headers({
+                    authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Reraeb: `${localStorage.getItem('refreshToken')}`,
+                });
 
-            if (result && result.code === 0) {
-                const {
-                    data: { token, refresh_token },
-                } = result;
-                localStorage.setItem('token', token);
-                localStorage.setItem('refreshToken', refresh_token);
-                isRefreshing = true;
-                // Not good TODO
-                location.reload();
-            } else {
-                location.replace('/login');
-                message.error('Invalid token.');
-                localStorage.removeItem('token');
-                localStorage.removeItem('username');
-                localStorage.removeItem('permissions');
-                localStorage.removeItem('userInfo');
-                localStorage.removeItem('refreshToken');
-                // return Promise.resolve({});
+                const result = await fetch(`${apiUrl}/v1/token/refresh`, {
+                    method: 'POST',
+                    headers,
+                }).then((res) => res.json());
+
+                if (result && result.code === 0) {
+                    const {
+                        data: { token, refresh_token },
+                    } = result;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('refreshToken', refresh_token);
+                    isRefreshing = true;
+                    // Not good TODO
+                    location.reload();
+                } else {
+                    location.replace('/login');
+                    message.error('Invalid token.');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('permissions');
+                    localStorage.removeItem('userInfo');
+                    localStorage.removeItem('refreshToken');
+                    // return Promise.resolve({});
+                }
             }
         }
+        if (res && res.code !== 0) {
+            message.error(res.message);
+            // return Promise.reject(new Error(res.message));
+        }
+        return res;
+    } catch (error) {
+        message.error(error.message);
+        return {};
     }
-    if (res && res.code !== 0) {
-        message.error(res.message);
-        // return Promise.reject(new Error(res.message));
-    }
-    return res;
 }
 
 class HTTP {

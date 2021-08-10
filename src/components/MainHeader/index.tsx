@@ -82,13 +82,16 @@ function MainHeader() {
                         overlayClassName="addPop"
                         content={
                             <>
-                                <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.USER)}>
-                                    <Icon
-                                        component={IconNormalUser}
-                                        style={{ fontSize: '20px' }}
-                                    ></Icon>
-                                    <Label>{t('resources.users.bt.add')}</Label>
-                                </AvatarItem>
+                                {!!user.is_admin && (
+                                    <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.USER)}>
+                                        <Icon
+                                            component={IconNormalUser}
+                                            style={{ fontSize: '20px' }}
+                                        ></Icon>
+                                        <Label>{t('resources.users.bt.add')}</Label>
+                                    </AvatarItem>
+                                )}
+
                                 <AvatarItem
                                     onClick={() => {
                                         setDialogType(DIALOG_TYPE.APPLICATION);
@@ -108,6 +111,7 @@ function MainHeader() {
                             <Icon component={IconBtnAdd} style={{ fontSize: '28px' }}></Icon>
                         </Tran>
                     </Popover>
+
                     <HeaderSection>
                         <a
                             href="https://nocalhost.dev/getting-started/"

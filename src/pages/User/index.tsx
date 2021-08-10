@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useContext } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import HTTP from '../../api/fetch';
 import {
@@ -28,7 +28,7 @@ import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_e
 import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
 import { SelectValue, UserType } from './const';
-
+import { UserContext } from '../../provider/appContext';
 function User() {
     const [data, setData] = useState([]);
     const [copyData, setCopyData] = useState([]);
@@ -37,6 +37,7 @@ function User() {
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
     const [formData, setFormData] = useState({});
+    const { user } = useContext(UserContext);
     const { t } = useTranslation();
     const getUser = async () => {
         const result = await HTTP.get('users', {
@@ -189,7 +190,7 @@ function User() {
                     <div style={{ display: 'flex' }}>
                         <IconBox onClick={() => handleEdit(record.id)}>
                             <CommonIcon
-                                title={t('common.bt.edit')}
+                                // title={t('common.bt.edit')}
                                 HoverIcon={IconSelectedEdit}
                                 NormalIcon={IconNormalEdit}
                                 style={{ fontSize: '20px' }}
@@ -229,7 +230,7 @@ function User() {
             },
         },
     ];
-
+    !user.is_admin && columns.splice(columns.length - 1, 1);
     return (
         <div>
             {openDialog && (

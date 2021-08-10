@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useContext } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
@@ -34,7 +34,7 @@ import { ReactComponent as IconColorCopy } from '../../images/icon/icon_btn_elec
 import { ReactComponent as IconCopy } from '../../images/icon/icon_btn_normal_copy.svg';
 import { ReactComponent as IconPrivate } from '../../images/icon/icon_label_private.svg';
 import { SelectValue } from './const';
-
+import { UserContext } from '../../provider/appContext';
 function Application() {
     const [data, setData] = useState([]);
     const [copyData, setCopyData] = useState([]);
@@ -45,6 +45,7 @@ function Application() {
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
     const [type, setType] = useState('');
     const [formData, setFormData] = useState({});
+    const { user } = useContext(UserContext);
     const history = useHistory();
     const { t } = useTranslation();
     const getUser = async () => {
@@ -75,7 +76,7 @@ function Application() {
     const handleDelete = async (id: string) => {
         if (type === 'public' || type === 'private') {
             const result = await HTTP.put(`/application/${id}/public`, {
-                public: type === 'public' ? 0 : 1,
+                public: type === 'public' ? 1 : 0,
             });
             if (result.code === 0) {
                 message.success(t('common.message.edit'));
@@ -153,7 +154,7 @@ function Application() {
                         <div style={{ maxWidth: '100%', marginLeft: '10px' }}>
                             <Filter>
                                 <div style={{ marginRight: '8px' }}>{object.application_name}</div>
-                                {record.public === 1 && (
+                                {record.public === 0 && (
                                     <CommonIcon
                                         title={t('resources.application.auth.bt.private')}
                                         NormalIcon={IconPrivate}
@@ -235,80 +236,89 @@ function Application() {
                 const object = JSON.parse(record?.context);
                 return (
                     <div style={{ display: 'flex' }}>
-                        <IconBox onClick={() => handleEdit(record.id)}>
-                            <CommonIcon
-                                title={t('common.bt.edit')}
-                                HoverIcon={IconSelectedEdit}
-                                NormalIcon={IconNormalEdit}
-                                style={{ fontSize: '20px' }}
-                            ></CommonIcon>
-                        </IconBox>
+                        {(!!record.editable || !!user.is_admin) && (
+                            <IconBox onClick={() => handleEdit(record.id)}>
+                                <CommonIcon
+                                    // title={t('common.bt.edit')}
+                                    HoverIcon={IconSelectedEdit}
+                                    NormalIcon={IconNormalEdit}
+                                    style={{ fontSize: '20px' }}
+                                ></CommonIcon>
+                            </IconBox>
+                        )}
+                        {!!user.is_admin && (
+                            <Popover
+                                trigger="click"
+                                placement="bottom"
+                                visible={index === popVisibleIndex}
+                                onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
+                                content={
+                                    <Fragment>
+                                        <DeleteModal
+                                            title={
+                                                type === 'delete'
+                                                    ? t('resources.application.delete.deleteTitle')
+                                                    : type === 'public'
+                                                    ? t('resources.application.auth.public.title')
+                                                    : t('resources.application.auth.private.title')
+                                            }
+                                            onCancel={() => setDeleteModalShow(false)}
+                                            onConfirm={() => handleDelete(record.id)}
+                                            visible={deleteModalShow}
+                                            message={
+                                                type === 'delete'
+                                                    ? t('resources.application.delete.info', {
+                                                          name: object.application_name,
+                                                      })
+                                                    : type === 'public'
+                                                    ? t('resources.application.auth.public.info', {
+                                                          name: object.application_name,
+                                                      })
+                                                    : t('resources.application.auth.private.info', {
+                                                          name: object.application_name,
+                                                      })
+                                            }
+                                        ></DeleteModal>
 
-                        <Popover
-                            trigger="click"
-                            placement="bottom"
-                            visible={index === popVisibleIndex}
-                            onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
-                            content={
-                                <Fragment>
-                                    <DeleteModal
-                                        title={
-                                            type === 'delete'
-                                                ? t('resources.application.delete.deleteTitle')
-                                                : type === 'public'
-                                                ? t('resources.application.auth.public.title')
-                                                : t('resources.application.auth.private.title')
-                                        }
-                                        onCancel={() => setDeleteModalShow(false)}
-                                        onConfirm={() => handleDelete(record.id)}
-                                        visible={deleteModalShow}
-                                        message={
-                                            type === 'delete'
-                                                ? t('resources.application.delete.info')
-                                                : type === 'public'
-                                                ? t('resources.application.auth.public.info', {
-                                                      name: object.application_name,
-                                                  })
-                                                : t('resources.application.auth.private.info', {
-                                                      name: object.application_name,
-                                                  })
-                                        }
-                                    ></DeleteModal>
-
-                                    <PopItem
-                                        onClick={() =>
-                                            history.push(
-                                                `/dashboard/application/authorize/${record.id}`
-                                            )
-                                        }
-                                    >
-                                        {t('resources.application.bt.auth')}
-                                    </PopItem>
-                                    <PopItem
-                                        onClick={() => {
-                                            setDeleteModalShow(true);
-                                            setPopVisibleIndex(-1);
-                                            setType(record.public === 1 ? 'public' : 'private');
-                                        }}
-                                    >
-                                        {record.public === 1
-                                            ? t('resources.application.auth.bt.public')
-                                            : t('resources.application.auth.bt.private')}
-                                    </PopItem>
-                                    <PopItem
-                                        onClick={() => {
-                                            setDeleteModalShow(true);
-                                            setPopVisibleIndex(-1);
-                                            setType('delete');
-                                        }}
-                                    >
-                                        {t('common.bt.delete')}
-                                    </PopItem>
-                                </Fragment>
-                            }
-                        >
-                            <Icon component={IconMore} style={{ fontSize: '20px' }} />
-                        </Popover>
+                                        <PopItem
+                                            disabled={record.public === 1}
+                                            onClick={() => {
+                                                {
+                                                    record.public === 0 &&
+                                                        history.push(
+                                                            `/dashboard/application/authorize/${record.id}`
+                                                        );
+                                                }
+                                            }}
+                                        >
+                                            {t('resources.application.bt.auth')}
+                                        </PopItem>
+                                        <PopItem
+                                            onClick={() => {
+                                                setDeleteModalShow(true);
+                                                setPopVisibleIndex(-1);
+                                                setType(record.public === 0 ? 'public' : 'private');
+                                            }}
+                                        >
+                                            {record.public === 0
+                                                ? t('resources.application.auth.bt.public')
+                                                : t('resources.application.auth.bt.private')}
+                                        </PopItem>
+                                        <PopItem
+                                            onClick={() => {
+                                                setDeleteModalShow(true);
+                                                setPopVisibleIndex(-1);
+                                                setType('delete');
+                                            }}
+                                        >
+                                            {t('common.bt.delete')}
+                                        </PopItem>
+                                    </Fragment>
+                                }
+                            >
+                                <Icon component={IconMore} style={{ fontSize: '20px' }} />
+                            </Popover>
+                        )}
                     </div>
                 );
             },

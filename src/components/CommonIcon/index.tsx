@@ -36,6 +36,7 @@ interface PropsType {
 function CommonIcon(props: PropsType) {
     const { HoverIcon, NormalIcon, style, title, placement = 'top' } = props;
     const [isSelect, setIsSelect] = useState(false);
+    console.log(isSelect);
     return !HoverIcon ? (
         <Tooltip title={title} placement={placement}>
             <Icon component={NormalIcon} style={style}></Icon>

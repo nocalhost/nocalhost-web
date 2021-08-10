@@ -190,7 +190,7 @@ function User() {
                     <div style={{ display: 'flex' }}>
                         <IconBox onClick={() => handleEdit(record.id)}>
                             <CommonIcon
-                                title={t('common.bt.edit')}
+                                // title={t('common.bt.edit')}
                                 HoverIcon={IconSelectedEdit}
                                 NormalIcon={IconNormalEdit}
                                 style={{ fontSize: '20px' }}

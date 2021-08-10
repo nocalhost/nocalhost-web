@@ -236,17 +236,16 @@ function Application() {
                 const object = JSON.parse(record?.context);
                 return (
                     <div style={{ display: 'flex' }}>
-                        {!!record.editable ||
-                            (!!user.is_admin && (
-                                <IconBox onClick={() => handleEdit(record.id)}>
-                                    <CommonIcon
-                                        title={t('common.bt.edit')}
-                                        HoverIcon={IconSelectedEdit}
-                                        NormalIcon={IconNormalEdit}
-                                        style={{ fontSize: '20px' }}
-                                    ></CommonIcon>
-                                </IconBox>
-                            ))}
+                        {(!!record.editable || !!user.is_admin) && (
+                            <IconBox onClick={() => handleEdit(record.id)}>
+                                <CommonIcon
+                                    // title={t('common.bt.edit')}
+                                    HoverIcon={IconSelectedEdit}
+                                    NormalIcon={IconNormalEdit}
+                                    style={{ fontSize: '20px' }}
+                                ></CommonIcon>
+                            </IconBox>
+                        )}
                         {!!user.is_admin && (
                             <Popover
                                 trigger="click"
@@ -268,7 +267,9 @@ function Application() {
                                             visible={deleteModalShow}
                                             message={
                                                 type === 'delete'
-                                                    ? t('resources.application.delete.info')
+                                                    ? t('resources.application.delete.info', {
+                                                          name: object.application_name,
+                                                      })
                                                     : type === 'public'
                                                     ? t('resources.application.auth.public.info', {
                                                           name: object.application_name,

@@ -109,7 +109,7 @@ function Login() {
                             ></Input.Password>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" disabled={loading}>
+                            <Button type="primary" htmlType="submit" loading={loading}>
                                 Login
                                 <Icon
                                     component={IconEnter}

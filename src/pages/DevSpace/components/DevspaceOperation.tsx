@@ -44,11 +44,11 @@ const FlexBox = styled.div`
     display: flex;
 `;
 
-const ShareUserTitle = () => {
+const ShareUserTitle = (props: any) => {
     return (
         <div>
             <span>共享用户</span>
-            <span>88</span>
+            <span>{props.count}</span>
         </div>
     );
 };
@@ -137,18 +137,22 @@ const DevspaceOperation = () => {
                 : {
                       cooperators: [user_id],
                   };
-        const response = await HTTP.post(
-            'dev_space/share',
-            {
-                cluster_user_id: id,
-                ...options,
-            },
-            {
-                is_v2: true,
+        try {
+            const response = await HTTP.post(
+                'dev_space/share',
+                {
+                    cluster_user_id: id,
+                    ...options,
+                },
+                {
+                    is_v2: true,
+                }
+            );
+            if (response.code === 0) {
+                message.success('operate success!');
             }
-        );
-        if (response.code === 0) {
-            message.success('operate success!');
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -192,21 +196,26 @@ const DevspaceOperation = () => {
         },
     };
 
-    const handleCancelShare = async (users: any) => {
+    const handleCancelShare = async (users?: any) => {
+        console.log('>>>> ', users);
         // cancel share
-        const response = await HTTP.post(
-            'dev_space/unshare',
-            {
-                cluster_user_id: id,
-                users: users || selectedList,
-            },
-            {
-                is_v2: true,
+        try {
+            const response = await HTTP.post(
+                'dev_space/unshare',
+                {
+                    cluster_user_id: id,
+                    users: users || selectedList,
+                },
+                {
+                    is_v2: true,
+                }
+            );
+            if (response.code === 0) {
+                queryDetail();
+                message.success('resources.devSpace.tips.unShareSuccess');
             }
-        );
-        if (response.code === 0) {
-            queryDetail();
-            message.success('resources.devSpace.tips.unShareSuccess');
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -249,7 +258,7 @@ const DevspaceOperation = () => {
                                             style={{ color: '#ffffff', marginRight: 8 }}
                                         />
                                     }
-                                    onClick={handleCancelShare}
+                                    onClick={() => handleCancelShare()}
                                 >
                                     {t('resources.devSpace.cancelShare')}
                                 </Button>

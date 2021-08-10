@@ -37,6 +37,7 @@ const ListItem = styled.li`
 `;
 
 const TitleBox = styled.div`
+    padding: 12px 0;
     font-size: 14px;
     color: #79879c;
 `;
@@ -143,12 +144,21 @@ const AddShare = ({
                             placeholder={t('resources.devSpace.tips.searchPlaceholder')}
                             onConfirm={handleSearch}
                         />
-                        <TitleBox>{t('resources.devSpace.unShareUsers')}</TitleBox>
+                        <TitleBox>
+                            {t('resources.devSpace.tips.unShareUsers')}
+                            <span>{userList.length}</span>
+                        </TitleBox>
                         <Checkbox.Group onChange={handleSelect}>
                             {userList.map((item: any) => {
                                 return (
                                     <Row key={item.user_id}>
-                                        <Checkbox value={item.user_id}>{item.user_name}</Checkbox>
+                                        <Checkbox value={item.user_id}>
+                                            <Icon
+                                                component={IconProfile}
+                                                style={{ fontSize: 20, marginRight: 8 }}
+                                            />
+                                            {item.user_name}
+                                        </Checkbox>
                                     </Row>
                                 );
                             })}

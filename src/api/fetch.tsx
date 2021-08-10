@@ -7,10 +7,6 @@ interface IRequestOptions {
     config?: any;
 }
 
-// interface fetchType {
-//     json
-// }
-
 // 当前是否正在重新获取token
 let isRefreshing = true;
 function checkStatus(res: any) {

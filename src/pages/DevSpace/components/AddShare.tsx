@@ -89,7 +89,7 @@ const AddShare = ({
             tmpList.map((item) => {
                 return {
                     ...item,
-                    shareType: 'Coopeator',
+                    shareType: 'Cooperator',
                 };
             })
         );

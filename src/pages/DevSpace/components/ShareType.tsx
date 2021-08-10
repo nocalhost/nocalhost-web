@@ -30,7 +30,7 @@ interface PropParam {
 
 const ShareType = (props: PropParam) => {
     const { defaultValue = 'Cooperator', user_id, onChange } = props;
-    const [currentType, setCurrentType] = useState('Cooperator');
+    const [currentType, setCurrentType] = useState(defaultValue);
     const handleChange = (value: any) => {
         // handleChange
         setCurrentType(value);

@@ -30,12 +30,7 @@ export const ButtonBox = styled.div`
 export const IconBox = styled.div`
     width: 30px;
     height: 30px;
-<<<<<<< HEAD
-    margin-right: 8px;
-    background: #fff3ce;
-=======
     background: rgb(255, 251, 230);
->>>>>>> feature/new-dashboard
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -43,6 +38,7 @@ export const IconBox = styled.div`
     position: absolute;
     left: -10px;
     top: -2px;
+
     & g {
         fill: #faad14;
     }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Table, Button, Select, message } from 'antd';
+import { Tabs, Table, Button, message } from 'antd';
 
 import BreadCard from '../../../components/BreadCard';
 import TableSearchInput from '../../../components/TableSearchInput';
@@ -11,6 +11,8 @@ import { useLocation } from 'react-router-dom';
 import DevspaceForm from './DevspaceForm';
 import AddShare from './AddShare';
 import Icon from '@ant-design/icons';
+
+import ShareType from './ShareType';
 
 import { ReactComponent as IconAddPerson } from '../../../images/icon/icon_btn_addPeople.svg';
 import { ReactComponent as IconDelPerson } from '../../../images/icon/icon_btn_normal_addPeople.svg';
@@ -51,24 +53,11 @@ const ShareUserTitle = () => {
     );
 };
 
-const options = [
-    {
-        label: 'Viewer',
-        value: 'Viewer',
-    },
-    {
-        label: 'Cooperator',
-        value: 'Cooperator',
-    },
-];
-
 const DevspaceOperation = () => {
     const { t } = useTranslation();
     const [showAddModal, setShowModal] = useState<boolean>(false);
-
     const [userList, setUserList] = useState([]);
     const [selectedList, setSelectList] = useState([]);
-
     const location = useLocation<RouterParams>();
     const {
         state: {
@@ -76,7 +65,6 @@ const DevspaceOperation = () => {
             record: { id },
         },
     } = location;
-    console.log(id);
 
     const handleCancel = () => {
         console.log('cancel');
@@ -111,10 +99,14 @@ const DevspaceOperation = () => {
             title: t('resources.users.fields.role'),
             key: '4',
             dataIndex: 'status',
-            render: () => {
+            render: (text: string, record: any) => {
                 return (
                     <div>
-                        <Select style={{ width: 120, border: 'none' }} options={options} />
+                        <ShareType
+                            defaultValue={record.shareType}
+                            onChange={handChangeShareType}
+                            user_id={record.id}
+                        />
                     </div>
                 );
             },
@@ -122,15 +114,43 @@ const DevspaceOperation = () => {
         {
             title: t('common.operation'),
             key: '5',
-            render: () => {
+            render: (text: string, record: any) => {
                 return (
-                    <div>
+                    <div
+                        onClick={() => {
+                            handleCancelShare([record.id]);
+                        }}
+                    >
                         <Icon component={IconDelPerson} style={{ fontSize: 20 }} />
                     </div>
                 );
             },
         },
     ];
+
+    async function handChangeShareType(value: string, user_id: any) {
+        const options =
+            value === 'Viewer'
+                ? {
+                      viewers: [user_id],
+                  }
+                : {
+                      cooperators: [user_id],
+                  };
+        const response = await HTTP.post(
+            'dev_space/share',
+            {
+                cluster_user_id: id,
+                ...options,
+            },
+            {
+                is_v2: true,
+            }
+        );
+        if (response.code === 0) {
+            message.success('operate success!');
+        }
+    }
 
     useEffect(() => {
         queryDetail();
@@ -143,8 +163,19 @@ const DevspaceOperation = () => {
                 { cluster_user_id: id },
                 { is_v2: true }
             );
-            const { cooper_user, viewer_user } = response.data[0];
-            console.log('data', cooper_user, viewer_user, response);
+            let { cooper_user, viewer_user } = response.data[0];
+            cooper_user = cooper_user.map((item: any) => {
+                return {
+                    ...item,
+                    shareType: 'Cooperator',
+                };
+            });
+            viewer_user = viewer_user.map((item: any) => {
+                return {
+                    ...item,
+                    shareType: 'Viewer',
+                };
+            });
             setUserList(cooper_user.concat(viewer_user));
         } catch (e) {
             console.log(e);
@@ -161,13 +192,13 @@ const DevspaceOperation = () => {
         },
     };
 
-    const handleCancelShare = async () => {
+    const handleCancelShare = async (users: any) => {
         // cancel share
         const response = await HTTP.post(
             'dev_space/unshare',
             {
                 cluster_user_id: id,
-                users: selectedList,
+                users: users || selectedList,
             },
             {
                 is_v2: true,

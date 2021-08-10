@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { DisabledType } from './const';
 
 export const IconBox = styled.div`
     margin-right: 20px;
@@ -47,15 +48,16 @@ export const Card = styled.div`
     box-shadow: 0px 4px 8px 0px rgba(40, 47, 55, 0.05);
 `;
 
-export const PopItem = styled.div`
+export const PopItem = styled.div<DisabledType>`
     height: 40px;
     min-width: 140px;
     color: #36435c;
     background: #fff;
+    opacity: ${(props) => (props.disabled ? 0.5 : 1)};
     font-size: 14px;
     padding-left: 12px;
     line-height: 40px;
-    cursor: pointer;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     &:hover {
         color: #ff3f3f;
         background: rgb(255, 63, 63, 0.08);

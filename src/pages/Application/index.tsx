@@ -75,7 +75,7 @@ function Application() {
     const handleDelete = async (id: string) => {
         if (type === 'public' || type === 'private') {
             const result = await HTTP.put(`/application/${id}/public`, {
-                public: type === 'public' ? 0 : 1,
+                public: type === 'public' ? 1 : 0,
             });
             if (result.code === 0) {
                 message.success(t('common.message.edit'));
@@ -153,7 +153,7 @@ function Application() {
                         <div style={{ maxWidth: '100%', marginLeft: '10px' }}>
                             <Filter>
                                 <div style={{ marginRight: '8px' }}>{object.application_name}</div>
-                                {record.public === 1 && (
+                                {record.public === 0 && (
                                     <CommonIcon
                                         title={t('resources.application.auth.bt.private')}
                                         NormalIcon={IconPrivate}
@@ -276,11 +276,15 @@ function Application() {
                                     ></DeleteModal>
 
                                     <PopItem
-                                        onClick={() =>
-                                            history.push(
-                                                `/dashboard/application/authorize/${record.id}`
-                                            )
-                                        }
+                                        disabled={record.public === 1}
+                                        onClick={() => {
+                                            {
+                                                record.public === 0 &&
+                                                    history.push(
+                                                        `/dashboard/application/authorize/${record.id}`
+                                                    );
+                                            }
+                                        }}
                                     >
                                         {t('resources.application.bt.auth')}
                                     </PopItem>
@@ -288,10 +292,10 @@ function Application() {
                                         onClick={() => {
                                             setDeleteModalShow(true);
                                             setPopVisibleIndex(-1);
-                                            setType(record.public === 1 ? 'public' : 'private');
+                                            setType(record.public === 0 ? 'public' : 'private');
                                         }}
                                     >
-                                        {record.public === 1
+                                        {record.public === 0
                                             ? t('resources.application.auth.bt.public')
                                             : t('resources.application.auth.bt.private')}
                                     </PopItem>

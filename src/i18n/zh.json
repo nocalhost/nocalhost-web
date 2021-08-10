@@ -338,6 +338,7 @@
             "devSpace": "开发空间",
             "shareUsers": "共享用户",
             "addShare": "添加共享",
+            "cancelShare": "取消共享",
             "fields": {
                 "space_name": "开发空间名称",
                 "status": "状态",
@@ -366,7 +367,10 @@
                 "undeployed": "未部署"
             },
             "tips": {
-                "searchPlaceholder": "搜索用户名称..."
+                "searchPlaceholder": "搜索用户名称...",
+                "addShareSuccess": "添加共享成功！",
+                "unShareSuccess": "取消分享成功",
+                "unShareUsers": "未分享用户"
             }
         },
         "myDevSpace": {

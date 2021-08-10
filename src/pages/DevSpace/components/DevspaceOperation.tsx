@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Table, Button, Select } from 'antd';
+import { Tabs, Table, Button, Select, message } from 'antd';
 
 import BreadCard from '../../../components/BreadCard';
 import TableSearchInput from '../../../components/TableSearchInput';
@@ -67,6 +67,7 @@ const DevspaceOperation = () => {
     const [showAddModal, setShowModal] = useState<boolean>(false);
 
     const [userList, setUserList] = useState([]);
+    const [selectedList, setSelectList] = useState([]);
 
     const location = useLocation<RouterParams>();
     const {
@@ -84,12 +85,12 @@ const DevspaceOperation = () => {
     const columns = [
         {
             title: t('resources.users.fields.name'),
-            key: '0',
+            key: '1',
             dataIndex: 'name',
         },
         {
             title: t('resources.users.fields.userType'),
-            key: '1',
+            key: '2',
             dataIndex: 'is_admin',
             render: (text: string, record: any) => {
                 return (
@@ -103,12 +104,13 @@ const DevspaceOperation = () => {
         },
         {
             title: t('resources.users.fields.email'),
-            key: '2',
+            key: '3',
             dataIndex: 'email',
         },
         {
             title: t('resources.users.fields.role'),
-            key: '3',
+            key: '4',
+            dataIndex: 'status',
             render: () => {
                 return (
                     <div>
@@ -119,7 +121,7 @@ const DevspaceOperation = () => {
         },
         {
             title: t('common.operation'),
-            key: '4',
+            key: '5',
             render: () => {
                 return (
                     <div>
@@ -151,6 +153,35 @@ const DevspaceOperation = () => {
 
     const handleSearch = () => {
         console.log('search');
+    };
+
+    const rowSelection = {
+        onChange(selectedKeys: any) {
+            setSelectList(selectedKeys);
+        },
+    };
+
+    const handleCancelShare = async () => {
+        // cancel share
+        const response = await HTTP.post(
+            'dev_space/unshare',
+            {
+                cluster_user_id: id,
+                users: selectedList,
+            },
+            {
+                is_v2: true,
+            }
+        );
+        if (response.code === 0) {
+            queryDetail();
+            message.success('resources.devSpace.tips.unShareSuccess');
+        }
+    };
+
+    const handleSubmit = () => {
+        queryDetail();
+        setShowModal(false);
     };
 
     return (
@@ -187,9 +218,9 @@ const DevspaceOperation = () => {
                                             style={{ color: '#ffffff', marginRight: 8 }}
                                         />
                                     }
-                                    onClick={() => setShowModal(true)}
+                                    onClick={handleCancelShare}
                                 >
-                                    {t('resources.devSpace.addShare')}
+                                    {t('resources.devSpace.cancelShare')}
                                 </Button>
                                 <Button
                                     style={{ display: 'flex', justifyItems: 'center' }}
@@ -205,12 +236,25 @@ const DevspaceOperation = () => {
                                 </Button>
                             </FlexBox>
                         </ContentHeader>
-                        <Table columns={columns} dataSource={userList}></Table>
+                        <Table
+                            rowSelection={rowSelection}
+                            columns={columns}
+                            dataSource={userList}
+                            rowKey={(record) => record.id}
+                            pagination={{
+                                position: ['bottomCenter'],
+                            }}
+                        ></Table>
                     </Tabs.TabPane>
                 </Tabs>
             </ContentWrap>
             {showAddModal && (
-                <AddShare shareUseList={userList} onCancel={() => setShowModal(false)} />
+                <AddShare
+                    cluster_user_id={id}
+                    shareUseList={userList}
+                    onCancel={() => setShowModal(false)}
+                    onSubmit={handleSubmit}
+                />
             )}
         </>
     );

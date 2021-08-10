@@ -8,10 +8,12 @@ import i18n from '../../i18n/i18n';
 import AddCluster from '../../components/AddCluster';
 import { PlusOutlined } from '@ant-design/icons';
 import { queryAllUser } from '../../services';
+import { useTranslation } from 'react-i18next';
 
 const Clusters: FC<{}> = () => {
     const [clusterList, setClusterList] = useState([]);
     const [showAdd, setShowAdd] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         queryClusters();
@@ -40,7 +42,7 @@ const Clusters: FC<{}> = () => {
 
     return (
         <div>
-            <SummaryCard title="clusters" />
+            <SummaryCard title={t('resources.cluster.name')} />
             <div>
                 <ContentTitle>
                     <FlexContainer>

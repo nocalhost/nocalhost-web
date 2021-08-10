@@ -336,6 +336,7 @@
             "devSpace": "Develop Space",
             "shareUsers": "Shared user",
             "addShare": "Add Share",
+            "cancelShare": "Cancel Share",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",
@@ -348,7 +349,9 @@
                 "cpu": "CPU",
                 "memory": "Memory",
                 "kubeconfig": "KubeConfig",
-                "resource_limit": "Resource Limit"
+                "resource_limit": "Resource Limit",
+                "admin": "Admin",
+                "normalUser": "Ordinary member"
             },
             "actions": {
                 "create": "Create Space",
@@ -360,6 +363,11 @@
             "status": {
                 "deployed": "Deployed",
                 "undeployed": "Not deployed"
+            },
+            "tips": {
+                "searchPlaceholder": "",
+                "unShareSuccess": "Successfully canceled sharing",
+                "unShareUsers": "Unshared users"
             }
         },
         "myDevSpace": {

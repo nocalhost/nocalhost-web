@@ -120,10 +120,14 @@ const DevspaceForm = ({
 
     const handleSubmit = async (values: any) => {
         try {
-            const response = await HTTP.post('dev_space', values);
-            console.log(response);
-            if (response.code === 0) {
-                message.success(t('resources.space.tips.addSuccess'));
+            if (isEdit) {
+                // edit
+            } else {
+                const response = await HTTP.post('dev_space', values);
+                console.log(response);
+                if (response.code === 0) {
+                    message.success(t('resources.space.tips.addSuccess'));
+                }
             }
             onSubmit && onSubmit();
         } catch (e) {

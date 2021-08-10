@@ -67,7 +67,8 @@
                 "userType": "User Type",
                 "is_admin": "Is Admin",
                 "password": "Password",
-                "confirm_password": "Confirm Password"
+                "confirm_password": "Confirm Password",
+                "role": "User Role"
             },
             "status": {
                 "active": "Active",
@@ -129,7 +130,8 @@
             "tips": {
                 "kubeconfig": "How to get kubeconfig?",
                 "inputPlaceholder": "Please input Kubeconfig",
-                "addSuccess": "Add Cluster Success!"
+                "addSuccess": "Add Cluster Success!",
+                "editSuccess": "Edit Cluster Success!"
             },
             "delete": {
                 "confirm": {
@@ -256,7 +258,13 @@
                 "requestMem": "Request Memory (MiB)",
                 "requestCPU": "Request CPU (cores)",
                 "limitMem": "Memory limit (MiB)",
-                "limitCPU": "CPU limit (cores)"
+                "limitCPU": "CPU limit (cores)",
+                "resource_limit_set": "set",
+                "resource_limit_unset": "unset",
+                "cluster_scope": "This space has cluster resource permissions",
+                "setAdminTip": "Whether to set as a cluster administrator",
+                "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
+                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",
@@ -266,6 +274,9 @@
                 "list": "Space List",
                 "download": "Download KubeConfig",
                 "resource_limit_not_implemented": "Resource limit has not been implemented"
+            },
+            "tips": {
+                "addSuccess": "Successfully created a development environment！"
             },
             "reset": {
                 "confirm": {
@@ -317,6 +328,8 @@
         },
         "devSpace": {
             "name": "DevSpace",
+            "devSpace": "Develop Space",
+            "shareUsers": "Shared user",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",
@@ -333,6 +346,8 @@
             },
             "actions": {
                 "create": "Create Space",
+                "createDev": "Create Devspace",
+                "edit": "Edit Devspace",
                 "show": "Show Space",
                 "list": "Space List"
             },

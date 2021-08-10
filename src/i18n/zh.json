@@ -67,7 +67,8 @@
                 "userType": "用户类型",
                 "is_admin": "是否设置为管理员",
                 "password": "密码",
-                "confirm_password": "确认密码"
+                "confirm_password": "确认密码",
+                "role": "用户角色"
             },
             "status": {
                 "active": "已激活",
@@ -131,7 +132,8 @@
             "tips": {
                 "kubeconfig": "如何获取 kubeconfig？",
                 "inputPlaceholder": "请输入 Kubeconfig",
-                "addSuccess": "添加集群成功"
+                "addSuccess": "添加集群成功",
+                "editSuccess": "修改集群成功"
             },
             "delete": {
                 "confirm": {
@@ -258,7 +260,13 @@
                 "requestMem": "请求内存 (MiB)",
                 "requestCPU": "请求 CPU (核)",
                 "limitMem": "限制内存 (MiB)",
-                "limitCPU": "限制 CPU (核)"
+                "limitCPU": "限制 CPU (核)",
+                "resource_limit_set": "已设置",
+                "resource_limit_unset": "未设置",
+                "cluster_scope": "该空间拥有集群资源权限",
+                "setAdminTip": "是否设置为集群管理员",
+                "setAdminDesc": "设置为集群管理员，则该用户有权限添加编辑用户、集群",
+                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
             },
             "actions": {
                 "create": "创建环境",
@@ -266,6 +274,9 @@
                 "list": "环境列表",
                 "download": "下载 KubeConfig",
                 "resource_limit_not_implemented": "资源限制还未实现"
+            },
+            "tips": {
+                "addSuccess": "创建开发环境成功！"
             },
             "devspaceLimitTitle": "DevSpace 资源限制",
             "containerDefaultTitle": "Container 默认值",
@@ -319,8 +330,10 @@
         },
         "devSpace": {
             "name": "开发环境",
+            "devSpace": "开发空间",
+            "shareUsers": "共享用户",
             "fields": {
-                "space_name": "空间名称",
+                "space_name": "开发空间名称",
                 "status": "状态",
                 "user": "所有者",
                 "namespace": "命名空间",
@@ -335,6 +348,8 @@
             },
             "actions": {
                 "create": "创建环境",
+                "createDev": "创建隔离开发环境",
+                "edit": "编辑开发环境",
                 "show": "环境详情",
                 "list": "环境列表"
             },

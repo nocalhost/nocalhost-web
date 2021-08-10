@@ -8,7 +8,9 @@ import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 
 import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
+import { ReactComponent as IconProfile } from '../../../images/icon/profile_boy.svg';
 import AddCluster from '../../../components/AddCluster';
+import { ClusterItemInfo } from '../../../types/index';
 
 const { Shape, Util, Global, G, Animate } = F2;
 const { Vector2 } = G;
@@ -22,25 +24,8 @@ const UNITMAP: {
     storage: 'Gi',
 };
 interface IProps extends PropsWithChildren<{}> {
-    data: {
-        id: number;
-        info: string;
-        name: string;
-        server: string;
-        storage_class: string;
-        has_dev_space: boolean;
-        users_count: number;
-        created_at: string;
-        user_id: number;
-        userName: string;
-        resources: {
-            [key: string]: any;
-            capacity: number;
-            percentage: number;
-            resource_name: string;
-            used: number;
-        }[];
-    };
+    data: ClusterItemInfo;
+    onSubmit: () => void;
 }
 
 const ListBox = styled.div`
@@ -101,6 +86,7 @@ const FlexColumnDiv = styled.div`
 const DetailItem = styled.li`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
 `;
 
@@ -146,12 +132,12 @@ const LabelSpan = styled.span`
     font-weight: normal;
 `;
 
-const ListItem: FC<IProps> = ({ data }: IProps) => {
+const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
     const info = JSON.parse(data.info);
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const history = useHistory();
     const { t } = useTranslation();
-    const { resources } = data;
+    const { resources = [] } = data;
 
     useEffect(() => {
         const loadInfoData = resources.map((item: any) => {
@@ -268,9 +254,6 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
         chart
             .interval()
             .position('resource_name*percentage')
-            // .color('color', function (val) {
-            //     return val;
-            // })
             .color('resource_name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
             .shape('tick')
             .size(12)
@@ -332,6 +315,11 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
         history.push(`/dashboard/clusters-env-list/${id}`);
     };
 
+    const onEdit = () => {
+        setShowEdit(false);
+        onSubmit();
+    };
+
     return (
         <ListBox>
             <DetailContainer>
@@ -341,7 +329,6 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                     </DetailIcon>
                     <FlexColumnDiv>
                         <span>{data.name}</span>
-                        <span>集群描述信息</span>
                     </FlexColumnDiv>
                 </DetailTitle>
                 <ul>
@@ -350,10 +337,6 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                             {t('resources.cluster.fields.cluster_version')}
                         </DetailItemLabel>
                         <span>{info.cluster_version}</span>
-                    </DetailItem>
-                    <DetailItem>
-                        <DetailItemLabel>{t('resources.cluster.fields.provider')}</DetailItemLabel>
-                        <span>{}</span>
                     </DetailItem>
                     <DetailItem>
                         <DetailItemLabel>
@@ -381,7 +364,13 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                     </DetailItem>
                     <DetailItem>
                         <DetailItemLabel>{t('resources.cluster.fields.user')}</DetailItemLabel>
-                        <span>{data.userName}</span>
+                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                            <Icon
+                                component={IconProfile}
+                                style={{ fontSize: 24, marginRight: 6 }}
+                            />
+                            {data.userName}
+                        </span>
                     </DetailItem>
                 </ul>
                 <Line1px />
@@ -399,7 +388,7 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
                 <WorkLoadInfo>
                     <canvas id={`chart${data.id}`} width="400" height="300"></canvas>
                     <Flex1Ul>
-                        {data.resources.map((item, key) => {
+                        {resources.map((item, key) => {
                             return (
                                 <WorkLoadItem key={key}>
                                     <WorkLoadInfoItem>
@@ -429,8 +418,8 @@ const ListItem: FC<IProps> = ({ data }: IProps) => {
             {showEdit && (
                 <AddCluster
                     isEdit={true}
-                    name={data.name}
-                    storage_class={data.storage_class}
+                    record={data}
+                    onSubmit={onEdit}
                     onCancel={() => setShowEdit(false)}
                 />
             )}

@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input, Radio, Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import HTTP from '../../api/fetch';
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconQuery } from '../../images/icon/icon_label_query.svg';
+import { Base64 } from 'js-base64';
 
 import styled from 'styled-components';
+
+import { ClusterItemInfo } from '../../types/index';
 
 const PromptBox = styled.div`
     display: flex;
@@ -19,7 +24,8 @@ const PromptBox = styled.div`
 `;
 
 const IconBox = styled.div`
-    width: 32px;
+    margin-left: 10px;
+    width: 24px;
 `;
 
 const BtnBox = styled.div`
@@ -31,18 +37,21 @@ const BtnBox = styled.div`
 
 interface IProps {
     onCancel: () => void;
+    onSubmit: () => void;
     isEdit?: boolean;
-    name?: string;
-    storage_class?: string;
+    record?: ClusterItemInfo;
 }
 
 const AddCluster = (props: IProps) => {
-    const { onCancel, isEdit = false, name, storage_class } = props;
+    const { onCancel, isEdit = false, record, onSubmit } = props;
     const { t } = useTranslation();
     const [form] = Form.useForm();
+    const [storageList, setStorageList] = useState<string[]>([]);
 
     useEffect(() => {
-        if (isEdit) {
+        if (isEdit && record) {
+            queryStorageList(record.id);
+            const { name, storage_class } = record;
             form.setFieldsValue({
                 name,
                 storage_class: storage_class || 'default',
@@ -51,9 +60,29 @@ const AddCluster = (props: IProps) => {
     }, []);
 
     const addCluster = async (data: any) => {
+        const { name, kubeconfig, storage_class } = data;
         try {
-            await HTTP.post('cluster', data);
-            message.success(t('resource.cluster.tips.addSuccess'));
+            await HTTP.post('cluster', {
+                name,
+                kubeconfig: Base64.encode(kubeconfig),
+                storage_class: storage_class === 'default' ? '' : storage_class,
+            });
+            message.success(t('resources.cluster.tips.addSuccess'));
+            onSubmit();
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const editCluster = async (data: any) => {
+        const { storage_class } = data;
+        try {
+            await HTTP.put(`cluster/${record?.id}`, {
+                ...record,
+                storage_class: storage_class === 'default' ? '' : storage_class,
+            });
+            message.success(t('resources.cluster.tips.editSuccess'));
+            onSubmit();
         } catch (e) {
             console.log(e);
         }
@@ -61,11 +90,20 @@ const AddCluster = (props: IProps) => {
 
     const handleSubmit = (values: any) => {
         if (isEdit) {
-            console.log(values);
+            editCluster(values);
         } else {
             addCluster(values);
         }
     };
+
+    async function queryStorageList(id: number) {
+        try {
+            const response = await HTTP.get(`cluster/${id}/storage_class`);
+            setStorageList(response.data.type_name);
+        } catch (e) {
+            setStorageList([]);
+        }
+    }
 
     return (
         <Modal
@@ -90,12 +128,20 @@ const AddCluster = (props: IProps) => {
                 >
                     <Input disabled={isEdit} />
                 </Form.Item>
-                <Form.Item name="storage_class" label={t('resources.cluster.storage_class')}>
-                    <Radio.Group>
-                        <Radio value="default">Default</Radio>
-                        <Radio value="cbs">cbs</Radio>
-                    </Radio.Group>
-                </Form.Item>
+                {isEdit && (
+                    <Form.Item name="storage_class" label={t('resources.cluster.storage_class')}>
+                        <Radio.Group>
+                            <Radio value="default">Default</Radio>
+                            {storageList.map((item, index) => {
+                                return (
+                                    <Radio key={index} value={item}>
+                                        {item}
+                                    </Radio>
+                                );
+                            })}
+                        </Radio.Group>
+                    </Form.Item>
+                )}
                 {!isEdit && (
                     <>
                         <Form.Item
@@ -109,7 +155,9 @@ const AddCluster = (props: IProps) => {
                             ></Input.TextArea>
                         </Form.Item>
                         <PromptBox>
-                            <IconBox></IconBox>
+                            <IconBox>
+                                <Icon style={{ fontSize: 20 }} component={IconQuery} />
+                            </IconBox>
                             <ul>
                                 <li>{t('resources.cluster.tips.kubeconfig')}</li>
                                 <li>kubectl config use-context dev-cluster</li>

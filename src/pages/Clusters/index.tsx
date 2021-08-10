@@ -33,6 +33,11 @@ const Clusters: FC<{}> = () => {
         setShowAdd(true);
     };
 
+    const onSubmit = () => {
+        setShowAdd(false);
+        queryClusters();
+    };
+
     return (
         <div>
             <SummaryCard title="clusters" />
@@ -47,10 +52,10 @@ const Clusters: FC<{}> = () => {
                     </Button>
                 </ContentTitle>
                 {clusterList.map((item, index) => {
-                    return <ListItem key={index} data={item} />;
+                    return <ListItem onSubmit={onSubmit} key={index} data={item} />;
                 })}
             </div>
-            {showAdd && <AddCluster onCancel={() => setShowAdd(false)} />}
+            {showAdd && <AddCluster onCancel={() => setShowAdd(false)} onSubmit={onSubmit} />}
         </div>
     );
 };

@@ -56,3 +56,30 @@ export const SpaceTypeItem = styled.div`
     box-shadow: inset 0 -1px 0 0 rgb(243, 246, 250);
     color: #0080ff;
 `;
+
+// eslint-disable-next-line no-undef
+export const Dot = styled.span<{ isActive: boolean | undefined }>`
+    display: inline-block;
+    background: ${(props) => (props.isActive ? 'rgb(30, 231, 231)' : '#c6d2dd')};
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+`;
+
+export const UserBox = styled.div`
+    width: 240px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px 0 rgba(54, 67, 92, 0.15);
+    padding: 10px;
+    border-radius: 4px;
+`;
+
+export const UserName = styled.div`
+    padding-left: 30px;
+    color: rgb(54, 67, 92);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: normal;
+    text-align: justify;
+`;

@@ -4,6 +4,7 @@ import { message } from 'antd';
 interface IRequestOptions {
     method?: string;
     body?: any;
+    config?: any;
 }
 
 // interface fetchType {
@@ -35,10 +36,12 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
     if (options?.method === 'GET') {
         const query = qs.stringify(options.body || {}, { arrayFormat: 'comma' });
         delete options.body;
-        requestUrl = `${apiUrl}/v1/${url}?${query}`;
+        requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}?${query}`;
     } else {
-        requestUrl = `${apiUrl}/v1/${url}`;
+        requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}`;
     }
+
+    delete options?.config;
 
     const res = await fetch(requestUrl, {
         ...options,
@@ -85,17 +88,17 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
 }
 
 class HTTP {
-    async get(url: string, data?: any) {
-        return await fetchJson(url, { method: 'GET', body: data });
+    async get(url: string, data?: any, config?: any) {
+        return await fetchJson(url, { method: 'GET', body: data, config });
     }
-    async post(url: string, data?: any) {
-        return await fetchJson(url, { method: 'POST', body: JSON.stringify(data) });
+    async post(url: string, data?: any, config?: any) {
+        return await fetchJson(url, { method: 'POST', body: JSON.stringify(data), config });
     }
-    async put(url: string, data?: any) {
-        return await fetchJson(url, { method: 'PUT', body: JSON.stringify(data) });
+    async put(url: string, data?: any, config?: any) {
+        return await fetchJson(url, { method: 'PUT', body: JSON.stringify(data), config });
     }
-    async delete(url: string, data?: any) {
-        return await fetchJson(url, { method: 'DELETE', body: JSON.stringify(data) });
+    async delete(url: string, data?: any, config?: any) {
+        return await fetchJson(url, { method: 'DELETE', body: JSON.stringify(data), config });
     }
 }
 

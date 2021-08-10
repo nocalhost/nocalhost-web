@@ -1,13 +1,19 @@
-import React, { useEffect, useState, PropsWithChildren } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import HTTP from '../../api/fetch';
-import { Table, Popover } from 'antd';
+import { Table, Popover, Modal, Button } from 'antd';
 import Icon from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import TableSearchInput from '../../components/TableSearchInput';
 import LabelSelect from '../../components/LabelSelect';
+import BreadCard from '../../components/BreadCard';
+import DevspaceForm from '../DevSpace/components/DevspaceForm';
+import { PlusOutlined } from '@ant-design/icons';
+
+import { useHistory } from 'react-router-dom';
+
 import {
     ContentWrap,
     ContentTitle,
@@ -17,9 +23,12 @@ import {
     PopItem,
     OverflowItem,
     SpaceTypeItem,
+    Dot,
+    UserBox,
+    UserName,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
-import { queryAllUser } from '../../services';
+import { queryAllUser, queryAllCluster } from '../../services';
 
 import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
 import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
@@ -29,11 +38,58 @@ import { ReactComponent as IconNormalKube } from '../../images/icon/icon_btn_nor
 import { ReactComponent as IconSelectedKube } from '../../images/icon/icon_btn_elected_kube.svg';
 import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconCooperation } from '../../images/icon/icon_label_cooperator.svg';
+import { ReactComponent as IconViewer } from '../../images/icon/icon_label_viewer.svg';
+import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limits.svg';
+import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
 interface RouteParams {
     id: string;
 }
 
-const EnvList = ({ children }: PropsWithChildren<{}>) => {
+interface UserInfo {
+    name: string;
+}
+interface UserProps {
+    cooper_user: UserInfo[];
+    viewer_user: UserInfo[];
+}
+
+interface SelectMap {
+    text: any;
+    value: any;
+    label?: any;
+}
+
+const PopoverBox = (props: { record: UserProps }) => {
+    const { record } = props;
+    const { cooper_user, viewer_user } = record;
+    return (
+        <UserBox>
+            <div>
+                <FlexBox>
+                    <Icon
+                        component={IconCooperation}
+                        style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
+                    />
+                    <span>Cooperator:</span>
+                </FlexBox>
+                <UserName>{cooper_user.map((item) => item.name).join('、')}</UserName>
+            </div>
+            <div>
+                <FlexBox>
+                    <Icon
+                        component={IconViewer}
+                        style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
+                    />
+                    <span>Viewer:</span>
+                </FlexBox>
+                <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
+            </div>
+        </UserBox>
+    );
+};
+
+const EnvList = () => {
     const params = useParams<RouteParams>();
     const { t } = useTranslation();
     const { id } = params;
@@ -48,7 +104,20 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
                         <Icon component={IconNormalDevspace} style={{ fontSize: 32 }} />
                         <div style={{ maxWidth: '85%', marginLeft: 10 }}>
                             <div>
-                                <div>{record.space_name}</div>
+                                <FlexBox>
+                                    {record.space_name}
+                                    {(record?.space_own_type?.Str === 'Cooperator' ||
+                                        record?.space_own_type?.Str === 'Viewer') && (
+                                        <Icon
+                                            component={
+                                                record?.space_own_type?.Str === 'Cooperator'
+                                                    ? IconCooperation
+                                                    : IconViewer
+                                            }
+                                            style={{ fontSize: 20, marginLeft: 4 }}
+                                        />
+                                    )}
+                                </FlexBox>
                                 <div></div>
                             </div>
                             <div>
@@ -74,10 +143,41 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
             title: t('resources.space.fields.namespace'),
             key: 'namespace',
             dataIndex: 'namespace',
+            render: (text: string, record: any) => {
+                return (
+                    <FlexBox>
+                        {record.cluster_admin ? 'ClusterScope' : record.namespace}
+                        {record.cluster_admin && (
+                            <Popover content={t('resources.space.fields.cluster_scope')}>
+                                <Icon
+                                    component={IconLimits}
+                                    style={{ fontSize: 20, marginLeft: 4 }}
+                                />
+                            </Popover>
+                        )}
+                    </FlexBox>
+                );
+            },
+        },
+        {
+            title: t('resources.cluster.name'),
+            key: 'cluster_id',
+            dataIndex: 'cluster_name',
         },
         {
             title: t('resources.space.fields.resource_limit'),
             key: 'resource_limit',
+            width: '120px',
+            render: (text: string, record: any) => {
+                return (
+                    <FlexBox>
+                        <Dot isActive={record.resource_limit_set}></Dot>
+                        {record.resource_limit_set
+                            ? t('resources.space.fields.resource_limit_set')
+                            : t('resources.space.fields.resource_limit_unset')}
+                    </FlexBox>
+                );
+            },
         },
         {
             title: t('resources.space.fields.created_at'),
@@ -91,15 +191,31 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
             title: t('resources.space.fields.user'),
             key: 'user',
             dataIndex: 'user_name',
+            render: (text: string, record: any) => {
+                return (
+                    <Popover content={<PopoverBox record={record} />}>
+                        <FlexBox>
+                            {record.user_name}
+                            {(record?.cooper_user?.length > 0 ||
+                                record?.viewer_user?.length > 0) && (
+                                <Icon
+                                    component={IconExplain}
+                                    style={{ fontSize: 20, marginLeft: 4 }}
+                                />
+                            )}
+                        </FlexBox>
+                    </Popover>
+                );
+            },
         },
         {
             title: t('common.operation'),
             width: '160px',
             key: 'operation',
-            render: () => {
+            render: (text: string, record: any) => {
                 return (
                     <FlexBox>
-                        <IconBox>
+                        <IconBox onClick={() => handleEdit(record)}>
                             <CommonIcon
                                 NormalIcon={IconNormalEdit}
                                 HoverIcon={IconSelectedEdit}
@@ -129,8 +245,17 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
             },
         },
     ];
+    const history = useHistory();
+
+    if (id) {
+        //Env List
+        columns.splice(3, 1);
+    }
 
     const [spaceList, setSpaceList] = useState([]);
+    const [userList, setUserList] = useState<SelectMap[]>([]);
+    const [clusterList, setClusterList] = useState<SelectMap[]>([]);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     const showTotal = () => {
         return `共${spaceList.length}条`;
@@ -140,14 +265,48 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
         querySpaceList();
     }, []);
 
+    function handleEdit(record: any) {
+        console.log(record);
+        history.push({
+            pathname: '/dashboard/space-operation',
+            state: {
+                record,
+            },
+        });
+    }
+
     async function querySpaceList() {
         const nameMap = await queryAllUser();
-        const response = await HTTP.get(id ? `cluster/${id}/dev_space` : 'dev_space');
+        const clusterMap = await queryAllCluster();
+
+        const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
+            is_v2: true,
+        });
         setSpaceList(
             response.data.map((item: any) => {
                 return {
                     ...item,
                     user_name: nameMap.get(item.user_id),
+                    cluster_name: clusterMap.get(item.cluster_id),
+                };
+            })
+        );
+        setUserList(
+            Array.from(nameMap).map((item) => {
+                return {
+                    value: item[0],
+                    text: item[1],
+                    label: item[1],
+                };
+            })
+        );
+
+        setClusterList(
+            Array.from(clusterMap).map((item) => {
+                return {
+                    value: item[0],
+                    text: item[1],
+                    label: item[1],
                 };
             })
         );
@@ -157,45 +316,92 @@ const EnvList = ({ children }: PropsWithChildren<{}>) => {
         console.log(value);
     }
 
+    const handleSubmit = () => {
+        setShowModal(false);
+        querySpaceList();
+    };
+
     return (
-        <ContentWrap>
-            <ContentTitle>
-                <SearchBox>
-                    <TableSearchInput onConfirm={handleSearchInput} />
-                    <LabelSelect
-                        style={{ marginRight: 12 }}
-                        label={t('resources.space.fields.space_type')}
-                        option={[]}
-                        onChange={handleSearchInput}
-                    />
-                    <LabelSelect
-                        label={t('resources.space.fields.user')}
-                        option={[]}
-                        onChange={handleSearchInput}
-                    />
-                </SearchBox>
-                <div>
-                    <IconBox>
-                        <CommonIcon
-                            style={{ fontSize: '24px' }}
-                            NormalIcon={IconNormalRefresh}
-                            HoverIcon={IconRefresh}
+        <>
+            {id && (
+                <BreadCard
+                    data={{
+                        menu: t('resources.cluster.name'),
+                        subMenu: t('resources.cluster.envList'),
+                        route: '/dashboard/clusters',
+                    }}
+                />
+            )}
+            <ContentWrap>
+                <ContentTitle>
+                    <SearchBox>
+                        <TableSearchInput onConfirm={handleSearchInput} />
+                        <LabelSelect
+                            style={{ marginRight: 12 }}
+                            label={t('resources.space.fields.space_type')}
+                            option={[]}
+                            onChange={handleSearchInput}
                         />
-                    </IconBox>
-                    {children}
-                </div>
-            </ContentTitle>
-            <Table
-                tableLayout="fixed"
-                columns={columns}
-                dataSource={spaceList}
-                pagination={{
-                    position: ['bottomCenter'],
-                    showTotal: showTotal,
-                    showSizeChanger: true,
-                }}
-            ></Table>
-        </ContentWrap>
+                        {!id && (
+                            <LabelSelect
+                                style={{ marginRight: 12 }}
+                                label={t('resources.cluster.name')}
+                                option={clusterList}
+                                onChange={handleSearchInput}
+                            />
+                        )}
+                        <LabelSelect
+                            label={t('resources.space.fields.user')}
+                            option={userList}
+                            onChange={handleSearchInput}
+                        />
+                    </SearchBox>
+                    <FlexBox>
+                        <IconBox>
+                            <CommonIcon
+                                style={{ fontSize: '24px' }}
+                                NormalIcon={IconNormalRefresh}
+                                HoverIcon={IconRefresh}
+                            />
+                        </IconBox>
+                        {!id && (
+                            <Button
+                                type="primary"
+                                icon={<PlusOutlined />}
+                                onClick={() => setShowModal(true)}
+                            >
+                                {t('resources.space.actions.create')}
+                            </Button>
+                        )}
+                    </FlexBox>
+                </ContentTitle>
+                <Table
+                    tableLayout="fixed"
+                    columns={columns}
+                    dataSource={spaceList}
+                    pagination={{
+                        position: ['bottomCenter'],
+                        showTotal: showTotal,
+                        showSizeChanger: true,
+                    }}
+                ></Table>
+            </ContentWrap>
+            {showModal && (
+                <Modal
+                    visible={showModal}
+                    title={t('resources.devSpace.actions.createDev')}
+                    onCancel={() => setShowModal(false)}
+                    footer={null}
+                >
+                    <DevspaceForm
+                        userList={userList}
+                        clusterList={clusterList}
+                        onSubmit={handleSubmit}
+                        onCancel={() => setShowModal(false)}
+                    />
+                </Modal>
+            )}
+        </>
     );
 };
 

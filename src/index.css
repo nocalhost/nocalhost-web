@@ -128,8 +128,19 @@ code {
     color: #202d40;
 }
 
+.ant-btn:hover {
+    background: rgb(243, 246, 250);
+    color: rgb(32, 45, 64);
+    border: 1px solid rgb(218, 225, 232);
+}
+
 .ant-btn-primary {
     color: #fff !important;
+    background: rgb(0, 128, 255);
+}
+
+.ant-btn-primary:hover {
+    background: rgb(8, 89, 221) !important;
 }
 
 .ant-table-tbody > tr > td {

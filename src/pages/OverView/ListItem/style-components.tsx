@@ -10,9 +10,13 @@ export const List = styled.div`
     padding: 16px 10px;
     margin-bottom: 12px;
     &:hover {
+        span {
+            color: #0080ff !important;
+        }
         border: 1px solid rgb(218, 225, 232);
         box-shadow: 0px 4px 10px 0px rgba(54, 67, 92, 0.12);
     }
+    cursor: pointer;
 `;
 
 export const Icon = styled.div`
@@ -33,6 +37,17 @@ export const H = styled(TextOver)`
     font-size: 14px;
     font-weight: 600;
     color: rgb(54, 67, 92);
+    min-height: 22px;
+`;
+
+export const Name = styled.span`
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(54, 67, 92);
 `;
 
 export const I = styled(TextOver)`
@@ -44,4 +59,5 @@ export const I = styled(TextOver)`
 export const Flex = styled.div`
     display: flex;
     align-items: center;
+    height: 100%;
 `;

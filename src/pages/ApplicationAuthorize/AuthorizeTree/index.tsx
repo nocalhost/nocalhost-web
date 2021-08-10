@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { notUsersType } from '../const';
 import CheckItem from '../CheckItem';
 import SelectedItem from '../SelectedItem';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 
 import { useTranslation } from 'react-i18next';
 interface AuthorizeTreePropsType {
@@ -23,13 +23,11 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const { t } = useTranslation();
     useEffect(() => {
         const getApplicationUser = async () => {
-            const result = await HTTP.get(`/application/${urlParams.id}/!users`, {
-                filter: {},
-                range: [0, 9],
-                sort: ['id', 'ASC'],
-            });
-            setData(result.data || []);
-            setCopyData(result.data || []);
+            const result = await HTTP.get(`/application/${urlParams.id}/!users`);
+            if (result.code === 0) {
+                setData(result.data || []);
+                setCopyData(result.data || []);
+            }
         };
         getApplicationUser();
     }, []);
@@ -51,13 +49,14 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
         handleFilterData();
     }, [filterValue]);
     const addUser = async () => {
-        try {
-            await HTTP.post(`/application/${urlParams.id}/users`, {
-                users: selectData.map((item: notUsersType) => item.id),
-            });
+        const result = await HTTP.post(`/application/${urlParams.id}/users`, {
+            users: selectData.map((item: notUsersType) => item.id),
+        });
+        if (result.code === 0) {
+            message.success(t('common.message.add'));
             props.onOk();
             props.onCancel();
-        } catch (error) {}
+        }
     };
     return (
         <>

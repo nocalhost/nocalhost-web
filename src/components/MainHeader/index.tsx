@@ -42,6 +42,7 @@ import { ReactComponent as IconColorDoc } from '../../images/icon/icon_btn_elect
 import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_docs.svg';
 import { ReactComponent as IconNormalUser } from '../../images/icon/icon_normal_users.svg';
 import { ReactComponent as IconNormalApplications } from '../../images/icon/icon_normal_applications.svg';
+import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
 const DIALOG_TYPE = {
     USER: 'user',
     APPLICATION: 'application',
@@ -49,21 +50,30 @@ const DIALOG_TYPE = {
 
 function MainHeader() {
     const { user } = useContext(UserContext);
+    const [formData, setFormData] = useState({});
     const [dialogType, setDialogType] = useState('');
     const { i18n, t } = useTranslation();
-    console.log(i18n);
+    // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
     };
     const handleOkApplicationForm = () => {
         setDialogType('');
     };
+    const signOut = () => {
+        location.replace('/login');
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('permissions');
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('refreshToken');
+    };
     return (
         <MainContent>
             <FlexBetween>
                 <Flex>
                     <Logo src={IconLogo}></Logo>
-                    <LogoName>Nocalhost管理中心</LogoName>
+                    <LogoName>Nocalhost Service Dashboard</LogoName>
                 </Flex>
                 <FlexHeader>
                     <Popover
@@ -79,7 +89,12 @@ function MainHeader() {
                                     ></Icon>
                                     <Label>{t('resources.users.bt.add')}</Label>
                                 </AvatarItem>
-                                <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.APPLICATION)}>
+                                <AvatarItem
+                                    onClick={() => {
+                                        setDialogType(DIALOG_TYPE.APPLICATION);
+                                        setFormData({});
+                                    }}
+                                >
                                     <Icon
                                         component={IconNormalApplications}
                                         style={{ fontSize: '20px' }}
@@ -123,20 +138,27 @@ function MainHeader() {
                                         <Email>{user.email}</Email>
                                     </Info>
                                     <Section>
-                                        <AvatarItem>
-                                            <Icon
-                                                component={IconNocalhost}
-                                                style={{ fontSize: '20px' }}
-                                            ></Icon>
-                                            <Label>NocalLost</Label>
-
-                                            <IconRight>
+                                        <a
+                                            href="https://nocalhost.dev/"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <AvatarItem>
                                                 <Icon
-                                                    component={IconNhLink}
+                                                    component={IconNocalhost}
                                                     style={{ fontSize: '20px' }}
                                                 ></Icon>
-                                            </IconRight>
-                                        </AvatarItem>
+                                                <Label>NocalLost</Label>
+
+                                                <IconRight>
+                                                    <Icon
+                                                        component={IconNhLink}
+                                                        style={{ fontSize: '20px' }}
+                                                    ></Icon>
+                                                </IconRight>
+                                            </AvatarItem>
+                                        </a>
+
                                         <Popover
                                             placement="leftTop"
                                             overlayClassName="tranPop"
@@ -193,8 +215,28 @@ function MainHeader() {
                                                 </IconRight>
                                             </AvatarItem>
                                         </Popover>
+                                        <AvatarItem
+                                            onClick={() => {
+                                                setDialogType(DIALOG_TYPE.USER);
+                                                setFormData({
+                                                    status: user?.status,
+                                                    is_admin: user?.is_admin,
+                                                    name: user?.name,
+                                                    email: user?.email,
+                                                    id: user?.id,
+                                                    isDetail: true,
+                                                });
+                                            }}
+                                        >
+                                            <Icon
+                                                component={IconUser}
+                                                style={{ fontSize: '20px' }}
+                                            ></Icon>
+                                            <Label>{t('resources.profile.name')}</Label>
+                                        </AvatarItem>
                                     </Section>
-                                    <AvatarItem>
+
+                                    <AvatarItem onClick={signOut}>
                                         <Icon
                                             component={IconLogOut}
                                             style={{ fontSize: '20px' }}
@@ -219,6 +261,7 @@ function MainHeader() {
                     <CreateUserForm
                         onCancel={() => setDialogType('')}
                         onOk={handleOkUserForm}
+                        formData={formData}
                     ></CreateUserForm>
                 </Dialog>
             )}

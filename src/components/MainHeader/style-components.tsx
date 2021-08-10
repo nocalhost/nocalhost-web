@@ -7,7 +7,7 @@ export const Logo = styled.img`
 export const MainContent = styled.div`
     background-color: ${(props) => props.theme.mainBgColor};
     width: 100%;
-    height: 60px;
+    /* height: 60px; */
     padding: 18px 24px 18px 20px;
 `;
 

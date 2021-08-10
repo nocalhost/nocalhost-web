@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HTTP from '../../api/fetch';
-import { Breadcrumb, Button, Table } from 'antd';
+import { Breadcrumb, Button, Table, message } from 'antd';
 import { TableBox, TableHeader, TableWrap, Flex, Amount } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
 import { useParams, Link } from 'react-router-dom';
@@ -30,8 +30,10 @@ function ApplicationAuthorize() {
     const { t } = useTranslation();
     const getApplicationUser = async () => {
         const result = await HTTP.get(`/application/${urlParams.id}/users`);
-        setData(result.data || []);
-        setCopyData(result.data || []);
+        if (result.code === 0) {
+            setData(result.data || []);
+            setCopyData(result.data || []);
+        }
     };
 
     const handleDeleteUser = async () => {
@@ -39,6 +41,7 @@ function ApplicationAuthorize() {
             await HTTP.delete(`/application/${urlParams.id}/users`, {
                 users: deleteId ? [deleteId] : selectList.map((item: { id: number }) => item.id),
             });
+            message.success(t('common.message.delete'));
             getApplicationUser();
             setDeleteModalShow(false);
         } catch (error) {}

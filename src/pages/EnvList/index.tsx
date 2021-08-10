@@ -28,6 +28,7 @@ import {
     UserName,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
+// import DeleteModal from '../../components/DeleteModal';
 import { queryAllUser, queryAllCluster } from '../../services';
 
 import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
@@ -42,6 +43,7 @@ import { ReactComponent as IconCooperation } from '../../images/icon/icon_label_
 import { ReactComponent as IconViewer } from '../../images/icon/icon_label_viewer.svg';
 import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limits.svg';
 import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
+
 interface RouteParams {
     id: string;
 }
@@ -192,19 +194,15 @@ const EnvList = () => {
             key: 'user',
             dataIndex: 'user_name',
             render: (text: string, record: any) => {
-                return (
+                return record?.cooper_user?.length > 0 || record?.viewer_user?.length > 0 ? (
                     <Popover content={<PopoverBox record={record} />}>
                         <FlexBox>
                             {record.user_name}
-                            {(record?.cooper_user?.length > 0 ||
-                                record?.viewer_user?.length > 0) && (
-                                <Icon
-                                    component={IconExplain}
-                                    style={{ fontSize: 20, marginLeft: 4 }}
-                                />
-                            )}
+                            <Icon component={IconExplain} style={{ fontSize: 20, marginLeft: 4 }} />
                         </FlexBox>
                     </Popover>
+                ) : (
+                    <FlexBox>{record.user_name}</FlexBox>
                 );
             },
         },

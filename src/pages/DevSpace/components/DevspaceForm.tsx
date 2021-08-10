@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Select, Switch, Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
@@ -81,6 +81,7 @@ const DevspaceForm = ({
     userList = [],
     clusterList = [],
     onSubmit,
+    record,
     isEdit = false,
     onCancel,
 }: {
@@ -89,9 +90,33 @@ const DevspaceForm = ({
     isEdit?: boolean;
     onSubmit?: () => void;
     onCancel: () => void;
+    record?: any;
 }) => {
     const { t } = useTranslation();
     const [showLimit, setShowLimit] = useState<boolean>(false);
+    const [form] = Form.useForm();
+
+    console.log('form', record);
+
+    useEffect(() => {
+        console.log(form, record);
+        if (isEdit && record) {
+            const {
+                space_name,
+                user_name,
+                cluster_name,
+                cluster_admin,
+                resource_limit_set,
+            } = record;
+            form.setFieldsValue({
+                space_name,
+                user_id: user_name,
+                cluster_id: cluster_name,
+                cluster_admin: Boolean(cluster_admin),
+                resource_limit_set,
+            });
+        }
+    }, []);
 
     const handleSubmit = async (values: any) => {
         try {
@@ -108,7 +133,7 @@ const DevspaceForm = ({
 
     return (
         <>
-            <Form layout="vertical" onFinish={handleSubmit}>
+            <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
                     label={t('resources.devSpace.fields.space_name')}
                     name="space_name"
@@ -141,7 +166,7 @@ const DevspaceForm = ({
                             <span>{t('resources.space.fields.setAdminDesc')}</span>
                         </DescBox>
                         <Form.Item name="cluster_admin">
-                            <Switch />
+                            <Switch disabled={isEdit} />
                         </Form.Item>
                     </FormFlexBox>
                 </OtherConfigItem>
@@ -152,7 +177,7 @@ const DevspaceForm = ({
                             <span>{t('resources.space.fields.resource_limit')}</span>
                             <span>{t('resources.space.fields.setLimitDesc')}</span>
                         </DescBox>
-                        <Form.Item name="isLimit">
+                        <Form.Item name="resource_limit_set">
                             <Switch onChange={(checked: boolean) => setShowLimit(checked)} />
                         </Form.Item>
                     </FormFlexBox>

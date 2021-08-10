@@ -19,7 +19,7 @@ const Main = styled.div`
 const Content = styled.div`
     padding: 12px 24px 24px 0px;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 68px);
     overflow: auto;
 `;
 

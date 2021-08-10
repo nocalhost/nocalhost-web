@@ -20,9 +20,9 @@ interface FormType {
 function CreateApplicationForm(props: PropsType) {
     const [value, setValue] = useState(SOURCE_TYPE.GIT);
     const [name, setName] = useState('');
-    const [resourceDirList, setResourceDirList] = useState(['']);
+    const [resourceDirList, setResourceDirList] = useState<string[]>([]);
     const [form] = Form.useForm();
-    const isEdit = Object.prototype.hasOwnProperty.call(props.formData, 'id');
+    const isEdit = Object.prototype.hasOwnProperty.call(props?.formData || {}, 'id');
     const { t } = useTranslation();
     useEffect(() => {
         if (isEdit) {
@@ -45,7 +45,7 @@ function CreateApplicationForm(props: PropsType) {
             application_name: name,
         });
         setValue(e.target.value);
-        setResourceDirList(['']);
+        setResourceDirList([]);
     };
     const renderSwitchForm = () => {
         switch (value) {
@@ -69,23 +69,23 @@ function CreateApplicationForm(props: PropsType) {
             resource_dir: values.source === 'git' ? resourceDirList : [],
         });
         if (isEdit) {
-            try {
-                await HTTP.put(`/application/${props?.formData?.id}`, {
-                    context,
-                    status: 1,
-                });
-                message.success('修改成功');
+            const result = await HTTP.put(`/application/${props?.formData?.id}`, {
+                context,
+                status: 1,
+            });
+            if (result.code === 0) {
+                message.success(t('common.message.edit'));
                 props.onOk();
-            } catch (error) {}
+            }
         } else {
-            try {
-                await HTTP.post(`/application`, {
-                    context,
-                    status: 1,
-                });
-                message.success('添加成功');
+            const result = await HTTP.post(`/application`, {
+                context,
+                status: 1,
+            });
+            if (result.code === 0) {
+                message.success(t('common.message.add'));
                 props.onOk();
-            } catch (error) {}
+            }
         }
     };
     // resource_dir
@@ -114,7 +114,7 @@ function CreateApplicationForm(props: PropsType) {
                 </Form.Item>
                 <Form.Item label={t('resources.application.tips.resource_dir')}>
                     {resourceDirList.map((item, index) => (
-                        <div style={{ marginBottom: '8PX' }} key={index}>
+                        <div style={{ marginBottom: '8px' }} key={index}>
                             <Input
                                 addonBefore={t('resources.application.tips.path', {
                                     index: index + 1,
@@ -153,8 +153,8 @@ function CreateApplicationForm(props: PropsType) {
                 </Form.Item>
                 <AddInputBtn
                     onClick={() => {
-                        const newResourceDirList = resourceDirList.concat(['']);
-                        setResourceDirList(newResourceDirList);
+                        resourceDirList.push('');
+                        setResourceDirList(resourceDirList.concat([]));
                     }}
                 >
                     {t('resources.application.tips.addPath')}

@@ -24,6 +24,16 @@ export const ButtonBox = styled.div`
     display: flex;
     margin-top: 24px;
     padding-left: 30px;
-    width: 170px;
-    justify-content: space-between;
+    justify-content: flex-end;
+`;
+
+export const IconBox = styled.div`
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    background: #fff3ce;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

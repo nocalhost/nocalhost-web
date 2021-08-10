@@ -33,6 +33,11 @@
     },
     "common": {
         "operation": "Operation",
+        "message": {
+            "add": "Success Add",
+            "edit": "Success Edit",
+            "delete": "Success Delete"
+        },
         "bt": {
             "delete": "Delete",
             "cancel": "Cancel",
@@ -330,6 +335,7 @@
             "name": "DevSpace",
             "devSpace": "Develop Space",
             "shareUsers": "Shared user",
+            "addShare": "Add Share",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",

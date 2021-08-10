@@ -9,8 +9,10 @@ import Icon from '@ant-design/icons';
 
 import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconProfile } from '../../../images/icon/profile_boy.svg';
+import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.svg';
 import AddCluster from '../../../components/AddCluster';
 import { ClusterItemInfo } from '../../../types/index';
+import DeleteModal from '../../../components/DeleteModal';
 
 const { Shape, Util, Global, G, Animate } = F2;
 const { Vector2 } = G;
@@ -101,6 +103,8 @@ const Line1px = styled.div`
 
 const BtnBox = styled.div`
     margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
 `;
 
 const WorkLoadItem = styled.li`
@@ -135,6 +139,7 @@ const LabelSpan = styled.span`
 const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
     const info = JSON.parse(data.info);
     const [showEdit, setShowEdit] = useState<boolean>(false);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
     const history = useHistory();
     const { t } = useTranslation();
     const { resources = [] } = data;
@@ -320,6 +325,10 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         onSubmit();
     };
 
+    async function handleDelete() {
+        console.log('delete');
+    }
+
     return (
         <ListBox>
             <DetailContainer>
@@ -378,9 +387,14 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                     <Button style={{ marginRight: 20 }} onClick={handleEdit}>
                         {t('resources.cluster.edit')}
                     </Button>
-                    <Button onClick={() => handleEnvList(data.id)}>
+                    <Button style={{ marginRight: 20 }} onClick={() => handleEnvList(data.id)}>
                         {t('resources.cluster.envList')}
                     </Button>
+                    <Icon
+                        onClick={() => setShowDelete(true)}
+                        component={IconDelete}
+                        style={{ fontSize: 20, cursor: 'pointer' }}
+                    />
                 </BtnBox>
             </DetailContainer>
             <LoadContainer>
@@ -423,6 +437,14 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                     onCancel={() => setShowEdit(false)}
                 />
             )}
+
+            <DeleteModal
+                visible={showDelete}
+                title={t('resources.cluster.delete.confirm.title')}
+                message={t('resources.cluster.delete.confirm.content')}
+                onConfirm={handleDelete}
+                onCancel={() => setShowDelete(false)}
+            />
         </ListBox>
     );
 };

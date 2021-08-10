@@ -64,6 +64,7 @@ export const PopItem = styled.div`
 
 export const Filter = styled.div`
     display: flex;
+    align-items: center;
 `;
 
 export const AIcon = styled.div`

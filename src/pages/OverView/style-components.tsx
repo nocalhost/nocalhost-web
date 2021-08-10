@@ -91,3 +91,8 @@ export const IconBox = styled.div`
     position: relative;
     top: 8px;
 `;
+
+export const SvgIcon = styled.img`
+    width: 80px;
+    height: 80px;
+`;

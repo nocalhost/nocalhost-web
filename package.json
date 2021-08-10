@@ -52,7 +52,7 @@
         "whatwg-fetch": "^3.6.2",
         "yarn": "^1.22.11"
     },
-    "proxy": "http://localhost:9080",
+    "proxy": "http://127.0.0.1:9080",
     "scripts": {
         "start": "GIT_COMMIT_SHA=`git describe --match=NeVeRmAtCh --always --abbrev=40 --dirty` ./env.sh && cp env.js ./public/ && react-app-rewired start",
         "build": "react-app-rewired build",

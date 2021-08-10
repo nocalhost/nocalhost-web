@@ -37,6 +37,11 @@
             "logout": "退出登录",
             "language": "语言"
         },
+        "message": {
+            "add": "新增成功",
+            "edit": "修改成功",
+            "delete": "删除成功"
+        },
         "bt": {
             "delete": "删除",
             "cancel": "取消",
@@ -125,7 +130,7 @@
                 "nodes_count": "节点数量",
                 "users_count": "DevSpace 数量",
                 "user": "创建者",
-                "created_at": "创建于",
+                "created_at": "创建时间",
                 "kubeconfig": "KubeConfig",
                 "storage_class": "存储类型"
             },
@@ -332,6 +337,7 @@
             "name": "开发环境",
             "devSpace": "开发空间",
             "shareUsers": "共享用户",
+            "addShare": "添加共享",
             "fields": {
                 "space_name": "开发空间名称",
                 "status": "状态",
@@ -344,7 +350,9 @@
                 "cpu": "CPU",
                 "memory": "Memory",
                 "kubeconfig": "KubeConfig",
-                "resource_limit": "资源限制"
+                "resource_limit": "资源限制",
+                "admin": "管理员",
+                "normalUser": "普通成员"
             },
             "actions": {
                 "create": "创建环境",
@@ -356,6 +364,9 @@
             "status": {
                 "deployed": "已部署",
                 "undeployed": "未部署"
+            },
+            "tips": {
+                "searchPlaceholder": "搜索用户名称..."
             }
         },
         "myDevSpace": {

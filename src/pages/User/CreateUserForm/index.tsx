@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Switch } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button, Form, Input, Switch, message } from 'antd';
 import { FormBox, Card, Title, Info, Footer, ButtonBox } from './style-components';
 import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import './resetAntd.css';
@@ -17,6 +17,7 @@ interface FormType {
     name?: string;
     status?: number;
     id?: number | string;
+    isDetail?: boolean | undefined;
 }
 
 // confirm_password: "a19930731"
@@ -38,7 +39,8 @@ const initFormValue = {
 function CreateUserForm(props: PropsType) {
     const [values, setValues] = useState({ ...initFormValue });
     const [form] = Form.useForm();
-    const isEdit = Object.prototype.hasOwnProperty.call(props.formData, 'id');
+    const isEdit = Object.prototype.hasOwnProperty.call(props?.formData || {}, 'id');
+    const couterRef = useRef<boolean>();
     const { t } = useTranslation();
     useEffect(() => {
         setValues({ ...initFormValue, ...props.formData });
@@ -62,19 +64,25 @@ function CreateUserForm(props: PropsType) {
     };
     const onFinish = async () => {
         if (isEdit) {
-            try {
-                await HTTP.put(`/users/${props?.formData?.id}`, {
-                    ...values,
-                });
+            const result = await HTTP.put(`/users/${props?.formData?.id}`, {
+                ...values,
+            });
+            if (result.code === 0) {
                 props.onOk();
-            } catch (error) {}
+                message.success(t('common.message.edit'));
+            }
         } else {
-            try {
-                await HTTP.post(`/users`, {
-                    ...values,
-                });
-                props.onOk();
-            } catch (error) {}
+            const result = await HTTP.post(`/users`, {
+                ...values,
+            });
+            if (result.code === 0) {
+                message.success(t('common.message.add'));
+                if (couterRef.current) {
+                    form.resetFields();
+                } else {
+                    props.onOk();
+                }
+            }
         }
     };
     const checkConfirmPassword = (_: any, value: any) => {
@@ -93,6 +101,7 @@ function CreateUserForm(props: PropsType) {
                         rules={[{ required: true, message: t('resources.users.valid.name') }]}
                     >
                         <Input
+                            disabled={props.formData?.isDetail}
                             value={values.name}
                             name="name"
                             placeholder={t('resources.users.form.placeholder.name')}
@@ -111,6 +120,7 @@ function CreateUserForm(props: PropsType) {
                         ]}
                     >
                         <Input
+                            disabled={props.formData?.isDetail}
                             value={values.email}
                             placeholder={t('resources.users.form.placeholder.email')}
                             name="email"
@@ -129,6 +139,7 @@ function CreateUserForm(props: PropsType) {
                         ]}
                     >
                         <Input.Password
+                            disabled={props.formData?.isDetail}
                             value={values.password}
                             name="password"
                             placeholder={t('resources.users.form.placeholder.password')}
@@ -145,6 +156,7 @@ function CreateUserForm(props: PropsType) {
                         rules={[{ validator: checkConfirmPassword, required: true, min: 6 }]}
                     >
                         <Input.Password
+                            disabled={props.formData?.isDetail}
                             onChange={handleInputChange}
                             name="confirm_password"
                             placeholder={t('resources.users.form.placeholder.confirm_password')}
@@ -158,30 +170,56 @@ function CreateUserForm(props: PropsType) {
                             <Title>{t('resources.users.formLabel.statusTitle')}</Title>
                             <Info>{t('resources.users.formLabel.statusInfo')}</Info>
                         </div>
-                        <Switch checked={values.status === 1} onChange={onChangeStatus} />
+                        <Switch
+                            disabled={props.formData?.isDetail}
+                            checked={values.status === 1}
+                            onChange={onChangeStatus}
+                        />
                     </Card>
                     <Card>
                         <div>
                             <Title>{t('resources.users.formLabel.adminTitle')}</Title>
                             <Info>{t('resources.users.formLabel.adminInfo')}</Info>
                         </div>
-                        <Switch checked={values.is_admin === 1} onChange={onChangeAdmin} />
+                        <Switch
+                            disabled={props.formData?.isDetail}
+                            checked={values.is_admin === 1}
+                            onChange={onChangeAdmin}
+                        />
                     </Card>
-                    <Footer>
-                        <ButtonBox>
-                            <Button onClick={() => props.onCancel()}>
-                                {t('common.bt.cancel')}
-                            </Button>
-                        </ButtonBox>
-                        <ButtonBox>
-                            <Button htmlType="submit"> {t('common.bt.submit')}</Button>
-                        </ButtonBox>
-                        {!isEdit && (
+                    {!props.formData?.isDetail && (
+                        <Footer>
                             <ButtonBox>
-                                <Button type="primary">{t('common.bt.submitGoon')}</Button>
+                                <Button onClick={() => props.onCancel()}>
+                                    {t('common.bt.cancel')}
+                                </Button>
                             </ButtonBox>
-                        )}
-                    </Footer>
+                            <ButtonBox>
+                                <Button
+                                    htmlType="submit"
+                                    onClick={() => {
+                                        couterRef.current = false;
+                                    }}
+                                >
+                                    {' '}
+                                    {t('common.bt.submit')}
+                                </Button>
+                            </ButtonBox>
+                            {!isEdit && (
+                                <ButtonBox>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        onClick={() => {
+                                            couterRef.current = true;
+                                        }}
+                                    >
+                                        {t('common.bt.submitGoon')}
+                                    </Button>
+                                </ButtonBox>
+                            )}
+                        </Footer>
+                    )}
                 </Form>
             </FormBox>
         </div>

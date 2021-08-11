@@ -12,9 +12,7 @@ import BreadCard from '../../components/BreadCard';
 import DevspaceForm from '../DevSpace/components/DevspaceForm';
 import { PlusOutlined } from '@ant-design/icons';
 import KubeConfig from './components/KubeConfig';
-
 import { useHistory } from 'react-router-dom';
-
 import {
     ContentWrap,
     ContentTitle,
@@ -128,13 +126,15 @@ const EnvList = () => {
                                 </FlexBox>
                                 <div></div>
                             </div>
-                            <div>
-                                <Popover content="开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述">
-                                    <OverflowItem>
-                                        开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述
-                                    </OverflowItem>
-                                </Popover>
-                            </div>
+                            {false && (
+                                <div>
+                                    <Popover content="开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述">
+                                        <OverflowItem>
+                                            开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述
+                                        </OverflowItem>
+                                    </Popover>
+                                </div>
+                            )}
                         </div>
                     </FlexBox>
                 );

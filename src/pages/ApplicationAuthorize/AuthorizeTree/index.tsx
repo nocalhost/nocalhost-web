@@ -23,7 +23,7 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
     const { t } = useTranslation();
     useEffect(() => {
         const getApplicationUser = async () => {
-            const result = await HTTP.get(`/application/${urlParams.id}/!users`);
+            const result = await HTTP.get(`application/${urlParams.id}/!users`);
             if (result.code === 0) {
                 setData(result.data || []);
                 setCopyData(result.data || []);
@@ -49,7 +49,7 @@ function AuthorizeTree(props: AuthorizeTreePropsType) {
         handleFilterData();
     }, [filterValue]);
     const addUser = async () => {
-        const result = await HTTP.post(`/application/${urlParams.id}/users`, {
+        const result = await HTTP.post(`application/${urlParams.id}/users`, {
             users: selectData.map((item: notUsersType) => item.id),
         });
         if (result.code === 0) {

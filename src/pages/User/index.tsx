@@ -70,6 +70,7 @@ function User() {
         if (result.code === 0) {
             message.success(t('common.message.delete'));
             setDeleteModalShow(false);
+            getUser();
         }
     };
     const handleOkUserForm = () => {

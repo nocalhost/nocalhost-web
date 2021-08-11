@@ -18,6 +18,8 @@ interface FormType {
     status?: number;
     id?: number | string;
     isDetail?: boolean | undefined;
+    password?: string;
+    confirm_password?: string;
 }
 
 // confirm_password: "a19930731"
@@ -37,7 +39,7 @@ const initFormValue = {
 };
 
 function CreateUserForm(props: PropsType) {
-    const [values, setValues] = useState({ ...initFormValue });
+    const [values, setValues] = useState<FormType>({ ...initFormValue });
     const [form] = Form.useForm();
     const isEdit = Object.prototype.hasOwnProperty.call(props?.formData || {}, 'id');
     const couterRef = useRef<boolean>();
@@ -64,15 +66,25 @@ function CreateUserForm(props: PropsType) {
     };
     const onFinish = async () => {
         if (isEdit) {
-            const result = await HTTP.put(`/users/${props?.formData?.id}`, {
-                ...values,
+            let editValue = values;
+            if (!values.password) {
+                editValue = {
+                    email: values.email,
+                    name: values.name,
+                    is_admin: values.is_admin,
+                    status: values.status,
+                };
+            }
+
+            const result = await HTTP.put(`users/${props?.formData?.id}`, {
+                ...editValue,
             });
             if (result.code === 0) {
                 props.onOk();
                 message.success(t('common.message.edit'));
             }
         } else {
-            const result = await HTTP.post(`/users`, {
+            const result = await HTTP.post(`users`, {
                 ...values,
             });
             if (result.code === 0) {
@@ -86,7 +98,19 @@ function CreateUserForm(props: PropsType) {
         }
     };
     const checkConfirmPassword = (_: any, value: any) => {
-        if (value !== values.password) {
+        if (value && value.length < 6) {
+            return Promise.reject(new Error(t('resources.users.valid.password')));
+        }
+        if ((values.password || value) && value !== values.password) {
+            return Promise.reject(new Error(t('resources.users.valid.comfirmPassword')));
+        }
+        return Promise.resolve();
+    };
+    const checkPassword = (_: any, value: any) => {
+        if (value && value.length < 6) {
+            return Promise.reject(new Error(t('resources.users.valid.password')));
+        }
+        if ((values.confirm_password || value) && value !== values.confirm_password) {
             return Promise.reject(new Error(t('resources.users.valid.comfirmPassword')));
         }
         return Promise.resolve();
@@ -130,9 +154,8 @@ function CreateUserForm(props: PropsType) {
                         name="password"
                         rules={[
                             {
-                                required: true,
-                                message: t('resources.users.valid.password'),
-                                min: 6,
+                                required: !isEdit,
+                                validator: checkPassword,
                             },
                         ]}
                     >
@@ -150,7 +173,7 @@ function CreateUserForm(props: PropsType) {
                         label={t('resources.users.fields.confirm_password')}
                         name="confirm_password"
                         validateTrigger="onBlur"
-                        rules={[{ validator: checkConfirmPassword, required: true, min: 6 }]}
+                        rules={[{ validator: checkConfirmPassword, required: !isEdit }]}
                     >
                         <Input.Password
                             onChange={handleInputChange}

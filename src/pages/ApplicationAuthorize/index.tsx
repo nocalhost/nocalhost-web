@@ -29,7 +29,7 @@ function ApplicationAuthorize() {
     const [deleteId, setDeleteId] = useState('');
     const { t } = useTranslation();
     const getApplicationUser = async () => {
-        const result = await HTTP.get(`/application/${urlParams.id}/users`);
+        const result = await HTTP.get(`application/${urlParams.id}/users`);
         if (result.code === 0) {
             setData(result.data || []);
             setCopyData(result.data || []);
@@ -38,7 +38,7 @@ function ApplicationAuthorize() {
 
     const handleDeleteUser = async () => {
         try {
-            await HTTP.delete(`/application/${urlParams.id}/users`, {
+            await HTTP.delete(`application/${urlParams.id}/users`, {
                 users: deleteId ? [deleteId] : selectList.map((item: { id: number }) => item.id),
             });
             message.success(t('common.message.delete'));

@@ -114,7 +114,7 @@ function MainHeader() {
 
                     <HeaderSection>
                         <a
-                            href="https://nocalhost.dev/getting-started/"
+                            href="https://nocalhost.dev/eng/getting-started/"
                             target="_blank"
                             rel="noreferrer"
                             style={{ marginRight: '20px' }}

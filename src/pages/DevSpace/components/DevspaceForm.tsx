@@ -45,6 +45,8 @@ const DescBox = styled.div`
 `;
 
 const LimitWrap = styled.div`
+    height: 288px;
+    overflow: scroll;
     padding: 12px 12px 0;
     background: #f9fbfd;
     font-size: 14px;
@@ -96,6 +98,8 @@ const DevspaceForm = ({
     const [showLimit, setShowLimit] = useState<boolean>(false);
     const [form] = Form.useForm();
 
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
     useEffect(() => {
         if (isEdit && record) {
             const {
@@ -114,6 +118,9 @@ const DevspaceForm = ({
             } catch (e) {
                 console.log(e);
             }
+
+            setIsAdmin(Boolean(cluster_admin));
+            setShowLimit(Boolean(resource_limit_set));
 
             form.setFieldsValue({
                 space_name,
@@ -227,14 +234,14 @@ const DevspaceForm = ({
                         name="cluster_id"
                         rules={[{ required: true }]}
                     >
-                        <Select disabled={isEdit} style={{ width: 220 }} options={clusterList} />
+                        <Select disabled={isEdit} style={{ width: 310 }} options={clusterList} />
                     </Form.Item>
                     <Form.Item
                         label={t('resources.space.fields.user')}
                         rules={[{ required: true }]}
                         name="user_id"
                     >
-                        <Select disabled={isEdit} style={{ width: 220 }} options={userList} />
+                        <Select disabled={isEdit} style={{ width: 310 }} options={userList} />
                     </Form.Item>
                 </FormFlexBox>
                 <div>{t('common.otherSet')}</div>
@@ -246,106 +253,122 @@ const DevspaceForm = ({
                             <span>{t('resources.space.fields.setAdminDesc')}</span>
                         </DescBox>
                         <Form.Item name="cluster_admin">
-                            <Switch disabled={isEdit} />
+                            <Switch
+                                checked={isAdmin}
+                                disabled={isEdit}
+                                onChange={(checked) => setIsAdmin(checked)}
+                            />
                         </Form.Item>
                     </FormFlexBox>
                 </OtherConfigItem>
-                <OtherConfigItem>
-                    <Icon component={IconResource} style={{ fontSize: 32, marginRight: 8 }} />
-                    <FormFlexBox>
-                        <DescBox>
-                            <span>{t('resources.space.fields.resource_limit')}</span>
-                            <span>{t('resources.space.fields.setLimitDesc')}</span>
-                        </DescBox>
-                        <Form.Item name="resource_limit_set">
-                            <Switch onChange={(checked: boolean) => setShowLimit(checked)} />
-                        </Form.Item>
-                    </FormFlexBox>
-                </OtherConfigItem>
-                {showLimit && (
-                    <LimitWrap>
-                        <Divide />
-                        <LimitTitle>{t('resources.space.devspaceLimitTitle')}</LimitTitle>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="space_req_mem"
-                                label={t('resources.space.fields.requestTotalMem')}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                name="space_limits_mem"
-                                label={t('resources.space.fields.limitTotalMem')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="space_req_cpu"
-                                label={t('resources.space.fields.requestTotalCPU')}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                name="space_limits_cpu"
-                                label={t('resources.space.fields.limitTotalCPU')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="space_pvc_count"
-                                label={t('resources.space.fields.PVC_num')}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                name="space_storage_capacity"
-                                label={t('resources.space.fields.storageCapacity')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="space_lb_count"
-                                label={t('resources.space.fields.lbNum')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                        <LimitTitle>{t('resources.space.containerDefaultTitle')}</LimitTitle>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="container_limits_cpu"
-                                label={t('resources.space.fields.requestTotalMem')}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                name="container_limits_mem"
-                                label={t('resources.space.fields.limitTotalMem')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                        <FormFlexBox>
-                            <Form.Item
-                                name="container_req_cpu"
-                                label={t('resources.space.fields.requestTotalCPU')}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                name="container_req_mem"
-                                label={t('resources.space.fields.limitTotalCPU')}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </FormFlexBox>
-                    </LimitWrap>
+                {!isAdmin && (
+                    <>
+                        <OtherConfigItem>
+                            <Icon
+                                component={IconResource}
+                                style={{ fontSize: 32, marginRight: 8 }}
+                            />
+                            <FormFlexBox>
+                                <DescBox>
+                                    <span>{t('resources.space.fields.resource_limit')}</span>
+                                    <span>{t('resources.space.fields.setLimitDesc')}</span>
+                                </DescBox>
+                                <Form.Item name="resource_limit_set">
+                                    <Switch
+                                        checked={showLimit}
+                                        onChange={(checked: boolean) => setShowLimit(checked)}
+                                    />
+                                </Form.Item>
+                            </FormFlexBox>
+                        </OtherConfigItem>
+                        {showLimit && (
+                            <LimitWrap>
+                                <Divide />
+                                <LimitTitle>{t('resources.space.devspaceLimitTitle')}</LimitTitle>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="space_req_mem"
+                                        label={t('resources.space.fields.requestTotalMem')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="space_limits_mem"
+                                        label={t('resources.space.fields.limitTotalMem')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="space_req_cpu"
+                                        label={t('resources.space.fields.requestTotalCPU')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="space_limits_cpu"
+                                        label={t('resources.space.fields.limitTotalCPU')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="space_pvc_count"
+                                        label={t('resources.space.fields.PVC_num')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="space_storage_capacity"
+                                        label={t('resources.space.fields.storageCapacity')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="space_lb_count"
+                                        label={t('resources.space.fields.lbNum')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                                <LimitTitle>
+                                    {t('resources.space.containerDefaultTitle')}
+                                </LimitTitle>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="container_limits_cpu"
+                                        label={t('resources.space.fields.requestTotalMem')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="container_limits_mem"
+                                        label={t('resources.space.fields.limitTotalMem')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                                <FormFlexBox>
+                                    <Form.Item
+                                        name="container_req_cpu"
+                                        label={t('resources.space.fields.requestTotalCPU')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="container_req_mem"
+                                        label={t('resources.space.fields.limitTotalCPU')}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </FormFlexBox>
+                            </LimitWrap>
+                        )}
+                    </>
                 )}
                 <BtnBox>
                     <Button onClick={onCancel} style={{ marginRight: 12 }}>

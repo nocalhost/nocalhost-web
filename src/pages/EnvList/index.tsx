@@ -431,6 +431,7 @@ const EnvList = () => {
             {showModal && (
                 <Modal
                     visible={showModal}
+                    width={680}
                     title={t('resources.devSpace.actions.createDev')}
                     onCancel={() => setShowModal(false)}
                     footer={null}

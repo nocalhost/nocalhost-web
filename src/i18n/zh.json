@@ -28,7 +28,8 @@
         },
         "action": {
             "copy": "复制",
-            "copied": "已复制！"
+            "copied": "已复制！",
+            "download": "下载"
         }
     },
     "common": {
@@ -40,7 +41,8 @@
         "message": {
             "add": "新增成功",
             "edit": "修改成功",
-            "delete": "删除成功"
+            "delete": "删除成功",
+            "reset": "重置成功"
         },
         "bt": {
             "delete": "删除",
@@ -370,7 +372,11 @@
                 "searchPlaceholder": "搜索用户名称...",
                 "addShareSuccess": "添加共享成功！",
                 "unShareSuccess": "取消分享成功",
-                "unShareUsers": "未分享用户"
+                "unShareUsers": "未分享用户",
+                "deleteTitle": "你确认要删除开发空间？",
+                "deleteContent": "删除开发空间将删除「{{name}}」命名空间内的所有资源。",
+                "resetTitle": "你确认要重置开发空间？",
+                "resetContent": "重置开发空间将删除「{{name}}」命名空间内的所有资源，并重建。"
             }
         },
         "myDevSpace": {

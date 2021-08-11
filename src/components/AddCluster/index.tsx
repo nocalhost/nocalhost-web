@@ -62,13 +62,15 @@ const AddCluster = (props: IProps) => {
     const addCluster = async (data: any) => {
         const { name, kubeconfig, storage_class } = data;
         try {
-            await HTTP.post('cluster', {
+            const response = await HTTP.post('cluster', {
                 name,
                 kubeconfig: Base64.encode(kubeconfig),
                 storage_class: storage_class === 'default' ? '' : storage_class,
             });
-            message.success(t('resources.cluster.tips.addSuccess'));
-            onSubmit();
+            if (response.code === 0) {
+                message.success(t('resources.cluster.tips.addSuccess'));
+                onSubmit();
+            }
         } catch (e) {
             console.log(e);
         }
@@ -77,12 +79,14 @@ const AddCluster = (props: IProps) => {
     const editCluster = async (data: any) => {
         const { storage_class } = data;
         try {
-            await HTTP.put(`cluster/${record?.id}`, {
+            const response = await HTTP.put(`cluster/${record?.id}`, {
                 ...record,
                 storage_class: storage_class === 'default' ? '' : storage_class,
             });
-            message.success(t('resources.cluster.tips.editSuccess'));
-            onSubmit();
+            if (response.code === 0) {
+                message.success(t('resources.cluster.tips.editSuccess'));
+                onSubmit();
+            }
         } catch (e) {
             console.log(e);
         }

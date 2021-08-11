@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import HTTP from '../../api/fetch';
-import { Table, Popover, Modal, Button } from 'antd';
+import { Table, Popover, Modal, Button, message } from 'antd';
 import Icon from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,7 @@ import LabelSelect from '../../components/LabelSelect';
 import BreadCard from '../../components/BreadCard';
 import DevspaceForm from '../DevSpace/components/DevspaceForm';
 import { PlusOutlined } from '@ant-design/icons';
+import KubeConfig from './components/KubeConfig';
 
 import { useHistory } from 'react-router-dom';
 
@@ -28,7 +29,7 @@ import {
     UserName,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
-// import DeleteModal from '../../components/DeleteModal';
+import DeleteModal from '../../components/DeleteModal';
 import { queryAllUser, queryAllCluster } from '../../services';
 
 import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
@@ -60,6 +61,11 @@ interface SelectMap {
     text: any;
     value: any;
     label?: any;
+}
+
+interface IRecord {
+    id: number;
+    [index: string]: any;
 }
 
 const PopoverBox = (props: { record: UserProps }) => {
@@ -220,7 +226,7 @@ const EnvList = () => {
                                 style={{ fontSize: '20px' }}
                             ></CommonIcon>
                         </IconBox>
-                        <IconBox>
+                        <IconBox onClick={() => handleKube(record)}>
                             <CommonIcon
                                 NormalIcon={IconNormalKube}
                                 HoverIcon={IconSelectedKube}
@@ -231,8 +237,12 @@ const EnvList = () => {
                             trigger="click"
                             content={
                                 <>
-                                    <PopItem>{t('common.bt.reset')}</PopItem>
-                                    <PopItem>{t('common.bt.delete')}</PopItem>
+                                    <PopItem onClick={() => handleReset(record)}>
+                                        {t('common.bt.reset')}
+                                    </PopItem>
+                                    <PopItem onClick={() => handleDelete(record)}>
+                                        {t('common.bt.delete')}
+                                    </PopItem>
                                 </>
                             }
                         >
@@ -246,7 +256,6 @@ const EnvList = () => {
     const history = useHistory();
 
     if (id) {
-        //Env List
         columns.splice(3, 1);
     }
 
@@ -254,6 +263,10 @@ const EnvList = () => {
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showKube, setShowKube] = useState<boolean>(false);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
+    const [showReset, setShowReset] = useState<boolean>(false);
+    const [record, setRecord] = useState<IRecord>();
 
     const showTotal = () => {
         return `共${spaceList.length}条`;
@@ -263,8 +276,12 @@ const EnvList = () => {
         querySpaceList();
     }, []);
 
+    function handleKube(record: any) {
+        setShowKube(true);
+        setRecord(record);
+    }
+
     function handleEdit(record: any) {
-        console.log(record);
         history.push({
             pathname: '/dashboard/space-operation',
             state: {
@@ -314,9 +331,36 @@ const EnvList = () => {
         console.log(value);
     }
 
+    function handleDelete(record: any) {
+        setShowDelete(true);
+        setRecord(record);
+    }
+
+    function handleReset(record: any) {
+        setShowReset(true);
+        setRecord(record);
+    }
+
     const handleSubmit = () => {
         setShowModal(false);
         querySpaceList();
+    };
+
+    const handleConfirmDelete = async () => {
+        const response = await HTTP.delete(`dev_space/${record?.id}`);
+        if (response.code === 0) {
+            querySpaceList();
+            message.success(t('common.message.delete'));
+            setShowDelete(false);
+        }
+    };
+
+    const handleConfirmReset = async () => {
+        const response = await HTTP.post(`dev_space/${record?.id}/recreate`);
+        if (response.code === 0) {
+            message.success(t('common.message.reset'));
+            setShowReset(false);
+        }
     };
 
     return (
@@ -398,6 +442,29 @@ const EnvList = () => {
                         onCancel={() => setShowModal(false)}
                     />
                 </Modal>
+            )}
+            {showKube && <KubeConfig id={record?.id} onCancel={() => setShowKube(false)} />}
+            {showDelete && (
+                <DeleteModal
+                    onCancel={() => setShowDelete(false)}
+                    onConfirm={handleConfirmDelete}
+                    title={t('resources.devSpace.tips.deleteTitle')}
+                    visible={true}
+                    message={t('resources.devSpace.tips.deleteContent', {
+                        name: record?.space_name,
+                    })}
+                />
+            )}
+            {showReset && (
+                <DeleteModal
+                    onCancel={() => setShowReset(false)}
+                    onConfirm={handleConfirmReset}
+                    title={t('resources.devSpace.tips.resetTitle')}
+                    visible={true}
+                    message={t('resources.devSpace.tips.resetContent', {
+                        name: record?.space_name,
+                    })}
+                />
             )}
         </>
     );

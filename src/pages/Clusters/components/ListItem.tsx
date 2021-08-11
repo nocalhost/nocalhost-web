@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import F2 from '@antv/f2';
@@ -13,6 +13,8 @@ import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.
 import AddCluster from '../../../components/AddCluster';
 import { ClusterItemInfo } from '../../../types/index';
 import DeleteModal from '../../../components/DeleteModal';
+
+import HTTP from '../../../api/fetch';
 
 const { Shape, Util, Global, G, Animate } = F2;
 const { Vector2 } = G;
@@ -322,11 +324,17 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
     const onEdit = () => {
         setShowEdit(false);
+        message.success(t('common.message.edit'));
         onSubmit();
     };
 
     async function handleDelete() {
-        console.log('delete');
+        const response = await HTTP.delete(`cluster/${data.id}`);
+        if (response.code === 0) {
+            message.success(t('common.message.delete'));
+            setShowDelete(false);
+            onSubmit();
+        }
     }
 
     return (

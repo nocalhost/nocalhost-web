@@ -33,6 +33,7 @@
     },
     "common": {
         "operation": "Operation",
+        "otherSet": "More Config",
         "message": {
             "add": "Success Add",
             "edit": "Success Edit",

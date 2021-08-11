@@ -96,10 +96,7 @@ const DevspaceForm = ({
     const [showLimit, setShowLimit] = useState<boolean>(false);
     const [form] = Form.useForm();
 
-    console.log('form', record);
-
     useEffect(() => {
-        console.log(form, record);
         if (isEdit && record) {
             const {
                 space_name,
@@ -107,29 +104,108 @@ const DevspaceForm = ({
                 cluster_name,
                 cluster_admin,
                 resource_limit_set,
+                space_resource_limit,
             } = record;
+            let limitObj = {};
+            try {
+                if (typeof space_resource_limit === 'string') {
+                    limitObj = JSON.parse(space_resource_limit);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+
             form.setFieldsValue({
                 space_name,
                 user_id: user_name,
                 cluster_id: cluster_name,
                 cluster_admin: Boolean(cluster_admin),
-                resource_limit_set,
+                resource_limit_set: Boolean(resource_limit_set),
+                ...limitObj,
             });
         }
     }, []);
 
     const handleSubmit = async (values: any) => {
         try {
+            const {
+                space_name,
+                isLimit,
+                cluster_id,
+                cluster_admin,
+                user_id,
+                container_limits_cpu,
+                container_limits_mem,
+                container_req_cpu,
+                container_req_mem,
+                space_lb_count,
+                space_limits_cpu,
+                space_limits_mem,
+                space_pvc_count,
+                space_req_cpu,
+                space_req_mem,
+                space_storage_capacity,
+                resource_limit_set,
+            } = values;
             if (isEdit) {
-                // edit
+                // edit name
+                const response = await HTTP.put(`dev_space/${record.id}`, {
+                    space_name,
+                });
+                const limitResp = await HTTP.put(`dev_space/${record.id}/update_resource_limit`, {
+                    container_limits_cpu,
+                    container_limits_mem,
+                    container_req_cpu,
+                    container_req_mem,
+                    space_lb_count,
+                    space_limits_cpu,
+                    space_limits_mem,
+                    space_pvc_count,
+                    space_req_cpu,
+                    space_req_mem,
+                    space_storage_capacity,
+                });
+                if (response.code === 0 && limitResp.code === 0) {
+                    message.success(t('common.message.edit'));
+                }
+                onSubmit && onSubmit();
             } else {
-                const response = await HTTP.post('dev_space', values);
-                console.log(response);
+                const limitObj = resource_limit_set
+                    ? {
+                          container_limits_cpu,
+                          container_limits_mem: container_limits_mem
+                              ? `${container_limits_mem}Mi`
+                              : container_limits_mem,
+                          container_req_cpu,
+                          container_req_mem: container_req_mem
+                              ? `${container_req_mem}Mi`
+                              : container_req_mem,
+                          space_lb_count,
+                          space_limits_cpu,
+                          space_limits_mem: space_limits_mem
+                              ? `${space_limits_mem}Mi`
+                              : space_limits_mem,
+                          space_pvc_count,
+                          space_req_cpu,
+                          space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
+                          space_storage_capacity: space_storage_capacity
+                              ? `${space_storage_capacity}Gi`
+                              : space_storage_capacity,
+                      }
+                    : null;
+                const response = await HTTP.post('dev_space', {
+                    cluster_id,
+                    cluster_admin: cluster_admin ? 1 : 0,
+                    user_id,
+                    space_name,
+                    isLimit,
+                    space_resource_limit: limitObj,
+                });
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
+                    onSubmit && onSubmit();
                 }
             }
-            onSubmit && onSubmit();
         } catch (e) {
             console.log(e);
         }
@@ -161,7 +237,7 @@ const DevspaceForm = ({
                         <Select disabled={isEdit} style={{ width: 220 }} options={userList} />
                     </Form.Item>
                 </FormFlexBox>
-                <div>其他设置</div>
+                <div>{t('common.otherSet')}</div>
                 <OtherConfigItem>
                     <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
                     <FormFlexBox>
@@ -189,33 +265,83 @@ const DevspaceForm = ({
                 {showLimit && (
                     <LimitWrap>
                         <Divide />
-                        <LimitTitle>DevSpace 资源限制</LimitTitle>
+                        <LimitTitle>{t('resources.space.devspaceLimitTitle')}</LimitTitle>
                         <FormFlexBox>
-                            <Form.Item label={t('resources.space.fields.requestTotalMem')}>
+                            <Form.Item
+                                name="space_req_mem"
+                                label={t('resources.space.fields.requestTotalMem')}
+                            >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={t('resources.space.fields.limitTotalMem')}>
+                            <Form.Item
+                                name="space_limits_mem"
+                                label={t('resources.space.fields.limitTotalMem')}
+                            >
                                 <Input />
                             </Form.Item>
                         </FormFlexBox>
                         <FormFlexBox>
-                            <Form.Item label={t('resources.space.fields.requestTotalCPU')}>
+                            <Form.Item
+                                name="space_req_cpu"
+                                label={t('resources.space.fields.requestTotalCPU')}
+                            >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={t('resources.space.fields.limitTotalCPU')}>
+                            <Form.Item
+                                name="space_limits_cpu"
+                                label={t('resources.space.fields.limitTotalCPU')}
+                            >
                                 <Input />
                             </Form.Item>
                         </FormFlexBox>
                         <FormFlexBox>
-                            <Form.Item label={t('resources.space.fields.PVC_num')}>
+                            <Form.Item
+                                name="space_pvc_count"
+                                label={t('resources.space.fields.PVC_num')}
+                            >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={t('resources.space.fields.storageCapacity')}>
+                            <Form.Item
+                                name="space_storage_capacity"
+                                label={t('resources.space.fields.storageCapacity')}
+                            >
                                 <Input />
                             </Form.Item>
                         </FormFlexBox>
                         <FormFlexBox>
-                            <Form.Item label={t('resources.space.fields.lbNum')}>
+                            <Form.Item
+                                name="space_lb_count"
+                                label={t('resources.space.fields.lbNum')}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </FormFlexBox>
+                        <LimitTitle>{t('resources.space.containerDefaultTitle')}</LimitTitle>
+                        <FormFlexBox>
+                            <Form.Item
+                                name="container_limits_cpu"
+                                label={t('resources.space.fields.requestTotalMem')}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item
+                                name="container_limits_mem"
+                                label={t('resources.space.fields.limitTotalMem')}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </FormFlexBox>
+                        <FormFlexBox>
+                            <Form.Item
+                                name="container_req_cpu"
+                                label={t('resources.space.fields.requestTotalCPU')}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item
+                                name="container_req_mem"
+                                label={t('resources.space.fields.limitTotalCPU')}
+                            >
                                 <Input />
                             </Form.Item>
                         </FormFlexBox>

@@ -34,6 +34,7 @@
     },
     "common": {
         "operation": "操作",
+        "otherSet": "其他设置",
         "info": {
             "logout": "退出登录",
             "language": "语言"

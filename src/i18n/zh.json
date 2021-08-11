@@ -4,6 +4,7 @@
         "theme": {
             "name": "主题"
         },
+        "nothing": "抱歉，您请求的页面暂时无法打开，请稍后再试！",
         "layout": {
             "menu": {
                 "home": "Nocalhost",

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login';
+import NothingPage from './pages/NothingPage';
 import { UserContext, reducer, initState } from './provider/appContext';
 import './i18n/i18n';
 const theme1 = {
@@ -18,7 +19,12 @@ function App() {
                     <Switch>
                         <Route exact path="/login" component={Login} />
                         <Route path="/dashboard" component={Home} />
-                        <Route path="*" render={() => <Redirect to={{ pathname: '/login' }} />} />
+                        <Route
+                            exact
+                            path="/"
+                            render={() => <Redirect to={{ pathname: '/dashboard/overview' }} />}
+                        />
+                        <Route path="*" component={NothingPage} />
                     </Switch>
                     {/* <Route  component={NoMatch} /> */}
                 </BrowserRouter>

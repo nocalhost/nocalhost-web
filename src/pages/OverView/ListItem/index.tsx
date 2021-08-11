@@ -2,6 +2,7 @@ import React from 'react';
 import { List, H, I, Flex, Name } from './style-components';
 import { Row, Col } from 'antd';
 import Icon from '@ant-design/icons';
+import { useHistory } from 'react-router';
 import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +19,9 @@ export function ListItem(props: PropsType) {
     const item = props.item;
     const infoParse = JSON.parse(item?.info || '{}');
     const time = moment(item.created_at).format('YYYY-MM-DD hh:mm:ss');
+    const history = useHistory();
     return (
-        <List>
+        <List onClick={() => history.push('/dashboard/clusters')}>
             <Row gutter={20}>
                 <Col span={6}>
                     <Flex>

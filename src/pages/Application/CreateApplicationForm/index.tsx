@@ -69,7 +69,7 @@ function CreateApplicationForm(props: PropsType) {
             resource_dir: values.source === 'git' ? resourceDirList : [],
         });
         if (isEdit) {
-            const result = await HTTP.put(`/application/${props?.formData?.id}`, {
+            const result = await HTTP.put(`application/${props?.formData?.id}`, {
                 context,
                 status: 1,
             });
@@ -78,7 +78,7 @@ function CreateApplicationForm(props: PropsType) {
                 props.onOk();
             }
         } else {
-            const result = await HTTP.post(`/application`, {
+            const result = await HTTP.post(`application`, {
                 context,
                 status: 1,
             });

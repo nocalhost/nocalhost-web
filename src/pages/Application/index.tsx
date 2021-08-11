@@ -75,7 +75,7 @@ function Application() {
 
     const handleDelete = async (id: string) => {
         if (type === 'public' || type === 'private') {
-            const result = await HTTP.put(`/application/${id}/public`, {
+            const result = await HTTP.put(`application/${id}/public`, {
                 public: type === 'public' ? 1 : 0,
             });
             if (result.code === 0) {
@@ -84,7 +84,7 @@ function Application() {
                 setDeleteModalShow(false);
             }
         } else {
-            const result = await HTTP.delete(`/application/${id}`);
+            const result = await HTTP.delete(`application/${id}`);
             if (result.code === 0) {
                 message.success(t('common.message.delete'));
                 getApplication();

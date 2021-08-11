@@ -64,7 +64,7 @@ function CreateUserForm(props: PropsType) {
     };
     const onFinish = async () => {
         if (isEdit) {
-            const result = await HTTP.put(`/users/${props?.formData?.id}`, {
+            const result = await HTTP.put(`users/${props?.formData?.id}`, {
                 ...values,
             });
             if (result.code === 0) {
@@ -72,7 +72,7 @@ function CreateUserForm(props: PropsType) {
                 message.success(t('common.message.edit'));
             }
         } else {
-            const result = await HTTP.post(`/users`, {
+            const result = await HTTP.post(`users`, {
                 ...values,
             });
             if (result.code === 0) {

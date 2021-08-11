@@ -1,4 +1,4 @@
-# # build environment
+# build environment
 FROM node:12.18.1-alpine as build
 WORKDIR /app
 ARG GIT_COMMIT_SHA
@@ -10,8 +10,10 @@ COPY . ./
 RUN yarn build
 
 # production environment
-FROM nginx:latest
+FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
+RUN rm /etc/nginx/nginx.conf
+ADD ./nginx.conf /etc/nginx
 WORKDIR /usr/share/nginx/html
 ARG --from=build GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA $GIT_COMMIT_SHA

@@ -258,7 +258,11 @@ function MainHeader() {
             {dialogType === DIALOG_TYPE.USER && (
                 <Dialog
                     visible={dialogType === DIALOG_TYPE.USER}
-                    title={t('resources.users.bt.add')}
+                    title={
+                        Object.prototype.hasOwnProperty.call(formData || {}, 'id')
+                            ? t('resources.profile.name')
+                            : t('resources.users.bt.add')
+                    }
                     width={680}
                     onCancel={() => setDialogType('')}
                 >

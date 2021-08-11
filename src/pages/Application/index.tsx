@@ -329,7 +329,11 @@ function Application() {
             {openDialog && (
                 <Dialog
                     visible={openDialog}
-                    title={t('resources.application.bt.add')}
+                    title={
+                        Object.prototype.hasOwnProperty.call(formData || {}, 'id')
+                            ? t('resources.application.bt.edit')
+                            : t('resources.application.bt.add')
+                    }
                     width={680}
                     onCancel={() => {
                         setFormData({});

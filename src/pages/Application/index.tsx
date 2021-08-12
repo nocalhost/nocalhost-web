@@ -35,10 +35,14 @@ import { ReactComponent as IconCopy } from '../../images/icon/icon_btn_normal_co
 import { ReactComponent as IconPrivate } from '../../images/icon/icon_label_private.svg';
 import { SelectValue } from './const';
 import { UserContext } from '../../provider/appContext';
+import NotData from '../../components/NotData';
+import SearchNotData from '../../components/SearchNotData';
+
 function Application() {
     const [data, setData] = useState([]);
     const [copyData, setCopyData] = useState([]);
     const [userList, setUserList] = useState([]);
+    const [tableLoading, setTableLoading] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [filterValue, setFilterValue] = useState({ name: '', type: 'all' });
     const [deleteModalShow, setDeleteModalShow] = useState(false);
@@ -55,11 +59,13 @@ function Application() {
         }
     };
     const getApplication = async () => {
+        setTableLoading(true);
         const result = await HTTP.get('application', {
             filter: {},
             range: [0, 9],
             sort: ['id', 'ASC'],
         });
+        setTableLoading(false);
         if (result.code === 0) {
             setData(result.data || []);
             setCopyData(result.data || []);
@@ -329,7 +335,11 @@ function Application() {
             {openDialog && (
                 <Dialog
                     visible={openDialog}
-                    title={t('resources.application.bt.add')}
+                    title={
+                        Object.prototype.hasOwnProperty.call(formData || {}, 'id')
+                            ? t('resources.application.bt.edit')
+                            : t('resources.application.bt.add')
+                    }
                     width={680}
                     onCancel={() => {
                         setFormData({});
@@ -374,19 +384,28 @@ function Application() {
                     </Button>
                 </TableHeader>
                 <TableWrap>
-                    <Table
-                        tableLayout="fixed"
-                        scroll={{ x: '100%' }}
-                        pagination={{
-                            position: ['bottomCenter'],
-                            showTotal: showTotal,
-                        }}
-                        dataSource={data.map((item: any) => {
-                            item.key = item.id;
-                            return item;
-                        })}
-                        columns={columns}
-                    />
+                    {data.length === 0 && !tableLoading ? (
+                        !filterValue.name ? (
+                            <NotData></NotData>
+                        ) : (
+                            <SearchNotData></SearchNotData>
+                        )
+                    ) : (
+                        <Table
+                            tableLayout="fixed"
+                            loading={tableLoading}
+                            scroll={{ x: '100%' }}
+                            pagination={{
+                                position: ['bottomCenter'],
+                                showTotal: showTotal,
+                            }}
+                            dataSource={data.map((item: any) => {
+                                item.key = item.id;
+                                return item;
+                            })}
+                            columns={columns}
+                        />
+                    )}
                 </TableWrap>
             </TableBox>
         </div>

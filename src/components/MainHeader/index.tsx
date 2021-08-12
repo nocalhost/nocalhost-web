@@ -42,22 +42,40 @@ import { ReactComponent as IconColorDoc } from '../../images/icon/icon_btn_elect
 import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_docs.svg';
 import { ReactComponent as IconNormalUser } from '../../images/icon/icon_normal_users.svg';
 import { ReactComponent as IconNormalApplications } from '../../images/icon/icon_normal_applications.svg';
+import { ReactComponent as IconNormalCluster } from '../../images/icon/icon_normal_clusters.svg';
+import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
 import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
+import AddCluster from '../../components/AddCluster';
+import DevspaceForm from '../../pages/DevSpace/components/DevspaceForm';
+import { queryAllUser, queryAllCluster } from '../../services';
 const DIALOG_TYPE = {
     USER: 'user',
     APPLICATION: 'application',
+    CLUSTERS: 'clusters',
+    DEVSPACES: 'devspaces',
 };
+
+interface SelectMap {
+    text: any;
+    value: any;
+    label?: any;
+}
 
 function MainHeader() {
     const { user } = useContext(UserContext);
     const [formData, setFormData] = useState({});
     const [dialogType, setDialogType] = useState('');
     const { i18n, t } = useTranslation();
+    const [userList, setUserList] = useState<SelectMap[]>([]);
+    const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
     };
     const handleOkApplicationForm = () => {
+        setDialogType('');
+    };
+    const handleOkClusterForm = () => {
         setDialogType('');
     };
     const signOut = () => {
@@ -68,6 +86,35 @@ function MainHeader() {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('refreshToken');
     };
+    const handleOkDevSpaveForm = () => {
+        setDialogType('');
+    };
+    async function query() {
+        if (userList.length === 0) {
+            const nameMap = await queryAllUser();
+            setUserList(
+                Array.from(nameMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                })
+            );
+        }
+        if (clusterList.length === 0) {
+            const clusterMap = await queryAllCluster();
+            setClusterList(
+                Array.from(clusterMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                })
+            );
+        }
+    }
     return (
         <MainContent>
             <FlexBetween>
@@ -104,6 +151,29 @@ function MainHeader() {
                                     ></Icon>
                                     <Label>{t('resources.application.add')}</Label>
                                 </AvatarItem>
+                                {!!user.is_admin && (
+                                    <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.CLUSTERS)}>
+                                        <Icon
+                                            component={IconNormalCluster}
+                                            style={{ fontSize: '20px' }}
+                                        ></Icon>
+                                        <Label>{t('resources.cluster.add')}</Label>
+                                    </AvatarItem>
+                                )}
+                                {!!user.is_admin && (
+                                    <AvatarItem
+                                        onClick={() => {
+                                            query();
+                                            setDialogType(DIALOG_TYPE.DEVSPACES);
+                                        }}
+                                    >
+                                        <Icon
+                                            component={IconNormalDevspace}
+                                            style={{ fontSize: '20px' }}
+                                        ></Icon>
+                                        <Label>{t('resources.space.actions.create')}</Label>
+                                    </AvatarItem>
+                                )}
                             </>
                         }
                     >
@@ -258,7 +328,11 @@ function MainHeader() {
             {dialogType === DIALOG_TYPE.USER && (
                 <Dialog
                     visible={dialogType === DIALOG_TYPE.USER}
-                    title={t('resources.users.bt.add')}
+                    title={
+                        Object.prototype.hasOwnProperty.call(formData || {}, 'id')
+                            ? t('resources.profile.name')
+                            : t('resources.users.bt.add')
+                    }
                     width={680}
                     onCancel={() => setDialogType('')}
                 >
@@ -280,6 +354,24 @@ function MainHeader() {
                         onOk={handleOkApplicationForm}
                         onCancel={() => setDialogType('')}
                     ></CreateApplicationForm>
+                </Dialog>
+            )}
+            {dialogType === DIALOG_TYPE.CLUSTERS && (
+                <AddCluster onCancel={() => setDialogType('')} onSubmit={handleOkClusterForm} />
+            )}
+            {dialogType === DIALOG_TYPE.DEVSPACES && (
+                <Dialog
+                    visible={dialogType === DIALOG_TYPE.DEVSPACES}
+                    title={t('resources.space.actions.createDev')}
+                    width={680}
+                    onCancel={() => setDialogType('')}
+                >
+                    <DevspaceForm
+                        userList={userList}
+                        clusterList={clusterList}
+                        onSubmit={handleOkDevSpaveForm}
+                        onCancel={() => setDialogType('')}
+                    />
                 </Dialog>
             )}
         </MainContent>

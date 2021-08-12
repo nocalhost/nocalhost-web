@@ -347,6 +347,11 @@ const EnvList = () => {
         setFilterList(tmp);
     }
 
+    function handleSearchCluster(value: string) {
+        const tmp = spaceList.filter((item: any) => item.cluster_id === value);
+        setFilterList(tmp);
+    }
+
     function handleSearchUser(value: any) {
         const tmp = spaceList.filter((item: any) => item.user_id === value);
         setFilterList(tmp);
@@ -398,7 +403,10 @@ const EnvList = () => {
             <ContentWrap>
                 <ContentTitle>
                     <SearchBox>
-                        <TableSearchInput onConfirm={handleSearchInput} />
+                        <TableSearchInput
+                            placeholder={t('resources.devSpace.tips.searchSpaceName')}
+                            onConfirm={handleSearchInput}
+                        />
                         <LabelSelect
                             style={{ marginRight: 12 }}
                             label={t('resources.space.fields.space_type')}
@@ -410,7 +418,7 @@ const EnvList = () => {
                                 style={{ marginRight: 12 }}
                                 label={t('resources.cluster.name')}
                                 option={clusterList}
-                                onChange={handleSearchInput}
+                                onChange={handleSearchCluster}
                             />
                         )}
                         <LabelSelect

@@ -147,22 +147,18 @@ const DevspaceOperation = () => {
                 : {
                       cooperators: [user_id],
                   };
-        try {
-            const response = await HTTP.post(
-                'dev_space/share',
-                {
-                    cluster_user_id: id,
-                    ...options,
-                },
-                {
-                    is_v2: true,
-                }
-            );
-            if (response.code === 0) {
-                message.success('operate success!');
+        const response = await HTTP.post(
+            'dev_space/share',
+            {
+                cluster_user_id: id,
+                ...options,
+            },
+            {
+                is_v2: true,
             }
-        } catch (e) {
-            console.log(e);
+        );
+        if (response.code === 0) {
+            message.success('operate success!');
         }
     }
 
@@ -171,31 +167,27 @@ const DevspaceOperation = () => {
     }, []);
 
     async function queryDetail() {
-        try {
-            const response = await HTTP.get(
-                'dev_space/detail',
-                { cluster_user_id: id },
-                { is_v2: true }
-            );
-            let { cooper_user, viewer_user } = response.data[0];
-            cooper_user = cooper_user.map((item: any) => {
-                return {
-                    ...item,
-                    shareType: 'Cooperator',
-                };
-            });
-            viewer_user = viewer_user.map((item: any) => {
-                return {
-                    ...item,
-                    shareType: 'Viewer',
-                };
-            });
-            const tmpList = cooper_user.concat(viewer_user);
-            setUserList(tmpList);
-            setFilterList(tmpList);
-        } catch (e) {
-            console.log(e);
-        }
+        const response = await HTTP.get(
+            'dev_space/detail',
+            { cluster_user_id: id },
+            { is_v2: true }
+        );
+        let { cooper_user, viewer_user } = response.data[0];
+        cooper_user = cooper_user.map((item: any) => {
+            return {
+                ...item,
+                shareType: 'Cooperator',
+            };
+        });
+        viewer_user = viewer_user.map((item: any) => {
+            return {
+                ...item,
+                shareType: 'Viewer',
+            };
+        });
+        const tmpList = cooper_user.concat(viewer_user);
+        setUserList(tmpList);
+        setFilterList(tmpList);
     }
 
     const handleSearch = (value: string) => {
@@ -213,23 +205,19 @@ const DevspaceOperation = () => {
 
     const handleCancelShare = async (users?: any) => {
         // cancel share
-        try {
-            const response = await HTTP.post(
-                'dev_space/unshare',
-                {
-                    cluster_user_id: id,
-                    users: users || selectedList,
-                },
-                {
-                    is_v2: true,
-                }
-            );
-            if (response.code === 0) {
-                queryDetail();
-                message.success('resources.devSpace.tips.unShareSuccess');
+        const response = await HTTP.post(
+            'dev_space/unshare',
+            {
+                cluster_user_id: id,
+                users: users || selectedList,
+            },
+            {
+                is_v2: true,
             }
-        } catch (e) {
-            console.log(e);
+        );
+        if (response.code === 0) {
+            queryDetail();
+            message.success('resources.devSpace.tips.unShareSuccess');
         }
     };
 

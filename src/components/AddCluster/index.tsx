@@ -61,34 +61,26 @@ const AddCluster = (props: IProps) => {
 
     const addCluster = async (data: any) => {
         const { name, kubeconfig, storage_class } = data;
-        try {
-            const response = await HTTP.post('cluster', {
-                name,
-                kubeconfig: Base64.encode(kubeconfig),
-                storage_class: storage_class === 'default' ? '' : storage_class,
-            });
-            if (response.code === 0) {
-                message.success(t('resources.cluster.tips.addSuccess'));
-                onSubmit();
-            }
-        } catch (e) {
-            console.log(e);
+        const response = await HTTP.post('cluster', {
+            name,
+            kubeconfig: Base64.encode(kubeconfig),
+            storage_class: storage_class === 'default' ? '' : storage_class,
+        });
+        if (response.code === 0) {
+            message.success(t('resources.cluster.tips.addSuccess'));
+            onSubmit();
         }
     };
 
     const editCluster = async (data: any) => {
         const { storage_class } = data;
-        try {
-            const response = await HTTP.put(`cluster/${record?.id}`, {
-                ...record,
-                storage_class: storage_class === 'default' ? '' : storage_class,
-            });
-            if (response.code === 0) {
-                message.success(t('resources.cluster.tips.editSuccess'));
-                onSubmit();
-            }
-        } catch (e) {
-            console.log(e);
+        const response = await HTTP.put(`cluster/${record?.id}`, {
+            ...record,
+            storage_class: storage_class === 'default' ? '' : storage_class,
+        });
+        if (response.code === 0) {
+            message.success(t('resources.cluster.tips.editSuccess'));
+            onSubmit();
         }
     };
 

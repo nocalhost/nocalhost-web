@@ -121,7 +121,7 @@ const DevspaceForm = ({
                     limitObj = obj;
                 }
             } catch (e) {
-                console.log(e);
+                limitObj = {};
             }
 
             setIsAdmin(Boolean(cluster_admin));
@@ -225,7 +225,7 @@ const DevspaceForm = ({
                 }
             }
         } catch (e) {
-            console.log(e);
+            throw new Error(e);
         }
     };
 

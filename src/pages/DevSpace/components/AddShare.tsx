@@ -126,7 +126,6 @@ const AddShare = ({
             };
         });
         setShareList(tmpList);
-        console.log('handleShareChange: ', value, user_id);
     };
 
     const handleAddShare = async () => {
@@ -147,7 +146,6 @@ const AddShare = ({
             message.success(t('resources.devSpace.tips.addShareSuccess'));
             onSubmit();
         }
-        console.log(response);
     };
 
     return (

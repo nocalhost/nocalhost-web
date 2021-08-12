@@ -379,7 +379,8 @@
                 "deleteContent": "Deleting the development space will delete all resources in the {{name}} namespace.",
                 "resetTitle": "Are you sure you want to reset the development space?",
                 "resetContent": "Resetting the development space will delete all resources in the {{name}} namespace and rebuild.",
-                "selected": "{{Count}} selected"
+                "selected": "{{Count}} selected",
+                "searchSpaceName": "Search development space name"
             }
         },
         "myDevSpace": {

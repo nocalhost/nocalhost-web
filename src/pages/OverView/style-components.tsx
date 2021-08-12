@@ -65,14 +65,10 @@ export const I = styled.div`
     top: -18px;
 `;
 
-export const Water = styled.div`
+export const Water = styled.img`
     position: absolute;
     right: 0px;
     top: 0px;
-    color: rgb(54, 67, 92);
-    font-size: 48px;
-    font-weight: bold;
-    opacity: 0.03;
     height: 70px;
 `;
 
@@ -89,7 +85,7 @@ export const Dot = styled.div`
 
 export const IconBox = styled.div`
     position: relative;
-    top: 8px;
+    /* top: 8px; */
 `;
 
 export const SvgIcon = styled.img`

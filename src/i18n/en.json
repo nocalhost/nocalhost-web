@@ -56,6 +56,8 @@
             "logout": "Sign out",
             "language": "Language"
         },
+        "noSearch": "No relevant results were found",
+        "noData": "No Data",
         "select": {
             "all": "All"
         }

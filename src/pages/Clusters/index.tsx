@@ -9,7 +9,7 @@ import AddCluster from '../../components/AddCluster';
 import { PlusOutlined } from '@ant-design/icons';
 import { queryAllUser } from '../../services';
 import { useTranslation } from 'react-i18next';
-
+import NotData from '../../components/NotData';
 const Clusters: FC<{}> = () => {
     const [clusterList, setClusterList] = useState([]);
     const [showAdd, setShowAdd] = useState<boolean>(false);
@@ -53,9 +53,17 @@ const Clusters: FC<{}> = () => {
                         {i18n.t('resources.cluster.add')}
                     </Button>
                 </ContentTitle>
-                {clusterList.map((item, index) => {
-                    return <ListItem onSubmit={onSubmit} key={index} data={item} />;
-                })}
+                <div>
+                    {clusterList.length === 0 ? (
+                        <NotData></NotData>
+                    ) : (
+                        <>
+                            {clusterList.map((item, index) => {
+                                return <ListItem onSubmit={onSubmit} key={index} data={item} />;
+                            })}
+                        </>
+                    )}
+                </div>
             </div>
             {showAdd && <AddCluster onCancel={() => setShowAdd(false)} onSubmit={onSubmit} />}
         </div>

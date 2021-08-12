@@ -29,8 +29,12 @@ import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
 import { SelectValue, UserType } from './const';
 import { UserContext } from '../../provider/appContext';
+import NotData from '../../components/NotData';
+import SearchNotData from '../../components/SearchNotData';
+
 function User() {
     const [data, setData] = useState([]);
+    const [tableLoading, setTableLoading] = useState(false);
     const [copyData, setCopyData] = useState([]);
     const [filterValue, setFilterValue] = useState({ name: '', type: 'all' });
     const [openDialog, setOpenDialog] = useState(false);
@@ -40,11 +44,13 @@ function User() {
     const { user } = useContext(UserContext);
     const { t } = useTranslation();
     const getUser = async () => {
+        setTableLoading(true);
         const result = await HTTP.get('users', {
             filter: {},
             range: [0, 9],
             sort: ['id', 'ASC'],
         });
+        setTableLoading(false);
         setData(result.data || []);
         setCopyData(result.data || []);
     };
@@ -283,18 +289,27 @@ function User() {
                     </Button>
                 </TableHeader>
                 <TableWrap>
-                    <Table
-                        scroll={{ x: '100%' }}
-                        pagination={{
-                            position: ['bottomCenter'],
-                            showTotal: showTotal,
-                        }}
-                        dataSource={data.map((item: any) => {
-                            item.key = item.id;
-                            return item;
-                        })}
-                        columns={columns}
-                    />
+                    {data.length === 0 && !tableLoading ? (
+                        !filterValue.name ? (
+                            <NotData></NotData>
+                        ) : (
+                            <SearchNotData></SearchNotData>
+                        )
+                    ) : (
+                        <Table
+                            scroll={{ x: '100%' }}
+                            loading={tableLoading}
+                            pagination={{
+                                position: ['bottomCenter'],
+                                showTotal: showTotal,
+                            }}
+                            dataSource={data.map((item: any) => {
+                                item.key = item.id;
+                                return item;
+                            })}
+                            columns={columns}
+                        />
+                    )}
                 </TableWrap>
             </TableBox>
         </div>

@@ -6,6 +6,10 @@ import { useTranslation } from 'react-i18next';
 import IconColorUser from '../../images/icon/icon_color_users.svg';
 import IconColorApplications from '../../images/icon/icon_color_applications.svg';
 import IconColorDevspace from '../../images/icon/icon_color_devspace.svg';
+import UserWater from '../../images/icon/Users.svg';
+import ApplicationWater from '../../images/icon/Applications.svg';
+import ClusterWater from '../../images/icon/Cluster.svg';
+import DevSpaceWater from '../../images/icon/DevSpace.svg';
 import HTTP from '../../api/fetch';
 import { ClusterItemType } from './type';
 import {
@@ -61,8 +65,8 @@ function Overview() {
                 <Row gutter={20}>
                     <Col span={8}>
                         <Card>
-                            <Water>Users</Water>
-                            <H mb="4px">{t('resources.users.name')}</H>
+                            <Water src={UserWater}></Water>
+                            <H mb="30px">{t('resources.users.name')}</H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
@@ -77,8 +81,8 @@ function Overview() {
                     </Col>
                     <Col span={8}>
                         <Card>
-                            <Water>Application</Water>
-                            <H mb="4px">{t('resources.application.name')}</H>
+                            <Water src={ApplicationWater}></Water>
+                            <H mb="30px">{t('resources.application.name')}</H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
@@ -93,8 +97,8 @@ function Overview() {
                     </Col>
                     <Col span={8}>
                         <Card>
-                            <Water>DevSpace</Water>
-                            <H mb="4px">{t('resources.space.name')}</H>
+                            <Water src={DevSpaceWater}></Water>
+                            <H mb="30px">{t('resources.space.name')}</H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
@@ -113,6 +117,7 @@ function Overview() {
                         <Flex mb="24px">
                             <H>{t('resources.cluster.name')}</H>
                             <Dot>{clusterData.length}</Dot>
+                            <Water src={ClusterWater}></Water>
                         </Flex>
                         {clusterData.map((item: ClusterItemType) => (
                             <ListItem

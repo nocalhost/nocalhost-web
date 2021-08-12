@@ -40,6 +40,8 @@
             "logout": "退出登录",
             "language": "语言"
         },
+        "noSearch": "未搜索到相关结果",
+        "noData": "暂无数据",
         "message": {
             "add": "新增成功",
             "edit": "修改成功",

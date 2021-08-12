@@ -251,6 +251,7 @@ const DevspaceOperation = () => {
                                     style={{
                                         display: 'flex',
                                         justifyItems: 'center',
+                                        alignItems: 'center',
                                         marginRight: 12,
                                     }}
                                     icon={
@@ -263,10 +264,15 @@ const DevspaceOperation = () => {
                                     {t('resources.devSpace.cancelShare')}
                                 </Button>
                                 <Button
-                                    style={{ display: 'flex', justifyItems: 'center' }}
+                                    style={{
+                                        display: 'flex',
+                                        justifyItems: 'center',
+                                        alignItems: 'center',
+                                    }}
                                     icon={
                                         <IconAddPerson
-                                            style={{ color: '#ffffff', marginRight: 8 }}
+                                            className="add-btn"
+                                            style={{ fill: '#ffffff', marginRight: 8 }}
                                         />
                                     }
                                     type="primary"

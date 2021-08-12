@@ -24,10 +24,17 @@ const ContentPanel = styled.div`
     flex-basis: 50%;
     padding: 12px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 
     &:nth-child(1) {
         border-right: 1px solid #dae1e8;
     }
+`;
+
+const UserList = styled.div`
+    flex: 1;
+    overflow: scroll;
 `;
 
 const ListItem = styled.li`
@@ -40,6 +47,13 @@ const TitleBox = styled.div`
     padding: 12px 0;
     font-size: 14px;
     color: #79879c;
+`;
+
+const SelectedTitle = styled.div`
+    color: rgb(121, 135, 156);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: normal;
 `;
 
 interface UserInfoItem {
@@ -60,6 +74,7 @@ const AddShare = ({
 }) => {
     const { t } = useTranslation();
     const [userList, setUsersList] = useState<UserInfoItem[]>([]);
+    const [filterList, setFilterList] = useState<UserInfoItem[]>([]);
     const [selectedUserList, setSelectedUserList] = useState<UserInfoItem[]>([]);
     const [shareList, setShareList] = useState<UserInfoItem[]>([]);
 
@@ -76,15 +91,18 @@ const AddShare = ({
             };
         });
         setUsersList(list);
+        setFilterList(list);
     }
 
-    const handleSearch = () => {
-        console.log('search');
+    const handleSearch = (value: string) => {
+        const tmpList = userList.filter(
+            (item) => item.user_name.toLowerCase().indexOf(value.toLowerCase()) > -1
+        );
+        setFilterList(tmpList);
     };
 
     const handleSelect = (checkedValues: any) => {
-        console.log(checkedValues);
-        const tmpList = userList.filter((item: any) => checkedValues.includes(item.user_id));
+        const tmpList = filterList.filter((item: any) => checkedValues.includes(item.user_id));
         setSelectedUserList(tmpList);
         setShareList(
             tmpList.map((item) => {
@@ -148,32 +166,48 @@ const AddShare = ({
                             {t('resources.devSpace.tips.unShareUsers')}
                             <span>{userList.length}</span>
                         </TitleBox>
-                        <Checkbox.Group onChange={handleSelect}>
-                            {userList.map((item: any) => {
+                        <UserList>
+                            <Checkbox.Group onChange={handleSelect}>
+                                {filterList.map((item: any) => {
+                                    return (
+                                        <Row key={item.user_id}>
+                                            <Checkbox value={item.user_id}>
+                                                <Icon
+                                                    component={IconProfile}
+                                                    style={{ fontSize: 20, marginRight: 8 }}
+                                                />
+                                                {item.user_name}
+                                            </Checkbox>
+                                        </Row>
+                                    );
+                                })}
+                            </Checkbox.Group>
+                        </UserList>
+                    </ContentPanel>
+                    <ContentPanel style={{ overflow: 'scroll' }}>
+                        <SelectedTitle>
+                            {t('resources.devSpace.tips.selected', {
+                                count: selectedUserList.length,
+                            })}
+                        </SelectedTitle>
+                        <ul>
+                            {selectedUserList.map((item) => {
                                 return (
-                                    <Row key={item.user_id}>
-                                        <Checkbox value={item.user_id}>
+                                    <ListItem key={item.user_id}>
+                                        <div
+                                            style={{
+                                                minWidth: 108,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
                                             <Icon
                                                 component={IconProfile}
                                                 style={{ fontSize: 20, marginRight: 8 }}
                                             />
                                             {item.user_name}
-                                        </Checkbox>
-                                    </Row>
-                                );
-                            })}
-                        </Checkbox.Group>
-                    </ContentPanel>
-                    <ContentPanel>
-                        <ul>
-                            {selectedUserList.map((item) => {
-                                return (
-                                    <ListItem key={item.user_id}>
-                                        <Icon
-                                            component={IconProfile}
-                                            style={{ fontSize: 20, marginRight: 8 }}
-                                        />
-                                        {item.user_name}
+                                        </div>
+
                                         <ShareType
                                             user_id={item.user_id}
                                             onChange={handleShareChange}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Modal, Button, message, Select } from 'antd';
 import HTTP from '../../../api/fetch';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { UserContext } from '../../../provider/appContext';
 
 const BtnBox = styled.div`
     margin-top: 20px;
@@ -16,24 +17,44 @@ const BtnBox = styled.div`
 
 interface PropParam {
     onCancel: () => void;
-    id: any;
+    record: any;
 }
 
 const KubeConfig = (props: PropParam) => {
-    const { onCancel, id } = props;
+    const { onCancel, record } = props;
 
+    const { user } = useContext(UserContext);
+    console.log(user);
+
+    let shareList: any = [];
+    shareList = shareList.concat(record.cooper_user).concat(record.viewer_user);
+    shareList = shareList.map((item: any) => {
+        return {
+            label: item.name,
+            value: item.id,
+        };
+    });
     const { t } = useTranslation();
-
     const [kubeConfig, setKubeConfig] = useState<string>('');
 
     useEffect(() => {
-        queryDetail(id);
+        queryDetail(record.id);
     }, []);
 
     async function queryDetail(id: any) {
-        const response = await HTTP.get(`dev_space/${id}/detail`);
-        setKubeConfig(response.data.kubeconfig);
+        try {
+            const response = await HTTP.get(`dev_space/${id}/detail`);
+            if (response.code === 0) {
+                setKubeConfig(response.data.kubeconfig);
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
+
+    const handleChange = (value: any) => {
+        queryDetail(value);
+    };
 
     const handleCopy = () => {
         // copy
@@ -45,7 +66,12 @@ const KubeConfig = (props: PropParam) => {
                 <div>{kubeConfig}</div>
                 <BtnBox>
                     <div>
-                        <Select style={{ width: 200 }}></Select>
+                        <Select
+                            disabled={!user.is_admin}
+                            onChange={handleChange}
+                            options={shareList}
+                            style={{ width: 200 }}
+                        ></Select>
                     </div>
                     <div>
                         <CopyToClipboard text={kubeConfig} onCopy={handleCopy}>

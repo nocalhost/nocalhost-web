@@ -51,10 +51,15 @@ export const OverflowItem = styled.div`
     text-overflow: ellipsis;
 `;
 
-export const SpaceTypeItem = styled.div`
+export const SpaceTypeItem = styled.div<{ name: String | undefined }>`
+    display: inline-flex;
+    padding: 0 8px;
+    height: 22px;
+    align-items: center;
+    border-radius: 12px;
     font-size: 12px;
-    box-shadow: inset 0 -1px 0 0 rgb(243, 246, 250);
-    color: #0080ff;
+    color: ${(props) => (props.name === 'IsolateSpace' ? ' #f88600' : '#0080ff')};
+    background: ${(props) => (props.name === 'IsolateSpace' ? ' #ffe4c5' : '#c7e3ff')};
 `;
 
 // eslint-disable-next-line no-undef

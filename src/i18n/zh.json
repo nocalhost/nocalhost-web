@@ -377,7 +377,8 @@
                 "deleteTitle": "你确认要删除开发空间？",
                 "deleteContent": "删除开发空间将删除「{{name}}」命名空间内的所有资源。",
                 "resetTitle": "你确认要重置开发空间？",
-                "resetContent": "重置开发空间将删除「{{name}}」命名空间内的所有资源，并重建。"
+                "resetContent": "重置开发空间将删除「{{name}}」命名空间内的所有资源，并重建。",
+                "selected": "已选 {{count}} 项"
             }
         },
         "myDevSpace": {

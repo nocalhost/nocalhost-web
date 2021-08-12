@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { ReactComponent as IconCooperation } from '../../../images/icon/icon_label_cooperator.svg';
 import { ReactComponent as IconViewer } from '../../../images/icon/icon_label_viewer.svg';
 
+import './index.less';
+
 const ContentWrap = styled.div`
     display: flex;
     align-items: center;
@@ -37,7 +39,7 @@ const ShareType = (props: PropParam) => {
         onChange(value, user_id);
     };
     return (
-        <ContentWrap>
+        <ContentWrap className="share-type">
             <Icon
                 component={currentType === 'Cooperator' ? IconCooperation : IconViewer}
                 style={{ fontSize: 20, marginRight: 8 }}

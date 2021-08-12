@@ -42,6 +42,8 @@ import { ReactComponent as IconCooperation } from '../../images/icon/icon_label_
 import { ReactComponent as IconViewer } from '../../images/icon/icon_label_viewer.svg';
 import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limits.svg';
 import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
+import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
+import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 
 interface RouteParams {
     id: string;
@@ -144,7 +146,19 @@ const EnvList = () => {
             title: t('resources.space.fields.space_type'),
             key: 'space_type',
             render: (text: string, record: any) => {
-                return <SpaceTypeItem>{record.space_type}</SpaceTypeItem>;
+                return (
+                    <SpaceTypeItem name={record.space_type}>
+                        <Icon
+                            component={
+                                record.space_type === 'IsolateSpace'
+                                    ? IconQuarantineSpace
+                                    : IconShareSpace
+                            }
+                            style={{ fontSize: 20, marginRight: 4 }}
+                        />
+                        {record.space_type}
+                    </SpaceTypeItem>
+                );
             },
         },
         {
@@ -260,6 +274,7 @@ const EnvList = () => {
     }
 
     const [spaceList, setSpaceList] = useState([]);
+    const [filterList, setFilterList] = useState([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -297,15 +312,15 @@ const EnvList = () => {
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
-        setSpaceList(
-            response.data.map((item: any) => {
-                return {
-                    ...item,
-                    user_name: nameMap.get(item.user_id),
-                    cluster_name: clusterMap.get(item.cluster_id),
-                };
-            })
-        );
+        const tmpList = response.data.map((item: any) => {
+            return {
+                ...item,
+                user_name: nameMap.get(item.user_id),
+                cluster_name: clusterMap.get(item.cluster_id),
+            };
+        });
+        setSpaceList(tmpList);
+        setFilterList(tmpList);
         setUserList(
             Array.from(nameMap).map((item) => {
                 return {
@@ -328,7 +343,13 @@ const EnvList = () => {
     }
 
     function handleSearchInput(value: string) {
-        console.log(value);
+        const tmp = spaceList.filter((item: any) => item.cluster_id === value);
+        setFilterList(tmp);
+    }
+
+    function handleSearchUser(value: any) {
+        const tmp = spaceList.filter((item: any) => item.user_id === value);
+        setFilterList(tmp);
     }
 
     function handleDelete(record: any) {
@@ -395,11 +416,11 @@ const EnvList = () => {
                         <LabelSelect
                             label={t('resources.space.fields.user')}
                             option={userList}
-                            onChange={handleSearchInput}
+                            onChange={handleSearchUser}
                         />
                     </SearchBox>
                     <FlexBox>
-                        <IconBox>
+                        <IconBox onClick={querySpaceList}>
                             <CommonIcon
                                 style={{ fontSize: '24px' }}
                                 NormalIcon={IconNormalRefresh}
@@ -418,9 +439,11 @@ const EnvList = () => {
                     </FlexBox>
                 </ContentTitle>
                 <Table
+                    style={{ padding: '0 10px' }}
                     tableLayout="fixed"
                     columns={columns}
-                    dataSource={spaceList}
+                    rowKey={(record) => record.id}
+                    dataSource={filterList}
                     pagination={{
                         position: ['bottomCenter'],
                         showTotal: showTotal,
@@ -444,7 +467,7 @@ const EnvList = () => {
                     />
                 </Modal>
             )}
-            {showKube && <KubeConfig id={record?.id} onCancel={() => setShowKube(false)} />}
+            {showKube && <KubeConfig record={record} onCancel={() => setShowKube(false)} />}
             {showDelete && (
                 <DeleteModal
                     onCancel={() => setShowDelete(false)}

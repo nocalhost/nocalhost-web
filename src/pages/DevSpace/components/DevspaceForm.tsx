@@ -54,7 +54,7 @@ const LimitWrap = styled.div`
 `;
 
 const LimitTitle = styled.div`
-    margin-top: 12px;
+    margin: 12px 0;
     color: rgb(54, 67, 92);
     font-family: PingFangSC-Semibold;
     font-size: 14px;
@@ -113,7 +113,12 @@ const DevspaceForm = ({
             let limitObj = {};
             try {
                 if (typeof space_resource_limit === 'string') {
-                    limitObj = JSON.parse(space_resource_limit);
+                    const tmpObj = JSON.parse(space_resource_limit);
+                    const obj: { [index: string]: any } = {};
+                    Object.keys(tmpObj).forEach((item) => {
+                        obj[item] = parseInt(tmpObj[item]);
+                    });
+                    limitObj = obj;
                 }
             } catch (e) {
                 console.log(e);
@@ -161,16 +166,22 @@ const DevspaceForm = ({
                 });
                 const limitResp = await HTTP.put(`dev_space/${record.id}/update_resource_limit`, {
                     container_limits_cpu,
-                    container_limits_mem,
+                    container_limits_mem: container_limits_mem
+                        ? `${container_limits_mem}Mi`
+                        : container_limits_mem,
                     container_req_cpu,
-                    container_req_mem,
+                    container_req_mem: container_req_mem
+                        ? `${container_req_mem}Mi`
+                        : container_req_mem,
                     space_lb_count,
                     space_limits_cpu,
-                    space_limits_mem,
+                    space_limits_mem: space_limits_mem ? `${space_limits_mem}Mi` : space_limits_mem,
                     space_pvc_count,
                     space_req_cpu,
-                    space_req_mem,
-                    space_storage_capacity,
+                    space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
+                    space_storage_capacity: space_storage_capacity
+                        ? `${space_storage_capacity}Gi`
+                        : space_storage_capacity,
                 });
                 if (response.code === 0 && limitResp.code === 0) {
                     message.success(t('common.message.edit'));
@@ -335,7 +346,7 @@ const DevspaceForm = ({
                                         <Input />
                                     </Form.Item>
                                 </FormFlexBox>
-                                <LimitTitle>
+                                <LimitTitle style={{ marginTop: 0 }}>
                                     {t('resources.space.containerDefaultTitle')}
                                 </LimitTitle>
                                 <FormFlexBox>

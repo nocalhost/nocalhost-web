@@ -366,9 +366,15 @@
                 "undeployed": "Not deployed"
             },
             "tips": {
-                "searchPlaceholder": "",
+                "searchPlaceholder": "Search user name...",
+                "addShareSuccess": "Added share successfully!",
                 "unShareSuccess": "Successfully canceled sharing",
-                "unShareUsers": "Unshared users"
+                "unShareUsers": "Unshared users",
+                "deleteTitle": "Are you sure you want to delete the development space?",
+                "deleteContent": "Deleting the development space will delete all resources in the {{name}} namespace.",
+                "resetTitle": "Are you sure you want to reset the development space?",
+                "resetContent": "Resetting the development space will delete all resources in the {{name}} namespace and rebuild.",
+                "selected": "{{Count}} selected"
             }
         },
         "myDevSpace": {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_quarantineSpace</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Icon、DropDown" transform="translate(-379.000000, -330.000000)" stroke="#F88600" stroke-width="1.5">
+            <g id="编组-21" transform="translate(379.000000, 330.000000)">
+                <path d="M10,16.5 C13.5898509,16.5 16.5,13.5898509 16.5,10 C16.5,8.19486691 15.7641643,6.56159747 14.5760824,5.38378137 C13.4014374,4.21928587 11.7847178,3.5 10,3.5 C6.41014913,3.5 3.5,6.41014913 3.5,10 C3.5,11.8239243 4.25123537,13.4723881 5.46116753,14.6528529 C6.63262594,15.795781 8.23407339,16.5 10,16.5 Z" id="椭圆形" stroke-dasharray="2" transform="translate(10.000000, 10.000000) rotate(-3.000000) translate(-10.000000, -10.000000) "></path>
+                <path d="M14.5760824,5.38378137 C13.4014374,4.21928587 11.7847178,3.5 10,3.5 C6.41014913,3.5 3.5,6.41014913 3.5,10 C3.5,11.8239243 4.25123537,13.4723881 5.46116753,14.6528529" id="路径" fill="#F88600"></path>
+                <line x1="16.5" y1="3.5" x2="3.5" y2="16.5" id="路径-2"></line>
+            </g>
+        </g>
+    </g>
+</svg>

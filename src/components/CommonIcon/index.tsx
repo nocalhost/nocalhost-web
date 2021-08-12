@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Tooltip } from 'antd';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 
 export const IconBox = styled.div`
     cursor: pointer;
@@ -36,6 +37,9 @@ interface PropsType {
 function CommonIcon(props: PropsType) {
     const { HoverIcon, NormalIcon, style, title, placement = 'top' } = props;
     const [isSelect, setIsSelect] = useState(false);
+    useEffect(() => {
+        setIsSelect(false);
+    }, [HoverIcon, NormalIcon]);
     return !HoverIcon ? (
         <Tooltip title={title} placement={placement}>
             <Icon component={NormalIcon} style={style}></Icon>

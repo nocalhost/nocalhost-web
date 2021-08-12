@@ -29,7 +29,8 @@
         },
         "action": {
             "copy": "Copy",
-            "copied": "Copied!"
+            "copied": "Copied!",
+            "download": "Download"
         }
     },
     "common": {
@@ -268,8 +269,8 @@
                 "requestCPU": "Request CPU (cores)",
                 "limitMem": "Memory limit (MiB)",
                 "limitCPU": "CPU limit (cores)",
-                "resource_limit_set": "set",
-                "resource_limit_unset": "unset",
+                "resource_limit_set": "Set",
+                "resource_limit_unset": "Not set",
                 "cluster_scope": "This space has cluster resource permissions",
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
@@ -341,6 +342,7 @@
             "shareUsers": "Shared user",
             "addShare": "Add Share",
             "cancelShare": "Cancel Share",
+            "sharedUser": "Shared user",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",

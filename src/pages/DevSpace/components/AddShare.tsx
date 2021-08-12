@@ -66,9 +66,10 @@ const AddShare = ({
     cluster_user_id,
     onCancel,
     onSubmit,
+    shared,
 }: {
     cluster_user_id: any;
-    shareUseList: any;
+    shared: any;
     onCancel: () => void;
     onSubmit: () => void;
 }) => {
@@ -84,12 +85,14 @@ const AddShare = ({
 
     async function queryUserList() {
         const response = await queryAllUser();
-        const list = Array.from(response).map((item: any) => {
+        let list = Array.from(response).map((item: any) => {
             return {
                 user_id: item[0],
                 user_name: item[1],
             };
         });
+        const sharedUserIdArr = shared.map((item: any) => item.id);
+        list = list.filter((item) => !sharedUserIdArr.includes(item.user_id));
         setUsersList(list);
         setFilterList(list);
     }

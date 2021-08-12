@@ -300,12 +300,14 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_req_mem"
                                         label={t('resources.space.fields.requestTotalMem')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
@@ -314,12 +316,14 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_req_cpu"
                                         label={t('resources.space.fields.requestTotalCPU')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_cpu"
                                         label={t('resources.space.fields.limitTotalCPU')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
@@ -328,12 +332,14 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_pvc_count"
                                         label={t('resources.space.fields.PVC_num')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_storage_capacity"
                                         label={t('resources.space.fields.storageCapacity')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
@@ -342,6 +348,7 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_lb_count"
                                         label={t('resources.space.fields.lbNum')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
@@ -353,12 +360,14 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="container_limits_cpu"
                                         label={t('resources.space.fields.requestTotalMem')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
@@ -367,12 +376,14 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="container_req_cpu"
                                         label={t('resources.space.fields.requestTotalCPU')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_req_mem"
                                         label={t('resources.space.fields.limitTotalCPU')}
+                                        rules={[{ required: true }]}
                                     >
                                         <Input />
                                     </Form.Item>

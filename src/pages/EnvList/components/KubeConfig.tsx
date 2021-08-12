@@ -67,6 +67,14 @@ const KubeConfig = (props: PropParam) => {
 
     const handleDownload = () => {
         // download
+        const blob = new Blob([kubeConfig]);
+        const aLink = document.createElement('a');
+        aLink.style.display = 'none';
+        aLink.setAttribute('download', 'config');
+        aLink.href = URL.createObjectURL(blob);
+        document.body.appendChild(aLink);
+        aLink.click();
+        document.body.removeChild(aLink);
     };
 
     return (

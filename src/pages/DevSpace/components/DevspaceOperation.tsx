@@ -7,15 +7,18 @@ import TableSearchInput from '../../../components/TableSearchInput';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import HTTP from '../../../api/fetch';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import DevspaceForm from './DevspaceForm';
 import AddShare from './AddShare';
-import Icon from '@ant-design/icons';
+import CommonIcon from '../../../components/CommonIcon';
 
 import ShareType from './ShareType';
+import './index.less';
 
 import { ReactComponent as IconAddPerson } from '../../../images/icon/icon_btn_addPeople.svg';
 import { ReactComponent as IconDelPerson } from '../../../images/icon/icon_btn_normal_addPeople.svg';
+import { ReactComponent as IconSelectedDelPerson } from '../../../images/icon/icon_btn_elected_addPeople.svg';
+
 const ContentWrap = styled.div`
     background: rgb(255, 255, 255);
     box-shadow: 0 4px 8px 0 rgba(40, 47, 55, 0.05);
@@ -45,9 +48,10 @@ const FlexBox = styled.div`
 `;
 
 const ShareUserTitle = (props: any) => {
+    const { t } = useTranslation();
     return (
         <div>
-            <span>共享用户</span>
+            <span>{t('resources.devSpace.sharedUser')}</span>
             <span>{props.count}</span>
         </div>
     );
@@ -57,8 +61,10 @@ const DevspaceOperation = () => {
     const { t } = useTranslation();
     const [showAddModal, setShowModal] = useState<boolean>(false);
     const [userList, setUserList] = useState([]);
+    const [filterList, setFilterList] = useState([]);
     const [selectedList, setSelectList] = useState([]);
     const location = useLocation<RouterParams>();
+    const history = useHistory();
     const {
         state: {
             record,
@@ -67,7 +73,7 @@ const DevspaceOperation = () => {
     } = location;
 
     const handleCancel = () => {
-        console.log('cancel');
+        history.push('/dashboard/devspace');
     };
 
     const columns = [
@@ -121,7 +127,11 @@ const DevspaceOperation = () => {
                             handleCancelShare([record.id]);
                         }}
                     >
-                        <Icon component={IconDelPerson} style={{ fontSize: 20 }} />
+                        <CommonIcon
+                            NormalIcon={IconDelPerson}
+                            HoverIcon={IconSelectedDelPerson}
+                            style={{ fontSize: '20px' }}
+                        ></CommonIcon>
                     </div>
                 );
             },
@@ -180,14 +190,19 @@ const DevspaceOperation = () => {
                     shareType: 'Viewer',
                 };
             });
-            setUserList(cooper_user.concat(viewer_user));
+            const tmpList = cooper_user.concat(viewer_user);
+            setUserList(tmpList);
+            setFilterList(tmpList);
         } catch (e) {
             console.log(e);
         }
     }
 
-    const handleSearch = () => {
-        console.log('search');
+    const handleSearch = (value: string) => {
+        const tmpList = userList.filter(
+            (item: { name: string }) => item.name.toLowerCase().indexOf(value) > -1
+        );
+        setFilterList(tmpList);
     };
 
     const rowSelection = {
@@ -197,7 +212,6 @@ const DevspaceOperation = () => {
     };
 
     const handleCancelShare = async (users?: any) => {
-        console.log('>>>> ', users);
         // cancel share
         try {
             const response = await HTTP.post(
@@ -247,22 +261,24 @@ const DevspaceOperation = () => {
                                 onConfirm={handleSearch}
                             />
                             <FlexBox>
-                                <Button
-                                    style={{
-                                        display: 'flex',
-                                        justifyItems: 'center',
-                                        alignItems: 'center',
-                                        marginRight: 12,
-                                    }}
-                                    icon={
-                                        <IconDelPerson
-                                            style={{ color: '#ffffff', marginRight: 8 }}
-                                        />
-                                    }
-                                    onClick={() => handleCancelShare()}
-                                >
-                                    {t('resources.devSpace.cancelShare')}
-                                </Button>
+                                {selectedList.length > 0 && (
+                                    <Button
+                                        style={{
+                                            display: 'flex',
+                                            justifyItems: 'center',
+                                            alignItems: 'center',
+                                            marginRight: 12,
+                                        }}
+                                        icon={
+                                            <IconDelPerson
+                                                style={{ color: '#ffffff', marginRight: 8 }}
+                                            />
+                                        }
+                                        onClick={() => handleCancelShare()}
+                                    >
+                                        {t('resources.devSpace.cancelShare')}
+                                    </Button>
+                                )}
                                 <Button
                                     style={{
                                         display: 'flex',
@@ -272,7 +288,7 @@ const DevspaceOperation = () => {
                                     icon={
                                         <IconAddPerson
                                             className="add-btn"
-                                            style={{ fill: '#ffffff', marginRight: 8 }}
+                                            style={{ marginRight: 8 }}
                                         />
                                     }
                                     type="primary"
@@ -285,7 +301,7 @@ const DevspaceOperation = () => {
                         <Table
                             rowSelection={rowSelection}
                             columns={columns}
-                            dataSource={userList}
+                            dataSource={filterList}
                             rowKey={(record) => record.id}
                             pagination={{
                                 position: ['bottomCenter'],
@@ -297,7 +313,7 @@ const DevspaceOperation = () => {
             {showAddModal && (
                 <AddShare
                     cluster_user_id={id}
-                    shareUseList={userList}
+                    shared={userList}
                     onCancel={() => setShowModal(false)}
                     onSubmit={handleSubmit}
                 />

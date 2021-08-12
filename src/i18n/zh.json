@@ -345,6 +345,7 @@
             "shareUsers": "共享用户",
             "addShare": "添加共享",
             "cancelShare": "取消共享",
+            "sharedUser": "共享用户",
             "fields": {
                 "space_name": "开发空间名称",
                 "status": "状态",

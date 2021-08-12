@@ -37,7 +37,7 @@ import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_e
 import { ReactComponent as IconNormalKube } from '../../images/icon/icon_btn_normal_kube.svg';
 import { ReactComponent as IconSelectedKube } from '../../images/icon/icon_btn_elected_kube.svg';
 import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
-import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_quarantine_space.svg';
 import { ReactComponent as IconCooperation } from '../../images/icon/icon_label_cooperator.svg';
 import { ReactComponent as IconViewer } from '../../images/icon/icon_label_viewer.svg';
 import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limits.svg';
@@ -189,7 +189,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.resource_limit'),
             key: 'resource_limit',
-            width: '120px',
+            width: '140px',
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>

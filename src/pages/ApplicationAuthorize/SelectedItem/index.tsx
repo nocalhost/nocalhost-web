@@ -5,7 +5,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconUserAvater } from '../../../images/icon/profile_boy.svg';
 import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.svg';
 import CommonIcon from '../../../components/CommonIcon';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 interface CheckItemProps {
     name: string;
     id: number;
@@ -15,7 +15,7 @@ interface CheckItemProps {
 
 function CheckItem(props: CheckItemProps) {
     const { name, selectData, setSelectData, id } = props;
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const handleCheck = () => {
         setSelectData(selectData.filter((item) => item.id !== id));
     };
@@ -26,7 +26,7 @@ function CheckItem(props: CheckItemProps) {
             <DeleteIcon onClick={handleCheck}>
                 <CommonIcon
                     NormalIcon={IconDelete}
-                    title={t('common.bt.remove')}
+                    // title={t('common.bt.remove')}
                     style={{ fontSize: '16px' }}
                 ></CommonIcon>
             </DeleteIcon>

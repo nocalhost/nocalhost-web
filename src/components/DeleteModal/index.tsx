@@ -16,7 +16,7 @@ function Dialog(props: PropsType) {
     const { visible, onCancel, message, onConfirm, title } = props;
     return (
         <Modal
-            title={title}
+            // title={title}
             visible={visible}
             footer={null}
             closable={false}

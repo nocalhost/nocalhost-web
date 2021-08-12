@@ -15,6 +15,13 @@ const BtnBox = styled.div`
     align-items: center;
 `;
 
+const ConfigBox = styled.div`
+    word-break: break-all;
+    white-space: pre-wrap;
+    max-height: 500px;
+    overflow: scroll;
+`;
+
 interface PropParam {
     onCancel: () => void;
     record: any;
@@ -22,9 +29,7 @@ interface PropParam {
 
 const KubeConfig = (props: PropParam) => {
     const { onCancel, record } = props;
-
     const { user } = useContext(UserContext);
-    console.log(user);
 
     let shareList: any = [];
     shareList = shareList.concat(record.cooper_user).concat(record.viewer_user);
@@ -57,13 +62,17 @@ const KubeConfig = (props: PropParam) => {
     };
 
     const handleCopy = () => {
-        // copy
         message.success(t('nh.action.copied'));
     };
+
+    const handleDownload = () => {
+        // download
+    };
+
     return (
         <>
             <Modal width={680} visible={true} title="KubeConfig" onCancel={onCancel} footer={null}>
-                <div>{kubeConfig}</div>
+                <ConfigBox>{kubeConfig}</ConfigBox>
                 <BtnBox>
                     <div>
                         <Select
@@ -77,7 +86,9 @@ const KubeConfig = (props: PropParam) => {
                         <CopyToClipboard text={kubeConfig} onCopy={handleCopy}>
                             <Button>{t('nh.action.copy')}</Button>
                         </CopyToClipboard>
-                        <Button style={{ marginLeft: 8 }}>{t('nh.action.download')}</Button>
+                        <Button onClick={handleDownload} style={{ marginLeft: 8 }}>
+                            {t('nh.action.download')}
+                        </Button>
                     </div>
                 </BtnBox>
             </Modal>

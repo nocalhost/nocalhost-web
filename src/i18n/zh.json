@@ -128,6 +128,10 @@
             "storage_class": "存储类型",
             "total": "总计",
             "used": "已使用",
+            "cpu": "CPU",
+            "memory": "内存",
+            "storage": "本地存储",
+            "pods": "容器组",
             "fields": {
                 "name": "集群名称",
                 "provider": "供应商",

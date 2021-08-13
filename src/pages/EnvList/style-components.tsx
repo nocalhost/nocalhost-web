@@ -17,6 +17,7 @@ export const ContentTitle = styled.div`
     padding: 12px 20px;
     background: #f9fbfd;
     box-shadow: inset 0 -1px 0 0 rgb(243, 246, 250);
+    border-radius: 8px 8px 0 0;
 `;
 
 export const SearchBox = styled.div`
@@ -42,6 +43,11 @@ export const PopItem = styled.div`
         color: #ff3f3f;
         background: rgb(255, 63, 63, 0.08);
     }
+`;
+
+export const PopContent = styled.div`
+    padding: 8px 12px;
+    background: #1a2433;
 `;
 
 export const OverflowItem = styled.div`
@@ -75,8 +81,7 @@ export const Dot = styled.span<{ isActive: boolean | undefined }>`
 export const UserBox = styled.div`
     width: 240px;
     background: #ffffff;
-    box-shadow: 0 4px 6px 0 rgba(54, 67, 92, 0.15);
-    padding: 10px;
+    padding: 16px 10px;
     border-radius: 4px;
 `;
 

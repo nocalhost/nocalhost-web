@@ -20,7 +20,6 @@ import {
     FlexBox,
     IconBox,
     PopItem,
-    OverflowItem,
     SpaceTypeItem,
     Dot,
     UserBox,
@@ -28,6 +27,8 @@ import {
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
 import DeleteModal from '../../components/DeleteModal';
+import NotData from '../../components/NotData';
+import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser, queryAllCluster } from '../../services';
 
 import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
@@ -68,6 +69,12 @@ interface IRecord {
     [index: string]: any;
 }
 
+interface FilterType {
+    space_name: string;
+    user_id: number | string;
+    cluster_id: number | string;
+}
+
 const PopoverBox = (props: { record: UserProps }) => {
     const { record } = props;
     const { cooper_user, viewer_user } = record;
@@ -81,7 +88,9 @@ const PopoverBox = (props: { record: UserProps }) => {
                     />
                     <span>Cooperator:</span>
                 </FlexBox>
-                <UserName>{cooper_user.map((item) => item.name).join('、')}</UserName>
+                <UserName style={{ minHeight: '40px' }}>
+                    {cooper_user.map((item) => item.name).join('、')}
+                </UserName>
             </div>
             <div>
                 <FlexBox>
@@ -128,15 +137,6 @@ const EnvList = () => {
                                 </FlexBox>
                                 <div></div>
                             </div>
-                            {false && (
-                                <div>
-                                    <Popover content="开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述">
-                                        <OverflowItem>
-                                            开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述开发空间描述
-                                        </OverflowItem>
-                                    </Popover>
-                                </div>
-                            )}
                         </div>
                     </FlexBox>
                 );
@@ -144,6 +144,7 @@ const EnvList = () => {
         },
         {
             title: t('resources.space.fields.space_type'),
+            width: '160px',
             key: 'space_type',
             render: (text: string, record: any) => {
                 return (
@@ -170,11 +171,12 @@ const EnvList = () => {
                     <FlexBox>
                         {record.cluster_admin ? 'ClusterScope' : record.namespace}
                         {record.cluster_admin && (
-                            <Popover content={t('resources.space.fields.cluster_scope')}>
-                                <Icon
-                                    component={IconLimits}
-                                    style={{ fontSize: 20, marginLeft: 4 }}
-                                />
+                            <Popover>
+                                <CommonIcon
+                                    NormalIcon={IconLimits}
+                                    style={{ fontSize: '20px', marginLeft: '8px' }}
+                                    title={t('resources.space.fields.cluster_scope')}
+                                ></CommonIcon>
                             </Popover>
                         )}
                     </FlexBox>
@@ -184,6 +186,7 @@ const EnvList = () => {
         {
             title: t('resources.cluster.name'),
             key: 'cluster_id',
+            width: '140px',
             dataIndex: 'cluster_name',
         },
         {
@@ -212,6 +215,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.user'),
             key: 'user',
+            width: '160px',
             dataIndex: 'user_name',
             render: (text: string, record: any) => {
                 return record?.cooper_user?.length > 0 || record?.viewer_user?.length > 0 ? (
@@ -238,6 +242,7 @@ const EnvList = () => {
                                 NormalIcon={IconNormalEdit}
                                 HoverIcon={IconSelectedEdit}
                                 style={{ fontSize: '20px' }}
+                                title={t('common.bt.edit')}
                             ></CommonIcon>
                         </IconBox>
                         <IconBox onClick={() => handleKube(record)}>
@@ -245,6 +250,7 @@ const EnvList = () => {
                                 NormalIcon={IconNormalKube}
                                 HoverIcon={IconSelectedKube}
                                 style={{ fontSize: '20px' }}
+                                title="Kubeconfig"
                             ></CommonIcon>
                         </IconBox>
                         <Popover
@@ -267,6 +273,7 @@ const EnvList = () => {
             },
         },
     ];
+
     const history = useHistory();
 
     if (id) {
@@ -282,6 +289,13 @@ const EnvList = () => {
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [showReset, setShowReset] = useState<boolean>(false);
     const [record, setRecord] = useState<IRecord>();
+    const [filterValue, setFilterValue] = useState<FilterType>({
+        space_name: '',
+        cluster_id: 'all',
+        user_id: 'all',
+    });
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const showTotal = () => {
         return `共${spaceList.length}条`;
@@ -290,6 +304,40 @@ const EnvList = () => {
     useEffect(() => {
         querySpaceList();
     }, []);
+
+    useEffect(() => {
+        handleFilter();
+    }, [filterValue]);
+
+    function handleFilter() {
+        const tmpList = spaceList.filter((item: any) => {
+            const { space_name, cluster_id, user_id } = filterValue;
+            const isNameValid = item.space_name.indexOf(space_name) > -1;
+            if (id) {
+                // env list page
+                if (user_id === 'all') {
+                    return isNameValid;
+                } else {
+                    return isNameValid && item.user_id === user_id;
+                }
+            } else {
+                if (cluster_id === 'all' && user_id === 'all') {
+                    return isNameValid;
+                } else if (cluster_id === 'all') {
+                    return isNameValid && item.user_id === user_id;
+                } else if (user_id === 'all') {
+                    return isNameValid && item.cluster_id === cluster_id;
+                } else {
+                    return (
+                        isNameValid &&
+                        item.item.user_id === user_id &&
+                        item.cluster_id === cluster_id
+                    );
+                }
+            }
+        });
+        setFilterList(tmpList);
+    }
 
     function handleKube(record: any) {
         setShowKube(true);
@@ -306,9 +354,9 @@ const EnvList = () => {
     }
 
     async function querySpaceList() {
+        setIsLoading(true);
         const nameMap = await queryAllUser();
         const clusterMap = await queryAllCluster();
-
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
@@ -321,40 +369,49 @@ const EnvList = () => {
         });
         setSpaceList(tmpList);
         setFilterList(tmpList);
-        setUserList(
-            Array.from(nameMap).map((item) => {
+        setUserList([
+            { value: 'all', text: t('common.select.all') },
+            ...Array.from(nameMap).map((item) => {
                 return {
                     value: item[0],
                     text: item[1],
                     label: item[1],
                 };
-            })
-        );
+            }),
+        ]);
 
-        setClusterList(
-            Array.from(clusterMap).map((item) => {
+        setClusterList([
+            { value: 'all', text: t('common.select.all') },
+            ...Array.from(clusterMap).map((item) => {
                 return {
                     value: item[0],
                     text: item[1],
                     label: item[1],
                 };
-            })
-        );
+            }),
+        ]);
+        setIsLoading(false);
     }
 
     function handleSearchInput(value: string) {
-        const tmp = spaceList.filter((item: any) => item.cluster_id === value);
-        setFilterList(tmp);
+        setFilterValue({
+            ...filterValue,
+            space_name: value,
+        });
     }
 
-    function handleSearchCluster(value: string) {
-        const tmp = spaceList.filter((item: any) => item.cluster_id === value);
-        setFilterList(tmp);
+    function handleSearchCluster(value: string | number) {
+        setFilterValue({
+            ...filterValue,
+            cluster_id: value,
+        });
     }
 
-    function handleSearchUser(value: any) {
-        const tmp = spaceList.filter((item: any) => item.user_id === value);
-        setFilterList(tmp);
+    function handleSearchUser(value: string | number) {
+        setFilterValue({
+            ...filterValue,
+            user_id: value,
+        });
     }
 
     function handleDelete(record: any) {
@@ -446,18 +503,27 @@ const EnvList = () => {
                         )}
                     </FlexBox>
                 </ContentTitle>
-                <Table
-                    style={{ padding: '0 10px' }}
-                    tableLayout="fixed"
-                    columns={columns}
-                    rowKey={(record) => record.id}
-                    dataSource={filterList}
-                    pagination={{
-                        position: ['bottomCenter'],
-                        showTotal: showTotal,
-                        showSizeChanger: true,
-                    }}
-                ></Table>
+                {filterList.length === 0 && !isLoading ? (
+                    !filterValue.space_name ? (
+                        <NotData />
+                    ) : (
+                        <SearchNotData />
+                    )
+                ) : (
+                    <Table
+                        style={{ padding: '0 10px' }}
+                        tableLayout="fixed"
+                        columns={columns}
+                        loading={isLoading}
+                        rowKey={(record) => record.id}
+                        dataSource={filterList}
+                        pagination={{
+                            position: ['bottomCenter'],
+                            showTotal: showTotal,
+                            showSizeChanger: false,
+                        }}
+                    ></Table>
+                )}
             </ContentWrap>
             {showModal && (
                 <Modal

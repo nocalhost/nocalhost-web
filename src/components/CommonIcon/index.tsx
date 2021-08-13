@@ -24,6 +24,7 @@ type TooltipPlacement =
 interface StyleType {
     fontSize?: string;
     color?: string;
+    marginLeft?: string;
 }
 
 interface PropsType {

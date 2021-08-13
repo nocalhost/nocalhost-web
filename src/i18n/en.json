@@ -125,6 +125,12 @@
             "info": "Cluster Info",
             "workload": "Cluster Workload",
             "storage_class": "Storage Class",
+            "total": "Total",
+            "used": "Used",
+            "cpu": "CPU",
+            "memory": "Memory",
+            "storage": "Storage",
+            "pods": "Pods",
             "fields": {
                 "name": "Name",
                 "cluster_version": "Cluster Version",

@@ -47,12 +47,23 @@ const FlexBox = styled.div`
     display: flex;
 `;
 
+const ShareSpan = styled.span`
+    display: inline-block;
+    min-width: 20px;
+    margin-left: 4px;
+    font-size: 12px;
+    text-align: center;
+    background: rgb(218, 225, 232);
+    border-radius: 10px;
+`;
+
 const ShareUserTitle = (props: any) => {
     const { t } = useTranslation();
+    const { count } = props;
     return (
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>{t('resources.devSpace.sharedUser')}</span>
-            <span>{props.count}</span>
+            {count > 0 && <ShareSpan>{count}</ShareSpan>}
         </div>
     );
 };
@@ -126,11 +137,13 @@ const DevspaceOperation = () => {
                         onClick={() => {
                             handleCancelShare([record.id]);
                         }}
+                        style={{ display: 'flex' }}
                     >
                         <CommonIcon
                             NormalIcon={IconDelPerson}
                             HoverIcon={IconSelectedDelPerson}
                             style={{ fontSize: '20px' }}
+                            title={t('resources.devSpace.cancelShare')}
                         ></CommonIcon>
                     </div>
                 );
@@ -242,7 +255,7 @@ const DevspaceOperation = () => {
                             <DevspaceForm record={record} isEdit={true} onCancel={handleCancel} />
                         </PanelWrap>
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab={<ShareUserTitle />} key="2">
+                    <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">
                         <ContentHeader>
                             <TableSearchInput
                                 placeholder={t('resources.devSpace.tips.searchPlaceholder')}

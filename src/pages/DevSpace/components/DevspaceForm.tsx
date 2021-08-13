@@ -73,6 +73,13 @@ const BtnBox = styled.div`
     justify-content: flex-end;
 `;
 
+const OtherConfigTitle = styled.div`
+    color: rgb(54, 67, 92);
+    font-family: PingFangSC-Semibold;
+    font-size: 14px;
+    font-weight: 600;
+`;
+
 interface SelectMap {
     text: any;
     value: any;
@@ -116,7 +123,7 @@ const DevspaceForm = ({
                     const tmpObj = JSON.parse(space_resource_limit);
                     const obj: { [index: string]: any } = {};
                     Object.keys(tmpObj).forEach((item) => {
-                        obj[item] = parseInt(tmpObj[item]);
+                        obj[item] = parseInt(tmpObj[item]) || '';
                     });
                     limitObj = obj;
                 }
@@ -231,7 +238,7 @@ const DevspaceForm = ({
 
     return (
         <>
-            <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <Form style={{ minWidth: 632 }} form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
                     label={t('resources.devSpace.fields.space_name')}
                     name="space_name"
@@ -255,7 +262,7 @@ const DevspaceForm = ({
                         <Select disabled={isEdit} style={{ width: 310 }} options={userList} />
                     </Form.Item>
                 </FormFlexBox>
-                <div>{t('common.otherSet')}</div>
+                <OtherConfigTitle>{t('common.otherSet')}</OtherConfigTitle>
                 <OtherConfigItem>
                     <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
                     <FormFlexBox>
@@ -302,14 +309,14 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalMem')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -318,14 +325,14 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalCPU')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_cpu"
                                         label={t('resources.space.fields.limitTotalCPU')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -334,14 +341,14 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.PVC_num')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_storage_capacity"
                                         label={t('resources.space.fields.storageCapacity')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -350,7 +357,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.lbNum')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <LimitTitle style={{ marginTop: 0 }}>
@@ -362,14 +369,14 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalMem')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -378,14 +385,14 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalCPU')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_req_mem"
                                         label={t('resources.space.fields.limitTotalCPU')}
                                         rules={[{ required: true }]}
                                     >
-                                        <Input />
+                                        <Input style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                             </LimitWrap>

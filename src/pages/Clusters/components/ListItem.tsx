@@ -10,6 +10,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconProfile } from '../../../images/icon/profile_boy.svg';
 import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.svg';
+import { ReactComponent as IconData } from '../../../images/icon/icon_resource_data.svg';
 import AddCluster from '../../../components/AddCluster';
 import { ClusterItemInfo } from '../../../types/index';
 import DeleteModal from '../../../components/DeleteModal';
@@ -33,7 +34,7 @@ interface IProps extends PropsWithChildren<{}> {
 }
 
 const ListBox = styled.div`
-    padding: 20px;
+    padding: 14px;
     display: flex;
     background: #ffffff;
     border-radius: 8px;
@@ -49,7 +50,8 @@ const DetailContainer = styled.div`
 
 const LoadContainer = styled.div`
     flex: 1;
-    padding: 10px 30px 30px 22px;
+    display: flex;
+    padding: 12px 20px 0;
     background: rgb(249, 251, 253);
     border-radius: 0;
 `;
@@ -59,21 +61,21 @@ const InfoTitle = styled.h3`
     font-family: PingFangSC-Semibold;
     font-size: 14px;
     font-weight: 600;
-`;
-
-const WorkLoadInfo = styled.div`
+    margin-bottom: 0;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 `;
 
 const Flex1Ul = styled.ul`
     flex: 1;
+    padding-top: 10px;
 `;
 
 const DetailTitle = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    padding-top: 6px;
 `;
 
 const DetailIcon = styled.div`
@@ -91,6 +93,7 @@ const DetailItem = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    line-height: 20px;
     margin-bottom: 16px;
 `;
 
@@ -104,7 +107,7 @@ const Line1px = styled.div`
 `;
 
 const BtnBox = styled.div`
-    margin: 20px 0 10px;
+    margin: 20px 0 6px;
     display: flex;
     align-items: center;
 `;
@@ -114,10 +117,14 @@ const WorkLoadItem = styled.li`
     height: 66px;
     padding-left: 20px;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgb(218, 225, 232);
     border-radius: 4px;
+
+    &:nth-child(4) {
+        margin-bottom: 0;
+    }
 `;
 
 const WorkLoadInfoItem = styled(FlexColumnDiv)`
@@ -151,6 +158,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             return {
                 ...item,
                 percentage: item.percentage * 100 * 0.75,
+                resource_name: t(`resources.cluster.${item.resource_name}`),
             };
         });
 
@@ -238,6 +246,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         const chart = new F2.Chart({
             id: `chart${data.id}`,
             pixelRatio: window.devicePixelRatio,
+            height: 284,
         });
 
         chart.source(loadInfoData.reverse(), {
@@ -254,7 +263,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         chart.axis(false);
         chart.legend({
             position: 'bottom',
-            itemWidth: 80,
+            itemWidth: 60,
         });
 
         // 将数据映射到上面注册的Shape——interval，并绑定动画
@@ -263,7 +272,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             .position('resource_name*percentage')
             .color('resource_name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
             .shape('tick')
-            .size(12)
+            .size(10)
             .animate({
                 appear: {
                     animation: 'waveIn',
@@ -282,7 +291,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 end: [obj.resource_name, 75],
                 top: false,
                 style: {
-                    lineWidth: 12,
+                    lineWidth: 10,
                     stroke: '#e8edf4',
                 },
             });
@@ -290,17 +299,16 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
         const listStr = resources
             .map((item) => {
-                return `<li><span>${
-                    item.resource_name
-                }</span><span style="display: inline-block; width: 30px;"> ${(
+                return `<li><span>${t(
+                    'resources.cluster.' + item.resource_name
+                )}</span><span style="display: inline-block; width: 30px;"> ${(
                     item.percentage * 100
                 ).toFixed(0)}%</span></li>`;
             })
-
             .join('');
         chart.guide().html({
             position: [0, 0],
-            offsetX: -80,
+            offsetX: -70,
             offsetY: -22,
             html: `
                 <div>
@@ -406,36 +414,38 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 </BtnBox>
             </DetailContainer>
             <LoadContainer>
-                <InfoTitle>{t('resources.cluster.workload')}</InfoTitle>
-                <WorkLoadInfo>
-                    <canvas id={`chart${data.id}`} width="400" height="300"></canvas>
-                    <Flex1Ul>
-                        {resources.map((item, key) => {
-                            return (
-                                <WorkLoadItem key={key}>
-                                    <WorkLoadInfoItem>
-                                        <NumSpan>{`${(item.percentage * 100).toFixed(
-                                            0
-                                        )}%`}</NumSpan>
-                                        <LabelSpan>{item.resource_name}</LabelSpan>
-                                    </WorkLoadInfoItem>
-                                    <WorkLoadInfoItem>
-                                        <NumSpan>{`${item.used} ${
-                                            UNITMAP[item.resource_name]
-                                        }`}</NumSpan>
-                                        <LabelSpan>已使用</LabelSpan>
-                                    </WorkLoadInfoItem>
-                                    <WorkLoadInfoItem>
-                                        <NumSpan>{`${item.capacity} ${
-                                            UNITMAP[item.resource_name]
-                                        }`}</NumSpan>
-                                        <LabelSpan>总计</LabelSpan>
-                                    </WorkLoadInfoItem>
-                                </WorkLoadItem>
-                            );
-                        })}
-                    </Flex1Ul>
-                </WorkLoadInfo>
+                <div>
+                    <InfoTitle>
+                        <Icon component={IconData} style={{ fontSize: 20, marginRight: 6 }} />
+                        {t('resources.cluster.workload')}
+                    </InfoTitle>
+                    <canvas id={`chart${data.id}`} height={284}></canvas>
+                </div>
+
+                <Flex1Ul>
+                    {resources.map((item, key) => {
+                        return (
+                            <WorkLoadItem key={key}>
+                                <WorkLoadInfoItem>
+                                    <NumSpan>{`${(item.percentage * 100).toFixed(0)}%`}</NumSpan>
+                                    <LabelSpan>{item.resource_name}</LabelSpan>
+                                </WorkLoadInfoItem>
+                                <WorkLoadInfoItem>
+                                    <NumSpan>{`${item.used} ${
+                                        UNITMAP[item.resource_name]
+                                    }`}</NumSpan>
+                                    <LabelSpan>{t('resources.cluster.used')}</LabelSpan>
+                                </WorkLoadInfoItem>
+                                <WorkLoadInfoItem>
+                                    <NumSpan>{`${item.capacity} ${
+                                        UNITMAP[item.resource_name]
+                                    }`}</NumSpan>
+                                    <LabelSpan>{t('resources.cluster.total')}</LabelSpan>
+                                </WorkLoadInfoItem>
+                            </WorkLoadItem>
+                        );
+                    })}
+                </Flex1Ul>
             </LoadContainer>
             {showEdit && (
                 <AddCluster

@@ -10,7 +10,6 @@ import TableSearchInput from '../../components/TableSearchInput';
 import LabelSelect from '../../components/LabelSelect';
 import BreadCard from '../../components/BreadCard';
 import DevspaceForm from '../DevSpace/components/DevspaceForm';
-import { PlusOutlined } from '@ant-design/icons';
 import KubeConfig from './components/KubeConfig';
 import { useHistory } from 'react-router-dom';
 import {
@@ -47,7 +46,7 @@ import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limit
 import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
-
+import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 interface RouteParams {
     id: string;
 }
@@ -238,7 +237,7 @@ const EnvList = () => {
             key: 'operation',
             render: (text: string, record: any) => {
                 return (
-                    <FlexBox>
+                    <FlexBox id="operation">
                         <IconBox onClick={() => handleEdit(record)}>
                             <CommonIcon
                                 NormalIcon={IconNormalEdit}
@@ -257,6 +256,7 @@ const EnvList = () => {
                         </IconBox>
                         <Popover
                             trigger="click"
+                            overlayClassName="operationPop"
                             content={
                                 <>
                                     <PopItem onClick={() => handleReset(record)}>
@@ -497,7 +497,7 @@ const EnvList = () => {
                         {!id && (
                             <Button
                                 type="primary"
-                                icon={<PlusOutlined />}
+                                icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
                                 onClick={() => setShowModal(true)}
                             >
                                 {t('resources.space.actions.create')}

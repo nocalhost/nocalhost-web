@@ -293,3 +293,16 @@ code {
     color: rgb(255, 255, 255);
     padding: 8px 12px;
 }
+
+.operationPop .ant-popover-arrow {
+    display: none;
+}
+
+.operationPop {
+    padding-top: 0px;
+}
+
+.ant-btn > .anticon + span,
+.ant-btn > span + .anticon {
+    margin-left: 4px;
+}

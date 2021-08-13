@@ -22,13 +22,6 @@ interface FormType {
     confirm_password?: string;
 }
 
-// confirm_password: "a19930731"
-// email: "296115103@qq.com"
-// is_admin: 0
-// name: "chuckie"
-// password: "a19930731"
-// status: 1
-
 const initFormValue = {
     confirm_password: '',
     email: '',
@@ -110,7 +103,7 @@ function CreateUserForm(props: PropsType) {
         if (value && value.length < 6) {
             return Promise.reject(new Error(t('resources.users.valid.password')));
         }
-        if ((values.confirm_password || value) && value !== values.confirm_password) {
+        if (values.confirm_password && value && value !== values.confirm_password) {
             return Promise.reject(new Error(t('resources.users.valid.comfirmPassword')));
         }
         return Promise.resolve();

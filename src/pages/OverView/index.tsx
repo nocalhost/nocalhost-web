@@ -11,6 +11,9 @@ import ApplicationWater from '../../images/icon/Applications.svg';
 import ClusterWater from '../../images/icon/Cluster.svg';
 import DevSpaceWater from '../../images/icon/DevSpace.svg';
 import HTTP from '../../api/fetch';
+import Icon from '@ant-design/icons';
+import { useHistory } from 'react-router';
+import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import { ClusterItemType } from './type';
 import {
     Card,
@@ -20,7 +23,7 @@ import {
     // Time,
     FlexBetween,
     Total,
-    // I,
+    I,
     AmountBox,
     Water,
     Dot,
@@ -28,6 +31,7 @@ import {
     IconBox,
 } from './style-components';
 function Overview() {
+    const history = useHistory();
     const { t } = useTranslation();
     const [userData, setUserData] = useState([]);
     const [applicationData, setApplicationData] = useState([]);
@@ -64,14 +68,22 @@ function Overview() {
             <CardBox>
                 <Row gutter={20}>
                     <Col span={8}>
-                        <Card>
+                        <Card onClick={() => history.push('/dashboard/user')}>
                             <Water src={UserWater}></Water>
-                            <H mb="30px">{t('resources.users.name')}</H>
+                            <H mb="30px">
+                                <>{t('resources.users.name')}</>
+                                <span className="enter">
+                                    <Icon
+                                        component={IconEnter}
+                                        style={{ fontSize: '20px', marginLeft: '4px' }}
+                                    ></Icon>
+                                </span>
+                            </H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{userData.length}</Total>
-                                    {/* <I>人</I> */}
+                                    <I>人</I>
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorUser} alt="" />
@@ -80,14 +92,22 @@ function Overview() {
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card>
+                        <Card onClick={() => history.push('/dashboard/application')}>
                             <Water src={ApplicationWater}></Water>
-                            <H mb="30px">{t('resources.application.name')}</H>
+                            <H mb="30px">
+                                <>{t('resources.application.name')}</>
+                                <span className="enter">
+                                    <Icon
+                                        component={IconEnter}
+                                        style={{ fontSize: '20px', marginLeft: '4px' }}
+                                    ></Icon>
+                                </span>
+                            </H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{applicationData.length}</Total>
-                                    {/* <I>人</I> */}
+                                    <I>个</I>
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorApplications} alt="" />
@@ -96,14 +116,22 @@ function Overview() {
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card>
+                        <Card onClick={() => history.push('/dashboard/devspace')}>
                             <Water src={DevSpaceWater}></Water>
-                            <H mb="30px">{t('resources.space.name')}</H>
+                            <H mb="30px">
+                                <>{t('resources.space.name')}</>
+                                <span className="enter">
+                                    <Icon
+                                        component={IconEnter}
+                                        style={{ fontSize: '20px', marginLeft: '4px' }}
+                                    ></Icon>
+                                </span>
+                            </H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{devSpaceData.length}</Total>
-                                    {/* <I>人</I> */}
+                                    <I>个</I>
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorDevspace} alt="" />
@@ -113,7 +141,7 @@ function Overview() {
                     </Col>
                 </Row>
                 <CardBox>
-                    <Card>
+                    <Card style={{ cursor: 'auto' }}>
                         <Flex mb="24px">
                             <H>{t('resources.cluster.name')}</H>
                             <Dot>{clusterData.length}</Dot>

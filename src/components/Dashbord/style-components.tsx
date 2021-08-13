@@ -32,9 +32,10 @@ export const ListItem = styled.div<{ isActive: boolean | undefined }>`
     font-weight: normal;
     cursor: pointer;
     > a {
-        color: ${(props) => (props.isActive ? '#0080ff' : '#202d40')};
+        color: ${(props) => (props.isActive ? '#0080ff' : '#36435c')};
         display: flex;
         align-items: center;
+        font-weight: ${(props) => (props.isActive ? 600 : 400)};
         width: 100%;
         height: 100%;
         padding: 0px 10px;

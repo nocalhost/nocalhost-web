@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment, useContext } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
-import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import Icon from '@ant-design/icons';
 import {
@@ -37,6 +36,8 @@ import { SelectValue } from './const';
 import { UserContext } from '../../provider/appContext';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
+import './reset.less';
+import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -172,7 +173,7 @@ function Application() {
                                 <Flex>
                                     <Sub>{object.application_url}</Sub>
                                     <CopyToClipboard text={object.application_url} onCopy={onCopy}>
-                                        <div style={{ height: '20px' }}>
+                                        <div style={{ height: '20px' }} id="copy">
                                             <CommonIcon
                                                 title={t('nh.action.copy')}
                                                 style={{ fontSize: '20px' }}
@@ -241,7 +242,7 @@ function Application() {
                 const record = args[1];
                 const object = JSON.parse(record?.context);
                 return (
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }} id="operation">
                         {(!!record.editable || !!user.is_admin) && (
                             <IconBox onClick={() => handleEdit(record.id)}>
                                 <CommonIcon
@@ -256,6 +257,7 @@ function Application() {
                             <Popover
                                 trigger="click"
                                 placement="bottom"
+                                overlayClassName="operationPop"
                                 visible={index === popVisibleIndex}
                                 onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
                                 content={
@@ -292,7 +294,7 @@ function Application() {
                                                 {
                                                     record.public === 0 &&
                                                         history.push(
-                                                            `/dashboard/application/authorize/${record.id}`
+                                                            `/dashboard/application/authorize/${record.id}?name=${object.application_name}`
                                                         );
                                                 }
                                             }}
@@ -378,7 +380,7 @@ function Application() {
                     <Button
                         type="primary"
                         onClick={() => setOpenDialog(true)}
-                        icon={<PlusOutlined style={{ color: '#fff' }} />}
+                        icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
                     >
                         {t('resources.application.add')}
                     </Button>
@@ -394,6 +396,7 @@ function Application() {
                         <Table
                             tableLayout="fixed"
                             loading={tableLoading}
+                            style={{ padding: '0 10px' }}
                             scroll={{ x: '100%' }}
                             pagination={{
                                 position: ['bottomCenter'],

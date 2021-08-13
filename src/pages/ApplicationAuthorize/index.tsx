@@ -3,7 +3,7 @@ import HTTP from '../../api/fetch';
 import { Breadcrumb, Button, Table, message } from 'antd';
 import { TableBox, TableHeader, TableWrap, Flex, Amount } from './style-components';
 import TableSearchInput from '../../components/TableSearchInput';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import Dialog from '../../components/Dialog';
 import AuthorizeTree from './AuthorizeTree';
 import { useTranslation } from 'react-i18next';
@@ -16,12 +16,18 @@ import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_e
 import { ReactComponent as IconAdmin } from '../../images/icon/icon_label_admin.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_btn_addPeople.svg';
 import './reset.less';
+import NotData from '../../components/NotData';
+import SearchNotData from '../../components/SearchNotData';
+import { parse } from 'query-string';
 
 function ApplicationAuthorize() {
     // /v1/application/7/users
     const [data, setData] = useState([]);
     const [selectList, setSelectList] = useState([]);
+    const [tableLoading, setTableLoading] = useState(false);
     const urlParams = useParams<{ id: string }>();
+    const location = useLocation();
+    const applicationName = parse(location.search)?.name;
     const [openDialog, setOpenDialog] = useState(false);
     const [copyData, setCopyData] = useState([]);
     const [filterValue, setFilterValue] = useState({ name: '' });
@@ -29,7 +35,9 @@ function ApplicationAuthorize() {
     const [deleteId, setDeleteId] = useState('');
     const { t } = useTranslation();
     const getApplicationUser = async () => {
+        setTableLoading(true);
         const result = await HTTP.get(`application/${urlParams.id}/users`);
+        setTableLoading(false);
         if (result.code === 0) {
             setData(result.data || []);
             setCopyData(result.data || []);
@@ -180,7 +188,7 @@ function ApplicationAuthorize() {
                             placeholder={t('resources.users.form.placeholder.name')}
                         ></TableSearchInput>
                         <Amount>
-                            Coding-Repos ·&nbsp;
+                            {applicationName} ·&nbsp;
                             {t('resources.application.auth.amount', { amount: data.length })}
                         </Amount>
                     </Flex>
@@ -228,20 +236,30 @@ function ApplicationAuthorize() {
                     </Flex>
                 </TableHeader>
                 <TableWrap>
-                    <Table
-                        rowSelection={rowSelection}
-                        scroll={{ x: '100%' }}
-                        tableLayout="auto"
-                        pagination={{
-                            position: ['bottomCenter'],
-                            showTotal: showTotal,
-                        }}
-                        dataSource={data.map((item: any) => {
-                            item.key = item.id;
-                            return item;
-                        })}
-                        columns={columns}
-                    />
+                    {data.length === 0 && !tableLoading ? (
+                        !filterValue.name ? (
+                            <NotData></NotData>
+                        ) : (
+                            <SearchNotData></SearchNotData>
+                        )
+                    ) : (
+                        <Table
+                            rowSelection={rowSelection}
+                            scroll={{ x: '100%' }}
+                            tableLayout="auto"
+                            style={{ padding: '0 10px' }}
+                            loading={tableLoading}
+                            pagination={{
+                                position: ['bottomCenter'],
+                                showTotal: showTotal,
+                            }}
+                            dataSource={data.map((item: any) => {
+                                item.key = item.id;
+                                return item;
+                            })}
+                            columns={columns}
+                        />
+                    )}
                 </TableWrap>
             </TableBox>
         </div>

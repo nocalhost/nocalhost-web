@@ -14,7 +14,6 @@ import {
 import { ReactComponent as IconUserAvater } from '../../images/icon/profile_boy.svg';
 import TableSearchInput from '../../components/TableSearchInput';
 import { Table, Button, Popover, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import CreateUserForm from './CreateUserForm';
 import { Dot } from './style-components';
@@ -31,6 +30,7 @@ import { SelectValue, UserType } from './const';
 import { UserContext } from '../../provider/appContext';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
+import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 
 function User() {
     const [data, setData] = useState([]);
@@ -194,7 +194,7 @@ function User() {
                 const index = args[2];
                 const record = args[1];
                 return (
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }} id="operation">
                         <IconBox onClick={() => handleEdit(record.id)}>
                             <CommonIcon
                                 // title={t('common.bt.edit')}
@@ -205,6 +205,7 @@ function User() {
                         </IconBox>
                         <Popover
                             trigger="click"
+                            overlayClassName="operationPop"
                             placement="bottom"
                             visible={index === popVisibleIndex}
                             onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
@@ -283,7 +284,7 @@ function User() {
                     <Button
                         type="primary"
                         onClick={() => setOpenDialog(true)}
-                        icon={<PlusOutlined style={{ color: '#fff' }} />}
+                        icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
                     >
                         {t('resources.users.bt.add')}
                     </Button>
@@ -299,6 +300,7 @@ function User() {
                         <Table
                             scroll={{ x: '100%' }}
                             loading={tableLoading}
+                            style={{ padding: '0 10px' }}
                             pagination={{
                                 position: ['bottomCenter'],
                                 showTotal: showTotal,

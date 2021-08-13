@@ -11,7 +11,7 @@ import {
 import Icon from '@ant-design/icons';
 import { useLocation } from 'react-router-dom';
 import { ReactComponent as IconUser } from '../../images/icon/icon_normal_users.svg';
-// import { ReactComponent as IconDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconDevspace } from '../../images/icon/icon_normal_devspace.svg';
 import { ReactComponent as IconDashboard } from '../../images/icon/icon_normal_dashboard.svg';
 import { ReactComponent as IconClusters } from '../../images/icon/icon_normal_clusters.svg';
 import { ReactComponent as IconApplications } from '../../images/icon/icon_normal_applications.svg';
@@ -35,6 +35,8 @@ function SummaryCard(props: summaryPropsType) {
                 return IconUser;
             case '/dashboard/application':
                 return IconApplications;
+            case '/dashboard/devspace':
+                return IconDevspace;
             default:
                 return IconClusters;
         }

@@ -40,7 +40,7 @@ export const H = styled(TextOver)`
     min-height: 22px;
 `;
 
-export const Name = styled.span`
+export const Name = styled.div`
     word-break: keep-all;
     white-space: nowrap;
     overflow: hidden;

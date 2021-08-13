@@ -21,6 +21,7 @@ import { UserContext, UPDATE_USER } from '../../provider/appContext';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_docs.svg';
+import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
 // icon_state_enter.svg
 function Login() {
     const [email, setEmail] = useState('');
@@ -123,8 +124,13 @@ function Login() {
                             href="https://nocalhost.dev/zh/server/deploy-cloud/#access-the-nocalhost-server-web-service"
                             target="_blank"
                             rel="noreferrer"
+                            id="admin"
                         >
-                            Get the default admin account
+                            <Icon
+                                component={IconExplain}
+                                style={{ fontSize: '20px', marginRight: '4px' }}
+                            ></Icon>
+                            <span>Get the default admin account</span>
                         </a>
                     </AdminCount>
                 </Card>

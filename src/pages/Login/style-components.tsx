@@ -27,16 +27,20 @@ export const Card = styled.div`
     background-color: #fff;
     background-image: url(${bgLogo});
     background-size: cover;
-    border-radius: 4px;
     /* height: 366px; */
     width: 440px;
     padding: 30px 40px;
     margin: 30px auto;
+    border-radius: 8px;
+    box-shadow: 0px 8px 20px 0px rgba(54, 67, 92, 0.1);
 `;
 
 export const Title = styled.div`
     margin: 100px auto 0;
     text-align: center;
+    font-weight: 600;
+    color: rgb(54, 67, 92);
+    font-size: 36px;
 `;
 
 export const AdminCount = styled.div`

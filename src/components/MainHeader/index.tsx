@@ -90,30 +90,26 @@ function MainHeader() {
         setDialogType('');
     };
     async function query() {
-        if (userList.length === 0) {
-            const nameMap = await queryAllUser();
-            setUserList(
-                Array.from(nameMap).map((item) => {
-                    return {
-                        value: item[0],
-                        text: item[1],
-                        label: item[1],
-                    };
-                })
-            );
-        }
-        if (clusterList.length === 0) {
-            const clusterMap = await queryAllCluster();
-            setClusterList(
-                Array.from(clusterMap).map((item) => {
-                    return {
-                        value: item[0],
-                        text: item[1],
-                        label: item[1],
-                    };
-                })
-            );
-        }
+        const nameMap = await queryAllUser();
+        setUserList(
+            Array.from(nameMap).map((item) => {
+                return {
+                    value: item[0],
+                    text: item[1],
+                    label: item[1],
+                };
+            })
+        );
+        const clusterMap = await queryAllCluster();
+        setClusterList(
+            Array.from(clusterMap).map((item) => {
+                return {
+                    value: item[0],
+                    text: item[1],
+                    label: item[1],
+                };
+            })
+        );
     }
     return (
         <MainContent>

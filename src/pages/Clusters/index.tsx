@@ -2,8 +2,8 @@ import React, { FC, useState, useEffect } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import HTTP from '../../api/fetch';
 import ListItem from './components/ListItem';
-import { ContentTitle, ClusterCount, FlexContainer } from './style-components';
-import { Button } from 'antd';
+import { ContentTitle, ClusterCount, FlexContainer, LoadingBox } from './style-components';
+import { Button, Spin } from 'antd';
 import i18n from '../../i18n/i18n';
 import AddCluster from '../../components/AddCluster';
 import { queryAllUser } from '../../services';
@@ -13,6 +13,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 const Clusters: FC<{}> = () => {
     const [clusterList, setClusterList] = useState([]);
+    const [clusterLoading, setClusterLoading] = useState(false);
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const { t } = useTranslation();
 
@@ -21,8 +22,10 @@ const Clusters: FC<{}> = () => {
     }, []);
 
     async function queryClusters() {
+        setClusterLoading(true);
         const nameMap = await queryAllUser();
         const response = await HTTP.get('cluster');
+        setClusterLoading(false);
         const tmpList = response.data.map((item: any) => {
             return {
                 ...item,
@@ -59,8 +62,12 @@ const Clusters: FC<{}> = () => {
                     </Button>
                 </ContentTitle>
                 <div>
-                    {clusterList.length === 0 ? (
+                    {clusterList.length === 0 && !clusterLoading ? (
                         <NotData></NotData>
+                    ) : clusterLoading ? (
+                        <LoadingBox>
+                            <Spin></Spin>
+                        </LoadingBox>
                     ) : (
                         <>
                             {clusterList.map((item, index) => {

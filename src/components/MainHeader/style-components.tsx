@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import IconMore from '../../images/icon/icon_more_black.svg';
+
 export const Logo = styled.img`
     width: 37px;
     height: 24px;
@@ -120,4 +122,36 @@ export const Tran = styled.div`
     position: relative;
     cursor: pointer;
     /* top: -2px; */
+`;
+
+export const AvaterBox = styled.div`
+    position: relative;
+    cursor: pointer;
+    &:hover {
+        &:before {
+            background-image: url(${IconMore});
+            background-size: 20px 20px;
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            width: 20px;
+            height: 20px;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: rgb(54, 67, 92, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
 `;

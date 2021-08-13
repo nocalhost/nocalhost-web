@@ -17,6 +17,7 @@ import {
     FlexHeader,
     HeaderSection,
     Tran,
+    AvaterBox,
 } from './style-components';
 import IconLogo from '../../images/logo.png';
 import { UserContext } from '../../provider/appContext';
@@ -68,6 +69,8 @@ function MainHeader() {
     const { i18n, t } = useTranslation();
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
+    const [avaterPopVisible, setAvaterPopVisible] = useState(false);
+    const [profilePopVisible, setProfilePopVisible] = useState(false);
     // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
@@ -79,6 +82,7 @@ function MainHeader() {
         setDialogType('');
     };
     const signOut = () => {
+        setProfilePopVisible(false);
         location.replace('/login');
         localStorage.removeItem('token');
         localStorage.removeItem('username');
@@ -121,12 +125,19 @@ function MainHeader() {
                 <FlexHeader>
                     <Popover
                         trigger="click"
+                        visible={avaterPopVisible}
+                        onVisibleChange={(v) => setAvaterPopVisible(v)}
                         placement="bottomRight"
                         overlayClassName="addPop"
                         content={
                             <>
                                 {!!user.is_admin && (
-                                    <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.USER)}>
+                                    <AvatarItem
+                                        onClick={() => {
+                                            setDialogType(DIALOG_TYPE.USER);
+                                            setAvaterPopVisible(false);
+                                        }}
+                                    >
                                         <Icon
                                             component={IconNormalUser}
                                             style={{ fontSize: '20px' }}
@@ -139,6 +150,7 @@ function MainHeader() {
                                     onClick={() => {
                                         setDialogType(DIALOG_TYPE.APPLICATION);
                                         setFormData({});
+                                        setAvaterPopVisible(false);
                                     }}
                                 >
                                     <Icon
@@ -148,7 +160,12 @@ function MainHeader() {
                                     <Label>{t('resources.application.add')}</Label>
                                 </AvatarItem>
                                 {!!user.is_admin && (
-                                    <AvatarItem onClick={() => setDialogType(DIALOG_TYPE.CLUSTERS)}>
+                                    <AvatarItem
+                                        onClick={() => {
+                                            setDialogType(DIALOG_TYPE.CLUSTERS);
+                                            setAvaterPopVisible(false);
+                                        }}
+                                    >
                                         <Icon
                                             component={IconNormalCluster}
                                             style={{ fontSize: '20px' }}
@@ -160,6 +177,7 @@ function MainHeader() {
                                     <AvatarItem
                                         onClick={() => {
                                             query();
+                                            setAvaterPopVisible(false);
                                             setDialogType(DIALOG_TYPE.DEVSPACES);
                                         }}
                                     >
@@ -197,6 +215,8 @@ function MainHeader() {
                             trigger="click"
                             placement="bottomRight"
                             overlayClassName="avatarPop"
+                            visible={profilePopVisible}
+                            onVisibleChange={(v) => setProfilePopVisible(v)}
                             content={
                                 <AvatarPop>
                                     <Info>
@@ -235,7 +255,10 @@ function MainHeader() {
                                             content={
                                                 <div>
                                                     <TranItem
-                                                        onClick={() => i18n.changeLanguage('zh')}
+                                                        onClick={() => {
+                                                            setProfilePopVisible(false);
+                                                            i18n.changeLanguage('zh');
+                                                        }}
                                                     >
                                                         <Icon
                                                             component={IconCn}
@@ -252,7 +275,10 @@ function MainHeader() {
                                                         )}
                                                     </TranItem>
                                                     <TranItem
-                                                        onClick={() => i18n.changeLanguage('en')}
+                                                        onClick={() => {
+                                                            setProfilePopVisible(false);
+                                                            i18n.changeLanguage('en');
+                                                        }}
                                                     >
                                                         <Icon
                                                             component={IconEn}
@@ -287,6 +313,7 @@ function MainHeader() {
                                         </Popover>
                                         <AvatarItem
                                             onClick={() => {
+                                                setProfilePopVisible(false);
                                                 setDialogType(DIALOG_TYPE.USER);
                                                 setFormData({
                                                     status: user?.status,
@@ -316,7 +343,12 @@ function MainHeader() {
                                 </AvatarPop>
                             }
                         >
-                            <Icon component={IconUserAvater} style={{ fontSize: '32px' }}></Icon>
+                            <AvaterBox>
+                                <Icon
+                                    component={IconUserAvater}
+                                    style={{ fontSize: '32px' }}
+                                ></Icon>
+                            </AvaterBox>
                         </Popover>
                     </HeaderSection>
                 </FlexHeader>

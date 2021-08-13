@@ -5,10 +5,9 @@ import zhCnTrans from './zh.json';
 
 import { initReactI18next } from 'react-i18next';
 
-i18n.use(LanguageDetector) //嗅探当前浏览器语言
+i18n.use(LanguageDetector)
     .use(initReactI18next) //init i18next
     .init({
-        //引入资源文件
         resources: {
             en: {
                 translation: enUsTrans,
@@ -17,7 +16,6 @@ i18n.use(LanguageDetector) //嗅探当前浏览器语言
                 translation: zhCnTrans,
             },
         },
-        //选择默认语言，选择内容为上述配置中的key，即en/zh
         fallbackLng: 'en',
         debug: false,
         interpolation: {

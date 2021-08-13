@@ -299,7 +299,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
         const listStr = resources
             .map((item) => {
-                return `<li><span>${t(
+                return `<li style="font-size: 12px"><span>${t(
                     'resources.cluster.' + item.resource_name
                 )}</span><span style="display: inline-block; width: 30px;"> ${(
                     item.percentage * 100
@@ -428,7 +428,9 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                             <WorkLoadItem key={key}>
                                 <WorkLoadInfoItem>
                                     <NumSpan>{`${(item.percentage * 100).toFixed(0)}%`}</NumSpan>
-                                    <LabelSpan>{item.resource_name}</LabelSpan>
+                                    <LabelSpan>
+                                        {t(`resources.cluster.${item.resource_name}`)}
+                                    </LabelSpan>
                                 </WorkLoadInfoItem>
                                 <WorkLoadInfoItem>
                                     <NumSpan>{`${item.used} ${

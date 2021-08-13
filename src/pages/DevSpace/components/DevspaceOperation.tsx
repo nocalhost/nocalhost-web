@@ -230,7 +230,7 @@ const DevspaceOperation = () => {
         );
         if (response.code === 0) {
             queryDetail();
-            message.success('resources.devSpace.tips.unShareSuccess');
+            message.success(t('resources.devSpace.tips.unShareSuccess'));
         }
     };
 

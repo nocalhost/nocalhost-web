@@ -469,7 +469,7 @@ const EnvList = () => {
                         <LabelSelect
                             style={{ marginRight: 12 }}
                             label={t('resources.space.fields.space_type')}
-                            option={[]}
+                            option={[{ value: 'all', text: t('common.select.all') }]}
                             onChange={handleSearchInput}
                         />
                         {!id && (

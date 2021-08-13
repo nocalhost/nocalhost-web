@@ -171,7 +171,7 @@ const DevspaceOperation = () => {
             }
         );
         if (response.code === 0) {
-            message.success('operate success!');
+            message.success(t('resources.cluster.tips.changeRoleSuccess'));
         }
     }
 

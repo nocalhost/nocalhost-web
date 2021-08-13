@@ -41,6 +41,8 @@ import { ReactComponent as IconMore } from '../../images/icon/icon_more.svg';
 import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_quarantine_space.svg';
 import { ReactComponent as IconCooperation } from '../../images/icon/icon_label_cooperator.svg';
 import { ReactComponent as IconViewer } from '../../images/icon/icon_label_viewer.svg';
+import { ReactComponent as IconNormalCooperator } from '../../images/icon/icon_label_normal_cooperator.svg';
+import { ReactComponent as IconNormalViewer } from '../../images/icon/icon_label_normal_viewer.svg';
 import { ReactComponent as IconLimits } from '../../images/icon/icon_label_limits.svg';
 import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
@@ -83,7 +85,7 @@ const PopoverBox = (props: { record: UserProps }) => {
             <div>
                 <FlexBox>
                     <Icon
-                        component={IconCooperation}
+                        component={IconNormalCooperator}
                         style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
                     />
                     <span>Cooperator:</span>
@@ -95,7 +97,7 @@ const PopoverBox = (props: { record: UserProps }) => {
             <div>
                 <FlexBox>
                     <Icon
-                        component={IconViewer}
+                        component={IconNormalViewer}
                         style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
                     />
                     <span>Viewer:</span>

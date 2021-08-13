@@ -3,8 +3,8 @@ import { Select } from 'antd';
 import Icon from '@ant-design/icons';
 
 import styled from 'styled-components';
-import { ReactComponent as IconCooperation } from '../../../images/icon/icon_label_cooperator.svg';
-import { ReactComponent as IconViewer } from '../../../images/icon/icon_label_viewer.svg';
+import { ReactComponent as IconNormalCooperator } from '../../../images/icon/icon_label_normal_cooperator.svg';
+import { ReactComponent as IconNormalViewer } from '../../../images/icon/icon_label_normal_viewer.svg';
 
 import './index.less';
 
@@ -41,7 +41,7 @@ const ShareType = (props: PropParam) => {
     return (
         <ContentWrap className="share-type">
             <Icon
-                component={currentType === 'Cooperator' ? IconCooperation : IconViewer}
+                component={currentType === 'Cooperator' ? IconNormalCooperator : IconNormalViewer}
                 style={{ fontSize: 20, marginRight: 8 }}
             />
             <Select

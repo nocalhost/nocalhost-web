@@ -25,3 +25,13 @@ export const ClusterCount = styled.span`
     text-align: center;
     font-size: 12px;
 `;
+
+export const LoadingBox = styled.div`
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+`;

@@ -22,13 +22,6 @@ interface FormType {
     confirm_password?: string;
 }
 
-// confirm_password: "a19930731"
-// email: "296115103@qq.com"
-// is_admin: 0
-// name: "chuckie"
-// password: "a19930731"
-// status: 1
-
 const initFormValue = {
     confirm_password: '',
     email: '',

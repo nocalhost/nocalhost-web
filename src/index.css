@@ -301,3 +301,8 @@ code {
 .operationPop {
     padding-top: 0px;
 }
+
+.ant-btn > .anticon + span,
+.ant-btn > span + .anticon {
+    margin-left: 4px;
+}

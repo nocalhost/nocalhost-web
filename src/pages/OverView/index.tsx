@@ -141,7 +141,7 @@ function Overview() {
                     </Col>
                 </Row>
                 <CardBox>
-                    <Card>
+                    <Card style={{ cursor: 'auto' }}>
                         <Flex mb="24px">
                             <H>{t('resources.cluster.name')}</H>
                             <Dot>{clusterData.length}</Dot>

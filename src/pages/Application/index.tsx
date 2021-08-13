@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment, useContext } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { Table, Button, Popover, message } from 'antd';
 import HTTP from '../../api/fetch';
-import { PlusOutlined } from '@ant-design/icons';
 import Dialog from '../../components/Dialog';
 import Icon from '@ant-design/icons';
 import {
@@ -38,6 +37,7 @@ import { UserContext } from '../../provider/appContext';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import './reset.less';
+import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 
 function Application() {
     const [data, setData] = useState([]);
@@ -380,7 +380,7 @@ function Application() {
                     <Button
                         type="primary"
                         onClick={() => setOpenDialog(true)}
-                        icon={<PlusOutlined style={{ color: '#fff' }} />}
+                        icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
                     >
                         {t('resources.application.add')}
                     </Button>

@@ -7,6 +7,15 @@ export const Card = styled.div`
     background: #fff;
     padding: 20px 23px 23px 20px;
     position: relative;
+    cursor: pointer;
+    .enter {
+        display: none;
+    }
+    &:hover {
+        span {
+            display: inline !important;
+        }
+    }
 `;
 
 export const CardBox = styled.div`
@@ -85,7 +94,9 @@ export const Dot = styled.div`
 
 export const IconBox = styled.div`
     position: relative;
-    /* top: 8px; */
+    position: relative;
+    right: -14px;
+    top: 2px;
 `;
 
 export const SvgIcon = styled.img`

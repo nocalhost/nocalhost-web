@@ -194,7 +194,7 @@ function User() {
                 const index = args[2];
                 const record = args[1];
                 return (
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }} id="operation">
                         <IconBox onClick={() => handleEdit(record.id)}>
                             <CommonIcon
                                 // title={t('common.bt.edit')}
@@ -205,6 +205,7 @@ function User() {
                         </IconBox>
                         <Popover
                             trigger="click"
+                            overlayClassName="operationPop"
                             placement="bottom"
                             visible={index === popVisibleIndex}
                             onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
@@ -299,6 +300,7 @@ function User() {
                         <Table
                             scroll={{ x: '100%' }}
                             loading={tableLoading}
+                            style={{ padding: '0 10px' }}
                             pagination={{
                                 position: ['bottomCenter'],
                                 showTotal: showTotal,

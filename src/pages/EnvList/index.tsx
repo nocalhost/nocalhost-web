@@ -232,7 +232,7 @@ const EnvList = () => {
             key: 'operation',
             render: (text: string, record: any) => {
                 return (
-                    <FlexBox>
+                    <FlexBox id="operation">
                         <IconBox onClick={() => handleEdit(record)}>
                             <CommonIcon
                                 NormalIcon={IconNormalEdit}
@@ -249,6 +249,7 @@ const EnvList = () => {
                         </IconBox>
                         <Popover
                             trigger="click"
+                            overlayClassName="operationPop"
                             content={
                                 <>
                                     <PopItem onClick={() => handleReset(record)}>

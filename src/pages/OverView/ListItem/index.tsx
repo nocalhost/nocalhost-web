@@ -28,6 +28,7 @@ export function ListItem(props: PropsType) {
                         <Icon component={IconCluster} style={{ fontSize: '32px' }}></Icon>
                         <div style={{ marginLeft: '12px' }}>
                             <Name>{item.name}</Name>
+                            <I>{t('resources.cluster.fields.name')}</I>
                         </div>
                     </Flex>
                 </Col>

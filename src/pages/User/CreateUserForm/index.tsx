@@ -110,7 +110,7 @@ function CreateUserForm(props: PropsType) {
         if (value && value.length < 6) {
             return Promise.reject(new Error(t('resources.users.valid.password')));
         }
-        if ((values.confirm_password || value) && value !== values.confirm_password) {
+        if (values.confirm_password && value && value !== values.confirm_password) {
             return Promise.reject(new Error(t('resources.users.valid.comfirmPassword')));
         }
         return Promise.resolve();

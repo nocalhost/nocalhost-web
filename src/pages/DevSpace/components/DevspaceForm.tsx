@@ -107,6 +107,12 @@ const DevspaceForm = ({
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
+    // 校验相关
+    const [space_req_mem, set_space_req_mem] = useState('');
+    const [space_limits_mem, set_space_limits_mem] = useState('');
+    const [space_req_cpu, set_space_req_cpu] = useState('');
+    const [space_limits_cpu, set_space_limits_cpu] = useState('');
+
     useEffect(() => {
         if (isEdit && record) {
             const {
@@ -123,7 +129,7 @@ const DevspaceForm = ({
                     const tmpObj = JSON.parse(space_resource_limit);
                     const obj: { [index: string]: any } = {};
                     Object.keys(tmpObj).forEach((item) => {
-                        obj[item] = parseInt(tmpObj[item]) || '';
+                        obj[item] = parseInt(tmpObj[item]) || undefined;
                     });
                     limitObj = obj;
                 }
@@ -166,58 +172,50 @@ const DevspaceForm = ({
                 space_storage_capacity,
                 resource_limit_set,
             } = values;
+
+            const limitObj = resource_limit_set
+                ? {
+                      container_limits_cpu,
+                      container_limits_mem: container_limits_mem
+                          ? `${container_limits_mem}Mi`
+                          : container_limits_mem,
+                      container_req_cpu,
+                      container_req_mem: container_req_mem
+                          ? `${container_req_mem}Mi`
+                          : container_req_mem,
+                      space_lb_count: space_lb_count,
+                      space_limits_cpu: space_limits_cpu,
+                      space_limits_mem: space_limits_mem
+                          ? `${space_limits_mem}Mi`
+                          : space_limits_mem,
+                      space_pvc_count: space_pvc_count,
+                      space_req_cpu: space_req_cpu,
+                      space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
+                      space_storage_capacity: space_storage_capacity
+                          ? `${space_storage_capacity}Gi`
+                          : space_storage_capacity,
+                  }
+                : null;
             if (isEdit) {
                 // edit name
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
                 });
-                const limitResp = await HTTP.put(`dev_space/${record.id}/update_resource_limit`, {
-                    container_limits_cpu,
-                    container_limits_mem: container_limits_mem
-                        ? `${container_limits_mem}Mi`
-                        : container_limits_mem,
-                    container_req_cpu,
-                    container_req_mem: container_req_mem
-                        ? `${container_req_mem}Mi`
-                        : container_req_mem,
-                    space_lb_count,
-                    space_limits_cpu,
-                    space_limits_mem: space_limits_mem ? `${space_limits_mem}Mi` : space_limits_mem,
-                    space_pvc_count,
-                    space_req_cpu,
-                    space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
-                    space_storage_capacity: space_storage_capacity
-                        ? `${space_storage_capacity}Gi`
-                        : space_storage_capacity,
-                });
-                if (response.code === 0 && limitResp.code === 0) {
-                    message.success(t('common.message.edit'));
+                if (resource_limit_set) {
+                    const limitResp = await HTTP.put(
+                        `dev_space/${record.id}/update_resource_limit`,
+                        limitObj
+                    );
+                    if (response.code === 0 && limitResp.code === 0) {
+                        message.success(t('common.message.edit'));
+                    }
+                } else {
+                    if (response.code === 0) {
+                        message.success(t('common.message.edit'));
+                    }
                 }
                 onSubmit && onSubmit();
             } else {
-                const limitObj = resource_limit_set
-                    ? {
-                          container_limits_cpu,
-                          container_limits_mem: container_limits_mem
-                              ? `${container_limits_mem}Mi`
-                              : container_limits_mem,
-                          container_req_cpu,
-                          container_req_mem: container_req_mem
-                              ? `${container_req_mem}Mi`
-                              : container_req_mem,
-                          space_lb_count,
-                          space_limits_cpu,
-                          space_limits_mem: space_limits_mem
-                              ? `${space_limits_mem}Mi`
-                              : space_limits_mem,
-                          space_pvc_count,
-                          space_req_cpu,
-                          space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
-                          space_storage_capacity: space_storage_capacity
-                              ? `${space_storage_capacity}Gi`
-                              : space_storage_capacity,
-                      }
-                    : null;
                 const response = await HTTP.post('dev_space', {
                     cluster_id,
                     cluster_admin: cluster_admin ? 1 : 0,
@@ -307,46 +305,56 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_req_mem"
                                         label={t('resources.space.fields.requestTotalMem')}
-                                        rules={[{ required: true }]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input
+                                            onChange={(e: any) => set_space_req_mem(e.target.value)}
+                                            style={{ width: 298 }}
+                                        />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
-                                        rules={[{ required: true }]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input
+                                            onChange={(e: any) =>
+                                                set_space_limits_mem(e.target.value)
+                                            }
+                                            style={{ width: 298 }}
+                                        />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
                                     <Form.Item
                                         name="space_req_cpu"
                                         label={t('resources.space.fields.requestTotalCPU')}
-                                        rules={[{ required: true }]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input
+                                            onChange={(e: any) => set_space_req_cpu(e.target.value)}
+                                            style={{ width: 298 }}
+                                        />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_limits_cpu"
                                         label={t('resources.space.fields.limitTotalCPU')}
-                                        rules={[{ required: true }]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input
+                                            onChange={(e: any) =>
+                                                set_space_limits_cpu(e.target.value)
+                                            }
+                                            style={{ width: 298 }}
+                                        />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
                                     <Form.Item
                                         name="space_pvc_count"
                                         label={t('resources.space.fields.PVC_num')}
-                                        rules={[{ required: true }]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_storage_capacity"
                                         label={t('resources.space.fields.storageCapacity')}
-                                        rules={[{ required: true }]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
@@ -355,7 +363,6 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="space_lb_count"
                                         label={t('resources.space.fields.lbNum')}
-                                        rules={[{ required: true }]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
@@ -365,16 +372,25 @@ const DevspaceForm = ({
                                 </LimitTitle>
                                 <FormFlexBox>
                                     <Form.Item
-                                        name="container_limits_cpu"
+                                        name="container_req_mem"
                                         label={t('resources.space.fields.requestTotalMem')}
-                                        rules={[{ required: true }]}
+                                        rules={[
+                                            {
+                                                required: !!space_req_mem,
+                                            },
+                                        ]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
+
                                     <Form.Item
                                         name="container_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
-                                        rules={[{ required: true }]}
+                                        rules={[
+                                            {
+                                                required: !!space_limits_mem,
+                                            },
+                                        ]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
@@ -383,14 +399,22 @@ const DevspaceForm = ({
                                     <Form.Item
                                         name="container_req_cpu"
                                         label={t('resources.space.fields.requestTotalCPU')}
-                                        rules={[{ required: true }]}
+                                        rules={[
+                                            {
+                                                required: !!space_req_cpu,
+                                            },
+                                        ]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
-                                        name="container_req_mem"
+                                        name="container_limits_cpu"
                                         label={t('resources.space.fields.limitTotalCPU')}
-                                        rules={[{ required: true }]}
+                                        rules={[
+                                            {
+                                                required: !!space_limits_cpu,
+                                            },
+                                        ]}
                                     >
                                         <Input style={{ width: 298 }} />
                                     </Form.Item>

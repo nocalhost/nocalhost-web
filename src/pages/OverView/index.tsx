@@ -50,7 +50,7 @@ function Overview() {
         setClusterData(result.data || []);
     };
     const getDevSpaceData = async () => {
-        const result = await HTTP.get('dev_space');
+        const result = await HTTP.get('dev_space', null, { is_v2: true });
         setDevSpaceData(result.data || []);
     };
     const getRace = async () => {

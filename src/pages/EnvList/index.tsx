@@ -297,6 +297,8 @@ const EnvList = () => {
         user_id: 'all',
     });
 
+    const selectAllOption = { value: 'all', text: t('common.select.all') };
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const showTotal = () => {
@@ -331,9 +333,7 @@ const EnvList = () => {
                     return isNameValid && item.cluster_id === cluster_id;
                 } else {
                     return (
-                        isNameValid &&
-                        item.item.user_id === user_id &&
-                        item.cluster_id === cluster_id
+                        isNameValid && item.user_id === user_id && item.cluster_id === cluster_id
                     );
                 }
             }
@@ -372,7 +372,6 @@ const EnvList = () => {
         setSpaceList(tmpList);
         setFilterList(tmpList);
         setUserList([
-            { value: 'all', text: t('common.select.all') },
             ...Array.from(nameMap).map((item) => {
                 return {
                     value: item[0],
@@ -383,7 +382,6 @@ const EnvList = () => {
         ]);
 
         setClusterList([
-            { value: 'all', text: t('common.select.all') },
             ...Array.from(clusterMap).map((item) => {
                 return {
                     value: item[0],
@@ -476,13 +474,13 @@ const EnvList = () => {
                             <LabelSelect
                                 style={{ marginRight: 12 }}
                                 label={t('resources.cluster.name')}
-                                option={clusterList}
+                                option={[selectAllOption, ...clusterList]}
                                 onChange={handleSearchCluster}
                             />
                         )}
                         <LabelSelect
                             label={t('resources.space.fields.user')}
-                            option={userList}
+                            option={[selectAllOption, ...userList]}
                             onChange={handleSearchUser}
                         />
                     </SearchBox>
@@ -497,7 +495,7 @@ const EnvList = () => {
                         {!id && (
                             <Button
                                 type="primary"
-                                icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
+                                icon={<Icon component={IconAdd}></Icon>}
                                 onClick={() => setShowModal(true)}
                             >
                                 {t('resources.space.actions.create')}

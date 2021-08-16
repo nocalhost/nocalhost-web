@@ -12,6 +12,7 @@ export const Card = styled.div`
         display: none;
     }
     &:hover {
+        box-shadow: 0px 8px 20px 0px rgba(40, 47, 55, 0.15);
         span {
             display: inline !important;
         }

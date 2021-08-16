@@ -30,8 +30,8 @@ import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser, queryAllCluster } from '../../services';
 
-import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
-import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
+// import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
+// import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
 import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
 import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
 import { ReactComponent as IconNormalKube } from '../../images/icon/icon_btn_normal_kube.svg';
@@ -487,13 +487,13 @@ const EnvList = () => {
                         />
                     </SearchBox>
                     <FlexBox>
-                        <IconBox onClick={querySpaceList}>
+                        {/* <IconBox onClick={querySpaceList}>
                             <CommonIcon
                                 style={{ fontSize: '24px' }}
                                 NormalIcon={IconNormalRefresh}
                                 HoverIcon={IconRefresh}
                             />
-                        </IconBox>
+                        </IconBox> */}
                         {!id && (
                             <Button
                                 type="primary"

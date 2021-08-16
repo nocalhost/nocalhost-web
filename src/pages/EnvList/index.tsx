@@ -10,6 +10,7 @@ import TableSearchInput from '../../components/TableSearchInput';
 import LabelSelect from '../../components/LabelSelect';
 import BreadCard from '../../components/BreadCard';
 import DevspaceForm from '../DevSpace/components/DevspaceForm';
+import ChooseType from '../DevSpace/components/ChooseType';
 import KubeConfig from './components/KubeConfig';
 import { useHistory } from 'react-router-dom';
 import {

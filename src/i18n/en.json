@@ -387,7 +387,8 @@
                 "resetContent": "Resetting the development space will delete all resources in the {{name}} namespace and rebuild.",
                 "selected": "{{Count}} selected",
                 "searchSpaceName": "Search development space name",
-                "changeRoleSuccess": "Successfully changed the user role!"
+                "changeRoleSuccess": "Successfully changed the user role!",
+                "chooseType": "Select the type of space to create"
             }
         },
         "myDevSpace": {

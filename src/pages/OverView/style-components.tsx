@@ -94,7 +94,6 @@ export const Dot = styled.div`
 
 export const IconBox = styled.div`
     position: relative;
-    position: relative;
     right: -14px;
     top: 2px;
 `;

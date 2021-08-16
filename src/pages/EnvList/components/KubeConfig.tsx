@@ -75,7 +75,14 @@ const KubeConfig = (props: PropParam) => {
 
     return (
         <>
-            <Modal width={680} visible={true} title="KubeConfig" onCancel={onCancel} footer={null}>
+            <Modal
+                width={680}
+                style={{ borderRadius: 4 }}
+                visible={true}
+                title="KubeConfig"
+                onCancel={onCancel}
+                footer={null}
+            >
                 <ConfigBox>{kubeConfig}</ConfigBox>
                 <BtnBox>
                     <div>

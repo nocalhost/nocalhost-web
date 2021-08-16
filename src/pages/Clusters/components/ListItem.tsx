@@ -12,10 +12,13 @@ import { ReactComponent as IconProfile } from '../../../images/icon/profile_boy.
 import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.svg';
 import { ReactComponent as IconData } from '../../../images/icon/icon_resource_data.svg';
 import AddCluster from '../../../components/AddCluster';
+import CommonIcon from '../../../components/CommonIcon';
 import { ClusterItemInfo } from '../../../types/index';
 import DeleteModal from '../../../components/DeleteModal';
 
 import HTTP from '../../../api/fetch';
+
+import './index.less';
 
 const { Shape, Util, Global, G, Animate } = F2;
 const { Vector2 } = G;
@@ -40,6 +43,14 @@ const ListBox = styled.div`
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(40, 47, 55, 0.05);
     margin-bottom: 16px;
+
+    &:hover {
+        box-shadow: 0 8px 20px 0 rgba(40, 47, 55, 0.15);
+
+        .delete {
+            visibility: visible;
+        }
+    }
 `;
 
 const DetailContainer = styled.div`
@@ -49,11 +60,19 @@ const DetailContainer = styled.div`
 `;
 
 const LoadContainer = styled.div`
+    height: 336px;
     flex: 1;
     display: flex;
     padding: 12px 20px 0;
     background: rgb(249, 251, 253);
     border-radius: 0;
+`;
+
+const ClusterName = styled.span`
+    color: rgb(54, 67, 92);
+    font-family: PingFangSC-Semibold;
+    font-size: 14px;
+    font-weight: 600;
 `;
 
 const InfoTitle = styled.h3`
@@ -69,6 +88,7 @@ const InfoTitle = styled.h3`
 const Flex1Ul = styled.ul`
     flex: 1;
     padding-top: 10px;
+    margin-left: 47px;
 `;
 
 const DetailTitle = styled.div`
@@ -145,13 +165,33 @@ const LabelSpan = styled.span`
     font-weight: normal;
 `;
 
+const Dot = styled.span<{ name: String }>`
+    display: inline-block;
+    background: ${(props) =>
+        props.name === 'cpu'
+            ? '#49a5ff'
+            : props.name === 'memory'
+            ? '#1ee7e7'
+            : props.name === 'pods'
+            ? '#ffd05a'
+            : '#fe8afe'};
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+`;
+
 const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
     const info = JSON.parse(data.info);
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const history = useHistory();
     const { t } = useTranslation();
-    const { resources = [] } = data;
+    let { resources = [] } = data;
+    const { modifiable } = data;
+    resources = resources.sort(
+        (a: any, b: any) => a.resource_name[0].charCodeAt() - b.resource_name[0].charCodeAt()
+    );
 
     useEffect(() => {
         const loadInfoData = resources.map((item: any) => {
@@ -246,7 +286,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         const chart = new F2.Chart({
             id: `chart${data.id}`,
             pixelRatio: window.devicePixelRatio,
-            height: 284,
+            height: 324,
         });
 
         chart.source(loadInfoData.reverse(), {
@@ -257,13 +297,14 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
         chart.coord('polar', {
             transposed: true,
-            innerRadius: 0.382,
-            radius: 0.8,
+            innerRadius: 0.3,
+            radius: 0.82,
         });
         chart.axis(false);
         chart.legend({
             position: 'bottom',
             itemWidth: 60,
+            offsetY: -20,
         });
 
         // 将数据映射到上面注册的Shape——interval，并绑定动画
@@ -272,7 +313,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             .position('resource_name*percentage')
             .color('resource_name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
             .shape('tick')
-            .size(10)
+            .size(12)
             .animate({
                 appear: {
                     animation: 'waveIn',
@@ -291,7 +332,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 end: [obj.resource_name, 75],
                 top: false,
                 style: {
-                    lineWidth: 10,
+                    lineWidth: 12,
                     stroke: '#e8edf4',
                 },
             });
@@ -299,17 +340,17 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
         const listStr = resources
             .map((item) => {
-                return `<li style="font-size: 12px"><span>${t(
+                return `<li style="height: 16px; font-size: 12px; display: flex; align-items: center; justify-content: flex-end; margin-bottom: 4px;"><span>${t(
                     'resources.cluster.' + item.resource_name
-                )}</span><span style="display: inline-block; width: 30px;"> ${(
+                )}</span><span style="display: inline-block; font-weight: 600; width: 30px;"> ${(
                     item.percentage * 100
                 ).toFixed(0)}%</span></li>`;
             })
             .join('');
         chart.guide().html({
             position: [0, 0],
-            offsetX: -70,
-            offsetY: -22,
+            offsetX: -68,
+            offsetY: -25,
             html: `
                 <div>
                     <ul style="width: 120px;text-align: right; font-size: 12px; color: #36435c">
@@ -353,7 +394,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                         <Icon style={{ fontSize: '32px' }} component={IconCluster} />
                     </DetailIcon>
                     <FlexColumnDiv>
-                        <span>{data.name}</span>
+                        <ClusterName>{data.name}</ClusterName>
                     </FlexColumnDiv>
                 </DetailTitle>
                 <ul>
@@ -400,17 +441,27 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 </ul>
                 <Line1px />
                 <BtnBox>
-                    <Button style={{ marginRight: 20 }} onClick={handleEdit}>
-                        {t('resources.cluster.edit')}
-                    </Button>
+                    {modifiable && (
+                        <Button style={{ marginRight: 20 }} onClick={handleEdit}>
+                            {t('resources.cluster.edit')}
+                        </Button>
+                    )}
                     <Button style={{ marginRight: 20 }} onClick={() => handleEnvList(data.id)}>
                         {t('resources.cluster.envList')}
                     </Button>
-                    <Icon
-                        onClick={() => setShowDelete(true)}
-                        component={IconDelete}
-                        style={{ fontSize: 20, cursor: 'pointer' }}
-                    />
+                    {modifiable && (
+                        <div
+                            className="delete"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setShowDelete(true)}
+                        >
+                            <CommonIcon
+                                title={t('common.bt.delete')}
+                                NormalIcon={IconDelete}
+                                style={{ fontSize: '20px' }}
+                            />
+                        </div>
+                    )}
                 </BtnBox>
             </DetailContainer>
             <LoadContainer>
@@ -419,9 +470,12 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                         <Icon component={IconData} style={{ fontSize: 20, marginRight: 6 }} />
                         {t('resources.cluster.workload')}
                     </InfoTitle>
-                    <canvas id={`chart${data.id}`} height={284}></canvas>
+                    <canvas
+                        style={{ position: 'relative', top: '-20px' }}
+                        id={`chart${data.id}`}
+                        height={284}
+                    ></canvas>
                 </div>
-
                 <Flex1Ul>
                     {resources.map((item, key) => {
                         return (
@@ -429,6 +483,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                                 <WorkLoadInfoItem>
                                     <NumSpan>{`${(item.percentage * 100).toFixed(0)}%`}</NumSpan>
                                     <LabelSpan>
+                                        <Dot name={item.resource_name} />
                                         {t(`resources.cluster.${item.resource_name}`)}
                                     </LabelSpan>
                                 </WorkLoadInfoItem>

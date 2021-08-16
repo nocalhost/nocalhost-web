@@ -22,7 +22,9 @@ import {
     SpaceTypeItem,
     Dot,
     UserBox,
+    UserItem,
     UserName,
+    UserType,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
 import DeleteModal from '../../components/DeleteModal';
@@ -81,28 +83,28 @@ const PopoverBox = (props: { record: UserProps }) => {
     const { cooper_user, viewer_user } = record;
     return (
         <UserBox>
-            <div>
+            <UserItem type="cooperator">
                 <FlexBox>
                     <Icon
                         component={IconNormalCooperator}
                         style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
                     />
-                    <span>Cooperator:</span>
+                    <UserType>Cooperator:</UserType>
                 </FlexBox>
-                <UserName style={{ minHeight: '40px' }}>
+                <UserName style={{ minHeight: '28px' }}>
                     {cooper_user.map((item) => item.name).join('、')}
                 </UserName>
-            </div>
-            <div>
+            </UserItem>
+            <UserItem type="viewer" style={{ padding: '12px 10px' }}>
                 <FlexBox>
                     <Icon
                         component={IconNormalViewer}
                         style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
                     />
-                    <span>Viewer:</span>
+                    <UserType>Viewer:</UserType>
                 </FlexBox>
                 <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
-            </div>
+            </UserItem>
         </UserBox>
     );
 };
@@ -145,7 +147,7 @@ const EnvList = () => {
         },
         {
             title: t('resources.space.fields.space_type'),
-            width: '160px',
+            width: '180px',
             key: 'space_type',
             render: (text: string, record: any) => {
                 return (
@@ -166,6 +168,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.namespace'),
             key: 'namespace',
+            width: '180px',
             dataIndex: 'namespace',
             render: (text: string, record: any) => {
                 return (
@@ -301,7 +304,7 @@ const EnvList = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const showTotal = () => {
-        return `共${spaceList.length}条`;
+        return t('resources.devSpace.tips.sumOfItem', { count: spaceList.length });
     };
 
     useEffect(() => {
@@ -510,7 +513,6 @@ const EnvList = () => {
                     )
                 ) : (
                     <Table
-                        style={{ padding: '0 10px' }}
                         tableLayout="fixed"
                         columns={columns}
                         loading={isLoading}

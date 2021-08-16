@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { ListItem } from './ListItem';
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import IconColorUser from '../../images/icon/icon_color_users.svg';
 import IconColorApplications from '../../images/icon/icon_color_applications.svg';
@@ -15,6 +15,7 @@ import Icon from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import { ClusterItemType } from './type';
+import NotData from '../../components/NotData';
 import {
     Card,
     CardBox,
@@ -29,6 +30,7 @@ import {
     Dot,
     Flex,
     IconBox,
+    LoadingBox,
 } from './style-components';
 function Overview() {
     const history = useHistory();
@@ -37,6 +39,7 @@ function Overview() {
     const [applicationData, setApplicationData] = useState([]);
     const [clusterData, setClusterData] = useState([]);
     const [devSpaceData, setDevSpaceData] = useState([]);
+    const [clusterLoading, setClusterLoading] = useState(false);
     const getUser = async () => {
         const result = await HTTP.get('users');
         setUserData(result.data || []);
@@ -46,7 +49,9 @@ function Overview() {
         setApplicationData(result.data || []);
     };
     const getCluster = async () => {
+        setClusterLoading(true);
         const result = await HTTP.get('cluster');
+        setClusterLoading(false);
         setClusterData(result.data || []);
     };
     const getDevSpaceData = async () => {
@@ -147,17 +152,25 @@ function Overview() {
                             <Dot>{clusterData.length}</Dot>
                             <Water src={ClusterWater}></Water>
                         </Flex>
-                        {clusterData.map((item: ClusterItemType) => (
-                            <ListItem
-                                item={item}
-                                key={item.id}
-                                user={
-                                    userData.find(
-                                        (el: { id: number }) => el.id === item.user_id
-                                    ) || { name: '' }
-                                }
-                            ></ListItem>
-                        ))}
+                        {clusterData.length === 0 && !clusterLoading ? (
+                            <NotData></NotData>
+                        ) : clusterLoading ? (
+                            <LoadingBox>
+                                <Spin></Spin>
+                            </LoadingBox>
+                        ) : (
+                            clusterData.map((item: ClusterItemType) => (
+                                <ListItem
+                                    item={item}
+                                    key={item.id}
+                                    user={
+                                        userData.find(
+                                            (el: { id: number }) => el.id === item.user_id
+                                        ) || { name: '' }
+                                    }
+                                ></ListItem>
+                            ))
+                        )}
                     </Card>
                 </CardBox>
             </CardBox>

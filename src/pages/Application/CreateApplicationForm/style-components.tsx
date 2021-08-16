@@ -26,3 +26,10 @@ export const AddInputBtn = styled.div`
     cursor: pointer;
     color: rgb(54, 67, 92);
 `;
+
+// eslint-disable-next-line no-undef
+export const DirBox = styled.div<{ isShow: boolean }>`
+    & .ant-form-item-control {
+        display: ${(props) => (props.isShow ? 'flex' : 'none')} !important;
+    }
+`;

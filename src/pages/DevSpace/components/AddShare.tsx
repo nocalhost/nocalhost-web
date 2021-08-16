@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Checkbox, Row, message } from 'antd';
+import { Checkbox, Row, message, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import TableSearchInput from '../../../components/TableSearchInput';
@@ -54,6 +54,16 @@ const SelectedTitle = styled.div`
     font-size: 14px;
     font-family: PingFangSC-Regular;
     font-weight: normal;
+`;
+
+const Footer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+`;
+
+const ButtonBox = styled.div`
+    margin-left: 12px;
 `;
 
 interface UserInfoItem {
@@ -150,76 +160,78 @@ const AddShare = ({
 
     return (
         <>
-            <Modal
-                width={680}
-                title={t('resources.devSpace.addShare')}
-                visible={true}
-                onCancel={onCancel}
-                onOk={handleAddShare}
-            >
-                <ContentWrap>
-                    <ContentPanel>
-                        <TableSearchInput
-                            placeholder={t('resources.devSpace.tips.searchPlaceholder')}
-                            onConfirm={handleSearch}
-                        />
-                        <TitleBox>
-                            {t('resources.devSpace.tips.unShareUsers')}
-                            <span>{userList.length}</span>
-                        </TitleBox>
-                        <UserList>
-                            <Checkbox.Group onChange={handleSelect}>
-                                {filterList.map((item: any) => {
-                                    return (
-                                        <Row key={item.user_id}>
-                                            <Checkbox value={item.user_id}>
-                                                <Icon
-                                                    component={IconProfile}
-                                                    style={{ fontSize: 20, marginRight: 8 }}
-                                                />
-                                                {item.user_name}
-                                            </Checkbox>
-                                        </Row>
-                                    );
-                                })}
-                            </Checkbox.Group>
-                        </UserList>
-                    </ContentPanel>
-                    <ContentPanel style={{ overflow: 'scroll' }}>
-                        <SelectedTitle>
-                            {t('resources.devSpace.tips.selected', {
-                                count: selectedUserList.length,
-                            })}
-                        </SelectedTitle>
-                        <ul>
-                            {selectedUserList.map((item) => {
+            <ContentWrap>
+                <ContentPanel>
+                    <TableSearchInput
+                        placeholder={t('resources.devSpace.tips.searchPlaceholder')}
+                        onConfirm={handleSearch}
+                    />
+                    <TitleBox>
+                        {t('resources.devSpace.tips.unShareUsers')}
+                        <span>{userList.length}</span>
+                    </TitleBox>
+                    <UserList>
+                        <Checkbox.Group onChange={handleSelect}>
+                            {filterList.map((item: any) => {
                                 return (
-                                    <ListItem key={item.user_id}>
-                                        <div
-                                            style={{
-                                                minWidth: 108,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                            }}
-                                        >
+                                    <Row key={item.user_id}>
+                                        <Checkbox value={item.user_id}>
                                             <Icon
                                                 component={IconProfile}
                                                 style={{ fontSize: 20, marginRight: 8 }}
                                             />
                                             {item.user_name}
-                                        </div>
-
-                                        <ShareType
-                                            user_id={item.user_id}
-                                            onChange={handleShareChange}
-                                        />
-                                    </ListItem>
+                                        </Checkbox>
+                                    </Row>
                                 );
                             })}
-                        </ul>
-                    </ContentPanel>
-                </ContentWrap>
-            </Modal>
+                        </Checkbox.Group>
+                    </UserList>
+                </ContentPanel>
+                <ContentPanel style={{ overflow: 'scroll' }}>
+                    <SelectedTitle>
+                        {t('resources.devSpace.tips.selected', {
+                            count: selectedUserList.length,
+                        })}
+                    </SelectedTitle>
+                    <ul>
+                        {selectedUserList.map((item) => {
+                            return (
+                                <ListItem key={item.user_id}>
+                                    <div
+                                        style={{
+                                            minWidth: 108,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <Icon
+                                            component={IconProfile}
+                                            style={{ fontSize: 20, marginRight: 8 }}
+                                        />
+                                        {item.user_name}
+                                    </div>
+
+                                    <ShareType
+                                        user_id={item.user_id}
+                                        onChange={handleShareChange}
+                                    />
+                                </ListItem>
+                            );
+                        })}
+                    </ul>
+                </ContentPanel>
+            </ContentWrap>
+            <Footer>
+                <ButtonBox>
+                    <Button onClick={() => onCancel()}>{t('common.bt.cancel')}</Button>
+                </ButtonBox>
+                <ButtonBox>
+                    <Button type="primary" onClick={handleAddShare}>
+                        {t('common.bt.submit')}
+                    </Button>
+                </ButtonBox>
+            </Footer>
         </>
     );
 };

@@ -134,6 +134,7 @@ function MainHeader() {
                                 {!!user.is_admin && (
                                     <AvatarItem
                                         onClick={() => {
+                                            setFormData({});
                                             setDialogType(DIALOG_TYPE.USER);
                                             setAvaterPopVisible(false);
                                         }}
@@ -390,7 +391,7 @@ function MainHeader() {
             {dialogType === DIALOG_TYPE.DEVSPACES && (
                 <Dialog
                     visible={dialogType === DIALOG_TYPE.DEVSPACES}
-                    title={t('resources.space.actions.createDev')}
+                    title={t('resources.devSpace.actions.createDev')}
                     width={680}
                     onCancel={() => setDialogType('')}
                 >

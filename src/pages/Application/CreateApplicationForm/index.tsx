@@ -1,7 +1,7 @@
 import { Button, Form, Input, Radio, Select, message, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { MANIFEST_TYPE, SOURCE_TYPE } from '../const';
-import { ButtonBox, Footer, FormBox, AddInputBtn } from './style-components';
+import { ButtonBox, Footer, FormBox, AddInputBtn, DirBox } from './style-components';
 import './resetAntd.css';
 import { MinusCircleFilled } from '@ant-design/icons';
 import HTTP from '../../../api/fetch';
@@ -112,45 +112,47 @@ function CreateApplicationForm(props: PropsType) {
                 >
                     <Input placeholder={t('resources.application.form.placeholder.config')} />
                 </Form.Item>
-                <Form.Item label={t('resources.application.tips.resource_dir')}>
-                    {resourceDirList.map((item, index) => (
-                        <div style={{ marginBottom: '8px' }} key={index}>
-                            <Input
-                                addonBefore={t('resources.application.tips.path', {
-                                    index: index + 1,
-                                })}
-                                value={item}
-                                onChange={(e) => {
-                                    const newResourceDirList = resourceDirList.concat([]);
-                                    newResourceDirList[index] = e.target.value;
-                                    setResourceDirList(newResourceDirList);
-                                }}
-                                addonAfter={
-                                    <Tooltip title={t('common.bt.remove')} placement="top">
-                                        <MinusCircleFilled
-                                            onClick={() => {
-                                                const newResourceDirList = resourceDirList.filter(
-                                                    (item, ind) => index !== ind
-                                                );
-                                                setResourceDirList(newResourceDirList);
-                                            }}
-                                            style={{
-                                                color: '#ff3f3f',
-                                                fontSize: '18px',
-                                                position: 'relative',
-                                                top: '2px',
-                                                cursor: 'pointer',
-                                            }}
-                                        />
-                                    </Tooltip>
-                                }
-                                placeholder={t(
-                                    'resources.application.form.placeholder.resource_dir'
-                                )}
-                            />
-                        </div>
-                    ))}
-                </Form.Item>
+                <DirBox isShow={!!resourceDirList.length}>
+                    <Form.Item label={t('resources.application.tips.resource_dir')}>
+                        {resourceDirList.map((item, index) => (
+                            <div style={{ marginBottom: '8px' }} key={index}>
+                                <Input
+                                    addonBefore={t('resources.application.tips.path', {
+                                        index: index + 1,
+                                    })}
+                                    value={item}
+                                    onChange={(e) => {
+                                        const newResourceDirList = resourceDirList.concat([]);
+                                        newResourceDirList[index] = e.target.value;
+                                        setResourceDirList(newResourceDirList);
+                                    }}
+                                    addonAfter={
+                                        <Tooltip title={t('common.bt.remove')} placement="top">
+                                            <MinusCircleFilled
+                                                onClick={() => {
+                                                    const newResourceDirList = resourceDirList.filter(
+                                                        (item, ind) => index !== ind
+                                                    );
+                                                    setResourceDirList(newResourceDirList);
+                                                }}
+                                                style={{
+                                                    color: '#ff3f3f',
+                                                    fontSize: '18px',
+                                                    position: 'relative',
+                                                    top: '2px',
+                                                    cursor: 'pointer',
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    }
+                                    placeholder={t(
+                                        'resources.application.form.placeholder.resource_dir'
+                                    )}
+                                />
+                            </div>
+                        ))}
+                    </Form.Item>
+                </DirBox>
                 <AddInputBtn
                     onClick={() => {
                         resourceDirList.push('');

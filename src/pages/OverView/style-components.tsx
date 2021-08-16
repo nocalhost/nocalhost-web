@@ -103,3 +103,13 @@ export const SvgIcon = styled.img`
     width: 80px;
     height: 80px;
 `;
+
+export const LoadingBox = styled.div`
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+`;

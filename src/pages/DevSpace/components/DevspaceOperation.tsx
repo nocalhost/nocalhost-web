@@ -18,7 +18,7 @@ import './index.less';
 import { ReactComponent as IconAddPerson } from '../../../images/icon/icon_btn_addPeople.svg';
 import { ReactComponent as IconDelPerson } from '../../../images/icon/icon_btn_normal_addPeople.svg';
 import { ReactComponent as IconSelectedDelPerson } from '../../../images/icon/icon_btn_elected_addPeople.svg';
-
+import Dialog from '../../../components/Dialog';
 const ContentWrap = styled.div`
     background: rgb(255, 255, 255);
     box-shadow: 0 4px 8px 0 rgba(40, 47, 55, 0.05);
@@ -312,12 +312,19 @@ const DevspaceOperation = () => {
                 </Tabs>
             </ContentWrap>
             {showAddModal && (
-                <AddShare
-                    cluster_user_id={id}
-                    shared={userList}
+                <Dialog
+                    visible={showAddModal}
+                    title={t('resources.devSpace.addShare')}
+                    width={680}
                     onCancel={() => setShowModal(false)}
-                    onSubmit={handleSubmit}
-                />
+                >
+                    <AddShare
+                        cluster_user_id={id}
+                        shared={userList}
+                        onCancel={() => setShowModal(false)}
+                        onSubmit={handleSubmit}
+                    />
+                </Dialog>
             )}
         </>
     );

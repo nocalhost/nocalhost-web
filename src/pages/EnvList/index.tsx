@@ -243,7 +243,6 @@ const EnvList = () => {
                                 NormalIcon={IconNormalEdit}
                                 HoverIcon={IconSelectedEdit}
                                 style={{ fontSize: '20px' }}
-                                title={t('common.bt.edit')}
                             ></CommonIcon>
                         </IconBox>
                         <IconBox onClick={() => handleKube(record)}>

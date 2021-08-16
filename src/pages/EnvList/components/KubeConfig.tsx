@@ -49,7 +49,7 @@ const KubeConfig = (props: PropParam) => {
     async function queryDetail(id: any) {
         const response = await HTTP.get(`dev_space/${id}/detail`);
         if (response.code === 0) {
-            setKubeConfig(response.data.kubeconfig);
+            setKubeConfig(response.data?.kubeconfig);
         }
     }
 

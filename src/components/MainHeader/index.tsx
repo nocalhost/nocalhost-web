@@ -134,6 +134,7 @@ function MainHeader() {
                                 {!!user.is_admin && (
                                     <AvatarItem
                                         onClick={() => {
+                                            setFormData({});
                                             setDialogType(DIALOG_TYPE.USER);
                                             setAvaterPopVisible(false);
                                         }}

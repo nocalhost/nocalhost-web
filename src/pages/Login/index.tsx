@@ -64,7 +64,7 @@ function Login() {
                         </Flex>
                     </Link>
                     <a
-                        href="https://nocalhost.dev/eng/getting-started/"
+                        href="https://nocalhost.dev/docs/server/deploy-server/"
                         target="_blank"
                         rel="noreferrer"
                     >
@@ -121,7 +121,7 @@ function Login() {
                     </Form>
                     <AdminCount>
                         <a
-                            href="https://nocalhost.dev/zh/server/deploy-cloud/#access-the-nocalhost-server-web-service"
+                            href="https://nocalhost.dev/docs/server/deploy-server#access-the-web-service"
                             target="_blank"
                             rel="noreferrer"
                             id="admin"

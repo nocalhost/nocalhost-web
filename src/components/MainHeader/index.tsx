@@ -199,7 +199,7 @@ function MainHeader() {
 
                     <HeaderSection>
                         <a
-                            href="https://nocalhost.dev/eng/getting-started/"
+                            href="https://nocalhost.dev/docs/quick-start/"
                             target="_blank"
                             rel="noreferrer"
                             style={{ marginRight: '20px' }}

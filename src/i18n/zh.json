@@ -45,17 +45,17 @@
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#user"
         },
         "cluster": {
-            "info": "Cluster（集群） 是 Nocalhost 的一个概念，它管理运行开发环境中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s 等等。",
+            "info": "集群是 Nocalhost 的一个概念，它管理运行开发环境中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s 等等。",
             "more": "查看更多Nocalhost集群介绍",
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#cluster"
         },
         "devspace": {
-            "info": "DevSpace（开发空间） 是 Nocalhost 的一个概念，其代表由 Nocalhost 管理的一个预分配的云端开发的空间，开发者可以在 DevSpace 中随时部署，卸载，开发，调试应用。",
+            "info": "开发空间是 Nocalhost 的一个概念，其代表由 Nocalhost 管理的一个预分配的云端开发的空间，开发者可以在 DevSpace 中随时部署，卸载，开发，调试应用。",
             "more": "查看更多Nocalhost开发空间介绍",
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#devspace"
         },
         "application": {
-            "info": "应用 是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 manifest 文件。也就是说，这些 manifest 通常包含你的应用所依赖的所有 K8s 资源，如果可能，我们应该尽量保持它的最小化。",
+            "info": "应用是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 manifest 文件。也就是说，这些 manifest 通常包含你的应用所依赖的所有 K8s 资源，如果可能，我们应该尽量保持它的最小化。",
             "more": "查看更多Nocalhost应用介绍",
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#application"
         }
@@ -327,7 +327,7 @@
                     "title": "重置开发空间",
                     "content": "重置开发空间将删除 [%{name}] 命名空间内的所有资源，并重建"
                 },
-                "successed": "开始空间重置成功！"
+                "successed": "开发空间重置成功！"
             },
             "status": {
                 "deployed": "已部署",
@@ -393,6 +393,10 @@
                 "admin": "管理员",
                 "normalUser": "普通成员"
             },
+            "cancelShareO": {
+                "cancelTitle": "您确认要取消共享",
+                "cancelInfo": "取消共享后，用户将无法访问该开发环境"
+            },
             "actions": {
                 "create": "创建环境",
                 "createDev": "创建隔离开发环境",
@@ -420,7 +424,7 @@
             }
         },
         "myDevSpace": {
-            "name": "开发环境",
+            "name": "开发空间",
             "fields": {
                 "space_name": "空间名称",
                 "status": "状态",

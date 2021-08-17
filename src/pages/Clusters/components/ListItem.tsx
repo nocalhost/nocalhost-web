@@ -186,7 +186,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
     const [showEdit, setShowEdit] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const history = useHistory();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     let { resources = [] } = data;
     const { modifiable } = data;
     resources = resources.sort(
@@ -359,9 +359,9 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 </div>
             `,
         });
-
+        chart.clear();
         chart.render();
-    }, []);
+    }, [i18n.language]);
 
     const handleEdit = () => {
         setShowEdit(true);

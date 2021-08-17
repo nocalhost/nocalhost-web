@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import HTTP from '../../api/fetch';
-import { Table, Popover, Modal, Button, message } from 'antd';
+import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
 import Icon from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,12 +25,14 @@ import {
     UserItem,
     UserName,
     UserType,
+    OverflowItem,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
 import DeleteModal from '../../components/DeleteModal';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser, queryAllCluster } from '../../services';
+import { UserContext } from '../../provider/appContext';
 
 // import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
 // import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
@@ -95,16 +97,18 @@ const PopoverBox = (props: { record: UserProps }) => {
                     {cooper_user.map((item) => item.name).join('、')}
                 </UserName>
             </UserItem>
-            <UserItem type="viewer" style={{ padding: '12px 10px' }}>
-                <FlexBox>
-                    <Icon
-                        component={IconNormalViewer}
-                        style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
-                    />
-                    <UserType>Viewer:</UserType>
-                </FlexBox>
-                <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
-            </UserItem>
+            {viewer_user && viewer_user.length > 0 && (
+                <UserItem type="viewer" style={{ padding: '12px 10px' }}>
+                    <FlexBox>
+                        <Icon
+                            component={IconNormalViewer}
+                            style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
+                        />
+                        <UserType>Viewer:</UserType>
+                    </FlexBox>
+                    <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
+                </UserItem>
+            )}
         </UserBox>
     );
 };
@@ -113,6 +117,7 @@ const EnvList = () => {
     const params = useParams<RouteParams>();
     const { t } = useTranslation();
     const { id } = params;
+    const { user } = useContext(UserContext);
     const columns = [
         {
             title: t('resources.space.fields.space_name'),
@@ -125,7 +130,9 @@ const EnvList = () => {
                         <div style={{ maxWidth: '85%', marginLeft: 10 }}>
                             <div>
                                 <FlexBox>
-                                    {record.space_name}
+                                    <Tooltip title={record.space_name}>
+                                        <OverflowItem>{record.space_name}</OverflowItem>
+                                    </Tooltip>
                                     {(record?.space_own_type?.Str === 'Cooperator' ||
                                         record?.space_own_type?.Str === 'Viewer') && (
                                         <Icon
@@ -241,37 +248,41 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return (
                     <FlexBox id="operation">
-                        <IconBox onClick={() => handleEdit(record)}>
-                            <CommonIcon
-                                NormalIcon={IconNormalEdit}
-                                HoverIcon={IconSelectedEdit}
-                                style={{ fontSize: '20px' }}
-                            ></CommonIcon>
-                        </IconBox>
-                        <IconBox onClick={() => handleKube(record)}>
-                            <CommonIcon
-                                NormalIcon={IconNormalKube}
-                                HoverIcon={IconSelectedKube}
-                                style={{ fontSize: '20px' }}
-                                title="Kubeconfig"
-                            ></CommonIcon>
-                        </IconBox>
-                        <Popover
-                            trigger="click"
-                            overlayClassName="operationPop"
-                            content={
-                                <>
-                                    <PopItem onClick={() => handleReset(record)}>
-                                        {t('common.bt.reset')}
-                                    </PopItem>
-                                    <PopItem onClick={() => handleDelete(record)}>
-                                        {t('common.bt.delete')}
-                                    </PopItem>
-                                </>
-                            }
-                        >
-                            <Icon component={IconMore} />
-                        </Popover>
+                        {(user.is_admin || user.id === record.user_id) && (
+                            <>
+                                <IconBox onClick={() => handleEdit(record)}>
+                                    <CommonIcon
+                                        NormalIcon={IconNormalEdit}
+                                        HoverIcon={IconSelectedEdit}
+                                        style={{ fontSize: '20px' }}
+                                    ></CommonIcon>
+                                </IconBox>
+                                <IconBox onClick={() => handleKube(record)}>
+                                    <CommonIcon
+                                        NormalIcon={IconNormalKube}
+                                        HoverIcon={IconSelectedKube}
+                                        style={{ fontSize: '20px' }}
+                                        title="Kubeconfig"
+                                    ></CommonIcon>
+                                </IconBox>
+                                <Popover
+                                    trigger="click"
+                                    overlayClassName="operationPop"
+                                    content={
+                                        <>
+                                            <PopItem onClick={() => handleReset(record)}>
+                                                {t('common.bt.reset')}
+                                            </PopItem>
+                                            <PopItem onClick={() => handleDelete(record)}>
+                                                {t('common.bt.delete')}
+                                            </PopItem>
+                                        </>
+                                    }
+                                >
+                                    <Icon component={IconMore} />
+                                </Popover>
+                            </>
+                        )}
                     </FlexBox>
                 );
             },
@@ -364,34 +375,42 @@ const EnvList = () => {
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
-        const tmpList = response.data.map((item: any) => {
-            return {
-                ...item,
-                user_name: nameMap.get(item.user_id),
-                cluster_name: clusterMap.get(item.cluster_id),
-            };
-        });
-        setSpaceList(tmpList);
-        setFilterList(tmpList);
-        setUserList([
-            ...Array.from(nameMap).map((item) => {
+        const selectUsersMap = new Map();
+        const selectClusterMap = new Map();
+        if (response.code === 0) {
+            const tmpList = response.data.map((item: any) => {
+                selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
+                selectClusterMap.set(item.cluster_id, clusterMap.get(item.cluster_id));
                 return {
-                    value: item[0],
-                    text: item[1],
-                    label: item[1],
+                    ...item,
+                    user_name: nameMap.get(item.user_id),
+                    cluster_name: clusterMap.get(item.cluster_id),
                 };
-            }),
-        ]);
+            });
 
-        setClusterList([
-            ...Array.from(clusterMap).map((item) => {
-                return {
-                    value: item[0],
-                    text: item[1],
-                    label: item[1],
-                };
-            }),
-        ]);
+            setSpaceList(tmpList);
+            setFilterList(tmpList);
+            setUserList([
+                ...Array.from(selectUsersMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                }),
+            ]);
+
+            setClusterList([
+                ...Array.from(selectClusterMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                }),
+            ]);
+        }
+
         setIsLoading(false);
     }
 

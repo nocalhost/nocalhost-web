@@ -312,7 +312,7 @@
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",
             "actions": {
-                "create": "Create Space",
+                "create": "Create DevSpace",
                 "show": "Show Space",
                 "list": "Space List",
                 "download": "Download KubeConfig",

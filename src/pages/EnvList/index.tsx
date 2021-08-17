@@ -364,17 +364,22 @@ const EnvList = () => {
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
+        const selectUsersMap = new Map();
+        const selectClusterMap = new Map();
         const tmpList = response.data.map((item: any) => {
+            selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
+            selectClusterMap.set(item.cluster_id, clusterMap.get(item.cluster_id));
             return {
                 ...item,
                 user_name: nameMap.get(item.user_id),
                 cluster_name: clusterMap.get(item.cluster_id),
             };
         });
+
         setSpaceList(tmpList);
         setFilterList(tmpList);
         setUserList([
-            ...Array.from(nameMap).map((item) => {
+            ...Array.from(selectUsersMap).map((item) => {
                 return {
                     value: item[0],
                     text: item[1],
@@ -384,7 +389,7 @@ const EnvList = () => {
         ]);
 
         setClusterList([
-            ...Array.from(clusterMap).map((item) => {
+            ...Array.from(selectClusterMap).map((item) => {
                 return {
                     value: item[0],
                     text: item[1],

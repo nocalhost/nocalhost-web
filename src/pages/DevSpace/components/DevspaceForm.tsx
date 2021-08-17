@@ -114,6 +114,7 @@ const DevspaceForm = ({
     const [space_limits_mem, set_space_limits_mem] = useState('');
     const [space_req_cpu, set_space_req_cpu] = useState('');
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
+    const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
 
     useEffect(() => {
         if (isEdit && record) {
@@ -124,6 +125,7 @@ const DevspaceForm = ({
                 cluster_admin,
                 resource_limit_set,
                 space_resource_limit,
+                deletable,
             } = record;
             let limitObj = {};
             try {
@@ -139,6 +141,7 @@ const DevspaceForm = ({
                 limitObj = {};
             }
 
+            setCanSetLimit(deletable);
             setIsAdmin(Boolean(cluster_admin));
             setShowLimit(Boolean(resource_limit_set));
 
@@ -236,13 +239,21 @@ const DevspaceForm = ({
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
                 });
-                const limitResp = await HTTP.put(
-                    `dev_space/${record.id}/update_resource_limit`,
-                    limitObj
-                );
-                if (response.code === 0 && limitResp.code === 0) {
-                    message.success(t('common.message.edit'));
-                    onSubmit && onSubmit();
+
+                if (canSetLimit) {
+                    const limitResp = await HTTP.put(
+                        `dev_space/${record.id}/update_resource_limit`,
+                        limitObj
+                    );
+                    if (response.code === 0 && limitResp.code === 0) {
+                        message.success(t('common.message.edit'));
+                        onSubmit && onSubmit();
+                    }
+                } else {
+                    if (response.code === 0) {
+                        message.success(t('common.message.edit'));
+                        onSubmit && onSubmit();
+                    }
                 }
             } else {
                 const response = await HTTP.post('dev_space', {
@@ -319,6 +330,7 @@ const DevspaceForm = ({
                                 <Form.Item name="resource_limit_set">
                                     <Switch
                                         checked={showLimit}
+                                        disabled={!canSetLimit}
                                         onChange={(checked: boolean) => setShowLimit(checked)}
                                     />
                                 </Form.Item>

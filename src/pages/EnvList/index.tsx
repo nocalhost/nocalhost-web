@@ -469,6 +469,7 @@ const EnvList = () => {
     const handleConfirmReset = async () => {
         const response = await HTTP.post(`dev_space/${record?.id}/recreate`);
         if (response.code === 0) {
+            querySpaceList();
             message.success(t('common.message.reset'));
             setShowReset(false);
         }

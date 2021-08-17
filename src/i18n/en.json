@@ -36,28 +36,28 @@
     "document": {
         "overview": {
             "info": "Nocalhost is an open-source IDE plugin for cloud-native applications development,Build, test and debug applications directly inside Kubernetes,providing the same debugging and developing experience you're used in the IDE even in the remote Kubernetes cluster,instantly sync your code change to remote container without rebuilding images or restarting containers.",
-            "more": "Learn more Nocalhost introductions",
+            "more": "Nocalhost introductions",
             "url": "https://nocalhost.dev/docs/introduction/"
         },
         "user": {
             "info": "User belongs to the independent concept of Nocalhost, it's different with user in Kubernetes. When you use Nocalhost Server and Nocalhost Plugins, User is used to identify your identity and access control to resources.",
-            "more": "Learn more Nocalhost user introductions",
-            "url": "https://nocalhost.dev/docs/server/server-overview#user"
+            "more": "Manage User",
+            "url": "https://nocalhost.dev/docs/server/manage-user"
         },
         "cluster": {
-            "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, GKE, Minikue and etc.",
-            "more": "Learn more Nocalhost cluster introduction",
-            "url": "https://nocalhost.dev/docs/server/server-overview/#cluster"
+            "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s etc.",
+            "more": "Manage Cluster",
+            "url": "https://nocalhost.dev/docs/server/manage-cluster"
         },
         "devspace": {
             "info": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
-            "more": "Learn more Nocalhost devspace introduction",
-            "url": "https://nocalhost.dev/docs/server/server-overview/#devspace"
+            "more": "Manage DevSpace",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
         },
         "application": {
-            "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the k8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
-            "more": "Learn more Nocalhost application introduction",
-            "url": "https://nocalhost.dev/docs/server/server-overview/#application"
+            "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the K8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
+            "more": "Manage Applications",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
         }
     },
     "common": {

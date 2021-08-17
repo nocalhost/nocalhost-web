@@ -100,6 +100,8 @@ export const AddIcon = styled.div`
 
 export const Label = styled.div`
     margin-left: 10px;
+    color: rgb(54, 67, 92);
+    width: 120px;
 `;
 
 export const IconRight = styled.div`

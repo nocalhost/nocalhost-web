@@ -51,13 +51,13 @@
         },
         "devspace": {
             "info": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
-            "more": "Learn more Nocalhost devspace introduction",
-            "url": "https://nocalhost.dev/docs/server/server-overview/#devspace"
+            "more": "Manage DevSpace",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
         },
         "application": {
             "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the k8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
-            "more": "Learn more Nocalhost application introduction",
-            "url": "https://nocalhost.dev/docs/server/server-overview/#application"
+            "more": "Manage Applications",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
         }
     },
     "common": {
@@ -391,6 +391,10 @@
                 "resource_limit": "Resource Limit",
                 "admin": "Admin",
                 "normalUser": "Ordinary member"
+            },
+            "cancelShareO": {
+                "cancelTitle": "Are you sure you want to cancel sharing?",
+                "cancelInfo": "After unsharing, users will not be able to access the devspace"
             },
             "actions": {
                 "create": "Create Space",

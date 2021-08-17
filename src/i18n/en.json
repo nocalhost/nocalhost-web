@@ -45,7 +45,7 @@
             "url": "https://nocalhost.dev/docs/server/manage-user"
         },
         "cluster": {
-            "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, GKE, Minikue and etc.",
+            "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s etc.",
             "more": "Manage Cluster",
             "url": "https://nocalhost.dev/docs/server/manage-cluster"
         },
@@ -55,7 +55,7 @@
             "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
         },
         "application": {
-            "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the k8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
+            "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the K8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
             "more": "Manage Applications",
             "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
         }

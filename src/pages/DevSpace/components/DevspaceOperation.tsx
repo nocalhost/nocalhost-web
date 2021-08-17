@@ -138,7 +138,7 @@ const DevspaceOperation = () => {
                         onClick={() => {
                             handleCancelShare([record.id]);
                         }}
-                        style={{ display: 'flex' }}
+                        style={{ display: 'flex', alignItems: 'center', width: 20 }}
                     >
                         <CommonIcon
                             NormalIcon={IconDelPerson}

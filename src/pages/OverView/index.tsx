@@ -69,7 +69,12 @@ function Overview() {
     }, []);
     return (
         <>
-            <SummaryCard title={t('resources.dashboard.name')}></SummaryCard>
+            <SummaryCard
+                title={t('resources.dashboard.name')}
+                info={t('document.overview.info')}
+                linkText={t('document.overview.more')}
+                url={t('document.overview.url')}
+            ></SummaryCard>
             <CardBox>
                 <Row gutter={20}>
                     <Col span={8}>

@@ -363,7 +363,12 @@ function Application() {
                 </Dialog>
             )}
 
-            <SummaryCard title="Application"></SummaryCard>
+            <SummaryCard
+                title={t('resources.application.name')}
+                info={t('document.application.info')}
+                linkText={t('document.application.more')}
+                url={t('document.application.url')}
+            ></SummaryCard>
             <TableBox>
                 <TableHeader>
                     <Filter>

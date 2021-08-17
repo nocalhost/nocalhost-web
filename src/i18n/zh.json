@@ -33,6 +33,33 @@
             "download": "下载"
         }
     },
+    "document": {
+        "overview": {
+            "info": "Nocalhost 是一款开源的基于 IDE 的云原生应用开发工具，直接在 Kubernetes 集群中构建、测试和调试应用程序，提供易于使用的 IDE 插件（支持 VS Code 和 JetBrains），即使在 Kubernetes 集群中进行开发和调试，Nocalhost 保持本地开发一样的体验,使用即时文件同步进行开发，即时将您的代码更改同步到远端容器，而无需重建映像或重新启动容器。",
+            "more": "查看更多Nocalhost介绍",
+            "url": "https://nocalhost.dev/zh-CN/docs/introduction/"
+        },
+        "user": {
+            "info": "用户 属于 Nocalhost 的独立概念，与 Kubernetes 中的 user 不同。 当您使用 Nocalhost Server 和 Nocalhost 插件时，用户用于识别您的身份和对资源的访问控制。",
+            "more": "查看更多Nocalhost用户介绍",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#user"
+        },
+        "cluster": {
+            "info": "Cluster（集群） 是 Nocalhost 的一个概念，它管理运行开发环境中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 GKE, minikube and microK8s 等等。",
+            "more": "查看更多Nocalhost集群介绍",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#cluster"
+        },
+        "devspace": {
+            "info": "DevSpace（开发空间） 是 Nocalhost 的一个概念，其代表由 Nocalhost 管理的一个预分配的云端开发的空间，开发者可以在 DevSpace 中随时部署，卸载，开发，调试应用。",
+            "more": "查看更多Nocalhost开发空间介绍",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#devspace"
+        },
+        "application": {
+            "info": "应用 是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 manifest 文件。也就是说，这些 manifest 通常包含你的应用所依赖的所有 k8s 资源，如果可能，我们应该尽量保持它的最小化。",
+            "more": "查看更多Nocalhost应用介绍",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#application"
+        }
+    },
     "common": {
         "operation": "操作",
         "otherSet": "其他设置",

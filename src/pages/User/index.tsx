@@ -266,7 +266,12 @@ function User() {
                 </Dialog>
             )}
 
-            <SummaryCard title="User"></SummaryCard>
+            <SummaryCard
+                title={t('resources.users.name')}
+                info={t('document.user.info')}
+                linkText={t('document.user.more')}
+                url={t('document.user.url')}
+            ></SummaryCard>
             <TableBox>
                 <TableHeader>
                     <Filter>

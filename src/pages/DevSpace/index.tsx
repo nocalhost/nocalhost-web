@@ -8,7 +8,12 @@ const DevSpace = () => {
     const { t } = useTranslation();
     return (
         <>
-            <SummaryCard title={t('resources.space.name')} />
+            <SummaryCard
+                title={t('resources.space.name')}
+                info={t('document.devspace.info')}
+                linkText={t('document.devspace.more')}
+                url={t('document.devspace.url')}
+            />
             <WrapList>
                 <EnvList />
             </WrapList>

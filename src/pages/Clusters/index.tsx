@@ -46,7 +46,12 @@ const Clusters: FC<{}> = () => {
 
     return (
         <div>
-            <SummaryCard title={t('resources.cluster.name')} />
+            <SummaryCard
+                title={t('resources.cluster.name')}
+                info={t('document.cluster.info')}
+                linkText={t('document.cluster.more')}
+                url={t('document.cluster.url')}
+            />
             <div>
                 <ContentTitle>
                     <FlexContainer>

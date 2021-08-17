@@ -86,7 +86,13 @@ function Login() {
                         <Form.Item
                             label="Email Address"
                             name="username"
-                            rules={[{ required: true, type: 'email', message: '请输入正确Email.' }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    type: 'email',
+                                    message: 'please input your vaild email.',
+                                },
+                            ]}
                         >
                             <Input
                                 placeholder="Email address"
@@ -99,7 +105,7 @@ function Login() {
                         <Form.Item
                             label="Password"
                             name="password"
-                            rules={[{ required: true, message: '请输入密码.' }]}
+                            rules={[{ required: true, message: 'Please input the password.' }]}
                         >
                             <Input.Password
                                 placeholder="Password"

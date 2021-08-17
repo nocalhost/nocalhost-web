@@ -149,7 +149,7 @@ const DevspaceForm = ({
                 ...limitObj,
             });
         }
-    }, []);
+    }, [record]);
 
     const handleSubmit = async (values: any) => {
         try {
@@ -175,21 +175,25 @@ const DevspaceForm = ({
 
             const limitObj = resource_limit_set
                 ? {
-                      container_limits_cpu,
+                      container_limits_cpu: container_limits_cpu
+                          ? container_limits_cpu + ''
+                          : container_limits_cpu,
                       container_limits_mem: container_limits_mem
                           ? `${container_limits_mem}Mi`
                           : container_limits_mem,
-                      container_req_cpu,
+                      container_req_cpu: container_req_cpu
+                          ? container_req_cpu + ''
+                          : container_req_cpu,
                       container_req_mem: container_req_mem
                           ? `${container_req_mem}Mi`
                           : container_req_mem,
-                      space_lb_count: space_lb_count,
-                      space_limits_cpu: space_limits_cpu,
+                      space_lb_count: space_lb_count ? space_lb_count + '' : space_lb_count,
+                      space_limits_cpu: space_limits_cpu ? space_limits_cpu + '' : space_limits_cpu,
                       space_limits_mem: space_limits_mem
                           ? `${space_limits_mem}Mi`
                           : space_limits_mem,
-                      space_pvc_count: space_pvc_count,
-                      space_req_cpu: space_req_cpu,
+                      space_pvc_count: space_pvc_count ? space_pvc_count + '' : space_pvc_count,
+                      space_req_cpu: space_req_cpu ? space_req_cpu + '' : space_req_cpu,
                       space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
                       space_storage_capacity: space_storage_capacity
                           ? `${space_storage_capacity}Gi`
@@ -201,20 +205,14 @@ const DevspaceForm = ({
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
                 });
-                if (resource_limit_set) {
-                    const limitResp = await HTTP.put(
-                        `dev_space/${record.id}/update_resource_limit`,
-                        limitObj
-                    );
-                    if (response.code === 0 && limitResp.code === 0) {
-                        message.success(t('common.message.edit'));
-                    }
-                } else {
-                    if (response.code === 0) {
-                        message.success(t('common.message.edit'));
-                    }
+                const limitResp = await HTTP.put(
+                    `dev_space/${record.id}/update_resource_limit`,
+                    limitObj
+                );
+                if (response.code === 0 && limitResp.code === 0) {
+                    message.success(t('common.message.edit'));
+                    onSubmit && onSubmit();
                 }
-                onSubmit && onSubmit();
             } else {
                 const response = await HTTP.post('dev_space', {
                     cluster_id,

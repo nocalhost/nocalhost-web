@@ -248,7 +248,7 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return (
                     <FlexBox id="operation">
-                        {user.id === record.user_id && (
+                        {(user.is_admin || user.id === record.user_id) && (
                             <>
                                 <IconBox onClick={() => handleEdit(record)}>
                                     <CommonIcon

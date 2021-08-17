@@ -238,6 +238,7 @@ const DevspaceOperation = () => {
         );
         if (response.code === 0) {
             queryDetail();
+            setDeleteModalShow(false);
             message.success(t('resources.devSpace.tips.unShareSuccess'));
         }
     };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
 import HTTP from '../../api/fetch';
-import { Table, Popover, Modal, Button, message } from 'antd';
+import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
 import Icon from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ import {
     UserItem,
     UserName,
     UserType,
+    OverflowItem,
 } from './style-components';
 import CommonIcon from '../../components/CommonIcon';
 import DeleteModal from '../../components/DeleteModal';
@@ -96,16 +97,18 @@ const PopoverBox = (props: { record: UserProps }) => {
                     {cooper_user.map((item) => item.name).join('、')}
                 </UserName>
             </UserItem>
-            <UserItem type="viewer" style={{ padding: '12px 10px' }}>
-                <FlexBox>
-                    <Icon
-                        component={IconNormalViewer}
-                        style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
-                    />
-                    <UserType>Viewer:</UserType>
-                </FlexBox>
-                <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
-            </UserItem>
+            {viewer_user && viewer_user.length > 0 && (
+                <UserItem type="viewer" style={{ padding: '12px 10px' }}>
+                    <FlexBox>
+                        <Icon
+                            component={IconNormalViewer}
+                            style={{ fontSize: 20, marginRight: 10, color: '#b6c2cd' }}
+                        />
+                        <UserType>Viewer:</UserType>
+                    </FlexBox>
+                    <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
+                </UserItem>
+            )}
         </UserBox>
     );
 };
@@ -127,7 +130,9 @@ const EnvList = () => {
                         <div style={{ maxWidth: '85%', marginLeft: 10 }}>
                             <div>
                                 <FlexBox>
-                                    {record.space_name}
+                                    <Tooltip title={record.space_name}>
+                                        <OverflowItem>{record.space_name}</OverflowItem>
+                                    </Tooltip>
                                     {(record?.space_own_type?.Str === 'Cooperator' ||
                                         record?.space_own_type?.Str === 'Viewer') && (
                                         <Icon

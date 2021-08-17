@@ -103,7 +103,5 @@ export const UserName = styled.div`
     font-size: 14px;
     font-family: PingFangSC-Regular;
     font-weight: normal;
-    text-align: justify;
+    word-break: break-word;
 `;
-
-export const Line1Px = styled.div``;

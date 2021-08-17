@@ -105,5 +105,3 @@ export const UserName = styled.div`
     font-weight: normal;
     word-break: break-word;
 `;
-
-export const Line1Px = styled.div``;

@@ -45,7 +45,7 @@
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#user"
         },
         "cluster": {
-            "info": "集群是 Nocalhost 的一个概念，它管理运行开发空间中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 GKE, minikube and microK8s 等等。",
+            "info": "集群是 Nocalhost 的一个概念，它管理运行开发环境中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s 等等。",
             "more": "查看更多Nocalhost集群介绍",
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#cluster"
         },
@@ -55,7 +55,7 @@
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#devspace"
         },
         "application": {
-            "info": "应用是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 manifest 文件。也就是说，这些 manifest 通常包含你的应用所依赖的所有 k8s 资源，如果可能，我们应该尽量保持它的最小化。",
+            "info": "应用是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 manifest 文件。也就是说，这些 manifest 通常包含你的应用所依赖的所有 K8s 资源，如果可能，我们应该尽量保持它的最小化。",
             "more": "查看更多Nocalhost应用介绍",
             "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview#application"
         }

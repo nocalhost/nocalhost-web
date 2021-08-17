@@ -129,7 +129,7 @@ const AddShare = ({
 
     const handleShareChange = (value: string, user_id: any) => {
         //share change
-        const tmpList = selectedUserList.map((item) => {
+        const tmpList = shareList.map((item) => {
             return {
                 ...item,
                 shareType: item.user_id === user_id ? value : item.shareType,

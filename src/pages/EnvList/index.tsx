@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import HTTP from '../../api/fetch';
 import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
@@ -32,7 +32,6 @@ import DeleteModal from '../../components/DeleteModal';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser, queryAllCluster } from '../../services';
-import { UserContext } from '../../provider/appContext';
 
 // import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
 // import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
@@ -117,7 +116,6 @@ const EnvList = () => {
     const params = useParams<RouteParams>();
     const { t } = useTranslation();
     const { id } = params;
-    const { user } = useContext(UserContext);
     const columns = [
         {
             title: t('resources.space.fields.space_name'),
@@ -248,7 +246,7 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return (
                     <FlexBox id="operation">
-                        {(user.is_admin || user.id === record.user_id) && (
+                        {record.modifiable && (
                             <>
                                 <IconBox onClick={() => handleEdit(record)}>
                                     <CommonIcon

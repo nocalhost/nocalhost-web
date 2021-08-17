@@ -147,7 +147,7 @@
         "cluster": {
             "name": "Cluster",
             "edit": "Edit",
-            "envList": "Env List",
+            "envList": "Devspace List",
             "add": "Add Cluster",
             "info": "Cluster Info",
             "workload": "Cluster Workload",

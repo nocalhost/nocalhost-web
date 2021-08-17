@@ -141,7 +141,7 @@ const DevspaceOperation = () => {
                             setDeleteId(record.id);
                             setDeleteModalShow(true);
                         }}
-                        style={{ display: 'flex' }}
+                        style={{ display: 'flex', alignItems: 'center', width: 20 }}
                     >
                         <CommonIcon
                             NormalIcon={IconDelPerson}

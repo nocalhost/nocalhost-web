@@ -289,8 +289,6 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             height: 324,
         });
 
-        console.log('clear>>>>>');
-
         chart.clear();
 
         chart.source(loadInfoData.reverse(), {

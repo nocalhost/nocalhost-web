@@ -281,7 +281,9 @@ const DevspaceForm = ({
                             <FormFlexBox>
                                 <DescBox>
                                     <span>{t('resources.space.fields.resource_limit')}</span>
-                                    <span>{t('resources.space.fields.setLimitDesc')}</span>
+                                    {false && (
+                                        <span>{t('resources.space.fields.setLimitDesc')}</span>
+                                    )}
                                 </DescBox>
                                 <Form.Item name="resource_limit_set">
                                     <Switch

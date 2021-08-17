@@ -280,14 +280,15 @@ function User() {
                             onChange={handleSelectChange}
                         ></LabelSelect>
                     </Filter>
-
-                    <Button
-                        type="primary"
-                        onClick={() => setOpenDialog(true)}
-                        icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
-                    >
-                        {t('resources.users.bt.add')}
-                    </Button>
+                    {!!user.is_admin && (
+                        <Button
+                            type="primary"
+                            onClick={() => setOpenDialog(true)}
+                            icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
+                        >
+                            {t('resources.users.bt.add')}
+                        </Button>
+                    )}
                 </TableHeader>
                 <TableWrap>
                     {data.length === 0 && !tableLoading ? (

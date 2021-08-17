@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import HTTP from '../../api/fetch';
 import { Table, Popover, Modal, Button, message } from 'antd';
@@ -31,6 +31,7 @@ import DeleteModal from '../../components/DeleteModal';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser, queryAllCluster } from '../../services';
+import { UserContext } from '../../provider/appContext';
 
 // import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
 // import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
@@ -113,6 +114,7 @@ const EnvList = () => {
     const params = useParams<RouteParams>();
     const { t } = useTranslation();
     const { id } = params;
+    const { user } = useContext(UserContext);
     const columns = [
         {
             title: t('resources.space.fields.space_name'),
@@ -241,37 +243,41 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return (
                     <FlexBox id="operation">
-                        <IconBox onClick={() => handleEdit(record)}>
-                            <CommonIcon
-                                NormalIcon={IconNormalEdit}
-                                HoverIcon={IconSelectedEdit}
-                                style={{ fontSize: '20px' }}
-                            ></CommonIcon>
-                        </IconBox>
-                        <IconBox onClick={() => handleKube(record)}>
-                            <CommonIcon
-                                NormalIcon={IconNormalKube}
-                                HoverIcon={IconSelectedKube}
-                                style={{ fontSize: '20px' }}
-                                title="Kubeconfig"
-                            ></CommonIcon>
-                        </IconBox>
-                        <Popover
-                            trigger="click"
-                            overlayClassName="operationPop"
-                            content={
-                                <>
-                                    <PopItem onClick={() => handleReset(record)}>
-                                        {t('common.bt.reset')}
-                                    </PopItem>
-                                    <PopItem onClick={() => handleDelete(record)}>
-                                        {t('common.bt.delete')}
-                                    </PopItem>
-                                </>
-                            }
-                        >
-                            <Icon component={IconMore} />
-                        </Popover>
+                        {user.id === record.user_id && (
+                            <>
+                                <IconBox onClick={() => handleEdit(record)}>
+                                    <CommonIcon
+                                        NormalIcon={IconNormalEdit}
+                                        HoverIcon={IconSelectedEdit}
+                                        style={{ fontSize: '20px' }}
+                                    ></CommonIcon>
+                                </IconBox>
+                                <IconBox onClick={() => handleKube(record)}>
+                                    <CommonIcon
+                                        NormalIcon={IconNormalKube}
+                                        HoverIcon={IconSelectedKube}
+                                        style={{ fontSize: '20px' }}
+                                        title="Kubeconfig"
+                                    ></CommonIcon>
+                                </IconBox>
+                                <Popover
+                                    trigger="click"
+                                    overlayClassName="operationPop"
+                                    content={
+                                        <>
+                                            <PopItem onClick={() => handleReset(record)}>
+                                                {t('common.bt.reset')}
+                                            </PopItem>
+                                            <PopItem onClick={() => handleDelete(record)}>
+                                                {t('common.bt.delete')}
+                                            </PopItem>
+                                        </>
+                                    }
+                                >
+                                    <Icon component={IconMore} />
+                                </Popover>
+                            </>
+                        )}
                     </FlexBox>
                 );
             },
@@ -366,37 +372,40 @@ const EnvList = () => {
         });
         const selectUsersMap = new Map();
         const selectClusterMap = new Map();
-        const tmpList = response.data.map((item: any) => {
-            selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
-            selectClusterMap.set(item.cluster_id, clusterMap.get(item.cluster_id));
-            return {
-                ...item,
-                user_name: nameMap.get(item.user_id),
-                cluster_name: clusterMap.get(item.cluster_id),
-            };
-        });
-
-        setSpaceList(tmpList);
-        setFilterList(tmpList);
-        setUserList([
-            ...Array.from(selectUsersMap).map((item) => {
+        if (response.code === 0) {
+            const tmpList = response.data.map((item: any) => {
+                selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
+                selectClusterMap.set(item.cluster_id, clusterMap.get(item.cluster_id));
                 return {
-                    value: item[0],
-                    text: item[1],
-                    label: item[1],
+                    ...item,
+                    user_name: nameMap.get(item.user_id),
+                    cluster_name: clusterMap.get(item.cluster_id),
                 };
-            }),
-        ]);
+            });
 
-        setClusterList([
-            ...Array.from(selectClusterMap).map((item) => {
-                return {
-                    value: item[0],
-                    text: item[1],
-                    label: item[1],
-                };
-            }),
-        ]);
+            setSpaceList(tmpList);
+            setFilterList(tmpList);
+            setUserList([
+                ...Array.from(selectUsersMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                }),
+            ]);
+
+            setClusterList([
+                ...Array.from(selectClusterMap).map((item) => {
+                    return {
+                        value: item[0],
+                        text: item[1],
+                        label: item[1],
+                    };
+                }),
+            ]);
+        }
+
         setIsLoading(false);
     }
 

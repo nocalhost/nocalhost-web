@@ -48,7 +48,7 @@ const KubeConfig = (props: PropParam) => {
     const [kubeConfig, setKubeConfig] = useState<string>('');
 
     useEffect(() => {
-        queryDetail(record.id);
+        queryDetail(record.user_id);
     }, []);
 
     async function queryDetail(id: any) {

@@ -82,6 +82,7 @@ interface FilterType {
 const PopoverBox = (props: { record: UserProps }) => {
     const { record } = props;
     const { cooper_user, viewer_user } = record;
+
     return (
         <UserBox>
             <UserItem type="cooperator">
@@ -116,6 +117,7 @@ const EnvList = () => {
     const params = useParams<RouteParams>();
     const { t } = useTranslation();
     const { id } = params;
+    const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
     const columns = [
         {
             title: t('resources.space.fields.space_name'),
@@ -243,7 +245,7 @@ const EnvList = () => {
             title: t('common.operation'),
             width: '160px',
             key: 'operation',
-            render: (text: string, record: any) => {
+            render: (text: string, record: any, index: number) => {
                 return (
                     <FlexBox id="operation">
                         {record.modifiable && (
@@ -266,12 +268,19 @@ const EnvList = () => {
                                 <Popover
                                     trigger="click"
                                     overlayClassName="operationPop"
+                                    onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
+                                    visible={index === popVisibleIndex}
                                     content={
                                         <>
                                             <PopItem onClick={() => handleReset(record)}>
                                                 {t('common.bt.reset')}
                                             </PopItem>
-                                            <PopItem onClick={() => handleDelete(record)}>
+                                            <PopItem
+                                                onClick={() => {
+                                                    setPopVisibleIndex(-1);
+                                                    handleDelete(record);
+                                                }}
+                                            >
                                                 {t('common.bt.delete')}
                                             </PopItem>
                                         </>

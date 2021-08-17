@@ -392,6 +392,10 @@
                 "admin": "Admin",
                 "normalUser": "Ordinary member"
             },
+            "cancelShareO": {
+                "cancelTitle": "Are you sure you want to cancel sharing?",
+                "cancelInfo": "After unsharing, users will not be able to access the devspace"
+            },
             "actions": {
                 "create": "Create Space",
                 "createDev": "Create Devspace",

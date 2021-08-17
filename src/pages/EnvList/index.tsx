@@ -361,7 +361,7 @@ const EnvList = () => {
 
     function handleEdit(record: any) {
         history.push({
-            pathname: '/dashboard/space-operation',
+            pathname: '/dashboard/devspace/space-operation',
             state: {
                 record,
             },

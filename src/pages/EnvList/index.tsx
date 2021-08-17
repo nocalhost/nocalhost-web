@@ -275,14 +275,16 @@ const EnvList = () => {
                                             <PopItem onClick={() => handleReset(record)}>
                                                 {t('common.bt.reset')}
                                             </PopItem>
-                                            <PopItem
-                                                onClick={() => {
-                                                    setPopVisibleIndex(-1);
-                                                    handleDelete(record);
-                                                }}
-                                            >
-                                                {t('common.bt.delete')}
-                                            </PopItem>
+                                            {record.deletable && (
+                                                <PopItem
+                                                    onClick={() => {
+                                                        setPopVisibleIndex(-1);
+                                                        handleDelete(record);
+                                                    }}
+                                                >
+                                                    {t('common.bt.delete')}
+                                                </PopItem>
+                                            )}
                                         </>
                                     }
                                 >

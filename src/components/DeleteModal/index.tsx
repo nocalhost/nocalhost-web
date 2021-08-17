@@ -4,6 +4,7 @@ import { ButtonBox, Content, Message, Title, IconBox } from './style-components'
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconQuery } from '../../images/icon/icon_label_query.svg';
 import './reset.less';
+import { useTranslation } from 'react-i18next';
 interface PropsType {
     visible: boolean;
     title: string;
@@ -14,6 +15,7 @@ interface PropsType {
 
 function Dialog(props: PropsType) {
     const { visible, onCancel, message, onConfirm, title } = props;
+    const { t } = useTranslation();
     return (
         <Modal
             // title={title}
@@ -37,10 +39,10 @@ function Dialog(props: PropsType) {
                 <Message>{message}</Message>
                 <ButtonBox>
                     <Button style={{ marginRight: 12 }} onClick={() => onCancel()}>
-                        取消
+                        {t('common.bt.cancel')}
                     </Button>
                     <Button type="primary" onClick={onConfirm} danger>
-                        确认
+                        {t('common.bt.confirm')}
                     </Button>
                 </ButtonBox>
             </div>

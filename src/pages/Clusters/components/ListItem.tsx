@@ -289,6 +289,10 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             height: 324,
         });
 
+        console.log('clear>>>>>');
+
+        chart.clear();
+
         chart.source(loadInfoData.reverse(), {
             percentage: {
                 max: 100,
@@ -359,7 +363,6 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 </div>
             `,
         });
-        chart.clear();
         chart.render();
     }, [i18n.language]);
 

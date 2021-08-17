@@ -9,7 +9,7 @@ import HTTP from '../../../api/fetch';
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 
-import { queryAllCluster } from '../../../services';
+import { queryAllCluster, queryAllUser } from '../../../services';
 
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -89,7 +89,6 @@ interface SelectMap {
 }
 
 const DevspaceForm = ({
-    userList = [],
     onSubmit,
     record,
     isEdit = false,
@@ -107,6 +106,7 @@ const DevspaceForm = ({
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [userList, setUserList] = useState<any>([]);
     const [clusterList, setClusterList] = useState<any>([]);
 
     // 校验相关
@@ -155,6 +155,7 @@ const DevspaceForm = ({
 
     useEffect(() => {
         getClusters();
+        getUsers();
     }, []);
 
     async function getClusters() {
@@ -167,6 +168,18 @@ const DevspaceForm = ({
             };
         });
         setClusterList(tmpList);
+    }
+
+    async function getUsers() {
+        const userMap = await queryAllUser();
+        const tmpList = Array.from(userMap).map((item) => {
+            return {
+                value: item[0],
+                text: item[1],
+                label: item[1],
+            };
+        });
+        setUserList(tmpList);
     }
 
     const handleSubmit = async (values: any) => {

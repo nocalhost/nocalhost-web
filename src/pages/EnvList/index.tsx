@@ -31,7 +31,7 @@ import CommonIcon from '../../components/CommonIcon';
 import DeleteModal from '../../components/DeleteModal';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
-import { queryAllUser, queryAllCluster } from '../../services';
+import { queryAllUser } from '../../services';
 
 // import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
 // import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
@@ -369,7 +369,6 @@ const EnvList = () => {
     async function querySpaceList() {
         setIsLoading(true);
         const nameMap = await queryAllUser();
-        const clusterMap = await queryAllCluster();
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
@@ -378,11 +377,10 @@ const EnvList = () => {
         if (response.code === 0) {
             const tmpList = response.data.map((item: any) => {
                 selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
-                selectClusterMap.set(item.cluster_id, clusterMap.get(item.cluster_id));
+                selectClusterMap.set(item.cluster_id, item.cluster_name);
                 return {
                     ...item,
                     user_name: nameMap.get(item.user_id),
-                    cluster_name: clusterMap.get(item.cluster_id),
                 };
             });
 

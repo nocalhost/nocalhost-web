@@ -202,7 +202,11 @@ function MainHeader() {
 
                     <HeaderSection>
                         <a
-                            href="https://nocalhost.dev/docs/quick-start/"
+                            href={
+                                i18n.language !== 'en'
+                                    ? 'https://nocalhost.dev/zh-CN/docs/quick-start/'
+                                    : 'https://nocalhost.dev/docs/quick-start/'
+                            }
                             target="_blank"
                             rel="noreferrer"
                             style={{ marginRight: '20px' }}
@@ -233,7 +237,11 @@ function MainHeader() {
                                     </Info>
                                     <Section>
                                         <a
-                                            href="https://nocalhost.dev/"
+                                            href={
+                                                i18n.language !== 'en'
+                                                    ? 'https://nocalhost.dev/zh-CN/'
+                                                    : 'https://nocalhost.dev/'
+                                            }
                                             target="_blank"
                                             rel="noreferrer"
                                         >

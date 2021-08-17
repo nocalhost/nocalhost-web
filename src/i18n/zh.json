@@ -275,7 +275,7 @@
             }
         },
         "space": {
-            "name": "开发环境",
+            "name": "开发空间",
             "fields": {
                 "space_name": "空间名称",
                 "space_type": "空间类型",
@@ -371,7 +371,7 @@
             }
         },
         "devSpace": {
-            "name": "开发环境",
+            "name": "开发空间",
             "devSpace": "开发空间",
             "shareUsers": "共享用户",
             "addShare": "添加共享",

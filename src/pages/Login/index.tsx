@@ -10,7 +10,7 @@ import {
     LogoName,
     DocBox,
 } from './style-components';
-import { Link } from 'react-router-dom';
+
 import IconLogo from '../../images/logo.png';
 import './reset.less';
 import { Form, Input, Typography, Button } from 'antd';
@@ -57,14 +57,12 @@ function Login() {
         <div id="login">
             <Box>
                 <LoginHeader>
-                    <Link to="https://nocalhost.dev">
-                        <Flex>
-                            <Logo src={IconLogo}></Logo>
-                            <LogoName>Nocalhost Service Dashboard</LogoName>
-                        </Flex>
-                    </Link>
+                    <Flex>
+                        <Logo src={IconLogo}></Logo>
+                        <LogoName>Nocalhost Service Dashboard</LogoName>
+                    </Flex>
                     <a
-                        href="https://nocalhost.dev/eng/getting-started/"
+                        href="https://nocalhost.dev/docs/server/deploy-server/"
                         target="_blank"
                         rel="noreferrer"
                     >
@@ -86,7 +84,13 @@ function Login() {
                         <Form.Item
                             label="Email Address"
                             name="username"
-                            rules={[{ required: true, type: 'email', message: '请输入正确Email.' }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    type: 'email',
+                                    message: 'please input your vaild email.',
+                                },
+                            ]}
                         >
                             <Input
                                 placeholder="Email address"
@@ -99,7 +103,7 @@ function Login() {
                         <Form.Item
                             label="Password"
                             name="password"
-                            rules={[{ required: true, message: '请输入密码.' }]}
+                            rules={[{ required: true, message: 'Please input the password.' }]}
                         >
                             <Input.Password
                                 placeholder="Password"
@@ -121,7 +125,7 @@ function Login() {
                     </Form>
                     <AdminCount>
                         <a
-                            href="https://nocalhost.dev/zh/server/deploy-cloud/#access-the-nocalhost-server-web-service"
+                            href="https://nocalhost.dev/docs/server/deploy-server#access-the-web-service"
                             target="_blank"
                             rel="noreferrer"
                             id="admin"

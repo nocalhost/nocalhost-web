@@ -11,7 +11,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import DevspaceForm from './DevspaceForm';
 import AddShare from './AddShare';
 import CommonIcon from '../../../components/CommonIcon';
-
+import DeleteModal from '../../../components/DeleteModal';
 import ShareType from './ShareType';
 import './index.less';
 
@@ -74,7 +74,10 @@ const DevspaceOperation = () => {
     const [userList, setUserList] = useState([]);
     const [filterList, setFilterList] = useState([]);
     const [selectedList, setSelectList] = useState([]);
+    const [newRecord, setNewRecord] = useState<any>();
     const location = useLocation<RouterParams>();
+    const [deleteId, setDeleteId] = useState('');
+    const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
     const history = useHistory();
     const {
         state: {
@@ -135,9 +138,10 @@ const DevspaceOperation = () => {
                 return (
                     <div
                         onClick={() => {
-                            handleCancelShare([record.id]);
+                            setDeleteId(record.id);
+                            setDeleteModalShow(true);
                         }}
-                        style={{ display: 'flex' }}
+                        style={{ display: 'flex', alignItems: 'center', width: 20 }}
                     >
                         <CommonIcon
                             NormalIcon={IconDelPerson}
@@ -201,6 +205,10 @@ const DevspaceOperation = () => {
         const tmpList = cooper_user.concat(viewer_user);
         setUserList(tmpList);
         setFilterList(tmpList);
+        setNewRecord({
+            ...record,
+            ...response.data[0],
+        });
     }
 
     const handleSearch = (value: string) => {
@@ -216,13 +224,13 @@ const DevspaceOperation = () => {
         },
     };
 
-    const handleCancelShare = async (users?: any) => {
+    const handleCancelShare = async () => {
         // cancel share
         const response = await HTTP.post(
             'dev_space/unshare',
             {
                 cluster_user_id: id,
-                users: users || selectedList,
+                users: deleteId ? [deleteId] : selectedList,
             },
             {
                 is_v2: true,
@@ -230,6 +238,7 @@ const DevspaceOperation = () => {
         );
         if (response.code === 0) {
             queryDetail();
+            setDeleteModalShow(false);
             message.success(t('resources.devSpace.tips.unShareSuccess'));
         }
     };
@@ -241,6 +250,13 @@ const DevspaceOperation = () => {
 
     return (
         <>
+            <DeleteModal
+                onCancel={() => setDeleteModalShow(false)}
+                onConfirm={handleCancelShare}
+                visible={deleteModalShow}
+                title={t('resources.devSpace.cancelShareO.cancelTitle')}
+                message={t('resources.devSpace.cancelShareO.cancelInfo')}
+            ></DeleteModal>
             <BreadCard
                 data={{
                     menu: t('resources.devSpace.name'),
@@ -252,7 +268,11 @@ const DevspaceOperation = () => {
                 <Tabs style={{ padding: '0 20px 0' }} defaultActiveKey="1">
                     <Tabs.TabPane tab={t('resources.devSpace.devSpace')} key="1">
                         <PanelWrap>
-                            <DevspaceForm record={record} isEdit={true} onCancel={handleCancel} />
+                            <DevspaceForm
+                                record={newRecord}
+                                isEdit={true}
+                                onCancel={handleCancel}
+                            />
                         </PanelWrap>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">
@@ -275,7 +295,7 @@ const DevspaceOperation = () => {
                                                 style={{ color: '#ffffff', marginRight: 8 }}
                                             />
                                         }
-                                        onClick={() => handleCancelShare()}
+                                        onClick={() => setDeleteModalShow(true)}
                                     >
                                         {t('resources.devSpace.cancelShare')}
                                     </Button>

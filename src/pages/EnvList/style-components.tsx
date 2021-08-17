@@ -81,8 +81,20 @@ export const Dot = styled.span<{ isActive: boolean | undefined }>`
 export const UserBox = styled.div`
     width: 240px;
     background: #ffffff;
-    padding: 16px 10px;
     border-radius: 4px;
+`;
+
+export const UserItem = styled.div<{ type: String }>`
+    padding: 12px 10px;
+    box-shadow: ${(props) =>
+        props.type === 'cooperator' ? 'inset 0px -1px 0px 0px rgb(243, 246, 250)' : 'none'};
+`;
+
+export const UserType = styled.span`
+    color: rgb(54, 67, 92);
+    font-family: PingFangSC-Semibold;
+    font-size: 14px;
+    font-weight: 600;
 `;
 
 export const UserName = styled.div`
@@ -91,5 +103,5 @@ export const UserName = styled.div`
     font-size: 14px;
     font-family: PingFangSC-Regular;
     font-weight: normal;
-    text-align: justify;
+    word-break: break-word;
 `;

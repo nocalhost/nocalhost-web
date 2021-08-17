@@ -51,6 +51,11 @@ export const AdminCount = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    & a {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 `;
 
 export const Logo = styled.img`

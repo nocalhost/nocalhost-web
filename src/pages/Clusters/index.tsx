@@ -26,13 +26,15 @@ const Clusters: FC<{}> = () => {
         const nameMap = await queryAllUser();
         const response = await HTTP.get('cluster');
         setClusterLoading(false);
-        const tmpList = response.data.map((item: any) => {
-            return {
-                ...item,
-                userName: nameMap.get(item.user_id),
-            };
-        });
-        setClusterList(tmpList);
+        if (response.code === 0) {
+            const tmpList = response.data.map((item: any) => {
+                return {
+                    ...item,
+                    userName: nameMap.get(item.user_id),
+                };
+            });
+            setClusterList(tmpList);
+        }
     }
 
     const handleAddCluster = () => {
@@ -46,7 +48,12 @@ const Clusters: FC<{}> = () => {
 
     return (
         <div>
-            <SummaryCard title={t('resources.cluster.name')} />
+            <SummaryCard
+                title={t('resources.cluster.name')}
+                info={t('document.cluster.info')}
+                linkText={t('document.cluster.more')}
+                url={t('document.cluster.url')}
+            />
             <div>
                 <ContentTitle>
                     <FlexContainer>

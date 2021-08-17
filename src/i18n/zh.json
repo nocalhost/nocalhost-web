@@ -33,6 +33,33 @@
             "download": "下载"
         }
     },
+    "document": {
+        "overview": {
+            "info": "Nocalhost 是一款开源的基于 IDE 的云原生应用开发工具，直接在 Kubernetes 集群中构建、测试和调试应用程序，提供易于使用的 IDE 插件（支持 VS Code 和 JetBrains），即使在 Kubernetes 集群中进行开发和调试，Nocalhost 保持本地开发一样的体验,使用即时文件同步进行开发，即时将您的代码更改同步到远端容器，而无需重建映像或重新启动容器。",
+            "more": "Nocalhost 简介",
+            "url": "https://nocalhost.dev/zh-CN/docs/introduction/"
+        },
+        "user": {
+            "info": "用户属于 Nocalhost 的独立概念，与 Kubernetes 中的 User 不同。 当您使用 Nocalhost Server 和 Nocalhost 插件时，用户用于识别您的身份和对资源的访问控制。",
+            "more": "管理用户",
+            "url": "https://nocalhost.dev/docs/server/manage-user"
+        },
+        "cluster": {
+            "info": "集群是 Nocalhost 的一个概念，它管理运行开发空间中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s 等等。",
+            "more": "管理集群",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-cluster"
+        },
+        "devspace": {
+            "info": "开发空间是 Nocalhost 的一个概念，其代表由 Nocalhost 管理的一个预分配的云端开发的空间，开发者可以在 DevSpace 中随时部署，卸载，开发，调试应用。",
+            "more": "管理开发空间",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
+        },
+        "application": {
+            "info": "应用是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 Manifest 文件。也就是说，这些 Manifest 通常包含你的应用所依赖的所有 K8s 资源，如果可能，我们应该尽量保持它的最小化。",
+            "more": "管理应用",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
+        }
+    },
     "common": {
         "operation": "操作",
         "otherSet": "其他设置",
@@ -94,7 +121,7 @@
                 "info": "删除用户「{{name}}」后，则该用户将无法登录操作控制台。"
             },
             "bt": {
-                "add": "新增用户",
+                "add": "添加用户",
                 "edit": "修改用户"
             },
             "form": {
@@ -248,7 +275,7 @@
             }
         },
         "space": {
-            "name": "开发环境",
+            "name": "开发空间",
             "fields": {
                 "space_name": "空间名称",
                 "space_type": "空间类型",
@@ -284,14 +311,14 @@
                 "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
             },
             "actions": {
-                "create": "创建环境",
+                "create": "创建开发空间",
                 "show": "环境详情",
                 "list": "环境列表",
                 "download": "下载 KubeConfig",
                 "resource_limit_not_implemented": "资源限制还未实现"
             },
             "tips": {
-                "addSuccess": "创建开发环境成功！"
+                "addSuccess": "创建开发空间成功！"
             },
             "devspaceLimitTitle": "DevSpace 资源限制",
             "containerDefaultTitle": "Container 默认值",
@@ -300,7 +327,7 @@
                     "title": "重置开发空间",
                     "content": "重置开发空间将删除 [%{name}] 命名空间内的所有资源，并重建"
                 },
-                "successed": "开始空间重置成功！"
+                "successed": "开发空间重置成功！"
             },
             "status": {
                 "deployed": "已部署",
@@ -344,7 +371,7 @@
             }
         },
         "devSpace": {
-            "name": "开发环境",
+            "name": "开发空间",
             "devSpace": "开发空间",
             "shareUsers": "共享用户",
             "addShare": "添加共享",
@@ -366,10 +393,14 @@
                 "admin": "管理员",
                 "normalUser": "普通成员"
             },
+            "cancelShareO": {
+                "cancelTitle": "您确认要取消共享",
+                "cancelInfo": "取消共享后，用户将无法访问该开发空间"
+            },
             "actions": {
                 "create": "创建环境",
-                "createDev": "创建隔离开发环境",
-                "edit": "编辑开发环境",
+                "createDev": "创建隔离开发空间",
+                "edit": "编辑开发空间",
                 "show": "环境详情",
                 "list": "环境列表"
             },
@@ -389,11 +420,12 @@
                 "selected": "已选 {{count}} 项",
                 "searchSpaceName": "搜索开发空间名称",
                 "changeRoleSuccess": "更改用户角色成功！",
-                "chooseType": "选择创建空间类型"
+                "chooseType": "选择创建空间类型",
+                "sumOfItem": "共 {{count}} 条"
             }
         },
         "myDevSpace": {
-            "name": "开发环境",
+            "name": "开发空间",
             "fields": {
                 "space_name": "空间名称",
                 "status": "状态",

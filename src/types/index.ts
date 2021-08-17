@@ -9,6 +9,7 @@ export interface ClusterItemInfo {
     created_at: string;
     user_id: number;
     userName: string;
+    modifiable: boolean;
     resources: {
         [key: string]: any;
         capacity: number;

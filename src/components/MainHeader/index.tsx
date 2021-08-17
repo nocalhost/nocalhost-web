@@ -66,11 +66,14 @@ function MainHeader() {
     const { user } = useContext(UserContext);
     const [formData, setFormData] = useState({});
     const [dialogType, setDialogType] = useState('');
+
     const { i18n, t } = useTranslation();
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [avaterPopVisible, setAvaterPopVisible] = useState(false);
     const [profilePopVisible, setProfilePopVisible] = useState(false);
+    const [languageVisible, setLanguageVisible] = useState(false);
+
     // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
@@ -199,7 +202,11 @@ function MainHeader() {
 
                     <HeaderSection>
                         <a
-                            href="https://nocalhost.dev/eng/getting-started/"
+                            href={
+                                i18n.language !== 'en'
+                                    ? 'https://nocalhost.dev/zh-CN/docs/quick-start/'
+                                    : 'https://nocalhost.dev/docs/quick-start/'
+                            }
                             target="_blank"
                             rel="noreferrer"
                             style={{ marginRight: '20px' }}
@@ -230,7 +237,11 @@ function MainHeader() {
                                     </Info>
                                     <Section>
                                         <a
-                                            href="https://nocalhost.dev/"
+                                            href={
+                                                i18n.language !== 'en'
+                                                    ? 'https://nocalhost.dev/zh-CN/'
+                                                    : 'https://nocalhost.dev/'
+                                            }
                                             target="_blank"
                                             rel="noreferrer"
                                         >
@@ -253,11 +264,14 @@ function MainHeader() {
                                         <Popover
                                             placement="leftTop"
                                             overlayClassName="tranPop"
+                                            visible={languageVisible}
+                                            onVisibleChange={(v) => setLanguageVisible(v)}
                                             content={
                                                 <div>
                                                     <TranItem
                                                         onClick={() => {
                                                             setProfilePopVisible(false);
+                                                            setLanguageVisible(false);
                                                             i18n.changeLanguage('zh');
                                                         }}
                                                     >
@@ -278,6 +292,7 @@ function MainHeader() {
                                                     <TranItem
                                                         onClick={() => {
                                                             setProfilePopVisible(false);
+                                                            setLanguageVisible(false);
                                                             i18n.changeLanguage('en');
                                                         }}
                                                     >

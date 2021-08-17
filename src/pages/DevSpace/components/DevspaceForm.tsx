@@ -9,6 +9,8 @@ import HTTP from '../../../api/fetch';
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 
+import { queryAllCluster, queryAllUser } from '../../../services';
+
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
     justify-content: space-between;
@@ -87,8 +89,6 @@ interface SelectMap {
 }
 
 const DevspaceForm = ({
-    userList = [],
-    clusterList = [],
     onSubmit,
     record,
     isEdit = false,
@@ -106,6 +106,8 @@ const DevspaceForm = ({
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [userList, setUserList] = useState<any>([]);
+    const [clusterList, setClusterList] = useState<any>([]);
 
     // 校验相关
     const [space_req_mem, set_space_req_mem] = useState('');
@@ -149,7 +151,36 @@ const DevspaceForm = ({
                 ...limitObj,
             });
         }
+    }, [record]);
+
+    useEffect(() => {
+        getClusters();
+        getUsers();
     }, []);
+
+    async function getClusters() {
+        const clusterMap = await queryAllCluster();
+        const tmpList = Array.from(clusterMap).map((item) => {
+            return {
+                value: item[0],
+                text: item[1],
+                label: item[1],
+            };
+        });
+        setClusterList(tmpList);
+    }
+
+    async function getUsers() {
+        const userMap = await queryAllUser();
+        const tmpList = Array.from(userMap).map((item) => {
+            return {
+                value: item[0],
+                text: item[1],
+                label: item[1],
+            };
+        });
+        setUserList(tmpList);
+    }
 
     const handleSubmit = async (values: any) => {
         try {
@@ -175,21 +206,25 @@ const DevspaceForm = ({
 
             const limitObj = resource_limit_set
                 ? {
-                      container_limits_cpu,
+                      container_limits_cpu: container_limits_cpu
+                          ? container_limits_cpu + ''
+                          : container_limits_cpu,
                       container_limits_mem: container_limits_mem
                           ? `${container_limits_mem}Mi`
                           : container_limits_mem,
-                      container_req_cpu,
+                      container_req_cpu: container_req_cpu
+                          ? container_req_cpu + ''
+                          : container_req_cpu,
                       container_req_mem: container_req_mem
                           ? `${container_req_mem}Mi`
                           : container_req_mem,
-                      space_lb_count: space_lb_count,
-                      space_limits_cpu: space_limits_cpu,
+                      space_lb_count: space_lb_count ? space_lb_count + '' : space_lb_count,
+                      space_limits_cpu: space_limits_cpu ? space_limits_cpu + '' : space_limits_cpu,
                       space_limits_mem: space_limits_mem
                           ? `${space_limits_mem}Mi`
                           : space_limits_mem,
-                      space_pvc_count: space_pvc_count,
-                      space_req_cpu: space_req_cpu,
+                      space_pvc_count: space_pvc_count ? space_pvc_count + '' : space_pvc_count,
+                      space_req_cpu: space_req_cpu ? space_req_cpu + '' : space_req_cpu,
                       space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
                       space_storage_capacity: space_storage_capacity
                           ? `${space_storage_capacity}Gi`
@@ -201,20 +236,14 @@ const DevspaceForm = ({
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
                 });
-                if (resource_limit_set) {
-                    const limitResp = await HTTP.put(
-                        `dev_space/${record.id}/update_resource_limit`,
-                        limitObj
-                    );
-                    if (response.code === 0 && limitResp.code === 0) {
-                        message.success(t('common.message.edit'));
-                    }
-                } else {
-                    if (response.code === 0) {
-                        message.success(t('common.message.edit'));
-                    }
+                const limitResp = await HTTP.put(
+                    `dev_space/${record.id}/update_resource_limit`,
+                    limitObj
+                );
+                if (response.code === 0 && limitResp.code === 0) {
+                    message.success(t('common.message.edit'));
+                    onSubmit && onSubmit();
                 }
-                onSubmit && onSubmit();
             } else {
                 const response = await HTTP.post('dev_space', {
                     cluster_id,
@@ -237,11 +266,7 @@ const DevspaceForm = ({
     return (
         <>
             <Form style={{ minWidth: 632 }} form={form} layout="vertical" onFinish={handleSubmit}>
-                <Form.Item
-                    label={t('resources.devSpace.fields.space_name')}
-                    name="space_name"
-                    rules={[{ required: true }]}
-                >
+                <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
                     <Input />
                 </Form.Item>
                 <FormFlexBox>
@@ -287,7 +312,9 @@ const DevspaceForm = ({
                             <FormFlexBox>
                                 <DescBox>
                                     <span>{t('resources.space.fields.resource_limit')}</span>
-                                    <span>{t('resources.space.fields.setLimitDesc')}</span>
+                                    {false && (
+                                        <span>{t('resources.space.fields.setLimitDesc')}</span>
+                                    )}
                                 </DescBox>
                                 <Form.Item name="resource_limit_set">
                                     <Switch

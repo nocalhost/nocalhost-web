@@ -11,6 +11,7 @@ export const InputWrap = styled.div`
     padding: 0 4px;
     overflow: hidden;
     margin-right: 12px;
+    box-shadow: 0px 5px 15px 0px rgba(54, 67, 92, 0.05);
 `;
 
 export const Input = styled.input`

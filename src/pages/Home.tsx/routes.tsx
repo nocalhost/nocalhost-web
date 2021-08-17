@@ -40,9 +40,10 @@ export const routes = [
     {
         path: '/dashboard/devspace/',
         component: DevSpace,
+        exact: true,
     },
     {
-        path: '/dashboard/space-operation',
+        path: '/dashboard/devspace/space-operation',
         component: DevSpaceOperation,
     },
 ];

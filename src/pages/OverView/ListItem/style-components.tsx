@@ -40,7 +40,7 @@ export const H = styled(TextOver)`
     min-height: 22px;
 `;
 
-export const Name = styled.div`
+export const Name = styled.span`
     word-break: keep-all;
     white-space: nowrap;
     overflow: hidden;
@@ -48,6 +48,7 @@ export const Name = styled.div`
     font-size: 14px;
     font-weight: 600;
     color: rgb(54, 67, 92);
+    display: block;
 `;
 
 export const I = styled(TextOver)`

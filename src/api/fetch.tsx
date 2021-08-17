@@ -38,7 +38,9 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
     if (options?.method === 'GET') {
         const query = qs.stringify(options.body || {}, { arrayFormat: 'comma' });
         delete options.body;
-        requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}?${query}`;
+        requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}${
+            query ? '?' : ''
+        }${query}`;
     } else {
         requestUrl = `${apiUrl}/${options?.config?.is_v2 ? 'v2' : 'v1'}/${url}`;
     }

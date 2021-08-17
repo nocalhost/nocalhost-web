@@ -33,6 +33,33 @@
             "download": "Download"
         }
     },
+    "document": {
+        "overview": {
+            "info": "Nocalhost is an open-source IDE plugin for cloud-native applications development,Build, test and debug applications directly inside Kubernetes,providing the same debugging and developing experience you're used in the IDE even in the remote Kubernetes cluster,instantly sync your code change to remote container without rebuilding images or restarting containers.",
+            "more": "Nocalhost introductions",
+            "url": "https://nocalhost.dev/docs/introduction/"
+        },
+        "user": {
+            "info": "User belongs to the independent concept of Nocalhost, it's different with user in Kubernetes. When you use Nocalhost Server and Nocalhost Plugins, User is used to identify your identity and access control to resources.",
+            "more": "Manage User",
+            "url": "https://nocalhost.dev/docs/server/manage-user"
+        },
+        "cluster": {
+            "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s etc.",
+            "more": "Manage Cluster",
+            "url": "https://nocalhost.dev/docs/server/manage-cluster"
+        },
+        "devspace": {
+            "info": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
+            "more": "Manage DevSpace",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
+        },
+        "application": {
+            "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the K8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
+            "more": "Manage Applications",
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
+        }
+    },
     "common": {
         "operation": "Operation",
         "otherSet": "More Config",
@@ -120,7 +147,7 @@
         "cluster": {
             "name": "Cluster",
             "edit": "Edit",
-            "envList": "Env List",
+            "envList": "DevSpace List",
             "add": "Add Cluster",
             "info": "Cluster Info",
             "workload": "Cluster Workload",
@@ -280,12 +307,12 @@
                 "cluster_scope": "This space has cluster resource permissions",
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
-                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
+                "setLimitDesc": "Let me explain what to do after turning on the resource limit"
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",
             "actions": {
-                "create": "Create Space",
+                "create": "Create DevSpace",
                 "show": "Show Space",
                 "list": "Space List",
                 "download": "Download KubeConfig",
@@ -365,6 +392,10 @@
                 "admin": "Admin",
                 "normalUser": "Ordinary member"
             },
+            "cancelShareO": {
+                "cancelTitle": "Are you sure you want to cancel sharing?",
+                "cancelInfo": "After unsharing, users will not be able to access the devspace"
+            },
             "actions": {
                 "create": "Create Space",
                 "createDev": "Create Devspace",
@@ -388,7 +419,8 @@
                 "selected": "{{Count}} selected",
                 "searchSpaceName": "Search development space name",
                 "changeRoleSuccess": "Successfully changed the user role!",
-                "chooseType": "Select the type of space to create"
+                "chooseType": "Select the type of space to create",
+                "sumOfItem": "Total {{count}} item"
             }
         },
         "myDevSpace": {

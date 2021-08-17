@@ -7,6 +7,9 @@ import {
     CardInfoTitle,
     CardInfoSub,
     IconBox,
+    CardLinkBox,
+    KubeIconIn,
+    IconRight,
 } from './style-components';
 import Icon from '@ant-design/icons';
 import { useLocation } from 'react-router-dom';
@@ -15,6 +18,8 @@ import { ReactComponent as IconDevspace } from '../../images/icon/icon_normal_de
 import { ReactComponent as IconDashboard } from '../../images/icon/icon_normal_dashboard.svg';
 import { ReactComponent as IconClusters } from '../../images/icon/icon_normal_clusters.svg';
 import { ReactComponent as IconApplications } from '../../images/icon/icon_normal_applications.svg';
+import { ReactComponent as IconNhLink } from '../../images/icon/icon_external_link.svg';
+import kubeIcon from '../../images/icon/icon_btn_normal_kube.svg';
 // icon_normal_users.svg
 // icon_normal_devspace.svg
 // icon_normal_dashboard.svg
@@ -22,6 +27,9 @@ import { ReactComponent as IconApplications } from '../../images/icon/icon_norma
 // icon_normal_applications.svg
 interface summaryPropsType {
     title: string;
+    info?: string;
+    linkText?: string;
+    url?: string;
 }
 
 function SummaryCard(props: summaryPropsType) {
@@ -50,12 +58,16 @@ function SummaryCard(props: summaryPropsType) {
                     </IconBox>
                     <CardInfo>
                         <CardInfoTitle>{props.title}</CardInfoTitle>
-                        <CardInfoSub>
-                            提供 KubeSphere、Kubernetes 和 OpenPitrix
-                            集群内各项服务组件的健康状态监控，可以查看当前集群的健康状态和运行时间，能够帮助用户监测集群的状况和及时定位问题。
-                        </CardInfoSub>
+                        <CardInfoSub>{props.info}</CardInfoSub>
                     </CardInfo>
                 </CardTop>
+                <CardLinkBox href={props.url} target="_black" rel="noreferrer">
+                    <KubeIconIn src={kubeIcon}></KubeIconIn>
+                    {props.linkText}
+                    <IconRight>
+                        <Icon component={IconNhLink} style={{ fontSize: '20px' }}></Icon>
+                    </IconRight>
+                </CardLinkBox>
             </Card>
         </Main>
     );

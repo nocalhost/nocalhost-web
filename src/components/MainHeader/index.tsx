@@ -66,11 +66,14 @@ function MainHeader() {
     const { user } = useContext(UserContext);
     const [formData, setFormData] = useState({});
     const [dialogType, setDialogType] = useState('');
+
     const { i18n, t } = useTranslation();
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [avaterPopVisible, setAvaterPopVisible] = useState(false);
     const [profilePopVisible, setProfilePopVisible] = useState(false);
+    const [languageVisible, setLanguageVisible] = useState(false);
+
     // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
@@ -253,11 +256,14 @@ function MainHeader() {
                                         <Popover
                                             placement="leftTop"
                                             overlayClassName="tranPop"
+                                            visible={languageVisible}
+                                            onVisibleChange={(v) => setLanguageVisible(v)}
                                             content={
                                                 <div>
                                                     <TranItem
                                                         onClick={() => {
                                                             setProfilePopVisible(false);
+                                                            setLanguageVisible(false);
                                                             i18n.changeLanguage('zh');
                                                         }}
                                                     >
@@ -278,6 +284,7 @@ function MainHeader() {
                                                     <TranItem
                                                         onClick={() => {
                                                             setProfilePopVisible(false);
+                                                            setLanguageVisible(false);
                                                             i18n.changeLanguage('en');
                                                         }}
                                                     >

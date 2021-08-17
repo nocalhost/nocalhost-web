@@ -9,6 +9,8 @@ import HTTP from '../../../api/fetch';
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 
+import { queryAllCluster } from '../../../services';
+
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
     justify-content: space-between;
@@ -88,7 +90,6 @@ interface SelectMap {
 
 const DevspaceForm = ({
     userList = [],
-    clusterList = [],
     onSubmit,
     record,
     isEdit = false,
@@ -106,6 +107,7 @@ const DevspaceForm = ({
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [clusterList, setClusterList] = useState<any>([]);
 
     // 校验相关
     const [space_req_mem, set_space_req_mem] = useState('');
@@ -150,6 +152,22 @@ const DevspaceForm = ({
             });
         }
     }, [record]);
+
+    useEffect(() => {
+        getClusters();
+    }, []);
+
+    async function getClusters() {
+        const clusterMap = await queryAllCluster();
+        const tmpList = Array.from(clusterMap).map((item) => {
+            return {
+                value: item[0],
+                text: item[1],
+                label: item[1],
+            };
+        });
+        setClusterList(tmpList);
+    }
 
     const handleSubmit = async (values: any) => {
         try {

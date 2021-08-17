@@ -13,7 +13,9 @@ export const queryAllUser = async () => {
 };
 
 export const queryAllCluster = async () => {
-    const response = await HTTP.get('cluster');
+    const response = await HTTP.get('dev_space/cluster', null, {
+        is_v2: true,
+    });
     const { data, code } = response;
     const map = new Map();
     if (code === 0) {

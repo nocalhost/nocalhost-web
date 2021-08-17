@@ -10,7 +10,7 @@ import {
     LogoName,
     DocBox,
 } from './style-components';
-import { Link } from 'react-router-dom';
+
 import IconLogo from '../../images/logo.png';
 import './reset.less';
 import { Form, Input, Typography, Button } from 'antd';
@@ -57,12 +57,10 @@ function Login() {
         <div id="login">
             <Box>
                 <LoginHeader>
-                    <Link to="https://nocalhost.dev">
-                        <Flex>
-                            <Logo src={IconLogo}></Logo>
-                            <LogoName>Nocalhost Service Dashboard</LogoName>
-                        </Flex>
-                    </Link>
+                    <Flex>
+                        <Logo src={IconLogo}></Logo>
+                        <LogoName>Nocalhost Service Dashboard</LogoName>
+                    </Flex>
                     <a
                         href="https://nocalhost.dev/docs/server/deploy-server/"
                         target="_blank"

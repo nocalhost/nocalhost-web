@@ -24,7 +24,7 @@ import {
     // Time,
     FlexBetween,
     Total,
-    I,
+    // I,
     AmountBox,
     Water,
     Dot,
@@ -93,7 +93,7 @@ function Overview() {
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{userData.length}</Total>
-                                    <I>人</I>
+                                    {/* <I>人</I> */}
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorUser} alt="" />
@@ -117,7 +117,7 @@ function Overview() {
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{applicationData.length}</Total>
-                                    <I>个</I>
+                                    {/* <I>个</I> */}
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorApplications} alt="" />
@@ -141,7 +141,7 @@ function Overview() {
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{devSpaceData.length}</Total>
-                                    <I>个</I>
+                                    {/* <I>个</I> */}
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorDevspace} alt="" />

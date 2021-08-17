@@ -74,6 +74,7 @@ const DevspaceOperation = () => {
     const [userList, setUserList] = useState([]);
     const [filterList, setFilterList] = useState([]);
     const [selectedList, setSelectList] = useState([]);
+    const [newRecord, setNewRecord] = useState<any>();
     const location = useLocation<RouterParams>();
     const history = useHistory();
     const {
@@ -201,6 +202,10 @@ const DevspaceOperation = () => {
         const tmpList = cooper_user.concat(viewer_user);
         setUserList(tmpList);
         setFilterList(tmpList);
+        setNewRecord({
+            ...record,
+            ...response.data[0],
+        });
     }
 
     const handleSearch = (value: string) => {
@@ -252,7 +257,11 @@ const DevspaceOperation = () => {
                 <Tabs style={{ padding: '0 20px 0' }} defaultActiveKey="1">
                     <Tabs.TabPane tab={t('resources.devSpace.devSpace')} key="1">
                         <PanelWrap>
-                            <DevspaceForm record={record} isEdit={true} onCancel={handleCancel} />
+                            <DevspaceForm
+                                record={newRecord}
+                                isEdit={true}
+                                onCancel={handleCancel}
+                            />
                         </PanelWrap>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">

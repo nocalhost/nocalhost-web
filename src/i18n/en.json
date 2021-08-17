@@ -280,7 +280,7 @@
                 "cluster_scope": "This space has cluster resource permissions",
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
-                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
+                "setLimitDesc": "Let me explain what to do after turning on the resource limit"
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",

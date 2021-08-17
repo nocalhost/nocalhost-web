@@ -18,7 +18,7 @@ const BtnBox = styled.div`
 const ConfigBox = styled.div`
     word-break: break-all;
     white-space: pre-wrap;
-    max-height: 500px;
+    height: 500px;
     overflow: scroll;
 `;
 
@@ -31,7 +31,12 @@ const KubeConfig = (props: PropParam) => {
     const { onCancel, record } = props;
     const { user } = useContext(UserContext);
 
-    let shareList: any = [];
+    let shareList: any = [
+        {
+            name: record.user_name,
+            id: record.user_id,
+        },
+    ];
     shareList = shareList.concat(record.cooper_user).concat(record.viewer_user);
     shareList = shareList.map((item: any) => {
         return {
@@ -47,7 +52,9 @@ const KubeConfig = (props: PropParam) => {
     }, []);
 
     async function queryDetail(id: any) {
-        const response = await HTTP.get(`dev_space/${id}/detail`);
+        const response = await HTTP.get(`dev_space/${record.id}/detail`, {
+            user_id: id,
+        });
         if (response.code === 0) {
             setKubeConfig(response.data?.kubeconfig);
         }
@@ -88,6 +95,7 @@ const KubeConfig = (props: PropParam) => {
                     <div>
                         <Select
                             disabled={!user.is_admin}
+                            defaultValue={record.user_id}
                             onChange={handleChange}
                             options={shareList}
                             style={{ width: 200 }}

@@ -47,7 +47,7 @@ const ShareType = (props: PropParam) => {
             <Select
                 defaultValue={defaultValue}
                 bordered={false}
-                style={{ width: 100 }}
+                style={{ width: 106 }}
                 options={options}
                 onChange={handleChange}
             ></Select>

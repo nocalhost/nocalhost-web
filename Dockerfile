@@ -5,6 +5,7 @@ ARG GIT_COMMIT_SHA
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY yarn.lock ./
+RUN yarn config set "strict-ssl" false
 RUN yarn
 COPY . ./
 RUN yarn build

@@ -276,14 +276,16 @@ const EnvList = () => {
                                             <PopItem onClick={() => handleReset(record)}>
                                                 {t('common.bt.reset')}
                                             </PopItem>
-                                            <PopItem
-                                                onClick={() => {
-                                                    setPopVisibleIndex(-1);
-                                                    handleDelete(record);
-                                                }}
-                                            >
-                                                {t('common.bt.delete')}
-                                            </PopItem>
+                                            {record.deletable && (
+                                                <PopItem
+                                                    onClick={() => {
+                                                        setPopVisibleIndex(-1);
+                                                        handleDelete(record);
+                                                    }}
+                                                >
+                                                    {t('common.bt.delete')}
+                                                </PopItem>
+                                            )}
                                         </>
                                     }
                                 >
@@ -468,6 +470,7 @@ const EnvList = () => {
     const handleConfirmReset = async () => {
         const response = await HTTP.post(`dev_space/${record?.id}/recreate`);
         if (response.code === 0) {
+            querySpaceList();
             message.success(t('common.message.reset'));
             setShowReset(false);
         }

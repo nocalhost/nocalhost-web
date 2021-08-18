@@ -114,6 +114,7 @@ const DevspaceForm = ({
     const [space_limits_mem, set_space_limits_mem] = useState('');
     const [space_req_cpu, set_space_req_cpu] = useState('');
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
+    const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
 
     useEffect(() => {
         if (isEdit && record) {
@@ -124,6 +125,7 @@ const DevspaceForm = ({
                 cluster_admin,
                 resource_limit_set,
                 space_resource_limit,
+                deletable,
             } = record;
             let limitObj = {};
             try {
@@ -139,6 +141,7 @@ const DevspaceForm = ({
                 limitObj = {};
             }
 
+            setCanSetLimit(deletable);
             setIsAdmin(Boolean(cluster_admin));
             setShowLimit(Boolean(resource_limit_set));
 
@@ -236,13 +239,21 @@ const DevspaceForm = ({
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
                 });
-                const limitResp = await HTTP.put(
-                    `dev_space/${record.id}/update_resource_limit`,
-                    limitObj
-                );
-                if (response.code === 0 && limitResp.code === 0) {
-                    message.success(t('common.message.edit'));
-                    onSubmit && onSubmit();
+
+                if (canSetLimit) {
+                    const limitResp = await HTTP.put(
+                        `dev_space/${record.id}/update_resource_limit`,
+                        limitObj
+                    );
+                    if (response.code === 0 && limitResp.code === 0) {
+                        message.success(t('common.message.edit'));
+                        onSubmit && onSubmit();
+                    }
+                } else {
+                    if (response.code === 0) {
+                        message.success(t('common.message.edit'));
+                        onSubmit && onSubmit();
+                    }
                 }
             } else {
                 const response = await HTTP.post('dev_space', {
@@ -319,6 +330,7 @@ const DevspaceForm = ({
                                 <Form.Item name="resource_limit_set">
                                     <Switch
                                         checked={showLimit}
+                                        disabled={!canSetLimit}
                                         onChange={(checked: boolean) => setShowLimit(checked)}
                                     />
                                 </Form.Item>
@@ -334,6 +346,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalMem')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) => set_space_req_mem(e.target.value)}
                                             style={{ width: 298 }}
                                         />
@@ -343,6 +356,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.limitTotalMem')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) =>
                                                 set_space_limits_mem(e.target.value)
                                             }
@@ -356,6 +370,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalCPU')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) => set_space_req_cpu(e.target.value)}
                                             style={{ width: 298 }}
                                         />
@@ -365,6 +380,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.limitTotalCPU')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) =>
                                                 set_space_limits_cpu(e.target.value)
                                             }
@@ -377,13 +393,13 @@ const DevspaceForm = ({
                                         name="space_pvc_count"
                                         label={t('resources.space.fields.PVC_num')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_storage_capacity"
                                         label={t('resources.space.fields.storageCapacity')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -391,7 +407,7 @@ const DevspaceForm = ({
                                         name="space_lb_count"
                                         label={t('resources.space.fields.lbNum')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <LimitTitle style={{ marginTop: 0 }}>
@@ -407,7 +423,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
 
                                     <Form.Item
@@ -419,7 +435,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -432,7 +448,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_limits_cpu"
@@ -443,7 +459,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                             </LimitWrap>

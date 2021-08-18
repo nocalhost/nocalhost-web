@@ -85,7 +85,8 @@
             "expand": "展开",
             "collapse": "收起",
             "remove": "移除",
-            "reset": "重置"
+            "reset": "重置",
+            "select": "选择"
         },
         "select": {
             "all": "全部"
@@ -402,7 +403,8 @@
                 "createDev": "创建隔离开发空间",
                 "edit": "编辑开发空间",
                 "show": "环境详情",
-                "list": "环境列表"
+                "list": "环境列表",
+                "createMesh": "创建共享开发空间"
             },
             "status": {
                 "deployed": "已部署",
@@ -421,7 +423,10 @@
                 "searchSpaceName": "搜索开发空间名称",
                 "changeRoleSuccess": "更改用户角色成功！",
                 "chooseType": "选择创建空间类型",
-                "sumOfItem": "共 {{count}} 条"
+                "sumOfItem": "共 {{count}} 条",
+                "devSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "meshSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "learnMore": "了解更多"
             }
         },
         "myDevSpace": {

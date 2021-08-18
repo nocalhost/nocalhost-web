@@ -320,6 +320,8 @@ const EnvList = () => {
         user_id: 'all',
     });
 
+    const [showChooseType, setShowChooseType] = useState<boolean>(false);
+
     const selectAllOption = { value: 'all', text: t('common.select.all') };
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -476,6 +478,10 @@ const EnvList = () => {
         }
     };
 
+    const handleShowChooseType = () => {
+        setShowChooseType(true);
+    };
+
     return (
         <>
             {id && (
@@ -526,7 +532,7 @@ const EnvList = () => {
                             <Button
                                 type="primary"
                                 icon={<Icon component={IconAdd}></Icon>}
-                                onClick={() => setShowModal(true)}
+                                onClick={handleShowChooseType}
                             >
                                 {t('resources.space.actions.create')}
                             </Button>
@@ -593,6 +599,7 @@ const EnvList = () => {
                     })}
                 />
             )}
+            {showChooseType && <ChooseType />}
         </>
     );
 };

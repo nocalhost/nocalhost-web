@@ -78,7 +78,8 @@
             "expand": "Expand",
             "collapse": "Collapse",
             "remove": "Remove",
-            "reset": "Reset"
+            "reset": "Reset",
+            "select": "选择"
         },
         "info": {
             "logout": "Sign out",
@@ -398,10 +399,11 @@
             },
             "actions": {
                 "create": "Create Space",
-                "createDev": "Create Devspace",
+                "createDev": "Create DevSpace",
                 "edit": "Edit Devspace",
                 "show": "Show Space",
-                "list": "Space List"
+                "list": "Space List",
+                "createMesh": "Create Mesh Space"
             },
             "status": {
                 "deployed": "Deployed",
@@ -420,7 +422,10 @@
                 "searchSpaceName": "Search development space name",
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to create",
-                "sumOfItem": "Total {{count}} item"
+                "sumOfItem": "Total {{count}} item",
+                "devSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "meshSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "learnMore": "Learn More"
             }
         },
         "myDevSpace": {

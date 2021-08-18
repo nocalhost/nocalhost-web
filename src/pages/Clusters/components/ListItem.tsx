@@ -1,5 +1,5 @@
 import { Button, message } from 'antd';
-import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import F2 from '@antv/f2';
 import moment from 'moment';
@@ -189,9 +189,48 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
     const { t, i18n } = useTranslation();
     let { resources = [] } = data;
     const { modifiable } = data;
-    resources = resources.sort(
-        (a: any, b: any) => a.resource_name[0].charCodeAt() - b.resource_name[0].charCodeAt()
-    );
+    try {
+        resources = resources.sort(
+            (a: any, b: any) => a.resource_name[0].charCodeAt() - b.resource_name[0].charCodeAt()
+        );
+    } catch (e) {
+        resources = [
+            {
+                resource_name: 'pods',
+                capacity: 0,
+                used: 0,
+                percentage: 0,
+            },
+            {
+                resource_name: 'cpu',
+                capacity: 0,
+                used: 0,
+                percentage: 0,
+            },
+            {
+                resource_name: 'memory',
+                capacity: 0,
+                used: 0,
+                percentage: 0,
+            },
+            {
+                resource_name: 'storage',
+                capacity: 0,
+                used: 0,
+                percentage: 0,
+            },
+        ];
+    }
+
+    const chart1 = useRef<any>();
+
+    useEffect(() => {
+        chart1.current = new F2.Chart({
+            id: `chart${data.id}`,
+            pixelRatio: window.devicePixelRatio,
+            height: 324,
+        });
+    }, []);
 
     useEffect(() => {
         const loadInfoData = resources.map((item: any) => {
@@ -282,13 +321,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                 )
             );
         });
-
-        const chart = new F2.Chart({
-            id: `chart${data.id}`,
-            pixelRatio: window.devicePixelRatio,
-            height: 324,
-        });
-
+        const chart = chart1.current;
         chart.clear();
 
         chart.source(loadInfoData.reverse(), {

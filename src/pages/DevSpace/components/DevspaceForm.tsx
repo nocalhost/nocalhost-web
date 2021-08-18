@@ -346,6 +346,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalMem')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) => set_space_req_mem(e.target.value)}
                                             style={{ width: 298 }}
                                         />
@@ -355,6 +356,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.limitTotalMem')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) =>
                                                 set_space_limits_mem(e.target.value)
                                             }
@@ -368,6 +370,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.requestTotalCPU')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) => set_space_req_cpu(e.target.value)}
                                             style={{ width: 298 }}
                                         />
@@ -377,6 +380,7 @@ const DevspaceForm = ({
                                         label={t('resources.space.fields.limitTotalCPU')}
                                     >
                                         <Input
+                                            disabled={!canSetLimit}
                                             onChange={(e: any) =>
                                                 set_space_limits_cpu(e.target.value)
                                             }
@@ -389,13 +393,13 @@ const DevspaceForm = ({
                                         name="space_pvc_count"
                                         label={t('resources.space.fields.PVC_num')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="space_storage_capacity"
                                         label={t('resources.space.fields.storageCapacity')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -403,7 +407,7 @@ const DevspaceForm = ({
                                         name="space_lb_count"
                                         label={t('resources.space.fields.lbNum')}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <LimitTitle style={{ marginTop: 0 }}>
@@ -419,7 +423,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
 
                                     <Form.Item
@@ -431,7 +435,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                                 <FormFlexBox>
@@ -444,7 +448,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                     <Form.Item
                                         name="container_limits_cpu"
@@ -455,7 +459,7 @@ const DevspaceForm = ({
                                             },
                                         ]}
                                     >
-                                        <Input style={{ width: 298 }} />
+                                        <Input disabled={!canSetLimit} style={{ width: 298 }} />
                                     </Form.Item>
                                 </FormFlexBox>
                             </LimitWrap>

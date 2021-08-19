@@ -29,14 +29,14 @@ export const Card = styled.div`
     background-size: cover;
     /* height: 366px; */
     width: 440px;
-    padding: 30px 40px;
+    padding: 24px 40px;
     margin: 30px auto;
     border-radius: 8px;
     box-shadow: 0px 8px 20px 0px rgba(54, 67, 92, 0.1);
 `;
 
 export const Title = styled.div`
-    margin: 100px auto 0;
+    margin: 74px auto 0;
     text-align: center;
     font-weight: 600;
     color: rgb(54, 67, 92);
@@ -44,7 +44,6 @@ export const Title = styled.div`
 `;
 
 export const AdminCount = styled.div`
-    color: rgb(0, 128, 255);
     font-size: 14px;
     font-weight: normal;
     margin-top: 24px;
@@ -52,6 +51,7 @@ export const AdminCount = styled.div`
     align-items: center;
     justify-content: center;
     & a {
+        color: #008dff;
         &:hover {
             text-decoration: underline;
         }

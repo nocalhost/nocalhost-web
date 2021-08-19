@@ -482,6 +482,16 @@ const EnvList = () => {
         setShowChooseType(true);
     };
 
+    const onCreateDev = () => {
+        setShowChooseType(false);
+        setShowModal(true);
+    };
+
+    const onCreateMesh = () => {
+        setShowChooseType(false);
+        history.push('/dashboard/devspace/mesh-space');
+    };
+
     return (
         <>
             {id && (
@@ -599,7 +609,7 @@ const EnvList = () => {
                     })}
                 />
             )}
-            {showChooseType && <ChooseType />}
+            {showChooseType && <ChooseType onCreateDev={onCreateDev} onCreateMesh={onCreateMesh} />}
         </>
     );
 };

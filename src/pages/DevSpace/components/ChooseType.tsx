@@ -7,6 +7,7 @@ import Icon from '@ant-design/icons';
 import { Button } from 'antd';
 
 import { ReactComponent as IconSpace } from '../../../images/icon/icon_quarantine_space.svg';
+import { ReactComponent as IconLink } from '../../../images/icon/icon_external_link.svg';
 
 const WrapBox = styled.div`
     position: fixed;
@@ -81,15 +82,27 @@ const CardItem = styled.div`
         justify-content: space-between;
 
         .btn-box {
+            display: flex;
+
             a {
                 margin-left: 12px;
                 color: #79879c;
                 cursor: pointer;
                 font-family: PingFangSC-Regular;
                 font-size: 14px;
+                display: flex;
+                align-items: center;
+
+                span {
+                    visibility: hidden;
+                }
 
                 &:hover {
                     color: #0080ff;
+
+                    span {
+                        visibility: visible;
+                    }
                 }
             }
         }
@@ -108,7 +121,13 @@ const CardItem = styled.div`
     }
 `;
 
-const ChooseType = () => {
+const ChooseType = ({
+    onCreateDev,
+    onCreateMesh,
+}: {
+    onCreateDev: () => void;
+    onCreateMesh: () => void;
+}) => {
     const { t } = useTranslation();
     return (
         <WrapBox>
@@ -130,8 +149,16 @@ const ChooseType = () => {
                                     {t('resources.devSpace.tips.devSpaceDesc')}
                                 </div>
                                 <div className="btn-box">
-                                    <Button type="primary">{t('common.bt.select')}</Button>
-                                    <a>{t('resources.devSpace.tips.learnMore')}</a>
+                                    <Button onClick={() => onCreateDev()} type="primary">
+                                        {t('common.bt.select')}
+                                    </Button>
+                                    <a>
+                                        {t('resources.devSpace.tips.learnMore')}
+                                        <Icon
+                                            component={IconLink}
+                                            style={{ fontSize: 20, marginLeft: 2 }}
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -151,8 +178,16 @@ const ChooseType = () => {
                                     {t('resources.devSpace.tips.meshSpaceDesc')}
                                 </div>
                                 <div className="btn-box">
-                                    <Button type="primary">{t('common.bt.select')}</Button>
-                                    <a>{t('resources.devSpace.tips.learnMore')}</a>
+                                    <Button onClick={() => onCreateMesh()} type="primary">
+                                        {t('common.bt.select')}
+                                    </Button>
+                                    <a>
+                                        {t('resources.devSpace.tips.learnMore')}
+                                        <Icon
+                                            component={IconLink}
+                                            style={{ fontSize: 20, marginLeft: 2 }}
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         </div>

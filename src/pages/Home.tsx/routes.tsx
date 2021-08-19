@@ -6,6 +6,7 @@ import Clusters from '../Clusters';
 import EnvList from '../EnvList';
 import DevSpace from '../DevSpace';
 import DevSpaceOperation from '../DevSpace/components/DevspaceOperation';
+import MeshSpace from '../DevSpace/components/MeshSpace';
 export const routes = [
     {
         path: '/dashboard/overview',
@@ -45,5 +46,9 @@ export const routes = [
     {
         path: '/dashboard/devspace/space-operation',
         component: DevSpaceOperation,
+    },
+    {
+        path: '/dashboard/devspace/mesh-space',
+        component: MeshSpace,
     },
 ];

@@ -94,7 +94,7 @@ const PopoverBox = (props: { record: UserProps }) => {
                     <UserType>Cooperator:</UserType>
                 </FlexBox>
                 <UserName style={{ minHeight: '28px' }}>
-                    {cooper_user.map((item) => item.name).join('、')}
+                    {cooper_user.map((item) => item.name).join(',')}
                 </UserName>
             </UserItem>
             {viewer_user && viewer_user.length > 0 && (
@@ -106,7 +106,7 @@ const PopoverBox = (props: { record: UserProps }) => {
                         />
                         <UserType>Viewer:</UserType>
                     </FlexBox>
-                    <UserName>{viewer_user.map((item) => item.name).join('、')}</UserName>
+                    <UserName>{viewer_user.map((item) => item.name).join(',')}</UserName>
                 </UserItem>
             )}
         </UserBox>

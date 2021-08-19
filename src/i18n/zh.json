@@ -86,7 +86,8 @@
             "collapse": "收起",
             "remove": "移除",
             "reset": "重置",
-            "select": "选择"
+            "select": "选择",
+            "next": "下一步"
         },
         "select": {
             "all": "全部"
@@ -378,6 +379,7 @@
             "addShare": "添加共享",
             "cancelShare": "取消共享",
             "sharedUser": "共享用户",
+            "createMesh": "创建共享开发空间",
             "fields": {
                 "space_name": "开发空间名称",
                 "status": "状态",
@@ -454,6 +456,11 @@
                 "deployed": "已部署",
                 "undeployed": "未部署"
             }
+        },
+        "meshSpace": {
+            "selectBasic": "选择基础空间",
+            "create": "创建共享空间",
+            "basicSpace": "基础开发空间"
         },
         "profile": {
             "name": "个人信息",

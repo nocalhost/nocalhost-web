@@ -79,7 +79,8 @@
             "collapse": "Collapse",
             "remove": "Remove",
             "reset": "Reset",
-            "select": "Select"
+            "select": "Select",
+            "next": "Next"
         },
         "info": {
             "logout": "Sign out",
@@ -377,6 +378,7 @@
             "addShare": "Add Share",
             "cancelShare": "Cancel Share",
             "sharedUser": "Shared user",
+            "createMesh": "Create Mesh Space",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",
@@ -453,6 +455,11 @@
                 "deployed": "Deployed",
                 "undeployed": "Not deployed"
             }
+        },
+        "meshSpace": {
+            "selectBasic": "Select Base Space",
+            "create": "Create Mesh Space",
+            "basicSpace": "Basic Space"
         },
         "profile": {
             "name": "Profile",

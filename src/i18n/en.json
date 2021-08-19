@@ -80,7 +80,8 @@
             "remove": "Remove",
             "reset": "Reset",
             "select": "Select",
-            "next": "Next"
+            "next": "Next",
+            "prev": "Previous"
         },
         "info": {
             "logout": "Sign out",
@@ -459,7 +460,10 @@
         "meshSpace": {
             "selectBasic": "Select Base Space",
             "create": "Create Mesh Space",
-            "basicSpace": "Basic Space"
+            "basicSpace": "Basic Space",
+            "spaceName": "Dev Space Name",
+            "tracingHeader": "Tracing Headers",
+            "devService": "Dev Service"
         },
         "profile": {
             "name": "Profile",

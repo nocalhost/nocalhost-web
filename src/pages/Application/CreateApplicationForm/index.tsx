@@ -1,4 +1,4 @@
-import { Button, Form, Input, Radio, Select, message, Tooltip } from 'antd';
+import { Button, Form, Input, Radio, Select, message } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { MANIFEST_TYPE, SOURCE_TYPE } from '../const';
 import { ButtonBox, Footer, FormBox, AddInputBtn, DirBox } from './style-components';
@@ -15,6 +15,7 @@ interface PropsType {
 interface FormType {
     context?: string;
     id?: number | string;
+    editable?: number;
 }
 
 function CreateApplicationForm(props: PropsType) {
@@ -24,6 +25,8 @@ function CreateApplicationForm(props: PropsType) {
     const [form] = Form.useForm();
     const isEdit = Object.prototype.hasOwnProperty.call(props?.formData || {}, 'id');
     const { t } = useTranslation();
+    const notEditable = isEdit && props?.formData?.editable === 0;
+
     useEffect(() => {
         if (isEdit) {
             const context = JSON.parse(props?.formData?.context || '{}');
@@ -97,10 +100,13 @@ function CreateApplicationForm(props: PropsType) {
                     name="application_url"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder={t('resources.application.form.placeholder.git')} />
+                    <Input
+                        placeholder={t('resources.application.form.placeholder.git')}
+                        disabled={notEditable}
+                    />
                 </Form.Item>
                 <Form.Item label="Manifest 类型" name="install_type" rules={[{ required: true }]}>
-                    <Select style={{ width: '100%' }}>
+                    <Select style={{ width: '100%' }} disabled={notEditable}>
                         <Select.Option value={MANIFEST_TYPE.MANIFEST}>Manifest</Select.Option>
                         <Select.Option value={MANIFEST_TYPE.HELMCHART}>Helm Chart</Select.Option>
                         <Select.Option value={MANIFEST_TYPE.KUSTOMIZE}>Kustomize</Select.Option>
@@ -110,7 +116,10 @@ function CreateApplicationForm(props: PropsType) {
                     label={t('resources.application.tips.config_path')}
                     name="application_config_path"
                 >
-                    <Input placeholder={t('resources.application.form.placeholder.config')} />
+                    <Input
+                        placeholder={t('resources.application.form.placeholder.config')}
+                        disabled={notEditable}
+                    />
                 </Form.Item>
                 <DirBox isShow={!!resourceDirList.length}>
                     <Form.Item label={t('resources.application.tips.resource_dir')}>
@@ -120,6 +129,7 @@ function CreateApplicationForm(props: PropsType) {
                                     addonBefore={t('resources.application.tips.path', {
                                         index: index + 1,
                                     })}
+                                    disabled={notEditable}
                                     value={item}
                                     onChange={(e) => {
                                         const newResourceDirList = resourceDirList.concat([]);
@@ -127,23 +137,23 @@ function CreateApplicationForm(props: PropsType) {
                                         setResourceDirList(newResourceDirList);
                                     }}
                                     addonAfter={
-                                        <Tooltip title={t('common.bt.remove')} placement="top">
-                                            <MinusCircleFilled
-                                                onClick={() => {
+                                        <MinusCircleFilled
+                                            onClick={() => {
+                                                if (!notEditable) {
                                                     const newResourceDirList = resourceDirList.filter(
                                                         (item, ind) => index !== ind
                                                     );
                                                     setResourceDirList(newResourceDirList);
-                                                }}
-                                                style={{
-                                                    color: '#ff3f3f',
-                                                    fontSize: '18px',
-                                                    position: 'relative',
-                                                    top: '2px',
-                                                    cursor: 'pointer',
-                                                }}
-                                            />
-                                        </Tooltip>
+                                                }
+                                            }}
+                                            style={{
+                                                color: '#ff3f3f',
+                                                fontSize: '18px',
+                                                position: 'relative',
+                                                top: '2px',
+                                                cursor: notEditable ? 'auto' : 'pointer',
+                                            }}
+                                        />
                                     }
                                     placeholder={t(
                                         'resources.application.form.placeholder.resource_dir'
@@ -153,14 +163,16 @@ function CreateApplicationForm(props: PropsType) {
                         ))}
                     </Form.Item>
                 </DirBox>
-                <AddInputBtn
-                    onClick={() => {
-                        resourceDirList.push('');
-                        setResourceDirList(resourceDirList.concat([]));
-                    }}
-                >
-                    {t('resources.application.tips.addPath')}
-                </AddInputBtn>
+                {!notEditable && (
+                    <AddInputBtn
+                        onClick={() => {
+                            resourceDirList.push('');
+                            setResourceDirList(resourceDirList.concat([]));
+                        }}
+                    >
+                        {t('resources.application.tips.addPath')}
+                    </AddInputBtn>
+                )}
             </>
         );
     };
@@ -172,14 +184,17 @@ function CreateApplicationForm(props: PropsType) {
                     name="application_url"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder={t('resources.application.form.placeholder.helm')} />
+                    <Input
+                        placeholder={t('resources.application.form.placeholder.helm')}
+                        disabled={notEditable}
+                    />
                 </Form.Item>
                 <Form.Item
                     label={t('resources.application.fields.install_type')}
                     name="install_type"
                     rules={[{ required: true }]}
                 >
-                    <Select style={{ width: '100%' }}>
+                    <Select style={{ width: '100%' }} disabled={notEditable}>
                         <Select.Option value={MANIFEST_TYPE.HELMCHART}>Helm Chart</Select.Option>
                     </Select>
                 </Form.Item>
@@ -189,6 +204,7 @@ function CreateApplicationForm(props: PropsType) {
                     name="nocalhost_config"
                 >
                     <Input.TextArea
+                        disabled={notEditable}
                         placeholder={t('resources.application.form.placeholder.nc_config')}
                         autoSize={{ minRows: 3 }}
                     ></Input.TextArea>
@@ -204,7 +220,7 @@ function CreateApplicationForm(props: PropsType) {
                     name="install_type"
                     rules={[{ required: true }]}
                 >
-                    <Select style={{ width: '100%' }}>
+                    <Select style={{ width: '100%' }} disabled={notEditable}>
                         <Select.Option value={MANIFEST_TYPE.MANIFESTLOCAL}>Manifest</Select.Option>
                         <Select.Option value={MANIFEST_TYPE.HELMCHARTLOCAL}>
                             Helm Chart
@@ -241,6 +257,7 @@ function CreateApplicationForm(props: PropsType) {
                         <Input
                             placeholder={t('resources.application.form.placeholder.name')}
                             value={name}
+                            disabled={notEditable}
                             onChange={(e) => {
                                 setName(e.target.value);
                             }}
@@ -251,25 +268,27 @@ function CreateApplicationForm(props: PropsType) {
                         name="source"
                         rules={[{ required: true }]}
                     >
-                        <Radio.Group onChange={onChange}>
+                        <Radio.Group onChange={onChange} disabled={notEditable}>
                             <Radio value={SOURCE_TYPE.GIT}>Git</Radio>
                             <Radio value={SOURCE_TYPE.HELM_REPO}>Helm Repo</Radio>
                             <Radio value={SOURCE_TYPE.LOCAL}>Local</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {renderSwitchForm()}
-                    <Footer>
-                        <ButtonBox>
-                            <Button onClick={() => props.onCancel()}>
-                                {t('common.bt.cancel')}
-                            </Button>
-                        </ButtonBox>
-                        <ButtonBox>
-                            <Button type="primary" htmlType="submit">
-                                {t('common.bt.submit')}
-                            </Button>
-                        </ButtonBox>
-                    </Footer>
+                    {!notEditable && (
+                        <Footer>
+                            <ButtonBox>
+                                <Button onClick={() => props.onCancel()}>
+                                    {t('common.bt.cancel')}
+                                </Button>
+                            </ButtonBox>
+                            <ButtonBox>
+                                <Button type="primary" htmlType="submit">
+                                    {t('common.bt.submit')}
+                                </Button>
+                            </ButtonBox>
+                        </Footer>
+                    )}
                 </Form>
             </FormBox>
         </div>

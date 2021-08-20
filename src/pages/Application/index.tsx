@@ -124,6 +124,7 @@ function Application() {
             setFormData({
                 id: result?.data?.id,
                 context: result?.data?.context,
+                editable: result?.data?.editable,
             });
             setOpenDialog(true);
         }
@@ -243,16 +244,17 @@ function Application() {
                 const object = JSON.parse(record?.context);
                 return (
                     <div style={{ display: 'flex' }} id="operation">
-                        {(!!record.editable || !!user.is_admin) && (
-                            <IconBox onClick={() => handleEdit(record.id)}>
-                                <CommonIcon
-                                    // title={t('common.bt.edit')}
-                                    HoverIcon={IconSelectedEdit}
-                                    NormalIcon={IconNormalEdit}
-                                    style={{ fontSize: '20px' }}
-                                ></CommonIcon>
-                            </IconBox>
-                        )}
+                        <IconBox onClick={() => handleEdit(record.id)}>
+                            <CommonIcon
+                                // title={t('common.bt.edit')}
+                                HoverIcon={IconSelectedEdit}
+                                NormalIcon={IconNormalEdit}
+                                style={{ fontSize: '20px' }}
+                            ></CommonIcon>
+                        </IconBox>
+                        {/* {(!!record.editable || !!user.is_admin) && (
+                            
+                        )} */}
                         {!!user.is_admin && (
                             <Popover
                                 trigger="click"

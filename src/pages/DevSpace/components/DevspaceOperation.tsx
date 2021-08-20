@@ -78,6 +78,7 @@ const DevspaceOperation = () => {
     const location = useLocation<RouterParams>();
     const [deleteId, setDeleteId] = useState('');
     const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
+    const [spaceOwner, setSpaceOwner] = useState<any>();
     const history = useHistory();
     const {
         state: {
@@ -190,6 +191,7 @@ const DevspaceOperation = () => {
             { is_v2: true }
         );
         let { cooper_user, viewer_user } = response.data[0];
+        const { owner } = response.data[0];
         cooper_user = cooper_user.map((item: any) => {
             return {
                 ...item,
@@ -203,6 +205,7 @@ const DevspaceOperation = () => {
             };
         });
         const tmpList = cooper_user.concat(viewer_user);
+        setSpaceOwner(owner);
         setUserList(tmpList);
         setFilterList(tmpList);
         setNewRecord({
@@ -339,6 +342,7 @@ const DevspaceOperation = () => {
                     onCancel={() => setShowModal(false)}
                 >
                     <AddShare
+                        owner={spaceOwner}
                         cluster_user_id={id}
                         shared={userList}
                         onCancel={() => setShowModal(false)}

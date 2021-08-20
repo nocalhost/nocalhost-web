@@ -77,9 +77,11 @@ const AddShare = ({
     onCancel,
     onSubmit,
     shared,
+    owner,
 }: {
     cluster_user_id: any;
     shared: any;
+    owner: any;
     onCancel: () => void;
     onSubmit: () => void;
 }) => {
@@ -102,6 +104,8 @@ const AddShare = ({
             };
         });
         const sharedUserIdArr = shared.map((item: any) => item.id);
+        // 不能共享给owner
+        sharedUserIdArr.push(owner.id);
         list = list.filter((item) => !sharedUserIdArr.includes(item.user_id));
         setUsersList(list);
         setFilterList(list);

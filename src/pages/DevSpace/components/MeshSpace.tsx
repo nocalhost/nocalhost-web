@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import BreadCard from '../../../components/BreadCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent } from 'antd';
+import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent, Switch } from 'antd';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
 import HTTP from '../../../api/fetch';
+
+import Icon from '@ant-design/icons';
+import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 
 const ContentWrap = styled.div`
     display: flex;
@@ -35,6 +38,29 @@ const ContentWrap = styled.div`
             padding: 0 12px 12px;
             background: #f9fbfd;
             border-radius: 4px;
+        }
+
+        .resource-limit {
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9fbfd;
+
+            .ant-form-item {
+                margin-bottom: 0;
+            }
+
+            .limit-desc {
+                display: flex;
+
+                .desc-main {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
         }
 
         .btn-box {
@@ -71,6 +97,8 @@ const MeshSpace = () => {
     const [filterSpaceList, setFilterSpaceList] = useState<SelectMap[]>([]);
     const [appList, setAppList] = useState<any>([]);
     const [headerType, setHeaderType] = useState<string>('');
+    const [formInfo, setFormInfo] = useState<any>({});
+    const [showLimit, setShowLimit] = useState<boolean>(false);
 
     const [form] = Form.useForm();
 
@@ -141,8 +169,15 @@ const MeshSpace = () => {
         });
     };
 
-    const handleSubmit = (value: any) => {
-        console.log(value);
+    const handleSubmit = (values: any) => {
+        if (currentStep === 0) {
+            setFormInfo({
+                ...values,
+            });
+        } else {
+            console.log(formInfo, values);
+        }
+
         setCurrentStep(1);
     };
 
@@ -264,8 +299,37 @@ const MeshSpace = () => {
                                     name="service_name"
                                     rules={[{ required: true }]}
                                 >
-                                    <Select options={appList} />
+                                    <Select mode="multiple" options={appList} />
                                 </Form.Item>
+                                <div className="resource-limit">
+                                    <div className="limit-desc">
+                                        <Icon
+                                            component={IconResource}
+                                            style={{ fontSize: 32, marginRight: 8 }}
+                                        />
+                                        <div className="desc-main">
+                                            <span>
+                                                {t('resources.space.fields.resource_limit')}
+                                            </span>
+                                            {false && (
+                                                <span>
+                                                    {t('resources.space.fields.setLimitDesc')}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <Form.Item name="resource_limit_set">
+                                        <Switch
+                                            checked={showLimit}
+                                            onChange={(checked: boolean) => setShowLimit(checked)}
+                                        />
+                                    </Form.Item>
+                                    {showLimit && (
+                                        <>
+                                            <div className="divide"></div>
+                                        </>
+                                    )}
+                                </div>
                             </>
                         )}
                         <div className="btn-box">

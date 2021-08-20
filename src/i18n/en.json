@@ -463,7 +463,8 @@
             "basicSpace": "Basic Space",
             "spaceName": "Dev Space Name",
             "tracingHeader": "Tracing Headers",
-            "devService": "Dev Service"
+            "devService": "Dev Service",
+            "selectCluster": "Please select a cluster in the form on the left"
         },
         "profile": {
             "name": "Profile",

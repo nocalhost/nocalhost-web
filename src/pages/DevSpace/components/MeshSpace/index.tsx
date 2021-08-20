@@ -34,11 +34,15 @@ const MeshSpace = () => {
     const [formInfo, setFormInfo] = useState<any>({});
     const [showLimit, setShowLimit] = useState<boolean>(false);
     const [clusterId, setClusterId] = useState<any>();
+    const [clusterMap, setClusterMap] = useState<any>();
+    const [currentSpace, setCurrentSpace] = useState<any>();
+    const [selectedAppList, setSelectedAppList] = useState<any>([]);
 
     const [form] = Form.useForm();
 
     async function getAllCluster() {
         const clusterMap = await queryAllCluster();
+        setClusterMap(clusterMap);
         const tmpList = Array.from(clusterMap).map((item) => {
             return {
                 value: item[0],
@@ -69,6 +73,7 @@ const MeshSpace = () => {
         if (code === 0) {
             const tmpList = data.map((item: any) => {
                 return {
+                    ...item,
                     value: item.id,
                     label: item.space_name,
                     cluster_id: item.cluster_id,
@@ -87,6 +92,7 @@ const MeshSpace = () => {
                     return {
                         value: JSON.stringify(item),
                         label: item.name,
+                        workloads: item.workloads,
                     };
                 });
                 setAppList(tmpList);
@@ -96,28 +102,37 @@ const MeshSpace = () => {
         }
     }
 
+    async function generateNamespace() {
+        const response = await HTTP.get(`cluster/${clusterId}/gen_namespace`);
+        return response.data.namespace;
+    }
+
     const handleClusterChange = (id: number) => {
         const tmpList = spaceList.filter((item: any) => item.cluster_id === id);
         setClusterId(id);
         setFilterSpaceList(tmpList);
+        setAppList([]);
         form.setFieldsValue({
             base_dev_space_id: '',
         });
     };
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = async (values: any) => {
         if (currentStep === 0) {
             setFormInfo({
                 ...values,
             });
         } else {
-            console.log(formInfo, values);
+            const namespace = await generateNamespace();
+            console.log(formInfo, values, namespace);
         }
 
         setCurrentStep(1);
     };
 
     const handleChangeBase = (id: number) => {
+        const currentItem = spaceList.filter((item: any) => item.id === id);
+        setCurrentSpace(currentItem[0]);
         getAppList(id);
     };
 
@@ -130,6 +145,14 @@ const MeshSpace = () => {
         getAllUser();
         getSpaceList();
     }, []);
+
+    const handleSelectApp = (value: any) => {
+        try {
+            setSelectedAppList(value.map((item: any) => JSON.parse(item)));
+        } catch (e) {
+            setAppList([]);
+        }
+    };
 
     return (
         <>
@@ -234,7 +257,11 @@ const MeshSpace = () => {
                                     name="service_name"
                                     rules={[{ required: true }]}
                                 >
-                                    <Select mode="multiple" options={appList} />
+                                    <Select
+                                        mode="multiple"
+                                        onChange={handleSelectApp}
+                                        options={appList}
+                                    />
                                 </Form.Item>
                                 <div className="resource-limit">
                                     <div className="resource-limit-check">
@@ -263,7 +290,6 @@ const MeshSpace = () => {
                                             />
                                         </Form.Item>
                                     </div>
-
                                     {showLimit && <ResourceLimit canSetLimit={true} />}
                                 </div>
                             </>
@@ -290,7 +316,14 @@ const MeshSpace = () => {
                 </div>
                 <div className="right">
                     {!clusterId && <ChooseCluster />}
-                    {clusterId && <BaseSpace />}
+                    {clusterId && (
+                        <BaseSpace
+                            clusterName={clusterMap.get(clusterId)}
+                            currentSpace={currentSpace}
+                            appList={appList}
+                            selectedAppList={selectedAppList}
+                        />
+                    )}
                 </div>
             </ContentWrap>
         </>

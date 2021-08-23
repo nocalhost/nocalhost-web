@@ -10,6 +10,7 @@ import TableSearchInput from '../../components/TableSearchInput';
 import LabelSelect from '../../components/LabelSelect';
 import BreadCard from '../../components/BreadCard';
 import DevspaceForm from '../DevSpace/components/DevspaceForm';
+import ChooseType from '../DevSpace/components/ChooseType';
 import KubeConfig from './components/KubeConfig';
 import { useHistory } from 'react-router-dom';
 import {
@@ -319,6 +320,8 @@ const EnvList = () => {
         user_id: 'all',
     });
 
+    const [showChooseType, setShowChooseType] = useState<boolean>(false);
+
     const selectAllOption = { value: 'all', text: t('common.select.all') };
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -475,6 +478,20 @@ const EnvList = () => {
         }
     };
 
+    const handleShowChooseType = () => {
+        setShowChooseType(true);
+    };
+
+    const onCreateDev = () => {
+        setShowChooseType(false);
+        setShowModal(true);
+    };
+
+    const onCreateMesh = () => {
+        setShowChooseType(false);
+        history.push('/dashboard/devspace/mesh-space');
+    };
+
     return (
         <>
             {id && (
@@ -525,7 +542,7 @@ const EnvList = () => {
                             <Button
                                 type="primary"
                                 icon={<Icon component={IconAdd}></Icon>}
-                                onClick={() => setShowModal(true)}
+                                onClick={handleShowChooseType}
                             >
                                 {t('resources.space.actions.create')}
                             </Button>
@@ -592,6 +609,7 @@ const EnvList = () => {
                     })}
                 />
             )}
+            {showChooseType && <ChooseType onCreateDev={onCreateDev} onCreateMesh={onCreateMesh} />}
         </>
     );
 };

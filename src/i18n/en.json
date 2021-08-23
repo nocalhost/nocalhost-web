@@ -78,7 +78,10 @@
             "expand": "Expand",
             "collapse": "Collapse",
             "remove": "Remove",
-            "reset": "Reset"
+            "reset": "Reset",
+            "select": "Select",
+            "next": "Next",
+            "prev": "Previous"
         },
         "info": {
             "logout": "Sign out",
@@ -376,6 +379,7 @@
             "addShare": "Add Share",
             "cancelShare": "Cancel Share",
             "sharedUser": "Shared user",
+            "createMesh": "Create Mesh Space",
             "fields": {
                 "space_name": "Space Name",
                 "status": "Status",
@@ -398,10 +402,11 @@
             },
             "actions": {
                 "create": "Create Space",
-                "createDev": "Create Devspace",
+                "createDev": "Create DevSpace",
                 "edit": "Edit Devspace",
                 "show": "Show Space",
-                "list": "Space List"
+                "list": "Space List",
+                "createMesh": "Create Mesh Space"
             },
             "status": {
                 "deployed": "Deployed",
@@ -419,7 +424,11 @@
                 "selected": "{{Count}} selected",
                 "searchSpaceName": "Search development space name",
                 "changeRoleSuccess": "Successfully changed the user role!",
-                "sumOfItem": "Total {{count}} item"
+                "chooseType": "Select the type of space to create",
+                "sumOfItem": "Total {{count}} item",
+                "devSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "meshSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "learnMore": "Learn More"
             }
         },
         "myDevSpace": {
@@ -447,6 +456,17 @@
                 "deployed": "Deployed",
                 "undeployed": "Not deployed"
             }
+        },
+        "meshSpace": {
+            "selectBasic": "Select Base Space",
+            "create": "Create Mesh Space",
+            "basicSpace": "Basic Space",
+            "spaceName": "Dev Space Name",
+            "tracingHeader": "Tracing Headers",
+            "devService": "Dev Service",
+            "selectCluster": "Please select a cluster in the form on the left",
+            "selectBasicService": "Select development services from the basic development space",
+            "setTracingHeader": "Set Tracing Headers"
         },
         "profile": {
             "name": "Profile",

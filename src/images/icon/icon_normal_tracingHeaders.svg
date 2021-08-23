@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="09-开发环境-创建环境-创建共享开发环境-第二步填充态1" transform="translate(-938.000000, -325.000000)">
+            <g id="创建共享开发环境" transform="translate(244.000000, 104.000000)">
+                <g id="Right" transform="translate(420.000000, 0.000000)">
+                    <g id="集群" transform="translate(0.000000, 126.000000)">
+                        <g id="编组-10" transform="translate(24.000000, 64.000000)">
+                            <g id="编组" transform="translate(220.000000, 26.000000)">
+                                <g id="编组-8备份-3" transform="translate(30.000000, 5.000000)">
+                                    <path d="M8,4.5 L11.75,4.5 C13.2687831,4.5 14.5,5.73121694 14.5,7.25 C14.5,8.76878306 13.2687831,10 11.75,10 L8.25,10 C6.73121694,10 5.5,11.2312169 5.5,12.75 C5.5,14.2687831 6.73121694,15.5 8.25,15.5 L12,15.5 L12,15.5" id="路径-4" stroke="#79879C" stroke-width="2"></path>
+                                    <rect id="矩形" fill="#B6C2CD" x="2" y="2" width="7" height="5" rx="2"></rect>
+                                    <rect id="矩形备份-2" fill="#B6C2CD" x="11" y="13" width="7" height="5" rx="2"></rect>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

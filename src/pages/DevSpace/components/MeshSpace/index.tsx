@@ -120,6 +120,7 @@ const MeshSpace = () => {
         setClusterId(id);
         setFilterSpaceList(tmpList);
         setAppList([]);
+        setCurrentSpace(null);
         form.setFieldsValue({
             base_dev_space_id: '',
         });
@@ -133,19 +134,6 @@ const MeshSpace = () => {
         } else {
             const namespace = await generateNamespace();
             const { header, header_key, header_value } = values;
-            console.log({
-                formInfo,
-                values,
-                namespace,
-                mesh_dev_info: {
-                    header: {
-                        key: header === 'Custom' ? header_key : header,
-                        value: header === 'Custom' ? header_value : namespace,
-                    },
-                    apps: meshAppInfo,
-                },
-            });
-
             const {
                 container_limits_cpu,
                 container_limits_mem,
@@ -194,6 +182,8 @@ const MeshSpace = () => {
                 ...values,
                 space_resource_limit: limitObj,
                 mesh_dev_space: true,
+                cluster_admin: 0,
+                isLimit: Boolean(resource_limit_set),
                 mesh_dev_info: {
                     header: {
                         key: header === 'Custom' ? header_key : header,
@@ -231,10 +221,14 @@ const MeshSpace = () => {
         try {
             const selectedArr = value.map((item: any) => {
                 const obj = JSON.parse(item);
-                return `${obj.appName}:${obj.name}`;
+                return {
+                    name: `${obj.appName}:${obj.name}`,
+                    kind: obj.kind,
+                };
             });
 
             setSelectedAppList(selectedArr);
+            const selectedNameArr = selectedArr.map((item: any) => item.name);
             // 组装apps
             const appMap = new Map();
             appList.forEach((item: any) => {
@@ -243,14 +237,14 @@ const MeshSpace = () => {
                     ? tmp.workloads.push({
                           name: item.name,
                           kind: item.kind,
-                          status: selectedArr.includes(item.label) ? 1 : 0,
+                          status: selectedNameArr.includes(item.label) ? 1 : 0,
                       })
                     : appMap.set(item.appName, {
                           workloads: [
                               {
                                   name: item.name,
                                   kind: item.kind,
-                                  status: selectedArr.includes(item.label) ? 1 : 0,
+                                  status: selectedNameArr.includes(item.label) ? 1 : 0,
                               },
                           ],
                       });
@@ -435,6 +429,7 @@ const MeshSpace = () => {
                             currentSpace={currentSpace}
                             appList={appList}
                             selectedAppList={selectedAppList}
+                            currentStep={currentStep}
                         />
                     )}
                 </div>

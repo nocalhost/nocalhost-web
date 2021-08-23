@@ -464,7 +464,9 @@
             "spaceName": "Dev Space Name",
             "tracingHeader": "Tracing Headers",
             "devService": "Dev Service",
-            "selectCluster": "Please select a cluster in the form on the left"
+            "selectCluster": "Please select a cluster in the form on the left",
+            "selectBasicService": "Select development services from the basic development space",
+            "setTracingHeader": "Set Tracing Headers"
         },
         "profile": {
             "name": "Profile",

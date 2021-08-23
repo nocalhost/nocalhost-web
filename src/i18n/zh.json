@@ -465,7 +465,9 @@
             "spaceName": "开发空间名称",
             "tracingHeader": "Tracing Headers",
             "devService": "开发服务",
-            "selectCluster": "请在左侧表单选择集群"
+            "selectCluster": "请在左侧表单选择集群",
+            "selectBasicService": "从基础开发空间选择开发服务",
+            "setTracingHeader": "Set Tracing Headers"
         },
         "profile": {
             "name": "个人信息",

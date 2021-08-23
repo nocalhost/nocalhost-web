@@ -13,6 +13,15 @@ const Cluster = styled.div`
     justify-content: center;
     align-items: center;
     background: linear-gradient(-180deg, rgb(235, 250, 255) 0%, rgb(255, 255, 255) 100%);
+    position: relative;
+
+    .image-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        transform: translate(-50%, -70%);
+    }
 
     .content {
         display: flex;
@@ -22,12 +31,14 @@ const Cluster = styled.div`
         .icon-wrap {
             width: 100px;
             height: 100px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: rgb(255, 255, 255);
             border-radius: 8px;
+            position: relative;
+            z-index: 10;
             box-shadow: inset -1px -1px 0 0 rgba(0, 27, 187, 0.1),
                 inset 1px 1px 0 0 rgba(237, 88, 237, 0.05), 0 10px 30px 0 rgba(9, 15, 70, 0.14);
         }

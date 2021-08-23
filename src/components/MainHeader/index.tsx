@@ -48,12 +48,15 @@ import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_nor
 import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
 import AddCluster from '../../components/AddCluster';
 import DevspaceForm from '../../pages/DevSpace/components/DevspaceForm';
+import ChooseType from '../../pages/DevSpace/components/ChooseType';
 import { queryAllUser, queryAllCluster } from '../../services';
+import { useHistory } from 'react-router-dom';
 const DIALOG_TYPE = {
     USER: 'user',
     APPLICATION: 'application',
     CLUSTERS: 'clusters',
     DEVSPACES: 'devspaces',
+    MESH: 'mesh',
 };
 
 interface SelectMap {
@@ -73,7 +76,7 @@ function MainHeader() {
     const [avaterPopVisible, setAvaterPopVisible] = useState(false);
     const [profilePopVisible, setProfilePopVisible] = useState(false);
     const [languageVisible, setLanguageVisible] = useState(false);
-
+    const history = useHistory();
     // console.log(i18n);
     const handleOkUserForm = () => {
         setDialogType('');
@@ -118,6 +121,15 @@ function MainHeader() {
             })
         );
     }
+
+    const onCreateDev = () => {
+        setDialogType(DIALOG_TYPE.DEVSPACES);
+    };
+
+    const onCreateMesh = () => {
+        setDialogType('');
+        history.push('/dashboard/devspace/mesh-space');
+    };
     return (
         <MainContent>
             <FlexBetween>
@@ -182,7 +194,7 @@ function MainHeader() {
                                         onClick={() => {
                                             query();
                                             setAvaterPopVisible(false);
-                                            setDialogType(DIALOG_TYPE.DEVSPACES);
+                                            setDialogType(DIALOG_TYPE.MESH);
                                         }}
                                     >
                                         <Icon
@@ -402,6 +414,9 @@ function MainHeader() {
             )}
             {dialogType === DIALOG_TYPE.CLUSTERS && (
                 <AddCluster onCancel={() => setDialogType('')} onSubmit={handleOkClusterForm} />
+            )}
+            {dialogType === DIALOG_TYPE.MESH && (
+                <ChooseType onCreateDev={onCreateDev} onCreateMesh={onCreateMesh} />
             )}
             {dialogType === DIALOG_TYPE.DEVSPACES && (
                 <Dialog

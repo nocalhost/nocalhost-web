@@ -132,33 +132,6 @@ interface IProps {
 
 const BaseSpace = ({ clusterName, currentSpace, appList, selectedAppList }: IProps) => {
     const { t } = useTranslation();
-    let workloads: any = [];
-    let selectedWorkloads: any = [];
-
-    try {
-        if (appList) {
-            appList.forEach((item: any) => {
-                item.workloads.forEach((subItem: any) => {
-                    workloads.push({
-                        ...subItem,
-                        appName: item.label,
-                    });
-                });
-            });
-
-            selectedAppList.forEach((item: any) => {
-                item.workloads.forEach((subItem: any) => {
-                    selectedWorkloads.push({
-                        ...subItem,
-                        appName: item.name,
-                    });
-                });
-            });
-        }
-    } catch (e) {
-        workloads = [];
-        selectedWorkloads = [];
-    }
 
     return (
         <ContentWrap>
@@ -179,7 +152,7 @@ const BaseSpace = ({ clusterName, currentSpace, appList, selectedAppList }: IPro
                     </div>
                     <div className="workload-container">
                         <div className="service-box">
-                            {workloads.map((item: any, key: number) => {
+                            {appList.map((item: any, key: number) => {
                                 return (
                                     <div key={key} className="workload-item">
                                         <div>
@@ -200,7 +173,7 @@ const BaseSpace = ({ clusterName, currentSpace, appList, selectedAppList }: IPro
                         </div>
                         {selectedAppList && selectedAppList.length > 0 && (
                             <div className="selected-box">
-                                {selectedWorkloads.map((item: any, key: number) => {
+                                {selectedAppList.map((item: any, key: number) => {
                                     return (
                                         <div key={key} className="workload-item">
                                             <div>
@@ -211,8 +184,8 @@ const BaseSpace = ({ clusterName, currentSpace, appList, selectedAppList }: IPro
                                             </div>
                                             <div className="workload-info">
                                                 <Icon component={IconWorkLoad} />
-                                                <Tooltip title={`${item.appName}:${item.name}`}>
-                                                    <div className="name">{`${item.appName}:${item.name}`}</div>
+                                                <Tooltip title={item}>
+                                                    <div className="name">{item}</div>
                                                 </Tooltip>
                                             </div>
                                         </div>

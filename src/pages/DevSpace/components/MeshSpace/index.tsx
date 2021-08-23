@@ -4,7 +4,7 @@ import BreadCard from '../../../../components/BreadCard';
 import { useTranslation } from 'react-i18next';
 
 import { ContentWrap } from './style-components';
-import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent, Switch } from 'antd';
+import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent, Switch, message } from 'antd';
 
 import { queryAllCluster, queryAllUser } from '../../../../services';
 import HTTP from '../../../../api/fetch';
@@ -37,6 +37,7 @@ const MeshSpace = () => {
     const [clusterMap, setClusterMap] = useState<any>();
     const [currentSpace, setCurrentSpace] = useState<any>();
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
+    const [meshAppInfo, setMeshAppInfo] = useState<any>();
 
     const [form] = Form.useForm();
 
@@ -88,12 +89,19 @@ const MeshSpace = () => {
         const { code, data } = response;
         if (code === 0) {
             try {
-                const tmpList = data.apps.map((item: any) => {
-                    return {
-                        value: JSON.stringify(item),
-                        label: item.name,
-                        workloads: item.workloads,
-                    };
+                const tmpList: any = [];
+                data.apps.forEach((application: any) => {
+                    application.workloads.forEach((workload: any) => {
+                        tmpList.push({
+                            appName: application.name,
+                            ...workload,
+                            label: `${application.name}:${workload.name}`,
+                            value: JSON.stringify({
+                                appName: application.name,
+                                ...workload,
+                            }),
+                        });
+                    });
                 });
                 setAppList(tmpList);
             } catch (e) {
@@ -124,7 +132,80 @@ const MeshSpace = () => {
             });
         } else {
             const namespace = await generateNamespace();
-            console.log(formInfo, values, namespace);
+            const { header, header_key, header_value } = values;
+            console.log({
+                formInfo,
+                values,
+                namespace,
+                mesh_dev_info: {
+                    header: {
+                        key: header === 'Custom' ? header_key : header,
+                        value: header === 'Custom' ? header_value : namespace,
+                    },
+                    apps: meshAppInfo,
+                },
+            });
+
+            const {
+                container_limits_cpu,
+                container_limits_mem,
+                container_req_cpu,
+                container_req_mem,
+                space_lb_count,
+                space_limits_cpu,
+                space_limits_mem,
+                space_pvc_count,
+                space_req_cpu,
+                space_req_mem,
+                space_storage_capacity,
+                resource_limit_set,
+            } = values;
+
+            const limitObj = resource_limit_set
+                ? {
+                      container_limits_cpu: container_limits_cpu
+                          ? container_limits_cpu + ''
+                          : container_limits_cpu,
+                      container_limits_mem: container_limits_mem
+                          ? `${container_limits_mem}Mi`
+                          : container_limits_mem,
+                      container_req_cpu: container_req_cpu
+                          ? container_req_cpu + ''
+                          : container_req_cpu,
+                      container_req_mem: container_req_mem
+                          ? `${container_req_mem}Mi`
+                          : container_req_mem,
+                      space_lb_count: space_lb_count ? space_lb_count + '' : space_lb_count,
+                      space_limits_cpu: space_limits_cpu ? space_limits_cpu + '' : space_limits_cpu,
+                      space_limits_mem: space_limits_mem
+                          ? `${space_limits_mem}Mi`
+                          : space_limits_mem,
+                      space_pvc_count: space_pvc_count ? space_pvc_count + '' : space_pvc_count,
+                      space_req_cpu: space_req_cpu ? space_req_cpu + '' : space_req_cpu,
+                      space_req_mem: space_req_mem ? `${space_req_mem}Mi` : space_req_mem,
+                      space_storage_capacity: space_storage_capacity
+                          ? `${space_storage_capacity}Gi`
+                          : space_storage_capacity,
+                  }
+                : null;
+
+            const response = await HTTP.post('dev_space', {
+                ...formInfo,
+                ...values,
+                space_resource_limit: limitObj,
+                mesh_dev_space: true,
+                mesh_dev_info: {
+                    header: {
+                        key: header === 'Custom' ? header_key : header,
+                        value: header === 'Custom' ? header_value : namespace,
+                    },
+                    apps: meshAppInfo,
+                },
+            });
+
+            if (response.code === 0) {
+                message.success(t('resources.space.tips.addSuccess'));
+            }
         }
 
         setCurrentStep(1);
@@ -148,7 +229,39 @@ const MeshSpace = () => {
 
     const handleSelectApp = (value: any) => {
         try {
-            setSelectedAppList(value.map((item: any) => JSON.parse(item)));
+            const selectedArr = value.map((item: any) => {
+                const obj = JSON.parse(item);
+                return `${obj.appName}:${obj.name}`;
+            });
+
+            setSelectedAppList(selectedArr);
+            // 组装apps
+            const appMap = new Map();
+            appList.forEach((item: any) => {
+                const tmp = appMap.get(item.appName);
+                tmp
+                    ? tmp.workloads.push({
+                          name: item.name,
+                          kind: item.kind,
+                          status: selectedArr.includes(item.label) ? 1 : 0,
+                      })
+                    : appMap.set(item.appName, {
+                          workloads: [
+                              {
+                                  name: item.name,
+                                  kind: item.kind,
+                                  status: selectedArr.includes(item.label) ? 1 : 0,
+                              },
+                          ],
+                      });
+            });
+            const tmpAppList = Array.from(appMap).map((item: any) => {
+                return {
+                    ...item[1],
+                    name: item[0],
+                };
+            });
+            setMeshAppInfo(tmpAppList);
         } catch (e) {
             setAppList([]);
         }

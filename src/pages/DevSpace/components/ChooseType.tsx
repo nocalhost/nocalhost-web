@@ -8,6 +8,8 @@ import { Button } from 'antd';
 
 import { ReactComponent as IconSpace } from '../../../images/icon/icon_quarantine_space.svg';
 import { ReactComponent as IconLink } from '../../../images/icon/icon_external_link.svg';
+import { ReactComponent as ImageDevSpace } from '../../../images/icon/bg_popup_quarantine_space.svg';
+import { ReactComponent as ImageMeshSpace } from '../../../images/icon/bg_popup_sharing_space.svg';
 
 const WrapBox = styled.div`
     position: fixed;
@@ -162,7 +164,9 @@ const ChooseType = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="right"></div>
+                        <div className="right">
+                            <ImageDevSpace />
+                        </div>
                     </CardItem>
                     <CardItem>
                         <div className="left">
@@ -191,7 +195,9 @@ const ChooseType = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="right"></div>
+                        <div className="right">
+                            <ImageMeshSpace />
+                        </div>
                     </CardItem>
                 </CardBox>
             </ContentBox>

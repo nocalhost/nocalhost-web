@@ -11,7 +11,8 @@ import { ReactComponent as IconSpace } from '../../../../images/icon/icon_normal
 import { ReactComponent as IconWorkLoad } from '../../../../images/icon/image_normal_applicationService.svg';
 import { ReactComponent as IconBlueWorkLoad } from '../../../../images/icon/image_active_blue_applicationService.svg';
 import { ReactComponent as ImageEmpty } from '../../../../images/icon/image_empty_space.svg';
-import { ReactComponent as ImageComputer } from '../../../../images/icon/image_computer.svg';
+import { ReactComponent as ImageComputerUp } from '../../../../images/mesh-icon/image_computerUp.svg';
+import { ReactComponent as ImageComputerDown } from '../../../../images/mesh-icon/image_computerDown.svg';
 import { ReactComponent as IconExplain } from '../../../../images/icon/icon_label_explain.svg';
 import { ReactComponent as IconDeployment } from '../../../../images/icon//icon_deployments.svg';
 import { ReactComponent as IconDaemonset } from '../../../../images/icon/icon_daemonset.svg';
@@ -45,8 +46,18 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
     .header {
         height: 102px;
         display: flex;
-        justify-content: center;
+        /* justify-content: center; */
+        flex-direction: column;
         position: relative;
+        align-items: center;
+        .computerUp {
+            position: relative;
+            z-index: 0;
+        }
+        .computerDown {
+            position: relative;
+            z-index: 2;
+        }
         &::after {
             opacity: ${(props) => (props.hiddenIcon ? 0 : 1)};
             content: '';
@@ -320,12 +331,13 @@ const BaseSpace = ({
         });
     }, [showBlueArrayIndex]);
     return (
-        <ContentWrap hiddenIcon={showBlueArrayIndex === 1}>
+        <ContentWrap hiddenIcon={currentSpace && appList.length > 0}>
             <div className="header">
                 {showBlueArrayIndex === 1 && (
                     <BlueArrow className="blueArrow" ref={firstBlueArrow}></BlueArrow>
                 )}
-                <ImageComputer />
+                <ImageComputerUp className="computerUp" />
+                <ImageComputerDown className="computerDown" />
                 <div className="wayLine">
                     <WayLine></WayLine>
                 </div>

@@ -157,7 +157,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
             position: absolute;
             z-index: 1;
             top: 18px;
-            animation: run-to-bottom 3s 0.1s 1 linear, run-to-top 3s 4.1s 1 linear;
+            animation: run-to-bottom 2s 0.1s 1 linear, run-to-top 2s 3.5s 1 linear;
             animation-fill-mode: forwards;
         }
     }

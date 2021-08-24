@@ -14,8 +14,8 @@ import ChooseCluster from './ChooseCluster';
 import BaseSpace from './BaseSpace';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
-// import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
-
+import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
+import CommonIcon from '../../../../components/CommonIcon';
 import { useLocation } from 'react-router-dom';
 
 interface SelectMap {
@@ -534,19 +534,28 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                                         </Form.Item>
                                     </div>
                                 )}
-                                <Form.Item
-                                    label={t('resources.meshSpace.devService')}
-                                    name="service_name"
-                                    className="dev-service-item"
-                                >
-                                    <Select
-                                        mode="multiple"
-                                        showSearch
-                                        onChange={handleSelectApp}
-                                        options={appList}
-                                        optionFilterProp="label"
-                                    />
-                                </Form.Item>
+                                <div className="devServer">
+                                    <div className="help-icon">
+                                        <CommonIcon
+                                            NormalIcon={IconHelp}
+                                            style={{ fontSize: 20 }}
+                                            title="xxxx"
+                                        ></CommonIcon>
+                                    </div>
+                                    <Form.Item
+                                        label={t('resources.meshSpace.devService')}
+                                        name="service_name"
+                                        rules={[{ required: true }]}
+                                        className="dev-service-item"
+                                    >
+                                        <Select
+                                            mode="multiple"
+                                            onChange={handleSelectApp}
+                                            options={appList}
+                                        />
+                                    </Form.Item>
+                                </div>
+
                                 <div className="resource-limit">
                                     <div className="resource-limit-check">
                                         <div className="limit-desc">

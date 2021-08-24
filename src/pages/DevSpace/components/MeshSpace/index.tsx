@@ -38,10 +38,13 @@ interface RouterParams {
         cluster_id: number;
         cluster_name: string;
         space_name: string;
+        owner: {
+            id: number;
+        };
     };
 }
 
-const MeshSpace = () => {
+const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
     const { t } = useTranslation();
     const location = useLocation<RouterParams>();
     const space_id = location?.state?.record?.id;
@@ -158,7 +161,6 @@ const MeshSpace = () => {
                             }
                         });
                     });
-
                     setSelectedAppList(tmpSelectedList);
 
                     form.setFieldsValue({
@@ -168,6 +170,11 @@ const MeshSpace = () => {
                         service_name: tmpList,
                         space_name: location?.state?.record?.space_name,
                     });
+
+                    setHeaderType(
+                        key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom'
+                    );
+
                     setCurrentSpace({
                         space_id: location?.state?.record?.base_dev_space_id,
                     });
@@ -200,7 +207,6 @@ const MeshSpace = () => {
                 ...values,
             });
         } else {
-            const namespace = await generateNamespace();
             const { header, header_key, header_value } = values;
             const {
                 container_limits_cpu,
@@ -244,25 +250,45 @@ const MeshSpace = () => {
                           : space_storage_capacity,
                   }
                 : null;
-
-            const response = await HTTP.post('dev_space', {
-                ...formInfo,
-                ...values,
-                space_resource_limit: limitObj,
-                mesh_dev_space: true,
-                cluster_admin: 0,
-                isLimit: Boolean(resource_limit_set),
-                mesh_dev_info: {
-                    header: {
-                        key: header === 'Custom' ? header_key : header,
-                        value: header === 'Custom' ? header_value : namespace,
+            if (isEdit) {
+                const response = await HTTP.put(`dev_space/${space_id}`, {
+                    ...values,
+                    space_resource_limit: limitObj,
+                    mesh_dev_space: true,
+                    cluster_admin: 0,
+                    isLimit: Boolean(resource_limit_set),
+                    mesh_dev_info: {
+                        header: {
+                            key: header === 'Custom' ? header_key : headerInfo?.key,
+                            value: header === 'Custom' ? header_value : headerInfo?.value,
+                        },
+                        apps: meshAppInfo,
                     },
-                    apps: meshAppInfo,
-                },
-            });
+                });
 
-            if (response.code === 0) {
-                message.success(t('resources.space.tips.addSuccess'));
+                if (response.code === 0) {
+                    message.success(t('common.message.edit'));
+                }
+            } else {
+                const response = await HTTP.post('dev_space', {
+                    ...formInfo,
+                    ...values,
+                    space_resource_limit: limitObj,
+                    mesh_dev_space: true,
+                    cluster_admin: 0,
+                    isLimit: Boolean(resource_limit_set),
+                    mesh_dev_info: {
+                        header: {
+                            key: header === 'Custom' ? header_key : headerInfo?.key,
+                            value: header === 'Custom' ? header_value : headerInfo?.value,
+                        },
+                        apps: meshAppInfo,
+                    },
+                });
+
+                if (response.code === 0) {
+                    message.success(t('resources.space.tips.addSuccess'));
+                }
             }
         }
 
@@ -293,11 +319,11 @@ const MeshSpace = () => {
             }
         } else {
             const values: { [index: string]: string } = form.getFieldsValue();
-            const { headerKey, headerValue } = values;
-            if (headerKey && headerValue) {
+            const { header_key, header_value } = values;
+            if (header_key && header_value) {
                 setHeaderInfo({
-                    key: headerKey,
-                    value: headerValue,
+                    key: header_key,
+                    value: header_value,
                 });
             } else {
                 setHeaderInfo(undefined);
@@ -311,6 +337,16 @@ const MeshSpace = () => {
         getSpaceList();
         if (space_id) {
             getAppList(space_id);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isEdit) {
+            form.setFieldsValue({
+                cluster_id: location?.state?.record?.cluster_id,
+                user_id: location?.state?.record?.owner?.id,
+                base_dev_space_id: location?.state?.record?.base_dev_space_id,
+            });
         }
     }, []);
 
@@ -359,9 +395,6 @@ const MeshSpace = () => {
     };
 
     const handleInputHeader = () => {
-        // handInputheader
-        console.log(form.getFieldsValue());
-
         if (timer.current) {
             clearTimeout(timer.current);
         }
@@ -378,72 +411,84 @@ const MeshSpace = () => {
         }, 500);
     };
 
+    const Step1Form = () => {
+        return (
+            <>
+                <Form.Item
+                    label={t('resources.space.fields.user')}
+                    rules={[{ required: true }]}
+                    name="user_id"
+                >
+                    <Select
+                        showSearch
+                        options={userList}
+                        optionFilterProp="label"
+                        disabled={isEdit}
+                    />
+                </Form.Item>
+                <Form.Item
+                    label={t('resources.space.fields.cluster')}
+                    rules={[{ required: true }]}
+                    name="cluster_id"
+                >
+                    <Select
+                        showSearch
+                        options={clusterList}
+                        onChange={handleClusterChange}
+                        optionFilterProp="label"
+                        disabled={isEdit}
+                    />
+                </Form.Item>
+                <Form.Item
+                    label={t('resources.meshSpace.basicSpace')}
+                    name="base_dev_space_id"
+                    rules={[{ required: true }]}
+                >
+                    <Select
+                        onChange={handleChangeBase}
+                        showSearch
+                        options={filterSpaceList}
+                        optionFilterProp="label"
+                        disabled={isEdit}
+                    />
+                </Form.Item>
+            </>
+        );
+    };
+
     return (
         <>
-            <BreadCard
-                data={{
-                    menu: t('resources.devSpace.name'),
-                    subMenu: t('resources.devSpace.createMesh'),
-                    route: '/dashboard/devspace',
-                }}
-            />
+            {!isEdit && (
+                <BreadCard
+                    data={{
+                        menu: t('resources.devSpace.name'),
+                        subMenu: t('resources.devSpace.createMesh'),
+                        route: '/dashboard/devspace',
+                    }}
+                />
+            )}
             <ContentWrap>
                 <div className="left">
-                    <Steps
-                        style={{ padding: '0 56px' }}
-                        labelPlacement="vertical"
-                        current={currentStep}
-                    >
-                        <Steps.Step title={t('resources.meshSpace.selectBasic')} />
-                        <Steps.Step title={t('resources.meshSpace.create')} />
-                    </Steps>
+                    {!isEdit && (
+                        <Steps
+                            style={{ padding: '0 56px' }}
+                            labelPlacement="vertical"
+                            current={currentStep}
+                        >
+                            <Steps.Step title={t('resources.meshSpace.selectBasic')} />
+                            <Steps.Step title={t('resources.meshSpace.create')} />
+                        </Steps>
+                    )}
                     <Form
                         form={form}
                         layout="vertical"
-                        style={{ marginTop: 30 }}
+                        style={{ marginTop: isEdit ? 0 : 30 }}
                         onFinish={handleSubmit}
                     >
-                        {currentStep === 0 && (
-                            <>
-                                <Form.Item
-                                    label={t('resources.space.fields.user')}
-                                    rules={[{ required: true }]}
-                                    name="user_id"
-                                >
-                                    <Select
-                                        showSearch
-                                        options={userList}
-                                        optionFilterProp="label"
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    label={t('resources.space.fields.cluster')}
-                                    rules={[{ required: true }]}
-                                    name="cluster_id"
-                                >
-                                    <Select
-                                        showSearch
-                                        options={clusterList}
-                                        onChange={handleClusterChange}
-                                        optionFilterProp="label"
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    label={t('resources.meshSpace.basicSpace')}
-                                    name="base_dev_space_id"
-                                    rules={[{ required: true }]}
-                                >
-                                    <Select
-                                        onChange={handleChangeBase}
-                                        showSearch
-                                        options={filterSpaceList}
-                                        optionFilterProp="label"
-                                    />
-                                </Form.Item>
-                            </>
-                        )}
+                        {currentStep === 0 && <Step1Form />}
                         {currentStep === 1 && (
                             <>
+                                {isEdit && <Step1Form />}
                                 <Form.Item
                                     label={t('resources.meshSpace.spaceName')}
                                     name="space_name"
@@ -467,7 +512,7 @@ const MeshSpace = () => {
                                     <div className="header-box">
                                         <Form.Item
                                             label="Tracing Headers"
-                                            name="headerKey"
+                                            name="header_key"
                                             rules={[{ required: true }]}
                                         >
                                             <Input
@@ -477,7 +522,7 @@ const MeshSpace = () => {
                                         </Form.Item>
                                         <Form.Item
                                             label="Value"
-                                            name="headerValue"
+                                            name="header_value"
                                             style={{ marginBottom: 0 }}
                                             rules={[{ required: true }]}
                                         >
@@ -491,7 +536,6 @@ const MeshSpace = () => {
                                 <Form.Item
                                     label={t('resources.meshSpace.devService')}
                                     name="service_name"
-                                    rules={[{ required: true }]}
                                     className="dev-service-item"
                                 >
                                     <div className="help-icon">

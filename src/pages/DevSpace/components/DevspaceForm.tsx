@@ -133,7 +133,7 @@ const DevspaceForm = ({
                     const tmpObj = JSON.parse(space_resource_limit);
                     const obj: { [index: string]: any } = {};
                     Object.keys(tmpObj).forEach((item) => {
-                        obj[item] = parseInt(tmpObj[item]) || undefined;
+                        obj[item] = parseFloat(tmpObj[item]) || undefined;
                     });
                     limitObj = obj;
                 }

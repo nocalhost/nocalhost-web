@@ -14,8 +14,7 @@ import ChooseCluster from './ChooseCluster';
 import BaseSpace from './BaseSpace';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
-import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
-import CommonIcon from '../../../../components/CommonIcon';
+// import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
 
 import { useLocation } from 'react-router-dom';
 
@@ -63,6 +62,9 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
+
+    const [defaultValue, setDefaultValue] = useState<any>([]);
+    console.log(defaultValue);
 
     const timer = useRef<number | null>();
 
@@ -136,6 +138,7 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                         });
                     });
                 });
+
                 setAppList(tmpList);
                 if (space_id) {
                     // edit
@@ -162,7 +165,7 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                         });
                     });
                     setSelectedAppList(tmpSelectedList);
-
+                    setDefaultValue(tmpList);
                     form.setFieldsValue({
                         header: key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom',
                         header_key: key,
@@ -538,17 +541,12 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                                     name="service_name"
                                     className="dev-service-item"
                                 >
-                                    <div className="help-icon">
-                                        <CommonIcon
-                                            NormalIcon={IconHelp}
-                                            style={{ fontSize: 20 }}
-                                            title="xxxx"
-                                        ></CommonIcon>
-                                    </div>
                                     <Select
                                         mode="multiple"
+                                        showSearch
                                         onChange={handleSelectApp}
                                         options={appList}
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
                                 <div className="resource-limit">

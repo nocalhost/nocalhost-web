@@ -146,7 +146,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         }
 
         .tracing-header {
-            margin-top: 20px;
+            margin-top: 16px;
             height: 82px;
             padding: 16px;
             background: rgb(239, 244, 249);
@@ -347,7 +347,7 @@ const BaseSpace = ({
     return (
         <ContentWrap hiddenIcon={currentSpace && appList.length > 0}>
             <div className="header">
-                {showBlueArrayIndex === 1 && (
+                {showBlueArrayIndex === 1 && currentStep == 0 && (
                     <BlueArrow className="blueArrow" ref={firstBlueArrow}></BlueArrow>
                 )}
                 <ImageComputerUp className="computerUp" />

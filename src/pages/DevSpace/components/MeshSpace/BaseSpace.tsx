@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import styled from 'styled-components';
 import { Tooltip } from 'antd';
@@ -16,6 +16,9 @@ import { ReactComponent as IconDeployment } from '../../../../images/icon//icon_
 import { ReactComponent as IconDaemonset } from '../../../../images/icon/icon_daemonset.svg';
 import { ReactComponent as IconJob } from '../../../../images/icon/icon_jobs.svg';
 import { ReactComponent as IconCronjob } from '../../../../images/icon/icon_cronjob.svg';
+import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg';
+import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow_blue.svg';
+import { useState } from 'react';
 
 const ICON_MAP: {
     [index: string]: any;
@@ -35,6 +38,45 @@ const ContentWrap = styled.div`
         height: 102px;
         display: flex;
         justify-content: center;
+        position: relative;
+        .wayLine {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .blueArrow {
+            position: absolute;
+            z-index: 1;
+            top: 18px;
+            animation: run-to-bottom 3s 0.1s 1 linear, run-to-top 3s 3.1s 1 linear;
+            animation-fill-mode: forwards;
+        }
+        .secondArrow {
+            position: absolute;
+            z-index: 1;
+            bottom: -100px;
+            animation: run-to-top 3s 0.1s 1 linear;
+            animation-fill-mode: forwards;
+        }
+    }
+
+    @keyframes run-to-bottom {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(160px);
+        }
+    }
+
+    @keyframes run-to-top {
+        0% {
+            transform: translateY(160px) rotate(180deg);
+        }
+        100% {
+            transform: translateY(0) rotate(180deg);
+        }
     }
 
     .content {
@@ -90,6 +132,8 @@ const ContentWrap = styled.div`
         }
 
         .main {
+            position: relative;
+            z-index: 2;
             margin-top: 16px;
             padding: 16px;
             flex: 1;
@@ -214,11 +258,41 @@ const BaseSpace = ({
     currentStep,
 }: IProps) => {
     const { t } = useTranslation();
-
+    const firstBlueArrow = useRef<SVGSVGElement>(null);
+    // const secondBlueArrow = useRef<SVGSVGElement>(null);
+    const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
+    useEffect(() => {
+        if (currentSpace) {
+            setShowBlueArrayIndex(1);
+        }
+    }, [currentSpace, clusterName]);
+    useEffect(() => {
+        firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+            // 往下动画结束
+            if (args[0]?.animationName === 'run-to-top') {
+                console.log('往下动画结束');
+            }
+            // 往上动画结束
+            if (args[0]?.animationName === 'run-to-top') {
+                setShowBlueArrayIndex(2);
+            }
+        });
+    }, [showBlueArrayIndex]);
     return (
         <ContentWrap>
             <div className="header">
+                {showBlueArrayIndex === 1 && (
+                    <BlueArrow className="blueArrow" ref={firstBlueArrow}></BlueArrow>
+                )}
+
+                {/* {showBlueArrayIndex === 2 && (
+                    <BlueArrow className="secondArrow" ref={secondBlueArrow}></BlueArrow>
+                )} */}
+
                 <ImageComputer />
+                <div className="wayLine">
+                    <WayLine></WayLine>
+                </div>
             </div>
             <div className="content">
                 <div className="icon-wrap">

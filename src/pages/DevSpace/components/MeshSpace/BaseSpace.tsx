@@ -404,7 +404,7 @@ const BaseSpace = ({
             setShowBlueArrayIndex(2);
         }
     }, [currentSpace, clusterName, appList]);
-    useEffect(() => {
+    const firstAnimationHandle = () => {
         firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
             if (args[0]?.animationName === 'run-to-bottom') {
                 setAnimationEnd(true);
@@ -423,9 +423,13 @@ const BaseSpace = ({
                 setAnimationEnd(false);
             }
         });
+    };
+    useEffect(() => {
+        firstAnimationHandle();
     }, [showBlueArrayIndex]);
     useEffect(() => {
         if (currentStep === 1) {
+            setAnimationEnd(false);
             const headWidth = headRef?.current?.offsetWidth || 0;
             const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
             const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
@@ -433,6 +437,8 @@ const BaseSpace = ({
             const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
             setWayLeftWidth(width);
             setWayRightWidth(rightWidth);
+        } else {
+            firstAnimationHandle();
         }
     }, [currentStep]);
     return (

@@ -15,6 +15,8 @@ import BaseSpace from './BaseSpace';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
 
+import { useLocation } from 'react-router-dom';
+
 interface SelectMap {
     text?: any;
     value: any;
@@ -22,9 +24,22 @@ interface SelectMap {
     cluster_id?: number;
 }
 
+interface RouterParams {
+    record: {
+        id: number;
+        base_dev_space_id: number;
+        cluster_id: number;
+        cluster_name: string;
+        space_name: string;
+    };
+}
+
 const MeshSpace = () => {
     const { t } = useTranslation();
-    const [currentStep, setCurrentStep] = useState(0);
+    const location = useLocation<RouterParams>();
+    console.log(location?.state?.record);
+    const space_id = location?.state?.record?.id;
+    const [currentStep, setCurrentStep] = useState(space_id ? 1 : 0);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [spaceList, setSpaceList] = useState<SelectMap[]>([]);
@@ -33,7 +48,7 @@ const MeshSpace = () => {
     const [headerType, setHeaderType] = useState<string>('');
     const [formInfo, setFormInfo] = useState<any>({});
     const [showLimit, setShowLimit] = useState<boolean>(false);
-    const [clusterId, setClusterId] = useState<any>();
+    const [clusterId, setClusterId] = useState<any>(location?.state?.record?.cluster_id);
     const [clusterMap, setClusterMap] = useState<any>();
     const [currentSpace, setCurrentSpace] = useState<any>();
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
@@ -104,6 +119,44 @@ const MeshSpace = () => {
                     });
                 });
                 setAppList(tmpList);
+                if (space_id) {
+                    // edit
+                    const {
+                        header: { key, value },
+                    } = data;
+
+                    const tmpList: any = [];
+                    const tmpSelectedList: any = [];
+                    data.apps.forEach((application: any) => {
+                        application.workloads.forEach((workload: any) => {
+                            if (workload.status === 1) {
+                                tmpList.push(
+                                    JSON.stringify({
+                                        appName: application.name,
+                                        ...workload,
+                                    })
+                                );
+                                tmpSelectedList.push({
+                                    name: `${application.name}:${workload.name}`,
+                                    kind: workload.kind,
+                                });
+                            }
+                        });
+                    });
+
+                    setSelectedAppList(tmpSelectedList);
+
+                    form.setFieldsValue({
+                        header: key === 'Jaeger' || key === 'Zipkin' ? key : 'Custom',
+                        header_key: key,
+                        header_value: value,
+                        service_name: tmpList,
+                        space_name: location?.state?.record?.space_name,
+                    });
+                    setCurrentSpace({
+                        space_id: location?.state?.record?.base_dev_space_id,
+                    });
+                }
             } catch (e) {
                 setAppList([]);
             }
@@ -215,6 +268,9 @@ const MeshSpace = () => {
         getAllCluster();
         getAllUser();
         getSpaceList();
+        if (space_id) {
+            getAppList(space_id);
+        }
     }, []);
 
     const handleSelectApp = (value: any) => {
@@ -422,10 +478,12 @@ const MeshSpace = () => {
                     </Form>
                 </div>
                 <div className="right">
-                    {!clusterId && <ChooseCluster />}
+                    {!clusterId && currentStep === 0 && <ChooseCluster />}
                     {clusterId && (
                         <BaseSpace
-                            clusterName={clusterMap.get(clusterId)}
+                            clusterName={
+                                location?.state?.record?.cluster_name || clusterMap.get(clusterId)
+                            }
                             currentSpace={currentSpace}
                             appList={appList}
                             selectedAppList={selectedAppList}

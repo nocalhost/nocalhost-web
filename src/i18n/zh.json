@@ -279,6 +279,8 @@
         },
         "space": {
             "name": "开发空间",
+            "shareType": "共享空间",
+            "isolateSpace": "隔离空间",
             "fields": {
                 "space_name": "空间名称",
                 "space_type": "空间类型",

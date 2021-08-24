@@ -76,7 +76,6 @@ const ContentWrap = styled.div`
         }
         100% {
             transform: translateY(0) rotate(180deg);
-            opacity: 0;
         }
     }
 
@@ -263,19 +262,22 @@ const BaseSpace = ({
     // const secondBlueArrow = useRef<SVGSVGElement>(null);
     const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
     useEffect(() => {
-        // 动态加载不触发，待研究
-        firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function () {
-            console.log('cc');
-        });
-    }, []);
-    useEffect(() => {
         if (currentSpace) {
             setShowBlueArrayIndex(1);
-            setTimeout(() => {
-                setShowBlueArrayIndex(2);
-            }, 6200);
         }
     }, [currentSpace, clusterName]);
+    useEffect(() => {
+        firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+            // 往下动画结束
+            if (args[0]?.animationName === 'run-to-top') {
+                console.log('往下动画结束');
+            }
+            // 往上动画结束
+            if (args[0]?.animationName === 'run-to-top') {
+                setShowBlueArrayIndex(2);
+            }
+        });
+    }, [showBlueArrayIndex]);
     return (
         <ContentWrap>
             <div className="header">

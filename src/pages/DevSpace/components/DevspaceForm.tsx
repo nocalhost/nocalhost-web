@@ -286,14 +286,26 @@ const DevspaceForm = ({
                         name="cluster_id"
                         rules={[{ required: true }]}
                     >
-                        <Select disabled={isEdit} style={{ width: 310 }} options={clusterList} />
+                        <Select
+                            showSearch
+                            optionFilterProp="label"
+                            disabled={isEdit}
+                            style={{ width: 310 }}
+                            options={clusterList}
+                        />
                     </Form.Item>
                     <Form.Item
                         label={t('resources.space.fields.user')}
                         rules={[{ required: true }]}
                         name="user_id"
                     >
-                        <Select disabled={isEdit} style={{ width: 310 }} options={userList} />
+                        <Select
+                            showSearch
+                            optionFilterProp="label"
+                            disabled={isEdit}
+                            style={{ width: 310 }}
+                            options={userList}
+                        />
                     </Form.Item>
                 </FormFlexBox>
                 <OtherConfigTitle>{t('common.otherSet')}</OtherConfigTitle>

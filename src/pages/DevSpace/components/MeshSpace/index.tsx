@@ -37,7 +37,6 @@ interface RouterParams {
 const MeshSpace = () => {
     const { t } = useTranslation();
     const location = useLocation<RouterParams>();
-    console.log(location?.state?.record);
     const space_id = location?.state?.record?.id;
     const [currentStep, setCurrentStep] = useState(space_id ? 1 : 0);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
@@ -349,7 +348,11 @@ const MeshSpace = () => {
                                     rules={[{ required: true }]}
                                     name="user_id"
                                 >
-                                    <Select showSearch options={userList} />
+                                    <Select
+                                        showSearch
+                                        options={userList}
+                                        optionFilterProp="label"
+                                    />
                                 </Form.Item>
                                 <Form.Item
                                     label={t('resources.space.fields.cluster')}
@@ -360,6 +363,7 @@ const MeshSpace = () => {
                                         showSearch
                                         options={clusterList}
                                         onChange={handleClusterChange}
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -371,6 +375,7 @@ const MeshSpace = () => {
                                         onChange={handleChangeBase}
                                         showSearch
                                         options={filterSpaceList}
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
                             </>
@@ -459,7 +464,7 @@ const MeshSpace = () => {
                         )}
                         <div className="btn-box">
                             <Button style={{ marginRight: 12 }}>{t('common.bt.cancel')}</Button>
-                            {currentStep === 1 && (
+                            {currentStep === 1 && !space_id && (
                                 <Button onClick={() => setCurrentStep(0)}>
                                     {t('common.bt.prev')}
                                 </Button>

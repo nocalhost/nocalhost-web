@@ -254,20 +254,17 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                   }
                 : null;
             if (isEdit) {
-                const response = await HTTP.put(`dev_space/${space_id}`, {
-                    ...values,
-                    space_resource_limit: limitObj,
-                    mesh_dev_space: true,
-                    cluster_admin: 0,
-                    isLimit: Boolean(resource_limit_set),
-                    mesh_dev_info: {
+                const response = await HTTP.put(
+                    `dev_space/${space_id}/update_mesh_dev_space_info`,
+                    {
                         header: {
                             key: header === 'Custom' ? header_key : headerInfo?.key,
                             value: header === 'Custom' ? header_value : headerInfo?.value,
                         },
                         apps: meshAppInfo,
-                    },
-                });
+                        namespace: headerInfo?.key,
+                    }
+                );
 
                 if (response.code === 0) {
                     message.success(t('common.message.edit'));
@@ -286,6 +283,7 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                             value: header === 'Custom' ? header_value : headerInfo?.value,
                         },
                         apps: meshAppInfo,
+                        namespace: headerInfo?.value,
                     },
                 });
 

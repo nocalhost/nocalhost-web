@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import BreadCard from '../../../../components/BreadCard';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,8 @@ import ChooseCluster from './ChooseCluster';
 import BaseSpace from './BaseSpace';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
+import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
+import CommonIcon from '../../../../components/CommonIcon';
 
 import { useLocation } from 'react-router-dom';
 
@@ -22,6 +24,11 @@ interface SelectMap {
     value: any;
     label: any;
     cluster_id?: number;
+}
+
+interface HeaderInfo {
+    key: string;
+    value: string;
 }
 
 interface RouterParams {
@@ -52,6 +59,9 @@ const MeshSpace = () => {
     const [currentSpace, setCurrentSpace] = useState<any>();
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
+    const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
+
+    const timer = useRef<number | null>();
 
     const [form] = Form.useForm();
 
@@ -259,8 +269,34 @@ const MeshSpace = () => {
         getAppList(id);
     };
 
-    const handleChangeHeader = (e: RadioChangeEvent) => {
-        setHeaderType(e.target.value);
+    const handleChangeHeader = async (e: RadioChangeEvent) => {
+        const type = e.target.value;
+        setHeaderType(type);
+        if (type !== 'Custom') {
+            if (!headerInfo?.key) {
+                const namespace = await generateNamespace();
+                setHeaderInfo({
+                    key: type,
+                    value: namespace,
+                });
+            } else {
+                setHeaderInfo({
+                    ...headerInfo,
+                    key: type,
+                });
+            }
+        } else {
+            const values: { [index: string]: string } = form.getFieldsValue();
+            const { headerKey, headerValue } = values;
+            if (headerKey && headerValue) {
+                setHeaderInfo({
+                    key: headerKey,
+                    value: headerValue,
+                });
+            } else {
+                setHeaderInfo(undefined);
+            }
+        }
     };
 
     useEffect(() => {
@@ -314,6 +350,26 @@ const MeshSpace = () => {
         } catch (e) {
             setAppList([]);
         }
+    };
+
+    const handleInputHeader = () => {
+        // handInputheader
+        console.log(form.getFieldsValue());
+
+        if (timer.current) {
+            clearTimeout(timer.current);
+        }
+
+        timer.current = window.setTimeout(() => {
+            const values: { [index: string]: string } = form.getFieldsValue();
+            const { headerKey, headerValue } = values;
+            if (headerKey && headerValue) {
+                setHeaderInfo({
+                    key: headerKey,
+                    value: headerValue,
+                });
+            }
+        }, 500);
     };
 
     return (
@@ -405,18 +461,24 @@ const MeshSpace = () => {
                                     <div className="header-box">
                                         <Form.Item
                                             label="Tracing Headers"
-                                            name="header-key"
+                                            name="headerKey"
                                             rules={[{ required: true }]}
                                         >
-                                            <Input placeholder="Tracing headers" />
+                                            <Input
+                                                placeholder="Tracing headers"
+                                                onChange={handleInputHeader}
+                                            />
                                         </Form.Item>
                                         <Form.Item
                                             label="Value"
-                                            name="header-value"
+                                            name="headerValue"
                                             style={{ marginBottom: 0 }}
                                             rules={[{ required: true }]}
                                         >
-                                            <Input placeholder="Value" />
+                                            <Input
+                                                onChange={handleInputHeader}
+                                                placeholder="Value"
+                                            />
                                         </Form.Item>
                                     </div>
                                 )}
@@ -424,7 +486,15 @@ const MeshSpace = () => {
                                     label={t('resources.meshSpace.devService')}
                                     name="service_name"
                                     rules={[{ required: true }]}
+                                    className="dev-service-item"
                                 >
+                                    <div className="help-icon">
+                                        <CommonIcon
+                                            NormalIcon={IconHelp}
+                                            style={{ fontSize: 20 }}
+                                            title="xxxx"
+                                        ></CommonIcon>
+                                    </div>
                                     <Select
                                         mode="multiple"
                                         onChange={handleSelectApp}
@@ -493,6 +563,7 @@ const MeshSpace = () => {
                             appList={appList}
                             selectedAppList={selectedAppList}
                             currentStep={currentStep}
+                            headerInfo={headerInfo}
                         />
                     )}
                 </div>

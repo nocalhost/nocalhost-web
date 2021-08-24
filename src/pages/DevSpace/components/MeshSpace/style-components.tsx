@@ -29,6 +29,17 @@ export const ContentWrap = styled.div`
             border-radius: 4px;
         }
 
+        .dev-service-item {
+            position: relative;
+
+            .help-icon {
+                position: absolute;
+                z-index: 10;
+                top: -29px;
+                left: 74px;
+            }
+        }
+
         .resource-limit {
             padding: 12px;
             background: #f9fbfd;

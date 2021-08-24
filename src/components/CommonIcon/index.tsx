@@ -22,9 +22,10 @@ type TooltipPlacement =
     | 'rightTop'
     | 'rightBottom';
 interface StyleType {
-    fontSize?: string;
+    fontSize?: string | number;
     color?: string;
-    marginLeft?: string;
+    marginLeft?: string | number;
+    marginRight?: string | number;
 }
 
 interface PropsType {

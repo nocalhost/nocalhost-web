@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import styled from 'styled-components';
 import { Tooltip } from 'antd';
@@ -16,17 +16,24 @@ import { ReactComponent as IconDeployment } from '../../../../images/icon//icon_
 import { ReactComponent as IconDaemonset } from '../../../../images/icon/icon_daemonset.svg';
 import { ReactComponent as IconJob } from '../../../../images/icon/icon_jobs.svg';
 import { ReactComponent as IconCronjob } from '../../../../images/icon/icon_cronjob.svg';
+import { ReactComponent as IconStatefulSet } from '../../../../images/icon/icon_statefulsets.svg';
 import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg';
 import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow_blue.svg';
-import { useState } from 'react';
+import { ReactComponent as IconTracingHeader } from '../../../../images/icon/icon_normal_tracingHeaders.svg';
+import CommonIcon from '../../../../components/CommonIcon';
 
 const ICON_MAP: {
-    [index: string]: any;
+    [index: string]: React.FunctionComponent<
+        React.SVGProps<SVGSVGElement> & {
+            title?: string | undefined;
+        }
+    >;
 } = {
     Deployment: IconDeployment,
-    Daemontset: IconDaemonset,
+    DaemontSet: IconDaemonset,
     Job: IconJob,
     CronJob: IconCronjob,
+    StatefulSet: IconStatefulSet,
 };
 
 const ContentWrap = styled.div`
@@ -119,7 +126,7 @@ const ContentWrap = styled.div`
                     background: rgb(239, 244, 249);
                     border-radius: 4px;
                     height: 30px;
-                    width: 240px;
+                    padding: 0 30px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -248,6 +255,12 @@ interface IProps {
     appList: any;
     selectedAppList: any;
     currentStep: number;
+    headerInfo: HeaderInfo | undefined;
+}
+
+interface HeaderInfo {
+    key: string;
+    value: string;
 }
 
 const BaseSpace = ({
@@ -256,11 +269,13 @@ const BaseSpace = ({
     appList,
     selectedAppList,
     currentStep,
+    headerInfo,
 }: IProps) => {
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
     // const secondBlueArrow = useRef<SVGSVGElement>(null);
     const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
+    console.log(headerInfo);
     useEffect(() => {
         if (currentSpace) {
             setShowBlueArrayIndex(1);
@@ -303,11 +318,22 @@ const BaseSpace = ({
                     <div className="tracing-header">
                         <div className="content">
                             <div className="desc">
-                                <Icon
-                                    component={IconExplain}
-                                    style={{ fontSize: 16, marginRight: 6 }}
-                                />
-                                {t('resources.meshSpace.setTracingHeader')}
+                                {headerInfo ? (
+                                    <Icon
+                                        component={IconTracingHeader}
+                                        style={{ fontSize: 16, marginRight: 4 }}
+                                    />
+                                ) : (
+                                    <CommonIcon
+                                        NormalIcon={IconExplain}
+                                        style={{ fontSize: 16, marginRight: 6 }}
+                                        title="xxxxxxx"
+                                    ></CommonIcon>
+                                )}
+
+                                {headerInfo
+                                    ? `cluster:${headerInfo?.key}=${headerInfo?.value}`
+                                    : t('resources.meshSpace.setTracingHeader')}
                             </div>
                         </div>
                     </div>

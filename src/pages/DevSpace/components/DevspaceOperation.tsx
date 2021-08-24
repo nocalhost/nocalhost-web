@@ -19,6 +19,9 @@ import { ReactComponent as IconAddPerson } from '../../../images/icon/icon_btn_a
 import { ReactComponent as IconDelPerson } from '../../../images/icon/icon_btn_normal_addPeople.svg';
 import { ReactComponent as IconSelectedDelPerson } from '../../../images/icon/icon_btn_elected_addPeople.svg';
 import Dialog from '../../../components/Dialog';
+
+import MeshSpace from './MeshSpace';
+
 const ContentWrap = styled.div`
     background: rgb(255, 255, 255);
     box-shadow: 0 4px 8px 0 rgba(40, 47, 55, 0.05);
@@ -34,6 +37,7 @@ const PanelWrap = styled.div`
 interface RouterParams {
     record: {
         id: number;
+        space_type: 'IsolateSpace' | 'ShareSpace';
     };
 }
 
@@ -83,9 +87,11 @@ const DevspaceOperation = () => {
     const {
         state: {
             record,
-            record: { id },
+            record: { id, space_type },
         },
     } = location;
+
+    console.log('>>> record: ', record, space_type);
 
     const handleCancel = () => {
         history.push('/dashboard/devspace');
@@ -270,13 +276,17 @@ const DevspaceOperation = () => {
             <ContentWrap>
                 <Tabs style={{ padding: '0 20px 0' }} defaultActiveKey="1">
                     <Tabs.TabPane tab={t('resources.devSpace.devSpace')} key="1">
-                        <PanelWrap>
-                            <DevspaceForm
-                                record={newRecord}
-                                isEdit={true}
-                                onCancel={handleCancel}
-                            />
-                        </PanelWrap>
+                        {space_type === 'IsolateSpace' ? (
+                            <PanelWrap>
+                                <DevspaceForm
+                                    record={newRecord}
+                                    isEdit={true}
+                                    onCancel={handleCancel}
+                                />
+                            </PanelWrap>
+                        ) : (
+                            <MeshSpace isEdit={true} />
+                        )}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">
                         <ContentHeader>

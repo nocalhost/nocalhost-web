@@ -398,10 +398,7 @@ const EnvList = () => {
 
     function handleEdit(record: any) {
         history.push({
-            pathname:
-                record.space_type === 'IsolateSpace'
-                    ? '/dashboard/devspace/space-operation'
-                    : '/dashboard/devspace/mesh-space',
+            pathname: '/dashboard/devspace/space-operation',
             state: {
                 record,
             },

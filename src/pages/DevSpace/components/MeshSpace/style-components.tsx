@@ -13,7 +13,9 @@ export const ContentWrap = styled.div`
     .left {
         width: 420px;
         padding-right: 24px;
+        padding-bottom: 32px;
         position: relative;
+        overflow-y: scroll;
 
         .ant-steps-item-title {
             font-size: 12px;

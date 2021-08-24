@@ -142,7 +142,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 10px;
+            top: 11px;
             z-index: 2;
             animation: width-an 2s 0s 1 linear;
             animation-iteration-count: infinite;
@@ -166,8 +166,11 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         0% {
             width: 50px;
         }
-        100% {
+        50% {
             width: 104px;
+        }
+        100% {
+            width: 50px;
         }
     }
     @keyframes run-to-bottom {
@@ -404,7 +407,7 @@ const BaseSpace = ({
             setShowBlueArrayIndex(2);
         }
     }, [currentSpace, clusterName, appList]);
-    useEffect(() => {
+    const firstAnimationHandle = () => {
         firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
             if (args[0]?.animationName === 'run-to-bottom') {
                 setAnimationEnd(true);
@@ -423,9 +426,13 @@ const BaseSpace = ({
                 setAnimationEnd(false);
             }
         });
+    };
+    useEffect(() => {
+        firstAnimationHandle();
     }, [showBlueArrayIndex]);
     useEffect(() => {
         if (currentStep === 1) {
+            setAnimationEnd(false);
             const headWidth = headRef?.current?.offsetWidth || 0;
             const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
             const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
@@ -433,6 +440,8 @@ const BaseSpace = ({
             const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
             setWayLeftWidth(width);
             setWayRightWidth(rightWidth);
+        } else {
+            firstAnimationHandle();
         }
     }, [currentStep]);
     return (

@@ -34,6 +34,7 @@ const PanelWrap = styled.div`
 interface RouterParams {
     record: {
         id: number;
+        space_type: 'IsolateSpace' | 'ShareSpace';
     };
 }
 
@@ -83,9 +84,11 @@ const DevspaceOperation = () => {
     const {
         state: {
             record,
-            record: { id },
+            record: { id, space_type },
         },
     } = location;
+
+    console.log('>>> record: ', record, space_type);
 
     const handleCancel = () => {
         history.push('/dashboard/devspace');

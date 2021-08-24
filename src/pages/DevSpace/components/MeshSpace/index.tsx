@@ -91,9 +91,15 @@ const MeshSpace = () => {
     }
 
     async function getSpaceList() {
-        const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
-            is_v2: true,
-        });
+        const response = await HTTP.get(
+            /* id ? `cluster/${id}/dev_space` : */ 'dev_space',
+            {
+                is_can_be_used_as_base_space: true,
+            },
+            {
+                is_v2: true,
+            }
+        );
         const { code, data } = response;
         if (code === 0) {
             const tmpList = data.map((item: any) => {
@@ -156,7 +162,7 @@ const MeshSpace = () => {
                     setSelectedAppList(tmpSelectedList);
 
                     form.setFieldsValue({
-                        header: key === 'Jaeger' || key === 'Zipkin' ? key : 'Custom',
+                        header: key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom',
                         header_key: key,
                         header_value: value,
                         service_name: tmpList,
@@ -452,8 +458,8 @@ const MeshSpace = () => {
                                     rules={[{ required: true }]}
                                 >
                                     <Radio.Group onChange={handleChangeHeader}>
-                                        <Radio value={'Jaeger'}>Jaeger</Radio>
-                                        <Radio value={'Zipkin'}>Zipkin</Radio>
+                                        <Radio value={'uberctx-trace'}>Jaeger</Radio>
+                                        <Radio value={'baggage-trace'}>Zipkin</Radio>
                                         <Radio value={'Custom'}>Custom</Radio>
                                     </Radio.Group>
                                 </Form.Item>

@@ -142,7 +142,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 10px;
+            top: 11px;
             z-index: 2;
             animation: width-an 2s 0s 1 linear;
             animation-iteration-count: infinite;
@@ -166,8 +166,11 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         0% {
             width: 50px;
         }
-        100% {
+        50% {
             width: 104px;
+        }
+        100% {
+            width: 50px;
         }
     }
     @keyframes run-to-bottom {

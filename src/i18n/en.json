@@ -278,6 +278,8 @@
         },
         "space": {
             "name": "DevSpace",
+            "shareType": "ShareType",
+            "isolateSpace": "IsolateSpace",
             "fields": {
                 "space_name": "Space Name",
                 "space_type": "Space Type",

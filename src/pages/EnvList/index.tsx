@@ -34,8 +34,6 @@ import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { queryAllUser } from '../../services';
 
-// import { ReactComponent as IconRefresh } from '../../images/icon/icon_btn_elected_refresh.svg';
-// import { ReactComponent as IconNormalRefresh } from '../../images/icon/icon_btn_normal_refresh.svg';
 import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
 import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
 import { ReactComponent as IconNormalKube } from '../../images/icon/icon_btn_normal_kube.svg';
@@ -78,6 +76,7 @@ interface FilterType {
     space_name: string;
     user_id: number | string;
     cluster_id: number | string;
+    space_type: string;
 }
 
 const PopoverBox = (props: { record: UserProps }) => {
@@ -318,11 +317,17 @@ const EnvList = () => {
         space_name: '',
         cluster_id: 'all',
         user_id: 'all',
+        space_type: 'all',
     });
 
     const [showChooseType, setShowChooseType] = useState<boolean>(false);
 
     const selectAllOption = { value: 'all', text: t('common.select.all') };
+
+    const spaceTypeOption = [
+        { value: 'ShareSpace', text: t('resources.space.shareType') },
+        { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
+    ];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -338,9 +343,9 @@ const EnvList = () => {
         handleFilter();
     }, [filterValue]);
 
-    function handleFilter() {
-        const tmpList = spaceList.filter((item: any) => {
-            const { space_name, cluster_id, user_id } = filterValue;
+    function handleFilter(resourceList = spaceList) {
+        const tmpList = resourceList.filter((item: any) => {
+            const { space_name, cluster_id, user_id, space_type } = filterValue;
             const isNameValid = item.space_name.indexOf(space_name) > -1;
             if (id) {
                 // env list page
@@ -350,19 +355,39 @@ const EnvList = () => {
                     return isNameValid && item.user_id === user_id;
                 }
             } else {
-                if (cluster_id === 'all' && user_id === 'all') {
+                if (cluster_id === 'all' && user_id === 'all' && space_type === 'all') {
                     return isNameValid;
-                } else if (cluster_id === 'all') {
+                } else if (cluster_id === 'all' && space_type === 'all') {
                     return isNameValid && item.user_id === user_id;
-                } else if (user_id === 'all') {
+                } else if (user_id === 'all' && space_type === 'all') {
                     return isNameValid && item.cluster_id === cluster_id;
+                } else if (user_id === 'all' && cluster_id === 'all') {
+                    return isNameValid && item.space_type === space_type;
+                } else if (user_id === 'all') {
+                    return (
+                        isNameValid &&
+                        item.space_type === space_type &&
+                        item.cluster_id === cluster_id
+                    );
+                } else if (cluster_id === 'all') {
+                    return (
+                        isNameValid && item.space_type === space_type && item.user_id === user_id
+                    );
+                } else if (space_type === 'all') {
+                    return (
+                        isNameValid && item.cluster_id === cluster_id && item.user_id === user_id
+                    );
                 } else {
                     return (
-                        isNameValid && item.user_id === user_id && item.cluster_id === cluster_id
+                        isNameValid &&
+                        item.user_id === user_id &&
+                        item.cluster_id === cluster_id &&
+                        item.space_type === space_type
                     );
                 }
             }
         });
+
         setFilterList(tmpList);
     }
 
@@ -373,7 +398,10 @@ const EnvList = () => {
 
     function handleEdit(record: any) {
         history.push({
-            pathname: '/dashboard/devspace/space-operation',
+            pathname:
+                record.space_type === 'IsolateSpace'
+                    ? '/dashboard/devspace/space-operation'
+                    : '/dashboard/devspace/mesh-space',
             state: {
                 record,
             },
@@ -399,7 +427,8 @@ const EnvList = () => {
             });
 
             setSpaceList(tmpList);
-            setFilterList(tmpList);
+            handleFilter(tmpList);
+            // setFilterList(tmpList);
             setUserList([
                 ...Array.from(selectUsersMap).map((item) => {
                     return {
@@ -435,6 +464,13 @@ const EnvList = () => {
         setFilterValue({
             ...filterValue,
             cluster_id: value,
+        });
+    }
+
+    function handleSearchSpaceType(value: string) {
+        setFilterValue({
+            ...filterValue,
+            space_type: value,
         });
     }
 
@@ -513,8 +549,11 @@ const EnvList = () => {
                         <LabelSelect
                             style={{ marginRight: 12 }}
                             label={t('resources.space.fields.space_type')}
-                            option={[{ value: 'all', text: t('common.select.all') }]}
-                            onChange={handleSearchInput}
+                            option={[
+                                { value: 'all', text: t('common.select.all') },
+                                ...spaceTypeOption,
+                            ]}
+                            onChange={handleSearchSpaceType}
                         />
                         {!id && (
                             <LabelSelect

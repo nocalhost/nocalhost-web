@@ -9,6 +9,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconSpace } from '../../../../images/icon/icon_normal_devspace.svg';
 import { ReactComponent as IconWorkLoad } from '../../../../images/icon/image_normal_applicationService.svg';
+import { ReactComponent as IconBlueWorkLoad } from '../../../../images/icon/image_active_blue_applicationService.svg';
 import { ReactComponent as ImageEmpty } from '../../../../images/icon/image_empty_space.svg';
 import { ReactComponent as ImageComputer } from '../../../../images/icon/image_computer.svg';
 import { ReactComponent as IconExplain } from '../../../../images/icon/icon_label_explain.svg';
@@ -29,7 +30,14 @@ const ICON_MAP: {
     CronJob: IconCronjob,
 };
 
-const ContentWrap = styled.div`
+// eslint-disable-next-line no-undef
+const SpaceIcon = styled.div<{ end: boolean }>`
+    g {
+        stroke: ${(props) => (props.end ? '#0080ff' : 'rgb(121, 135, 156);')};
+    }
+`;
+// eslint-disable-next-line no-undef
+const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -39,6 +47,25 @@ const ContentWrap = styled.div`
         display: flex;
         justify-content: center;
         position: relative;
+        &::after {
+            opacity: ${(props) => (props.hiddenIcon ? 0 : 1)};
+            content: '';
+            background: linear-gradient(
+                -90deg,
+                rgba(22, 118, 238, 0) 0%,
+                rgb(22, 118, 238) 50%,
+                rgba(22, 118, 238, 0) 100%
+            );
+            width: 50px;
+            height: 1px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            z-index: 2;
+            animation: width-an 2s 0s 1 linear;
+            animation-iteration-count: infinite;
+        }
         .wayLine {
             position: absolute;
             bottom: -80px;
@@ -49,18 +76,19 @@ const ContentWrap = styled.div`
             position: absolute;
             z-index: 1;
             top: 18px;
-            animation: run-to-bottom 3s 0.1s 1 linear, run-to-top 3s 3.1s 1 linear;
-            animation-fill-mode: forwards;
-        }
-        .secondArrow {
-            position: absolute;
-            z-index: 1;
-            bottom: -100px;
-            animation: run-to-top 3s 0.1s 1 linear;
+            animation: run-to-bottom 3s 0.1s 1 linear, run-to-top 3s 4.1s 1 linear;
             animation-fill-mode: forwards;
         }
     }
 
+    @keyframes width-an {
+        0% {
+            width: 50px;
+        }
+        100% {
+            width: 104px;
+        }
+    }
     @keyframes run-to-bottom {
         0% {
             transform: translateY(0);
@@ -156,13 +184,14 @@ const ContentWrap = styled.div`
                     font-weight: 600;
                 }
             }
-
             .workload-container,
             .selected-workload-container {
                 flex: 2;
                 display: flex;
                 flex-direction: column;
-
+                .service-box {
+                    border-radius: 4px;
+                }
                 .service-box,
                 .selected-box {
                     padding: 12px 20px;
@@ -259,36 +288,43 @@ const BaseSpace = ({
 }: IProps) => {
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
+    const timer = useRef<number | null>(null);
     // const secondBlueArrow = useRef<SVGSVGElement>(null);
     const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
+    const [animationEnd, setAnimationEnd] = useState(false);
     useEffect(() => {
-        if (currentSpace) {
+        if (currentSpace && appList.length > 0) {
             setShowBlueArrayIndex(1);
+        } else {
+            setShowBlueArrayIndex(2);
         }
-    }, [currentSpace, clusterName]);
+    }, [currentSpace, clusterName, appList]);
     useEffect(() => {
         firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
-            // 往下动画结束
-            if (args[0]?.animationName === 'run-to-top') {
-                console.log('往下动画结束');
+            if (args[0]?.animationName === 'run-to-bottom') {
+                setAnimationEnd(true);
             }
-            // 往上动画结束
             if (args[0]?.animationName === 'run-to-top') {
+                timer.current && clearTimeout(timer.current);
+                timer.current = null;
                 setShowBlueArrayIndex(2);
+                timer.current = window.setTimeout(() => {
+                    setShowBlueArrayIndex(1);
+                }, 500);
+            }
+        });
+        firstBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+            if (args[0]?.animationName === 'run-to-top') {
+                setAnimationEnd(false);
             }
         });
     }, [showBlueArrayIndex]);
     return (
-        <ContentWrap>
+        <ContentWrap hiddenIcon={showBlueArrayIndex === 1}>
             <div className="header">
                 {showBlueArrayIndex === 1 && (
                     <BlueArrow className="blueArrow" ref={firstBlueArrow}></BlueArrow>
                 )}
-
-                {/* {showBlueArrayIndex === 2 && (
-                    <BlueArrow className="secondArrow" ref={secondBlueArrow}></BlueArrow>
-                )} */}
-
                 <ImageComputer />
                 <div className="wayLine">
                     <WayLine></WayLine>
@@ -322,7 +358,17 @@ const BaseSpace = ({
                                     : t('resources.meshSpace.basicSpace')}
                             </span>
                         </div>
-                        <div className="service-box">
+                        <div
+                            className="service-box"
+                            style={
+                                !animationEnd
+                                    ? { border: '1px solid transparent' }
+                                    : {
+                                          border: '1px solid rgba(0, 128, 255, 0.5)',
+                                          boxShadow: '0px 0px 10px 0px rgba(0, 128, 255, 0.2)',
+                                      }
+                            }
+                        >
                             {!currentSpace && (
                                 <div className="empty-box">
                                     <ImageEmpty />
@@ -333,17 +379,42 @@ const BaseSpace = ({
                                 return (
                                     <div key={key} className="workload-item">
                                         <div>
-                                            <Icon
-                                                component={IconWorkLoad}
-                                                style={{ fontSize: 32 }}
-                                            />
+                                            {animationEnd ? (
+                                                <Icon
+                                                    component={IconBlueWorkLoad}
+                                                    style={{ fontSize: 32 }}
+                                                ></Icon>
+                                            ) : (
+                                                <Icon
+                                                    component={IconWorkLoad}
+                                                    style={{ fontSize: 32 }}
+                                                />
+                                            )}
                                         </div>
-                                        <div className="workload-info">
-                                            <Icon
-                                                component={ICON_MAP[item.kind] || IconDeployment}
-                                            />
+                                        <div
+                                            className="workload-info"
+                                            style={
+                                                animationEnd
+                                                    ? { background: 'rgb(199, 227, 255)' }
+                                                    : {}
+                                            }
+                                        >
+                                            <SpaceIcon end={animationEnd}>
+                                                <Icon
+                                                    component={
+                                                        ICON_MAP[item.kind] || IconDeployment
+                                                    }
+                                                />
+                                            </SpaceIcon>
                                             <Tooltip title={`${item.appName}:${item.name}`}>
-                                                <div className="name">{`${item.appName}:${item.name}`}</div>
+                                                <div
+                                                    className="name"
+                                                    style={
+                                                        animationEnd
+                                                            ? { color: 'rgb(0, 128, 255)' }
+                                                            : { color: 'rgb(121, 135, 156)' }
+                                                    }
+                                                >{`${item.appName}:${item.name}`}</div>
                                             </Tooltip>
                                         </div>
                                     </div>

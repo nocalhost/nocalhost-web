@@ -22,6 +22,11 @@ import { ReactComponent as IconStatefulSet } from '../../../../images/icon/icon_
 import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg';
 import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow_blue.svg';
 import { ReactComponent as IconTracingHeader } from '../../../../images/icon/icon_normal_tracingHeaders.svg';
+import WayLeftDown from '../../../../images/mesh-icon/way_leftDown.svg';
+import WayLeftUp from '../../../../images/mesh-icon/way_leftUp.svg';
+import WayRightDown from '../../../../images/mesh-icon/way_rightDown.svg';
+import WayRightUp from '../../../../images/mesh-icon/way_rightUp.svg';
+import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
 
 const ICON_MAP: {
@@ -44,6 +49,64 @@ const SpaceIcon = styled.div<{ end: boolean }>`
         stroke: ${(props) => (props.end ? '#0080ff' : 'rgb(121, 135, 156);')};
     }
 `;
+
+// eslint-disable-next-line no-undef
+const WayLeft = styled.div<{ wayLeftWidth: number }>`
+    width: ${(props) => props.wayLeftWidth}px;
+    transform: translateX(-${(props) => props.wayLeftWidth}px);
+    /* height: 40px; */
+    position: absolute;
+    height: 40px;
+    bottom: -40px;
+    left: 50%;
+    display: flex;
+    .wayLeftDown {
+        background-image: url(${WayLeftDown});
+        width: 25px;
+        height: 40px;
+    }
+    .wayOrLine {
+        background-image: url(${wayOrLine});
+        width: ${(props) => props.wayLeftWidth - 50}px;
+        position: relative;
+        top: 15px;
+        height: 10px;
+    }
+    .wayLeftUp {
+        background-image: url(${WayLeftUp});
+        width: 25px;
+        height: 40px;
+    }
+`;
+// eslint-disable-next-line no-undef
+const WayRight = styled.div<{ wayRightWidth: number }>`
+    width: ${(props) => props.wayRightWidth}px;
+    transform: translateX(${(props) => props.wayRightWidth}px);
+    /* height: 40px; */
+    position: absolute;
+    height: 40px;
+    bottom: -40px;
+    right: 50%;
+    display: flex;
+    .wayRightDown {
+        background-image: url(${WayRightDown});
+        width: 25px;
+        height: 40px;
+    }
+    .wayOrLine {
+        background-image: url(${wayOrLine});
+        width: ${(props) => props.wayRightWidth - 50}px;
+        position: relative;
+        top: 15px;
+        height: 10px;
+    }
+    .wayRightUp {
+        background-image: url(${WayRightUp});
+        width: 25px;
+        height: 40px;
+    }
+`;
+
 // eslint-disable-next-line no-undef
 const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
     height: 100%;
@@ -146,6 +209,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         }
 
         .tracing-header {
+            position: relative;
             margin-top: 16px;
             height: 82px;
             padding: 16px;
@@ -209,6 +273,16 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
                 flex-direction: column;
                 .service-box {
                     border-radius: 4px;
+                    position: relative;
+                    .wayOrLine {
+                        position: absolute;
+                        right: -40px;
+                        width: 39px;
+                        height: 10px;
+                        background-image: url(${wayOrLine});
+                        top: 50%;
+                        transform: translateY(-10px);
+                    }
                 }
                 .service-box,
                 .selected-box {
@@ -314,9 +388,15 @@ const BaseSpace = ({
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
     const timer = useRef<number | null>(null);
+    const headRef = useRef<HTMLDivElement>(null);
+    const workLoadRef = useRef<HTMLDivElement>(null);
+    const selectBoxRef = useRef<HTMLDivElement>(null);
     // const secondBlueArrow = useRef<SVGSVGElement>(null);
     const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
     const [animationEnd, setAnimationEnd] = useState(false);
+    const [wayLeftWidth, setWayLeftWidth] = useState(0);
+    const [wayRightWidth, setWayRightWidth] = useState(0);
+
     useEffect(() => {
         if (currentSpace && appList.length > 0) {
             setShowBlueArrayIndex(1);
@@ -344,6 +424,17 @@ const BaseSpace = ({
             }
         });
     }, [showBlueArrayIndex]);
+    useEffect(() => {
+        if (currentStep === 1) {
+            const headWidth = headRef?.current?.offsetWidth || 0;
+            const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
+            const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
+            const width: number = Math.ceil(headWidth / 2 - workLoadWidth / 2);
+            const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
+            setWayLeftWidth(width);
+            setWayRightWidth(rightWidth);
+        }
+    }, [currentStep]);
     return (
         <ContentWrap hiddenIcon={currentSpace && appList.length > 0}>
             <div className="header">
@@ -362,7 +453,17 @@ const BaseSpace = ({
                     <span>{clusterName}</span>
                 </div>
                 {currentStep === 1 && (
-                    <div className="tracing-header">
+                    <div className="tracing-header" ref={headRef}>
+                        <WayLeft wayLeftWidth={wayLeftWidth}>
+                            <div className="wayLeftDown"></div>
+                            <div className="wayOrLine"></div>
+                            <div className="wayLeftUp"></div>
+                        </WayLeft>
+                        <WayRight wayRightWidth={wayRightWidth}>
+                            <div className="wayRightUp"></div>
+                            <div className="wayOrLine"></div>
+                            <div className="wayRightDown"></div>
+                        </WayRight>
                         <div className="content">
                             <div className="desc">
                                 {headerInfo ? (
@@ -385,8 +486,8 @@ const BaseSpace = ({
                         </div>
                     </div>
                 )}
-                <div className="main">
-                    <div className="workload-container">
+                <div className="main" style={currentStep === 1 ? { marginTop: '40px' } : {}}>
+                    <div className="workload-container" ref={workLoadRef}>
                         <div className="title">
                             <Icon component={IconSpace} style={{ fontSize: 32 }} />
                             <span>
@@ -406,6 +507,7 @@ const BaseSpace = ({
                                       }
                             }
                         >
+                            <div className="wayOrLine"></div>
                             {!currentSpace && (
                                 <div className="empty-box">
                                     <ImageEmpty />
@@ -470,7 +572,7 @@ const BaseSpace = ({
                                 </span>
                             </div>
 
-                            <div className="selected-box">
+                            <div className="selected-box" ref={selectBoxRef}>
                                 {selectedAppList.length === 0 && (
                                     <div className="empty-box">
                                         <ImageEmpty />

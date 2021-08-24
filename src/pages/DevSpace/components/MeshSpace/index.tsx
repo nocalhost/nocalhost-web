@@ -482,12 +482,7 @@ const MeshSpace = () => {
                                         </Form.Item>
                                     </div>
                                 )}
-                                <Form.Item
-                                    label={t('resources.meshSpace.devService')}
-                                    name="service_name"
-                                    rules={[{ required: true }]}
-                                    className="dev-service-item"
-                                >
+                                <div className="devServer">
                                     <div className="help-icon">
                                         <CommonIcon
                                             NormalIcon={IconHelp}
@@ -495,12 +490,20 @@ const MeshSpace = () => {
                                             title="xxxx"
                                         ></CommonIcon>
                                     </div>
-                                    <Select
-                                        mode="multiple"
-                                        onChange={handleSelectApp}
-                                        options={appList}
-                                    />
-                                </Form.Item>
+                                    <Form.Item
+                                        label={t('resources.meshSpace.devService')}
+                                        name="service_name"
+                                        rules={[{ required: true }]}
+                                        className="dev-service-item"
+                                    >
+                                        <Select
+                                            mode="multiple"
+                                            onChange={handleSelectApp}
+                                            options={appList}
+                                        />
+                                    </Form.Item>
+                                </div>
+
                                 <div className="resource-limit">
                                     <div className="resource-limit-check">
                                         <div className="limit-desc">

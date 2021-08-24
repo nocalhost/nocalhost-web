@@ -28,16 +28,17 @@ export const ContentWrap = styled.div`
             background: #f9fbfd;
             border-radius: 4px;
         }
-
-        .dev-service-item {
+        .devServer {
             position: relative;
-
             .help-icon {
                 position: absolute;
                 z-index: 10;
-                top: -29px;
+                top: 6px;
                 left: 74px;
             }
+        }
+        .dev-service-item {
+            position: relative;
         }
 
         .resource-limit {

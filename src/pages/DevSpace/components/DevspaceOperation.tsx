@@ -91,7 +91,7 @@ const DevspaceOperation = () => {
         },
     } = location;
 
-    console.log('>>> record: ', record, space_type);
+    // console.log('>>> record: ', record, space_type);
 
     const handleCancel = () => {
         history.push('/dashboard/devspace');

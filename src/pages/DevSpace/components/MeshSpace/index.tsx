@@ -63,7 +63,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
 
-    console.log('edit', record);
+    // console.log('edit', record);
 
     const timer = useRef<number | null>();
 

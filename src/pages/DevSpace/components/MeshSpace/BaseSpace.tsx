@@ -20,7 +20,7 @@ import { ReactComponent as IconJob } from '../../../../images/icon/icon_jobs.svg
 import { ReactComponent as IconCronjob } from '../../../../images/icon/icon_cronjob.svg';
 import { ReactComponent as IconStatefulSet } from '../../../../images/icon/icon_statefulsets.svg';
 import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg';
-import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow_blue.svg';
+import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow.svg';
 import { ReactComponent as IconTracingHeader } from '../../../../images/icon/icon_normal_tracingHeaders.svg';
 import WayLeftDown from '../../../../images/mesh-icon/way_leftDown.svg';
 import WayLeftUp from '../../../../images/mesh-icon/way_leftUp.svg';
@@ -28,6 +28,7 @@ import WayRightDown from '../../../../images/mesh-icon/way_rightDown.svg';
 import WayRightUp from '../../../../images/mesh-icon/way_rightUp.svg';
 import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
+import { ContentStyleProps } from './type';
 import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
 
 const ICON_MAP: {
@@ -58,7 +59,7 @@ const WayLeft = styled.div<{ wayLeftWidth: number }>`
     /* height: 40px; */
     position: absolute;
     height: 40px;
-    bottom: -40px;
+    top: 0;
     left: 50%;
     display: flex;
     .wayLeftDown {
@@ -86,7 +87,8 @@ const WayRight = styled.div<{ wayRightWidth: number }>`
     /* height: 40px; */
     position: absolute;
     height: 40px;
-    bottom: -40px;
+    top: 0;
+    /* bottom: -40px; */
     right: 50%;
     display: flex;
     .wayRightDown {
@@ -109,7 +111,7 @@ const WayRight = styled.div<{ wayRightWidth: number }>`
 `;
 
 // eslint-disable-next-line no-undef
-const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
+const ContentWrap = styled.div<ContentStyleProps>`
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -144,7 +146,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
             left: 50%;
             transform: translateX(-50%);
             top: 11px;
-            z-index: 2;
+            z-index: 3;
             animation: width-an 2s 0s 1 linear;
             animation-iteration-count: infinite;
         }
@@ -156,9 +158,48 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         }
         .blueArrow {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             top: 18px;
             animation: run-to-bottom 2s 0.1s 1 linear, run-to-top 2s 3.5s 1 linear;
+            animation-fill-mode: forwards;
+        }
+        .secondBlueArrow {
+            position: absolute;
+            z-index: 2;
+            top: 18px;
+            // cubic-bezier(0.65, -0.08, 1, 0.14)
+            // cubic-bezier(0.71, -0.14, 0.97, 0.69)
+            // cubic-bezier(.72,-0.03,1,.5)
+            animation: blue-to-bottom 2s 0.1s 1 linear,
+                blue-cubic-left 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                blue-cubic-bottom 0.5s 2.6s 1 linear, blue-line-left 2s 3.1s 1 linear,
+                blue-cubic-last-bottom 0.5s 5.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                blue-cubic-last-left 0.5s 5.1s 1 linear,
+                back-cubic-last-left 0.5s 6.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                back-blue-cubic-last-bottom 0.5s 6.6s 1 linear, back-blue-line-left 2s 7.1s 1 linear,
+                back-blue-cubic-bottom 0.5s 9.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                back-blue-cubic-left 0.5s 9.1s 1 linear, back-blue-to-bottom 2s 9.7s 1 linear;
+            animation-fill-mode: forwards;
+            // cubic-bezier(.51,0,1,.14)
+        }
+        .threeBlueArrow {
+            g {
+                fill: #12a75c;
+            }
+            position: absolute;
+            z-index: 2;
+            top: 18px;
+            animation: blue-to-bottom 2s 0.1s 1 linear,
+                green-cubic-right 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                green-cubic-bottom 0.5s 2.6s 1 linear, green-line-left 2.5s 3.1s 1 linear,
+                green-cubic-last-bottom 0.5s 5.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                green-cubic-last-right 0.5s 5.6s 1 linear, green-last-line-left 0.5s 7.1s 1 linear,
+                back-green-last-line-left 0.5s 8.6s 1 linear,
+                back-green-cubic-last-right 0.5s 10.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                back-green-cubic-last-bottom 0.5s 10.1s 1 linear,
+                back-green-line-left 2.5s 10.6s 1 linear, back-green-cubic-right 0.5s 13.1s 1 linear,
+                back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                back-blue-to-bottom 2s 13.7s 1 linear;
             animation-fill-mode: forwards;
         }
     }
@@ -174,6 +215,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
             width: 50px;
         }
     }
+
     @keyframes run-to-bottom {
         0% {
             transform: translateY(0);
@@ -192,13 +234,285 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
         }
     }
 
+    @keyframes green-cubic-right {
+        0% {
+            transform: translateX(4px) rotate(0deg);
+        }
+        100% {
+            transform: translateX(36px) rotate(-90deg);
+        }
+    }
+    @keyframes back-green-cubic-right {
+        0% {
+            transform: translateX(36px) rotate(90deg);
+        }
+        100% {
+            transform: translateX(4px) rotate(180deg);
+        }
+    }
+
+    @keyframes green-cubic-bottom {
+        0% {
+            top: 243px;
+        }
+        100% {
+            top: 269px;
+        }
+    }
+
+    @keyframes back-green-cubic-bottom {
+        0% {
+            top: 269px;
+        }
+        100% {
+            top: 243px;
+        }
+    }
+
+    @keyframes green-line-left {
+        0% {
+            transform: translateX(36px) rotate(-90deg);
+        }
+        100% {
+            transform: translateX(${(props) => props.wayRightWidth + 22}px) rotate(-90deg);
+        }
+    }
+    @keyframes back-green-line-left {
+        0% {
+            transform: translateX(${(props) => props.wayRightWidth + 22}px) rotate(90deg);
+        }
+        100% {
+            transform: translateX(36px) rotate(90deg);
+        }
+    }
+
+    @keyframes green-cubic-last-bottom {
+        0% {
+            top: 269px;
+        }
+        100% {
+            top: 300px;
+        }
+    }
+    @keyframes back-green-cubic-last-bottom {
+        100% {
+            top: 269px;
+        }
+        0% {
+            top: 300px;
+        }
+    }
+
+    @keyframes green-cubic-last-right {
+        0% {
+            transform: translateX(${(props) => props.wayRightWidth + 22}px) rotate(-90deg);
+        }
+        100% {
+            transform: translateX(${(props) => props.wayRightWidth + 46}px) rotate(0deg);
+        }
+    }
+
+    @keyframes back-green-cubic-last-right {
+        0% {
+            transform: translateX(${(props) => props.wayRightWidth + 46}px) rotate(180deg);
+        }
+        100% {
+            transform: translateX(${(props) => props.wayRightWidth + 22}px) rotate(90deg);
+        }
+    }
+
+    @keyframes green-last-line-left {
+        // 300 + 32 + 32 - 4
+        0% {
+            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            transform: translateX(
+                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 5}px
+                )
+                rotate(90deg);
+        }
+        100% {
+            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            transform: translateX(
+                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
+                )
+                rotate(90deg);
+        }
+    }
+
+    @keyframes back-green-last-line-left {
+        0% {
+            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            transform: translateX(
+                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
+                )
+                rotate(-90deg);
+        }
+        // 300 + 32 + 32 - 4
+        100% {
+            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            transform: translateX(
+                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9}px
+                )
+                rotate(-90deg);
+        }
+    }
+
+    @keyframes blue-to-bottom {
+        0% {
+            top: 18px;
+        }
+        100% {
+            top: 188px;
+        }
+    }
+
+    @keyframes back-blue-to-bottom {
+        0% {
+            top: 187px;
+            transform: translateX(0px) rotate(180deg);
+        }
+        100% {
+            top: 18px;
+            transform: translateX(0px) rotate(180deg);
+        }
+    }
+
+    @keyframes blue-cubic-bottom {
+        0% {
+            top: 244px;
+        }
+        100% {
+            top: 269px;
+        }
+    }
+
+    @keyframes back-blue-cubic-bottom {
+        0% {
+            top: 269px;
+        }
+        100% {
+            top: 226px;
+        }
+    }
+
+    @keyframes blue-cubic-left {
+        0% {
+            transform: translateX(-4px) rotate(0deg);
+        }
+        100% {
+            transform: translateX(-36px) rotate(90deg);
+        }
+    }
+
+    @keyframes back-blue-cubic-left {
+        0% {
+            transform: translateX(-36px) rotate(270deg);
+        }
+        100% {
+            transform: translateX(-4px) rotate(180deg);
+        }
+    }
+
+    @keyframes blue-line-left {
+        0% {
+            transform: translateX(-36px) rotate(90deg);
+        }
+        100% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 20}px) rotate(90deg);
+        }
+    }
+    @keyframes back-blue-line-left {
+        0% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 20}px) rotate(270deg);
+        }
+        100% {
+            transform: translateX(-36px) rotate(270deg);
+        }
+    }
+
+    @keyframes blue-cubic-last-bottom {
+        0% {
+            top: 269px;
+        }
+        100% {
+            top: 300px;
+        }
+    }
+    @keyframes back-blue-cubic-last-bottom {
+        0% {
+            top: 300px;
+        }
+        100% {
+            top: 269px;
+        }
+    }
+    @keyframes blue-cubic-last-left {
+        0% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 20}px) rotate(90deg);
+        }
+        100% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 46}px) rotate(0deg);
+        }
+    }
+
+    @keyframes back-cubic-last-left {
+        0% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 46}px) rotate(180deg);
+        }
+        100% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 20}px) rotate(270deg);
+        }
+    }
+
+    .wayLineBoth {
+        height: 40px;
+        position: relative;
+        width: 100%;
+        flex-shrink: 0;
+    }
     .content {
         background: #eff4f9;
         flex: 1;
         display: flex;
         flex-direction: column;
         padding: 16px 24px;
-
+        .wayOrLineD {
+            position: absolute;
+            right: ${(props) => props.selectBoxWidth + 16}px;
+            width: 39px;
+            height: 10px;
+            background-image: url(${wayOrLine});
+            top: ${(props) => props.selectBoxHeight / 2 + 40 + 64}px;
+            transform: translateY(-10px);
+            z-index: 1;
+        }
+        .mainZhe {
+            position: absolute;
+            top: 40px;
+            left: 16px;
+            width: 100%;
+            height: 16px;
+            background: rgb(239, 244, 249);
+            z-index: 3;
+        }
+        .serviceZhe {
+            position: absolute;
+            height: ${(props) => props.selectBoxHeight / 2 + 40 + 64 + 10}px;
+            width: 20px;
+            top: 106px;
+            right: ${(props) => props.selectBoxWidth + 57}px;
+            z-index: 3;
+            background: #fff;
+        }
+        .selectedZhe {
+            position: absolute;
+            height: ${(props) => props.selectBoxHeight / 2 + 40 + 64 + 10}px;
+            width: 20px;
+            top: 106px;
+            right: ${(props) => props.selectBoxWidth - 5}px;
+            z-index: 3;
+            background: #fff;
+        }
         .icon-wrap {
             display: flex;
             align-items: center;
@@ -214,6 +528,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
 
         .tracing-header {
             position: relative;
+            z-index: 3;
             margin-top: 16px;
             height: 82px;
             padding: 16px;
@@ -228,7 +543,7 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
                 justify-content: center;
                 align-items: center;
                 background: #ffffff;
-
+                padding: 10px 24px;
                 .desc {
                     background: rgb(239, 244, 249);
                     border-radius: 4px;
@@ -247,27 +562,48 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
 
         .main {
             position: relative;
-            z-index: 2;
+            z-index: 0;
             margin-top: 16px;
             padding: 16px;
-            flex: 1;
-            display: flex;
+            padding-top: 0px;
             background: rgb(239, 244, 249);
             border-radius: 4px;
+            height: 100%;
             box-shadow: inset -1px -1px 0 0 rgba(40, 47, 55, 0.05),
                 inset 1px 1px 0 0 rgba(255, 255, 255, 0.75),
                 -10px -10px 12px 0 rgba(255, 255, 255, 0.6), 12px 12px 12px 0 rgba(40, 47, 55, 0.05);
-
+            .main-shadow {
+                height: 16px;
+                width: 100%;
+                position: relative;
+                z-index: 2;
+            }
+            .wrap {
+                display: flex;
+                flex: 1;
+                height: 100%;
+            }
             .title {
                 display: flex;
                 align-items: center;
+                .title-info {
+                    display: flex;
+                    flex-direction: column;
 
-                span {
-                    margin-left: 8px;
-                    color: rgb(54, 67, 92);
-                    font-family: PingFangSC-Semibold;
-                    font-size: 14px;
-                    font-weight: 600;
+                    span {
+                        margin-left: 8px;
+                        color: rgb(54, 67, 92);
+                        font-family: PingFangSC-Semibold;
+                        font-size: 14px;
+                        font-weight: 600;
+
+                        &:nth-child(2) {
+                            color: rgb(121, 135, 156);
+                            font-family: PingFangSC-Regular;
+                            font-size: 12px;
+                            font-weight: normal;
+                        }
+                    }
                 }
             }
             .workload-container,
@@ -278,16 +614,16 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
                 .service-box {
                     border-radius: 4px;
                     position: relative;
-                    .wayOrLine {
+                    .arrowShadow {
                         position: absolute;
-                        right: -40px;
-                        width: 39px;
-                        height: 10px;
-                        background-image: url(${wayOrLine});
-                        top: 50%;
-                        transform: translateY(-10px);
+                        right: 0px;
+                        top: 0px;
+                        width: 20px;
+                        height: 100%;
+                        z-index: 2;
                     }
                 }
+
                 .service-box,
                 .selected-box {
                     padding: 12px 20px;
@@ -391,6 +727,7 @@ interface IProps {
     selectedAppList: any;
     currentStep: number;
     headerInfo: HeaderInfo | undefined;
+    shareSpace: any;
 }
 
 interface HeaderInfo {
@@ -405,6 +742,7 @@ const BaseSpace = ({
     selectedAppList,
     currentStep,
     headerInfo,
+    shareSpace,
 }: IProps) => {
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
@@ -412,17 +750,28 @@ const BaseSpace = ({
     const headRef = useRef<HTMLDivElement>(null);
     const workLoadRef = useRef<HTMLDivElement>(null);
     const selectBoxRef = useRef<HTMLDivElement>(null);
-    // const secondBlueArrow = useRef<SVGSVGElement>(null);
+    const secondBlueArrow = useRef<SVGSVGElement>(null);
+    const threeBlueArrow = useRef<SVGSVGElement>(null);
+    const wayOrLineRef = useRef<HTMLDivElement>(null);
+    const mainRef = useRef<HTMLDivElement>(null);
     const [showBlueArrayIndex, setShowBlueArrayIndex] = useState(0);
     const [animationEnd, setAnimationEnd] = useState(false);
     const [wayLeftWidth, setWayLeftWidth] = useState(0);
     const [wayRightWidth, setWayRightWidth] = useState(0);
-
+    const [selectBoxWidth, setSelectBoxWidth] = useState(0);
+    const [selectBoxHeight, setSelectBoxHeight] = useState(0);
+    const [wayOrLineOffsetTop, setWayOrLineOffsetTop] = useState(0);
+    const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
+    console.log(selectAnimationEnd);
     useEffect(() => {
         if (currentSpace && appList.length > 0) {
-            setShowBlueArrayIndex(1);
+            if (currentStep === 0) {
+                setShowBlueArrayIndex(1);
+            } else {
+                setShowBlueArrayIndex(2);
+            }
         } else {
-            setShowBlueArrayIndex(2);
+            setShowBlueArrayIndex(0);
         }
     }, [currentSpace, clusterName, appList]);
     const firstAnimationHandle = () => {
@@ -433,7 +782,7 @@ const BaseSpace = ({
             if (args[0]?.animationName === 'run-to-top') {
                 timer.current && clearTimeout(timer.current);
                 timer.current = null;
-                setShowBlueArrayIndex(2);
+                setShowBlueArrayIndex(0);
                 timer.current = window.setTimeout(() => {
                     setShowBlueArrayIndex(1);
                 }, 500);
@@ -445,28 +794,102 @@ const BaseSpace = ({
             }
         });
     };
-    useEffect(() => {
-        firstAnimationHandle();
-    }, [showBlueArrayIndex]);
+    const secondAnimationHandle = () => {
+        secondBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+            if (args[0]?.animationName === 'blue-cubic-last-left') {
+                setAnimationEnd(true);
+            }
+
+            if (args[0]?.animationName === 'back-blue-to-bottom') {
+                setShowBlueArrayIndex(3);
+            }
+        });
+        secondBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+            if (args[0]?.animationName === 'back-cubic-last-left') {
+                setAnimationEnd(false);
+            }
+        });
+    };
+    const threeAnimationHandle = () => {
+        threeBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+            if (args[0]?.animationName === 'blue-cubic-last-left') {
+                setSelectAnimationEnd(true);
+            }
+
+            if (args[0]?.animationName === 'back-blue-to-bottom') {
+                setShowBlueArrayIndex(2);
+            }
+        });
+    };
     useEffect(() => {
         if (currentStep === 1) {
+            setShowBlueArrayIndex(2);
             setAnimationEnd(false);
             const headWidth = headRef?.current?.offsetWidth || 0;
+            // const headHeight = headRef?.current?.offsetHeight || 0;
             const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
             const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
+            const selectBoxHeight = selectBoxRef?.current?.offsetHeight || 0;
             const width: number = Math.ceil(headWidth / 2 - workLoadWidth / 2);
             const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
+            const wayOrLineOffsetTop = wayOrLineRef?.current?.offsetTop || 0;
+            // const mainRefTop = mainRef?.current?.offsetTop || 0;
             setWayLeftWidth(width);
             setWayRightWidth(rightWidth);
+            setSelectBoxWidth(selectBoxWidth);
+            setSelectBoxHeight(selectBoxHeight);
+            setWayOrLineOffsetTop(wayOrLineOffsetTop);
         } else {
-            firstAnimationHandle();
+            setShowBlueArrayIndex(1);
         }
     }, [currentStep]);
+    useEffect(() => {
+        if (showBlueArrayIndex === 1 && currentStep == 0 && appList.length > 0) {
+            firstAnimationHandle();
+        }
+    }, [currentStep, appList, showBlueArrayIndex]);
+    useEffect(() => {
+        if (
+            currentStep == 1 &&
+            wayLeftWidth > 0 &&
+            appList.length > 0 &&
+            showBlueArrayIndex === 2
+        ) {
+            secondAnimationHandle();
+        }
+    }, [currentStep, wayLeftWidth, appList, showBlueArrayIndex]);
+    useEffect(() => {
+        if (
+            currentStep == 1 &&
+            wayRightWidth > 0 &&
+            appList.length > 0 &&
+            showBlueArrayIndex === 3
+        ) {
+            threeAnimationHandle();
+        }
+    }, [currentStep, wayRightWidth, appList, showBlueArrayIndex]);
+
     return (
-        <ContentWrap hiddenIcon={currentSpace && appList.length > 0}>
+        <ContentWrap
+            hiddenIcon={currentSpace && appList.length > 0}
+            wayLeftWidth={wayLeftWidth - 50}
+            wayRightWidth={wayRightWidth - 50}
+            selectBoxWidth={selectBoxWidth}
+            wayOrLineOffsetTop={wayOrLineOffsetTop}
+            selectBoxHeight={selectBoxHeight}
+        >
             <div className="header">
-                {showBlueArrayIndex === 1 && currentStep == 0 && (
+                {showBlueArrayIndex === 1 && currentStep == 0 && appList.length > 0 && (
                     <BlueArrow className="blueArrow" ref={firstBlueArrow}></BlueArrow>
+                )}
+                {currentStep == 1 &&
+                    wayLeftWidth > 0 &&
+                    appList.length > 0 &&
+                    showBlueArrayIndex === 2 && (
+                        <BlueArrow className="secondBlueArrow" ref={secondBlueArrow}></BlueArrow>
+                    )}
+                {currentStep == 1 && wayRightWidth > 0 && showBlueArrayIndex === 3 && (
+                    <BlueArrow className="threeBlueArrow" ref={threeBlueArrow}></BlueArrow>
                 )}
                 <ImageComputerUp className="computerUp" />
                 <ImageComputerDown className="computerDown" />
@@ -481,16 +904,6 @@ const BaseSpace = ({
                 </div>
                 {currentStep === 1 && (
                     <div className="tracing-header" ref={headRef}>
-                        <WayLeft wayLeftWidth={wayLeftWidth}>
-                            <div className="wayLeftDown"></div>
-                            <div className="wayOrLine"></div>
-                            <div className="wayLeftUp"></div>
-                        </WayLeft>
-                        <WayRight wayRightWidth={wayRightWidth}>
-                            <div className="wayRightUp"></div>
-                            <div className="wayOrLine"></div>
-                            <div className="wayRightDown"></div>
-                        </WayRight>
                         <div className="content">
                             <div className="desc">
                                 {headerInfo ? (
@@ -513,107 +926,75 @@ const BaseSpace = ({
                         </div>
                     </div>
                 )}
-                <div className="main" style={currentStep === 1 ? { marginTop: '40px' } : {}}>
-                    <div className="workload-container" ref={workLoadRef}>
-                        <div className="title">
-                            <Icon component={IconSpace} style={{ fontSize: 32 }} />
-                            <span>
-                                {currentSpace
-                                    ? currentSpace.space_name
-                                    : t('resources.meshSpace.basicSpace')}
-                            </span>
-                        </div>
-                        <div
-                            className="service-box"
-                            style={
-                                !animationEnd
-                                    ? { border: '1px solid transparent' }
-                                    : {
-                                          border: '1px solid rgba(0, 128, 255, 0.5)',
-                                          boxShadow: '0px 0px 10px 0px rgba(0, 128, 255, 0.2)',
-                                      }
-                            }
-                        >
+                {currentStep === 1 && (
+                    <div className="wayLineBoth">
+                        <WayLeft wayLeftWidth={wayLeftWidth}>
+                            <div className="wayLeftDown"></div>
                             <div className="wayOrLine"></div>
-                            {!currentSpace && (
-                                <div className="empty-box">
-                                    <ImageEmpty />
-                                    <span>{t('resources.meshSpace.selectBasicService')}</span>
-                                </div>
-                            )}
-                            {appList.map((item: any, key: number) => {
-                                return (
-                                    <div key={key} className="workload-item">
-                                        <div>
-                                            {animationEnd ? (
-                                                <Icon
-                                                    component={IconBlueWorkLoad}
-                                                    style={{ fontSize: 32 }}
-                                                ></Icon>
-                                            ) : (
-                                                <Icon
-                                                    component={IconWorkLoad}
-                                                    style={{ fontSize: 32 }}
-                                                />
-                                            )}
-                                        </div>
-                                        <div
-                                            className="workload-info"
-                                            style={
-                                                animationEnd
-                                                    ? { background: 'rgb(199, 227, 255)' }
-                                                    : {}
-                                            }
-                                        >
-                                            <SpaceIcon end={animationEnd}>
-                                                <Icon
-                                                    component={
-                                                        ICON_MAP[item.kind] || IconDeployment
-                                                    }
-                                                />
-                                            </SpaceIcon>
-                                            <Tooltip title={`${item.appName}:${item.name}`}>
-                                                <div
-                                                    className="name"
-                                                    style={
-                                                        animationEnd
-                                                            ? { color: 'rgb(0, 128, 255)' }
-                                                            : { color: 'rgb(121, 135, 156)' }
-                                                    }
-                                                >{`${item.appName}:${item.name}`}</div>
-                                            </Tooltip>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                            <div className="wayLeftUp"></div>
+                        </WayLeft>
+                        <WayRight wayRightWidth={wayRightWidth}>
+                            <div className="wayRightUp"></div>
+                            <div className="wayOrLine"></div>
+                            <div className="wayRightDown"></div>
+                        </WayRight>
+                        <div className="wayOrLineD" ref={wayOrLineRef}></div>
+                        <div className="mainZhe"></div>
+                        <div className="serviceZhe"></div>
+                        <div className="selectedZhe"></div>
                     </div>
-                    {currentStep === 1 && (
-                        <div className="selected-workload-container">
+                )}
+                <div
+                    className="main"
+                    style={currentStep === 1 ? { marginTop: '0px', zIndex: 0 } : { zIndex: 3 }}
+                    ref={mainRef}
+                >
+                    <div className="main-shadow"></div>
+                    <div className="wrap">
+                        <div className="workload-container" ref={workLoadRef}>
                             <div className="title">
                                 <Icon component={IconSpace} style={{ fontSize: 32 }} />
-                                <span>
-                                    {currentSpace
-                                        ? currentSpace.space_name
-                                        : t('resources.meshSpace.basicSpace')}
-                                </span>
+                                <div className="title-info">
+                                    <span>
+                                        {currentSpace?.space_name ??
+                                            t('resources.meshSpace.basicSpace')}
+                                    </span>
+                                    <span>{currentSpace?.namespace}</span>
+                                </div>
                             </div>
-
-                            <div className="selected-box" ref={selectBoxRef}>
-                                {selectedAppList.length === 0 && (
+                            <div
+                                className="service-box"
+                                style={
+                                    !animationEnd
+                                        ? { border: '1px solid transparent' }
+                                        : {
+                                              border: '1px solid rgba(0, 128, 255, 0.5)',
+                                              boxShadow: '0px 0px 10px 0px rgba(0, 128, 255, 0.2)',
+                                          }
+                                }
+                            >
+                                <div className="arrowShadow"></div>
+                                {!currentSpace && (
                                     <div className="empty-box">
                                         <ImageEmpty />
                                         <span>{t('resources.meshSpace.selectBasicService')}</span>
                                     </div>
                                 )}
-                                {selectedAppList.map((item: any, key: number) => {
+                                {appList.map((item: any, key: number) => {
                                     return (
                                         <div key={key} className="workload-item">
                                             <div className="icon-box">
-                                                <Icon
-                                                    component={IconWorkLoad}
-                                                    style={{ fontSize: 32 }}
-                                                />
+                                                {animationEnd ? (
+                                                    <Icon
+                                                        component={IconBlueWorkLoad}
+                                                        style={{ fontSize: 32 }}
+                                                    ></Icon>
+                                                ) : (
+                                                    <Icon
+                                                        component={IconWorkLoad}
+                                                        style={{ fontSize: 32 }}
+                                                    />
+                                                )}
                                                 <div className="tip-icon">
                                                     <CommonIcon
                                                         style={{ fontSize: 16 }}
@@ -624,14 +1005,30 @@ const BaseSpace = ({
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="workload-info">
-                                                <Icon
-                                                    component={
-                                                        ICON_MAP[item.kind] || IconDeployment
-                                                    }
-                                                />
-                                                <Tooltip title={item.name}>
-                                                    <div className="name">{item.name}</div>
+                                            <div
+                                                className="workload-info"
+                                                style={
+                                                    animationEnd
+                                                        ? { background: 'rgb(199, 227, 255)' }
+                                                        : {}
+                                                }
+                                            >
+                                                <SpaceIcon end={animationEnd}>
+                                                    <Icon
+                                                        component={
+                                                            ICON_MAP[item.kind] || IconDeployment
+                                                        }
+                                                    />
+                                                </SpaceIcon>
+                                                <Tooltip title={`${item.appName}:${item.name}`}>
+                                                    <div
+                                                        className="name"
+                                                        style={
+                                                            animationEnd
+                                                                ? { color: 'rgb(0, 128, 255)' }
+                                                                : { color: 'rgb(121, 135, 156)' }
+                                                        }
+                                                    >{`${item.appName}:${item.name}`}</div>
                                                 </Tooltip>
                                             </div>
                                         </div>
@@ -639,7 +1036,51 @@ const BaseSpace = ({
                                 })}
                             </div>
                         </div>
-                    )}
+                        {currentStep === 1 && (
+                            <div className="selected-workload-container">
+                                <div className="title">
+                                    <Icon component={IconSpace} style={{ fontSize: 32 }} />
+                                    <div className="title-info">
+                                        <span>{shareSpace?.name}</span>
+                                        <span>{shareSpace?.namespace}</span>
+                                    </div>
+                                </div>
+
+                                <div className="selected-box" ref={selectBoxRef}>
+                                    {selectedAppList.length === 0 && (
+                                        <div className="empty-box">
+                                            <ImageEmpty />
+                                            <span>
+                                                {t('resources.meshSpace.selectBasicService')}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {selectedAppList.map((item: any, key: number) => {
+                                        return (
+                                            <div key={key} className="workload-item">
+                                                <div>
+                                                    <Icon
+                                                        component={IconWorkLoad}
+                                                        style={{ fontSize: 32 }}
+                                                    />
+                                                </div>
+                                                <div className="workload-info">
+                                                    <Icon
+                                                        component={
+                                                            ICON_MAP[item.kind] || IconDeployment
+                                                        }
+                                                    />
+                                                    <Tooltip title={item.name}>
+                                                        <div className="name">{item.name}</div>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </ContentWrap>

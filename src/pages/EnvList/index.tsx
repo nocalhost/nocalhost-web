@@ -645,7 +645,13 @@ const EnvList = () => {
                     })}
                 />
             )}
-            {showChooseType && <ChooseType onCreateDev={onCreateDev} onCreateMesh={onCreateMesh} />}
+            {showChooseType && (
+                <ChooseType
+                    onCancel={() => setShowChooseType(false)}
+                    onCreateDev={onCreateDev}
+                    onCreateMesh={onCreateMesh}
+                />
+            )}
         </>
     );
 };

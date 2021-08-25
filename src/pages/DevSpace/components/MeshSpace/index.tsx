@@ -16,7 +16,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
 import CommonIcon from '../../../../components/CommonIcon';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 interface SelectMap {
     text?: any;
@@ -47,6 +47,7 @@ interface RouterParams {
 const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any }) => {
     const { t } = useTranslation();
     const location = useLocation<RouterParams>();
+    const history = useHistory();
     const space_id = location?.state?.record?.id;
     const [currentStep, setCurrentStep] = useState(space_id ? 1 : 0);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
@@ -65,8 +66,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
     const timer = useRef<number | null>();
     const [form] = Form.useForm();
-
-    console.log('record: ', record);
 
     async function getAllCluster() {
         const clusterMap = await queryAllCluster();
@@ -303,6 +302,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
 
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
+                    history.push('dashboard/devspace');
                 }
             }
         }
@@ -609,6 +609,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <Form.Item name="resource_limit_set">
                                             <Switch
                                                 checked={showLimit}
+                                                disabled={isEdit && !record?.deletable}
                                                 onChange={(checked: boolean) =>
                                                     setShowLimit(checked)
                                                 }

@@ -61,9 +61,11 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [clusterId, setClusterId] = useState<any>(location?.state?.record?.cluster_id);
     const [clusterMap, setClusterMap] = useState<any>();
     const [currentSpace, setCurrentSpace] = useState<any>();
+    const [shareSpace, setShareSpace] = useState<any>();
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
+    const [namespace, setNameSpace] = useState<string>('');
     const timer = useRef<number | null>();
     const [form] = Form.useForm();
 
@@ -185,7 +187,9 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
 
     async function generateNamespace() {
         const response = await HTTP.get(`cluster/${clusterId}/gen_namespace`);
-        return response.data.namespace;
+        if (response.code === 0) {
+            setNameSpace(response.data.namespace);
+        }
     }
 
     const handleClusterChange = (id: number) => {
@@ -204,6 +208,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
             setFormInfo({
                 ...values,
             });
+            !namespace && generateNamespace();
         } else {
             const { header, header_key, header_value } = values;
             const {
@@ -302,7 +307,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
 
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
-                    history.push('dashboard/devspace');
+                    history.push('/dashboard/devspace');
                 }
             }
         }
@@ -321,7 +326,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         setHeaderType(type);
         if (type !== 'Custom') {
             if (!headerInfo?.key) {
-                const namespace = await generateNamespace();
                 setHeaderInfo({
                     key: type,
                     value: namespace,
@@ -445,6 +449,20 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         }, 500);
     };
 
+    const handleInputSpaceName = () => {
+        if (timer.current) {
+            clearTimeout(timer.current);
+        }
+        timer.current = window.setTimeout(() => {
+            const values = form.getFieldsValue();
+            const { space_name } = values;
+            setShareSpace({
+                name: space_name,
+                namespace,
+            });
+        }, 500);
+    };
+
     const Step1Form = () => {
         return (
             <>
@@ -529,7 +547,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                     name="space_name"
                                     rules={[{ required: true }]}
                                 >
-                                    <Input />
+                                    <Input onChange={handleInputSpaceName} />
                                 </Form.Item>
 
                                 <Form.Item
@@ -656,6 +674,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                             selectedAppList={selectedAppList}
                             currentStep={currentStep}
                             headerInfo={headerInfo}
+                            shareSpace={shareSpace}
                         />
                     )}
                 </div>

@@ -6,7 +6,6 @@ export const ContentWrap = styled.div<{ isEdit: boolean }>`
     padding: ${(props) => (props.isEdit ? 0 : 24)}px;
 
     min-height: 772px;
-    margin-right: 24px;
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(40, 47, 55, 0.05);

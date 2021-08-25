@@ -242,7 +242,6 @@ const DevspaceForm = ({
                 // edit name
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
-                    is_base_space,
                 });
 
                 if (canSetLimit) {
@@ -351,7 +350,7 @@ const DevspaceForm = ({
                                     <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
                                 </DescBox>
                                 <Form.Item valuePropName="checked" name="is_base_space">
-                                    <Switch />
+                                    <Switch disabled={isEdit} />
                                 </Form.Item>
                             </FormFlexBox>
                         </OtherConfigItem>

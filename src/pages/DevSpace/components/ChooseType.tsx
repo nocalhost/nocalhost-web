@@ -23,8 +23,8 @@ const WrapBox = styled.div`
 
 const ContentBox = styled.div`
     width: 1052px;
-    padding-top: 180px;
     margin: 0 auto;
+    margin-top: 180px;
     display: flex;
     flex-direction: column;
 `;

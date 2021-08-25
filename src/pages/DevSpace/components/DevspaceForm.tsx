@@ -196,6 +196,7 @@ const DevspaceForm = ({
                 cluster_id,
                 cluster_admin,
                 user_id,
+                is_base_space,
                 container_limits_cpu,
                 container_limits_mem,
                 container_req_cpu,
@@ -241,6 +242,7 @@ const DevspaceForm = ({
                 // edit name
                 const response = await HTTP.put(`dev_space/${record.id}`, {
                     space_name,
+                    is_base_space,
                 });
 
                 if (canSetLimit) {
@@ -262,6 +264,7 @@ const DevspaceForm = ({
                 const response = await HTTP.post('dev_space', {
                     cluster_id,
                     cluster_admin: cluster_admin ? 1 : 0,
+                    is_base_space,
                     user_id,
                     space_name,
                     isLimit,
@@ -334,24 +337,24 @@ const DevspaceForm = ({
                         </Form.Item>
                     </FormFlexBox>
                 </OtherConfigItem>
-                <OtherConfigItem>
-                    <Icon component={IconBaseSpace} style={{ fontSize: 32, marginRight: 8 }} />
-                    <FormFlexBox>
-                        <DescBox>
-                            <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
-                            <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
-                        </DescBox>
-                        <Form.Item name="is_base_space">
-                            <Switch
-                                checked={isAdmin}
-                                disabled={isEdit}
-                                onChange={(checked) => setIsAdmin(checked)}
-                            />
-                        </Form.Item>
-                    </FormFlexBox>
-                </OtherConfigItem>
+
                 {!isAdmin && (
                     <>
+                        <OtherConfigItem>
+                            <Icon
+                                component={IconBaseSpace}
+                                style={{ fontSize: 32, marginRight: 8 }}
+                            />
+                            <FormFlexBox>
+                                <DescBox>
+                                    <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
+                                    <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
+                                </DescBox>
+                                <Form.Item valuePropName="checked" name="is_base_space">
+                                    <Switch />
+                                </Form.Item>
+                            </FormFlexBox>
+                        </OtherConfigItem>
                         <OtherConfigItem>
                             <Icon
                                 component={IconResource}

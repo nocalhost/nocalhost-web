@@ -285,7 +285,7 @@ const DevspaceOperation = () => {
                                 />
                             </PanelWrap>
                         ) : (
-                            <MeshSpace isEdit={true} />
+                            <MeshSpace isEdit={true} record={record} />
                         )}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">

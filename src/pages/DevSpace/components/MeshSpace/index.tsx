@@ -43,7 +43,7 @@ interface RouterParams {
     };
 }
 
-const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
+const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any }) => {
     const { t } = useTranslation();
     const location = useLocation<RouterParams>();
     const space_id = location?.state?.record?.id;
@@ -63,8 +63,7 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
 
-    const [defaultValue, setDefaultValue] = useState<any>([]);
-    console.log(defaultValue);
+    console.log('edit', record);
 
     const timer = useRef<number | null>();
 
@@ -165,13 +164,12 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                         });
                     });
                     setSelectedAppList(tmpSelectedList);
-                    setDefaultValue(tmpList);
                     form.setFieldsValue({
                         header: key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom',
                         header_key: key,
                         header_value: value,
                         service_name: tmpList,
-                        space_name: location?.state?.record?.space_name,
+                        space_name: record?.space_name,
                     });
 
                     setHeaderType(
@@ -266,7 +264,12 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                     }
                 );
 
-                if (response.code === 0) {
+                // modify name
+                const nameResult = await HTTP.put(`dev_space/${space_id}`, {
+                    space_name: values.space_name,
+                });
+
+                if (response.code === 0 && nameResult.code === 0) {
                     message.success(t('common.message.edit'));
                 }
             } else {
@@ -545,7 +548,6 @@ const MeshSpace = ({ isEdit = false }: { isEdit?: boolean }) => {
                                     <Form.Item
                                         label={t('resources.meshSpace.devService')}
                                         name="service_name"
-                                        rules={[{ required: true }]}
                                         className="dev-service-item"
                                     >
                                         <Select

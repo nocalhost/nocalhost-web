@@ -656,6 +656,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                             selectedAppList={selectedAppList}
                             currentStep={currentStep}
                             headerInfo={headerInfo}
+                            shareSpace={123}
                         />
                     )}
                 </div>

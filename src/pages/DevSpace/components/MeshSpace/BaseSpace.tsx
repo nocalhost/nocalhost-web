@@ -586,13 +586,24 @@ const ContentWrap = styled.div<ContentStyleProps>`
             .title {
                 display: flex;
                 align-items: center;
+                .title-info {
+                    display: flex;
+                    flex-direction: column;
 
-                span {
-                    margin-left: 8px;
-                    color: rgb(54, 67, 92);
-                    font-family: PingFangSC-Semibold;
-                    font-size: 14px;
-                    font-weight: 600;
+                    span {
+                        margin-left: 8px;
+                        color: rgb(54, 67, 92);
+                        font-family: PingFangSC-Semibold;
+                        font-size: 14px;
+                        font-weight: 600;
+
+                        &:nth-child(2) {
+                            color: rgb(121, 135, 156);
+                            font-family: PingFangSC-Regular;
+                            font-size: 12px;
+                            font-weight: normal;
+                        }
+                    }
                 }
             }
             .workload-container,
@@ -716,6 +727,7 @@ interface IProps {
     selectedAppList: any;
     currentStep: number;
     headerInfo: HeaderInfo | undefined;
+    shareSpace: any;
 }
 
 interface HeaderInfo {
@@ -730,6 +742,7 @@ const BaseSpace = ({
     selectedAppList,
     currentStep,
     headerInfo,
+    shareSpace,
 }: IProps) => {
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
@@ -941,11 +954,13 @@ const BaseSpace = ({
                         <div className="workload-container" ref={workLoadRef}>
                             <div className="title">
                                 <Icon component={IconSpace} style={{ fontSize: 32 }} />
-                                <span>
-                                    {currentSpace
-                                        ? currentSpace.space_name
-                                        : t('resources.meshSpace.basicSpace')}
-                                </span>
+                                <div className="title-info">
+                                    <span>
+                                        {currentSpace?.space_name ??
+                                            t('resources.meshSpace.basicSpace')}
+                                    </span>
+                                    <span>{currentSpace?.namespace}</span>
+                                </div>
                             </div>
                             <div
                                 className="service-box"
@@ -1025,11 +1040,10 @@ const BaseSpace = ({
                             <div className="selected-workload-container">
                                 <div className="title">
                                     <Icon component={IconSpace} style={{ fontSize: 32 }} />
-                                    <span>
-                                        {currentSpace
-                                            ? currentSpace.space_name
-                                            : t('resources.meshSpace.basicSpace')}
-                                    </span>
+                                    <div className="title-info">
+                                        <span>{shareSpace?.name}</span>
+                                        <span>{shareSpace?.namespace}</span>
+                                    </div>
                                 </div>
 
                                 <div className="selected-box" ref={selectBoxRef}>

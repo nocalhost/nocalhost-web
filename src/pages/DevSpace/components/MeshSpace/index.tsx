@@ -34,6 +34,7 @@ interface RouterParams {
     record: {
         id: number;
         base_dev_space_id: number;
+        base_dev_space_name: string;
         cluster_id: number;
         cluster_name: string;
         space_name: string;
@@ -62,12 +63,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
-
-    console.log('edit', record);
-
     const timer = useRef<number | null>();
-
     const [form] = Form.useForm();
+
+    console.log('record: ', record);
 
     async function getAllCluster() {
         const clusterMap = await queryAllCluster();
@@ -169,7 +168,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         header_key: key,
                         header_value: value,
                         service_name: tmpList,
-                        space_name: record?.space_name,
                     });
 
                     setHeaderType(
@@ -264,12 +262,25 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     }
                 );
 
+                let modifyFlag = response.code === 0;
                 // modify name
-                const nameResult = await HTTP.put(`dev_space/${space_id}`, {
-                    space_name: values.space_name,
-                });
+                if (record?.space_name !== values.space_name) {
+                    const nameResult = await HTTP.put(`dev_space/${space_id}`, {
+                        space_name: values.space_name,
+                    });
+                    modifyFlag = nameResult.code === 0;
+                }
 
-                if (response.code === 0 && nameResult.code === 0) {
+                // modify resource limit
+                if (record?.deletable) {
+                    const limitResp = await HTTP.put(
+                        `dev_space/${record.id}/update_resource_limit`,
+                        limitObj
+                    );
+                    modifyFlag = limitResp.code === 0;
+                }
+
+                if (modifyFlag) {
                     message.success(t('common.message.edit'));
                 }
             } else {
@@ -347,12 +358,31 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     useEffect(() => {
         if (isEdit) {
             form.setFieldsValue({
-                cluster_id: location?.state?.record?.cluster_id,
-                user_id: location?.state?.record?.owner?.id,
-                base_dev_space_id: location?.state?.record?.base_dev_space_id,
+                cluster_id: record?.cluster_id,
+                user_id: record?.owner?.id,
+                base_dev_space_id: record?.base_dev_space_name,
+                space_name: record?.space_name,
             });
+            setShowLimit(record?.resource_limit_set);
+            if (record?.resource_limit_set) {
+                let limitObj = {};
+                try {
+                    const resource_limit = JSON.parse(record.space_resource_limit);
+                    const obj: { [index: string]: any } = {};
+                    Object.keys(resource_limit).forEach((item) => {
+                        obj[item] = parseFloat(resource_limit[item]) || undefined;
+                    });
+                    limitObj = obj;
+                    form.setFieldsValue({
+                        ...limitObj,
+                        resource_limit_set: true,
+                    });
+                } catch (e) {
+                    limitObj = {};
+                }
+            }
         }
-    }, []);
+    }, [record]);
 
     const handleSelectApp = (value: any) => {
         try {
@@ -585,7 +615,11 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                             />
                                         </Form.Item>
                                     </div>
-                                    {showLimit && <ResourceLimit canSetLimit={true} />}
+                                    {showLimit && (
+                                        <ResourceLimit
+                                            canSetLimit={!isEdit || (isEdit && record?.deletable)}
+                                        />
+                                    )}
                                 </div>
                             </>
                         )}

@@ -28,6 +28,7 @@ import WayRightDown from '../../../../images/mesh-icon/way_rightDown.svg';
 import WayRightUp from '../../../../images/mesh-icon/way_rightUp.svg';
 import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
+import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
 
 const ICON_MAP: {
     [index: string]: React.FunctionComponent<
@@ -304,6 +305,23 @@ const ContentWrap = styled.div<{ hiddenIcon: boolean }>`
                         display: flex;
                         flex-direction: column;
                         align-items: center;
+
+                        .icon-box {
+                            position: relative;
+
+                            .tip-icon {
+                                position: absolute;
+                                top: 0;
+                                left: 100%;
+                                background: rgb(182, 194, 205);
+                                border-radius: 9.14px;
+                                height: 16px;
+                                width: 16px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                        }
                     }
 
                     .workload-info {
@@ -484,7 +502,7 @@ const BaseSpace = ({
                                     <CommonIcon
                                         NormalIcon={IconExplain}
                                         style={{ fontSize: 16, marginRight: 6 }}
-                                        title="xxxxxxx"
+                                        title={t('resources.meshSpace.tracingHeaderTip')}
                                     ></CommonIcon>
                                 )}
 
@@ -591,11 +609,20 @@ const BaseSpace = ({
                                 {selectedAppList.map((item: any, key: number) => {
                                     return (
                                         <div key={key} className="workload-item">
-                                            <div>
+                                            <div className="icon-box">
                                                 <Icon
                                                     component={IconWorkLoad}
                                                     style={{ fontSize: 32 }}
                                                 />
+                                                <div className="tip-icon">
+                                                    <CommonIcon
+                                                        style={{ fontSize: 16 }}
+                                                        NormalIcon={IconPath}
+                                                        title={t(
+                                                            'resources.meshSpace.shareWorkloadTip'
+                                                        )}
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="workload-info">
                                                 <Icon

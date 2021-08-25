@@ -312,7 +312,9 @@
                 "cluster_scope": "This space has cluster resource permissions",
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
-                "setLimitDesc": "Let me explain what to do after turning on the resource limit"
+                "setLimitDesc": "Let me explain what to do after turning on the resource limit",
+                "setBaseSpaceTip": "Whether to set as the basic development space",
+                "setBaseSpaceDesc": "Set as the basic development space, here is how to open it (not more than one line)"
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",
@@ -468,7 +470,9 @@
             "devService": "Dev Service",
             "selectCluster": "Please select a cluster in the form on the left",
             "selectBasicService": "Select development services from the basic development space",
-            "setTracingHeader": "Set Tracing Headers"
+            "setTracingHeader": "Set Tracing Headers",
+            "shareWorkloadTip": "xxxxx",
+            "tracingHeaderTip": "xxxxxxx"
         },
         "profile": {
             "name": "Profile",

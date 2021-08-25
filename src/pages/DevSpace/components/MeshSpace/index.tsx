@@ -501,7 +501,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     }}
                 />
             )}
-            <ContentWrap>
+            <ContentWrap isEdit={isEdit}>
                 <div className="left">
                     {!isEdit && (
                         <Steps
@@ -572,7 +572,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <CommonIcon
                                             NormalIcon={IconHelp}
                                             style={{ fontSize: 20 }}
-                                            title="xxxx"
                                         ></CommonIcon>
                                     </div>
                                     <Form.Item

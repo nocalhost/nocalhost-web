@@ -8,6 +8,7 @@ import HTTP from '../../../api/fetch';
 
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
+import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
 
@@ -125,6 +126,7 @@ const DevspaceForm = ({
                 cluster_admin,
                 resource_limit_set,
                 space_resource_limit,
+                is_base_space,
                 deletable,
             } = record;
             let limitObj = {};
@@ -151,6 +153,7 @@ const DevspaceForm = ({
                 cluster_id: cluster_name,
                 cluster_admin: Boolean(cluster_admin),
                 resource_limit_set: Boolean(resource_limit_set),
+                is_base_space,
                 ...limitObj,
             });
         }
@@ -325,19 +328,33 @@ const DevspaceForm = ({
                         </Form.Item>
                     </FormFlexBox>
                 </OtherConfigItem>
+                <OtherConfigItem>
+                    <Icon component={IconBaseSpace} style={{ fontSize: 32, marginRight: 8 }} />
+                    <FormFlexBox>
+                        <DescBox>
+                            <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
+                            <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
+                        </DescBox>
+                        <Form.Item name="is_base_space">
+                            <Switch
+                                checked={isAdmin}
+                                disabled={isEdit}
+                                onChange={(checked) => setIsAdmin(checked)}
+                            />
+                        </Form.Item>
+                    </FormFlexBox>
+                </OtherConfigItem>
                 {!isAdmin && (
                     <>
                         <OtherConfigItem>
                             <Icon
                                 component={IconResource}
-                                style={{ fontSize: 32, marginRight: 8 }}
+                                style={{ fontSize: 34, marginRight: 8 }}
                             />
                             <FormFlexBox>
                                 <DescBox>
                                     <span>{t('resources.space.fields.resource_limit')}</span>
-                                    {false && (
-                                        <span>{t('resources.space.fields.setLimitDesc')}</span>
-                                    )}
+                                    <span>{t('resources.space.fields.setLimitDesc')}</span>
                                 </DescBox>
                                 <Form.Item name="resource_limit_set">
                                     <Switch

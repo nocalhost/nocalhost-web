@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../../images/icon/icon_cluster.svg';
+import FlowImage from '../../../../images/icon/image_flow.svg';
 
 const Cluster = styled.div`
     height: 100%;
@@ -56,6 +57,9 @@ const ChooseCluster = () => {
     return (
         <Cluster>
             <div className="content">
+                <div className="image-bg">
+                    <img src={FlowImage} />
+                </div>
                 <div className="icon-wrap">
                     <Icon component={IconCluster} style={{ fontSize: 70 }} />
                 </div>

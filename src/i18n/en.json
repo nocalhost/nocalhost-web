@@ -430,8 +430,8 @@
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to create",
                 "sumOfItem": "Total {{count}} item",
-                "devSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
-                "meshSpaceDesc": "描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息。",
+                "devSpaceDesc": "Description information  information description ",
+                "meshSpaceDesc": "Description information   description information  description information description information description information description information description information description information description information description information description ",
                 "learnMore": "Learn More"
             }
         },

@@ -16,7 +16,7 @@ import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
 import CommonIcon from '../../../../components/CommonIcon';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 interface SelectMap {
     text?: any;
@@ -34,6 +34,7 @@ interface RouterParams {
     record: {
         id: number;
         base_dev_space_id: number;
+        base_dev_space_name: string;
         cluster_id: number;
         cluster_name: string;
         space_name: string;
@@ -46,6 +47,7 @@ interface RouterParams {
 const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any }) => {
     const { t } = useTranslation();
     const location = useLocation<RouterParams>();
+    const history = useHistory();
     const space_id = location?.state?.record?.id;
     const [currentStep, setCurrentStep] = useState(space_id ? 1 : 0);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
@@ -62,11 +64,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
-
-    // console.log('edit', record);
-
     const timer = useRef<number | null>();
-
     const [form] = Form.useForm();
 
     async function getAllCluster() {
@@ -169,7 +167,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         header_key: key,
                         header_value: value,
                         service_name: tmpList,
-                        space_name: record?.space_name,
                     });
 
                     setHeaderType(
@@ -264,12 +261,25 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     }
                 );
 
+                let modifyFlag = response.code === 0;
                 // modify name
-                const nameResult = await HTTP.put(`dev_space/${space_id}`, {
-                    space_name: values.space_name,
-                });
+                if (record?.space_name !== values.space_name) {
+                    const nameResult = await HTTP.put(`dev_space/${space_id}`, {
+                        space_name: values.space_name,
+                    });
+                    modifyFlag = nameResult.code === 0;
+                }
 
-                if (response.code === 0 && nameResult.code === 0) {
+                // modify resource limit
+                if (record?.deletable) {
+                    const limitResp = await HTTP.put(
+                        `dev_space/${record.id}/update_resource_limit`,
+                        limitObj
+                    );
+                    modifyFlag = limitResp.code === 0;
+                }
+
+                if (modifyFlag) {
                     message.success(t('common.message.edit'));
                 }
             } else {
@@ -292,6 +302,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
 
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
+                    history.push('dashboard/devspace');
                 }
             }
         }
@@ -347,12 +358,31 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     useEffect(() => {
         if (isEdit) {
             form.setFieldsValue({
-                cluster_id: location?.state?.record?.cluster_id,
-                user_id: location?.state?.record?.owner?.id,
-                base_dev_space_id: location?.state?.record?.base_dev_space_id,
+                cluster_id: record?.cluster_id,
+                user_id: record?.owner?.id,
+                base_dev_space_id: record?.base_dev_space_name,
+                space_name: record?.space_name,
             });
+            setShowLimit(record?.resource_limit_set);
+            if (record?.resource_limit_set) {
+                let limitObj = {};
+                try {
+                    const resource_limit = JSON.parse(record.space_resource_limit);
+                    const obj: { [index: string]: any } = {};
+                    Object.keys(resource_limit).forEach((item) => {
+                        obj[item] = parseFloat(resource_limit[item]) || undefined;
+                    });
+                    limitObj = obj;
+                    form.setFieldsValue({
+                        ...limitObj,
+                        resource_limit_set: true,
+                    });
+                } catch (e) {
+                    limitObj = {};
+                }
+            }
         }
-    }, []);
+    }, [record]);
 
     const handleSelectApp = (value: any) => {
         try {
@@ -471,7 +501,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     }}
                 />
             )}
-            <ContentWrap>
+            <ContentWrap isEdit={isEdit}>
                 <div className="left">
                     {!isEdit && (
                         <Steps
@@ -488,6 +518,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         layout="vertical"
                         style={{ marginTop: isEdit ? 0 : 30 }}
                         onFinish={handleSubmit}
+                        scrollToFirstError={true}
                     >
                         {currentStep === 0 && <Step1Form />}
                         {currentStep === 1 && (
@@ -542,7 +573,6 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <CommonIcon
                                             NormalIcon={IconHelp}
                                             style={{ fontSize: 20 }}
-                                            title="xxxx"
                                         ></CommonIcon>
                                     </div>
                                     <Form.Item
@@ -579,13 +609,18 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <Form.Item name="resource_limit_set">
                                             <Switch
                                                 checked={showLimit}
+                                                disabled={isEdit && !record?.deletable}
                                                 onChange={(checked: boolean) =>
                                                     setShowLimit(checked)
                                                 }
                                             />
                                         </Form.Item>
                                     </div>
-                                    {showLimit && <ResourceLimit canSetLimit={true} />}
+                                    {showLimit && (
+                                        <ResourceLimit
+                                            canSetLimit={!isEdit || (isEdit && record?.deletable)}
+                                        />
+                                    )}
                                 </div>
                             </>
                         )}

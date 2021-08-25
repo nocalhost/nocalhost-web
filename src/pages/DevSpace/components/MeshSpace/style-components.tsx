@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const ContentWrap = styled.div`
+// eslint-disable-next-line no-undef
+export const ContentWrap = styled.div<{ isEdit: boolean }>`
     display: flex;
-    padding: 24px;
+    padding: ${(props) => (props.isEdit ? 0 : 24)}px;
 
     min-height: 772px;
     margin-right: 24px;
@@ -30,13 +31,15 @@ export const ContentWrap = styled.div`
             background: #f9fbfd;
             border-radius: 4px;
         }
+
         .devServer {
             position: relative;
+
             .help-icon {
                 position: absolute;
                 z-index: 10;
-                top: 6px;
-                left: 74px;
+                top: 0;
+                left: 64px;
             }
         }
         .dev-service-item {

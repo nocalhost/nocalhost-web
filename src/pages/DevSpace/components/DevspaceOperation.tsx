@@ -196,28 +196,30 @@ const DevspaceOperation = () => {
             { cluster_user_id: id },
             { is_v2: true }
         );
-        let { cooper_user, viewer_user } = response.data[0];
-        const { owner } = response.data[0];
-        cooper_user = cooper_user.map((item: any) => {
-            return {
-                ...item,
-                shareType: 'Cooperator',
-            };
-        });
-        viewer_user = viewer_user.map((item: any) => {
-            return {
-                ...item,
-                shareType: 'Viewer',
-            };
-        });
-        const tmpList = cooper_user.concat(viewer_user);
-        setSpaceOwner(owner);
-        setUserList(tmpList);
-        setFilterList(tmpList);
-        setNewRecord({
-            ...record,
-            ...response.data[0],
-        });
+        try {
+            let { cooper_user, viewer_user } = response.data[0];
+            const { owner } = response.data[0];
+            cooper_user = cooper_user.map((item: any) => {
+                return {
+                    ...item,
+                    shareType: 'Cooperator',
+                };
+            });
+            viewer_user = viewer_user.map((item: any) => {
+                return {
+                    ...item,
+                    shareType: 'Viewer',
+                };
+            });
+            const tmpList = cooper_user.concat(viewer_user);
+            setSpaceOwner(owner);
+            setUserList(tmpList);
+            setFilterList(tmpList);
+            setNewRecord({
+                ...record,
+                ...response.data[0],
+            });
+        } catch (e) {}
     }
 
     const handleSearch = (value: string) => {
@@ -285,7 +287,7 @@ const DevspaceOperation = () => {
                                 />
                             </PanelWrap>
                         ) : (
-                            <MeshSpace isEdit={true} record={record} />
+                            <MeshSpace isEdit={true} record={newRecord} />
                         )}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab={<ShareUserTitle count={userList.length} />} key="2">

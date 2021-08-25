@@ -127,14 +127,22 @@ const CardItem = styled.div`
 const ChooseType = ({
     onCreateDev,
     onCreateMesh,
+    onCancel,
 }: {
     onCreateDev: () => void;
     onCreateMesh: () => void;
+    onCancel?: () => void;
 }) => {
     const { t } = useTranslation();
+    const handleCancel = () => {
+        onCancel && onCancel();
+    };
+    const handleClickContent = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
     return (
-        <WrapBox>
-            <ContentBox>
+        <WrapBox onClick={handleCancel}>
+            <ContentBox onClick={handleClickContent}>
                 <ContentTitle>{t('resources.devSpace.tips.chooseType')}</ContentTitle>
 
                 <CardBox>

@@ -313,7 +313,9 @@
                 "cluster_scope": "该空间拥有集群资源权限",
                 "setAdminTip": "是否设置为集群管理员",
                 "setAdminDesc": "设置为集群管理员，则该用户有权限添加编辑用户、集群",
-                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下"
+                "setLimitDesc": "开启资源限制之后怎么样怎么样这里说明一下",
+                "setBaseSpaceTip": "是否设置为基础开发空间",
+                "setBaseSpaceDesc": "设置为基础开发空间，则这里说明一下开启后可以怎么样（不可超过一行）"
             },
             "actions": {
                 "create": "创建开发空间",
@@ -469,7 +471,9 @@
             "devService": "开发服务",
             "selectCluster": "请在左侧表单选择集群",
             "selectBasicService": "从基础开发空间选择开发服务",
-            "setTracingHeader": "Set Tracing Headers"
+            "setTracingHeader": "Set Tracing Headers",
+            "shareWorkloadTip": "xxxxx",
+            "tracingHeaderTip": "xxxxxxx"
         },
         "profile": {
             "name": "个人信息",

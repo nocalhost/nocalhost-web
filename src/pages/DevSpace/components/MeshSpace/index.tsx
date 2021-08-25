@@ -518,6 +518,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         layout="vertical"
                         style={{ marginTop: isEdit ? 0 : 30 }}
                         onFinish={handleSubmit}
+                        scrollToFirstError={true}
                     >
                         {currentStep === 0 && <Step1Form />}
                         {currentStep === 1 && (

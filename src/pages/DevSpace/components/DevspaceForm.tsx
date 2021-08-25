@@ -279,7 +279,13 @@ const DevspaceForm = ({
 
     return (
         <>
-            <Form style={{ minWidth: 632 }} form={form} layout="vertical" onFinish={handleSubmit}>
+            <Form
+                style={{ minWidth: 632 }}
+                form={form}
+                layout="vertical"
+                scrollToFirstError={true}
+                onFinish={handleSubmit}
+            >
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
                     <Input />
                 </Form.Item>

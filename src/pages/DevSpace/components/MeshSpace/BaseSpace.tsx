@@ -592,9 +592,9 @@ const ContentWrap = styled.div<ContentStyleProps>`
             background: rgb(239, 244, 249);
             border-radius: 4px;
             height: 100%;
-            box-shadow: inset -1px -1px 0 0 rgba(40, 47, 55, 0.05),
-                inset 1px 1px 0 0 rgba(255, 255, 255, 0.75),
-                -10px -10px 12px 0 rgba(255, 255, 255, 0.6), 12px 12px 12px 0 rgba(40, 47, 55, 0.05);
+            // box-shadow: inset -1px -1px 0 0 rgba(40, 47, 55, 0.05),
+            //     inset 1px 1px 0 0 rgba(255, 255, 255, 0.75),
+            //     -10px -10px 12px 0 rgba(255, 255, 255, 0.6), 12px 12px 12px 0 rgba(40, 47, 55, 0.05);
             .main-shadow {
                 height: 16px;
                 width: 100%;

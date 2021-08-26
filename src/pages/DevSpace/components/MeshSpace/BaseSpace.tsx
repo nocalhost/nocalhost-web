@@ -32,6 +32,7 @@ import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
 import { ContentStyleProps, SpaceIconStyleProps } from './type';
 import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
+import { windowAnimationStartHandle, windowAnimationEndHandle } from './windowAnimationHandle';
 
 const ICON_MAP: {
     [index: string]: React.FunctionComponent<
@@ -798,7 +799,7 @@ const BaseSpace = ({
         }
     }, [currentSpace, clusterName, appList]);
     const firstAnimationHandle = () => {
-        firstBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+        windowAnimationEndHandle(firstBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'run-to-bottom') {
                 setAnimationEnd(true);
             }
@@ -811,14 +812,14 @@ const BaseSpace = ({
                 }, 500);
             }
         });
-        firstBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+        windowAnimationStartHandle(firstBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'run-to-top') {
                 setAnimationEnd(false);
             }
         });
     };
     const secondAnimationHandle = () => {
-        secondBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+        windowAnimationEndHandle(secondBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'blue-cubic-last-left') {
                 setAnimationEnd(true);
             }
@@ -831,23 +832,19 @@ const BaseSpace = ({
                 } else {
                     setShowBlueArrayIndex(0);
                     timer.current = window.setTimeout(() => {
-                        if (headerInfo) {
-                            setShowBlueArrayIndex(2);
-                        } else {
-                            setShowBlueArrayIndex(3);
-                        }
+                        setShowBlueArrayIndex(2);
                     }, 500);
                 }
             }
         });
-        secondBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+        windowAnimationStartHandle(secondBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'back-cubic-last-left') {
                 setAnimationEnd(false);
             }
         });
     };
     const threeAnimationHandle = () => {
-        threeBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
+        windowAnimationEndHandle(threeBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'green-cubic-last-right') {
                 setSelectAnimationEnd(true);
             }
@@ -868,7 +865,8 @@ const BaseSpace = ({
                 setShowBlueArrayIndex(2);
             }
         });
-        threeBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+
+        windowAnimationStartHandle(threeBlueArrow?.current, function (...args: any) {
             if (args[0]?.animationName === 'back-green-cubic-last-right') {
                 setSelectAnimationEnd(false);
             }

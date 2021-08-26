@@ -93,4 +93,5 @@ export const Sub = styled.div`
     text-overflow: ellipsis;
     max-width: 100%;
     margin-right: 6px;
+    min-height: 20px;
 `;

@@ -635,7 +635,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             .selected-workload-container {
                 flex: 2;
                 display: flex;
-                padding: 0 16px 14px;
+                padding: 14px 16px;
                 flex-direction: column;
                 .service-box {
                     border-radius: 4px;
@@ -1210,7 +1210,7 @@ const BaseSpace = ({
                                                   boxShadow:
                                                       '0px 0px 10px 0px rgba(27, 203, 122, 0.2)',
                                               }
-                                            : { border: '1px solid transparent' }
+                                            : { border: '1px dashed #dae1e8' }
                                     }
                                     ref={selectBoxRef}
                                 >

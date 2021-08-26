@@ -189,8 +189,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         }
     }
 
-    async function generateNamespace() {
-        const response = await HTTP.get(`cluster/${clusterId}/gen_namespace`);
+    async function generateNamespace(user_id: string) {
+        const response = await HTTP.get(`cluster/${clusterId}/gen_namespace`, {
+            user_id,
+        });
         if (response.code === 0) {
             setNameSpace(response.data.namespace);
         }
@@ -212,7 +214,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
             setFormInfo({
                 ...values,
             });
-            !namespace && generateNamespace();
+            !namespace && generateNamespace(values.user_id);
         } else {
             const { header, header_key, header_value } = values;
             const {

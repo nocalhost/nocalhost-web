@@ -332,17 +332,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         const type = e.target.value;
         setHeaderType(type);
         if (type !== 'Custom') {
-            if (!headerInfo?.key) {
-                setHeaderInfo({
-                    key: type,
-                    value: namespace,
-                });
-            } else {
-                setHeaderInfo({
-                    ...headerInfo,
-                    key: type,
-                });
-            }
+            setHeaderInfo({
+                key: type,
+                value: namespace,
+            });
         } else {
             const values: { [index: string]: string } = form.getFieldsValue();
             const { header_key, header_value } = values;
@@ -392,6 +385,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     limitObj = {};
                 }
             }
+            setNameSpace(record?.namespace);
             setCurrentSpace({
                 space_name: record?.base_dev_space_name,
                 namespace: record?.base_dev_space_namespace,

@@ -581,7 +581,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             .wrap {
                 display: flex;
                 flex: 1;
-                height: 100%;
+                height: calc(100% - 16px);
             }
             .title {
                 display: flex;
@@ -633,7 +633,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
                     flex-wrap: wrap;
                     justify-content: space-between;
                     align-content: flex-start;
-
+                    border-radius: 4px;
                     .workload-item {
                         margin-bottom: 12px;
                         height: 60px;
@@ -812,12 +812,23 @@ const BaseSpace = ({
     };
     const threeAnimationHandle = () => {
         threeBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
-            if (args[0]?.animationName === 'blue-cubic-last-left') {
+            if (args[0]?.animationName === 'green-cubic-last-right') {
+                setSelectAnimationEnd(true);
+            }
+            if (args[0]?.animationName === 'back-green-last-line-left') {
                 setSelectAnimationEnd(true);
             }
 
             if (args[0]?.animationName === 'back-blue-to-bottom') {
                 setShowBlueArrayIndex(2);
+            }
+        });
+        threeBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {
+            if (args[0]?.animationName === 'back-green-cubic-last-right') {
+                setSelectAnimationEnd(false);
+            }
+            if (args[0]?.animationName === 'green-last-line-left') {
+                setSelectAnimationEnd(false);
             }
         });
     };
@@ -1045,8 +1056,19 @@ const BaseSpace = ({
                                         <span>{shareSpace?.namespace}</span>
                                     </div>
                                 </div>
-
-                                <div className="selected-box" ref={selectBoxRef}>
+                                <div
+                                    className="selected-box"
+                                    style={
+                                        selectAnimationEnd && selectedAppList.length > 0
+                                            ? {
+                                                  border: '1px solid rgb(26, 196, 111)',
+                                                  boxShadow:
+                                                      '0px 0px 10px 0px rgba(27, 203, 122, 0.2)',
+                                              }
+                                            : { border: '1px solid transparent' }
+                                    }
+                                    ref={selectBoxRef}
+                                >
                                     {selectedAppList.length === 0 && (
                                         <div className="empty-box">
                                             <ImageEmpty />

@@ -10,6 +10,7 @@ import { ReactComponent as IconCluster } from '../../../../images/icon/icon_clus
 import { ReactComponent as IconSpace } from '../../../../images/icon/icon_normal_devspace.svg';
 import { ReactComponent as IconWorkLoad } from '../../../../images/icon/image_normal_applicationService.svg';
 import { ReactComponent as IconBlueWorkLoad } from '../../../../images/icon/image_active_blue_applicationService.svg';
+import { ReactComponent as IconGreenWorkLoad } from '../../../../images/icon/image_active_green_applicationService.svg';
 import { ReactComponent as ImageEmpty } from '../../../../images/icon/image_empty_space.svg';
 import { ReactComponent as ImageComputerUp } from '../../../../images/mesh-icon/image_computerUp.svg';
 import { ReactComponent as ImageComputerDown } from '../../../../images/mesh-icon/image_computerDown.svg';
@@ -28,7 +29,7 @@ import WayRightDown from '../../../../images/mesh-icon/way_rightDown.svg';
 import WayRightUp from '../../../../images/mesh-icon/way_rightUp.svg';
 import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
-import { ContentStyleProps } from './type';
+import { ContentStyleProps, SpaceIconStyleProps } from './type';
 import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
 
 const ICON_MAP: {
@@ -46,9 +47,17 @@ const ICON_MAP: {
 };
 
 // eslint-disable-next-line no-undef
-const SpaceIcon = styled.div<{ end: boolean }>`
+const SpaceIcon = styled.div<SpaceIconStyleProps>`
     g {
-        stroke: ${(props) => (props.end ? '#0080ff' : 'rgb(121, 135, 156);')};
+        stroke: ${(props) =>
+            props.end ? '#0080ff' : props.selectEnd ? '#12a75c' : 'rgb(121, 135, 156);'};
+    }
+`;
+
+// eslint-disable-next-line no-undef
+const SelectIcon = styled.div<{ end: boolean }>`
+    g {
+        stroke: ${(props) => (props.end ? '#12a75c' : 'rgb(121, 135, 156);')};
     }
 `;
 
@@ -324,14 +333,14 @@ const ContentWrap = styled.div<ContentStyleProps>`
     @keyframes green-last-line-left {
         // 300 + 32 + 32 - 4
         0% {
-            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 5}px
                 )
                 rotate(90deg);
         }
         100% {
-            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
                 )
@@ -341,7 +350,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
 
     @keyframes back-green-last-line-left {
         0% {
-            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
                 )
@@ -349,7 +358,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
         }
         // 300 + 32 + 32 - 4
         100% {
-            top: ${(props) => props.selectBoxHeight / 2 + 64 + 300 - 15}px;
+            top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9}px
                 )
@@ -482,7 +491,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             width: 39px;
             height: 10px;
             background-image: url(${wayOrLine});
-            top: ${(props) => props.selectBoxHeight / 2 + 40 + 64}px;
+            top: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40}px;
             transform: translateY(-10px);
             z-index: 1;
         }
@@ -497,18 +506,18 @@ const ContentWrap = styled.div<ContentStyleProps>`
         }
         .serviceZhe {
             position: absolute;
-            height: ${(props) => props.selectBoxHeight / 2 + 40 + 64 + 10}px;
+            height: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40 + 10}px;
             width: 20px;
-            top: 106px;
+            top: 114px;
             right: ${(props) => props.selectBoxWidth + 57}px;
             z-index: 3;
             background: #fff;
         }
         .selectedZhe {
             position: absolute;
-            height: ${(props) => props.selectBoxHeight / 2 + 40 + 64 + 10}px;
+            height: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40 + 10}px;
             width: 20px;
-            top: 106px;
+            top: 114px;
             right: ${(props) => props.selectBoxWidth - 5}px;
             z-index: 3;
             background: #fff;
@@ -586,6 +595,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             .title {
                 display: flex;
                 align-items: center;
+                min-height: 40px;
                 .title-info {
                     display: flex;
                     flex-direction: column;
@@ -762,7 +772,7 @@ const BaseSpace = ({
     const [selectBoxHeight, setSelectBoxHeight] = useState(0);
     const [wayOrLineOffsetTop, setWayOrLineOffsetTop] = useState(0);
     const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
-    console.log(selectAnimationEnd);
+    const [selectAnimationSpaceEnd, setSelectAnimationSpaceEnd] = useState(false);
     useEffect(() => {
         if (currentSpace && appList.length > 0) {
             if (currentStep === 0) {
@@ -819,6 +829,10 @@ const BaseSpace = ({
                 setSelectAnimationEnd(true);
             }
 
+            if (args[0]?.animationName === 'green-last-line-left') {
+                setSelectAnimationSpaceEnd(true);
+            }
+
             if (args[0]?.animationName === 'back-blue-to-bottom') {
                 setShowBlueArrayIndex(2);
             }
@@ -829,6 +843,9 @@ const BaseSpace = ({
             }
             if (args[0]?.animationName === 'green-last-line-left') {
                 setSelectAnimationEnd(false);
+            }
+            if (args[0]?.animationName === 'back-green-last-line-left') {
+                setSelectAnimationSpaceEnd(false);
             }
         });
     };
@@ -976,12 +993,17 @@ const BaseSpace = ({
                             <div
                                 className="service-box"
                                 style={
-                                    !animationEnd
-                                        ? { border: '1px solid transparent' }
-                                        : {
+                                    animationEnd
+                                        ? {
                                               border: '1px solid rgba(0, 128, 255, 0.5)',
                                               boxShadow: '0px 0px 10px 0px rgba(0, 128, 255, 0.2)',
                                           }
+                                        : selectAnimationSpaceEnd && selectedAppList?.length === 0
+                                        ? {
+                                              border: '1px solid rgb(26, 196, 111)',
+                                              boxShadow: '0px 0px 10px 0px rgba(27, 203, 122, 0.2)',
+                                          }
+                                        : { border: '1px solid transparent' }
                                 }
                             >
                                 <div className="arrowShadow"></div>
@@ -1000,6 +1022,15 @@ const BaseSpace = ({
                                                         component={IconBlueWorkLoad}
                                                         style={{ fontSize: 32 }}
                                                     ></Icon>
+                                                ) : selectAnimationSpaceEnd &&
+                                                  !selectedAppList.find(
+                                                      (el: any) =>
+                                                          el.name === `${item.appName}:${item.name}`
+                                                  ) ? (
+                                                    <Icon
+                                                        component={IconGreenWorkLoad}
+                                                        style={{ fontSize: 32 }}
+                                                    />
                                                 ) : (
                                                     <Icon
                                                         component={IconWorkLoad}
@@ -1012,10 +1043,27 @@ const BaseSpace = ({
                                                 style={
                                                     animationEnd
                                                         ? { background: 'rgb(199, 227, 255)' }
+                                                        : selectAnimationSpaceEnd &&
+                                                          !selectedAppList.find(
+                                                              (el: any) =>
+                                                                  el.name ===
+                                                                  `${item.appName}:${item.name}`
+                                                          )
+                                                        ? { background: '#baedd4' }
                                                         : {}
                                                 }
                                             >
-                                                <SpaceIcon end={animationEnd}>
+                                                <SpaceIcon
+                                                    end={animationEnd}
+                                                    selectEnd={
+                                                        selectAnimationSpaceEnd &&
+                                                        !selectedAppList.find(
+                                                            (el: any) =>
+                                                                el.name ===
+                                                                `${item.appName}:${item.name}`
+                                                        )
+                                                    }
+                                                >
                                                     <Icon
                                                         component={
                                                             ICON_MAP[item.kind] || IconDeployment
@@ -1028,6 +1076,16 @@ const BaseSpace = ({
                                                         style={
                                                             animationEnd
                                                                 ? { color: 'rgb(0, 128, 255)' }
+                                                                : selectAnimationSpaceEnd &&
+                                                                  !selectedAppList.find(
+                                                                      (el: any) => {
+                                                                          return (
+                                                                              el.name ===
+                                                                              `${item.appName}:${item.name}`
+                                                                          );
+                                                                      }
+                                                                  )
+                                                                ? { color: '#12a75c' }
                                                                 : { color: 'rgb(121, 135, 156)' }
                                                         }
                                                     >{`${item.appName}:${item.name}`}</div>
@@ -1072,10 +1130,17 @@ const BaseSpace = ({
                                         return (
                                             <div key={key} className="workload-item">
                                                 <div className="icon-box">
-                                                    <Icon
-                                                        component={IconWorkLoad}
-                                                        style={{ fontSize: 32 }}
-                                                    />
+                                                    {selectAnimationEnd ? (
+                                                        <Icon
+                                                            component={IconGreenWorkLoad}
+                                                            style={{ fontSize: 32 }}
+                                                        />
+                                                    ) : (
+                                                        <Icon
+                                                            component={IconWorkLoad}
+                                                            style={{ fontSize: 32 }}
+                                                        />
+                                                    )}
                                                     <div className="tip-icon">
                                                         <CommonIcon
                                                             style={{ fontSize: 16 }}
@@ -1086,14 +1151,36 @@ const BaseSpace = ({
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="workload-info">
-                                                    <Icon
-                                                        component={
-                                                            ICON_MAP[item.kind] || IconDeployment
-                                                        }
-                                                    />
+                                                <div
+                                                    className="workload-info"
+                                                    style={
+                                                        selectAnimationEnd
+                                                            ? { background: '#baedd4' }
+                                                            : {}
+                                                    }
+                                                >
+                                                    <SelectIcon end={selectAnimationEnd}>
+                                                        <Icon
+                                                            component={
+                                                                ICON_MAP[item.kind] ||
+                                                                IconDeployment
+                                                            }
+                                                        />
+                                                    </SelectIcon>
                                                     <Tooltip title={item.name}>
-                                                        <div className="name">{item.name}</div>
+                                                        <div
+                                                            className="name"
+                                                            style={
+                                                                selectAnimationEnd
+                                                                    ? { color: '#12a75c' }
+                                                                    : {
+                                                                          color:
+                                                                              'rgb(121, 135, 156)',
+                                                                      }
+                                                            }
+                                                        >
+                                                            {item.name}
+                                                        </div>
                                                     </Tooltip>
                                                 </div>
                                             </div>

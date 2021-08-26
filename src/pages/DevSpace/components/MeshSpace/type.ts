@@ -17,3 +17,8 @@ export interface ContentStyleProps {
     wayOrLineOffsetTop: number;
     selectBoxHeight: number;
 }
+
+export interface SpaceIconStyleProps {
+    selectEnd: boolean;
+    end: boolean;
+}

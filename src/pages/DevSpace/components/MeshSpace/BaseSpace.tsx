@@ -353,7 +353,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) =>
-                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4 - 15}px
+                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4 - 16}px
                 )
                 rotate(90deg);
         }
@@ -373,7 +373,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
                     ${(props) =>
-                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9 - 12}px
+                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9 - 14}px
                 )
                 rotate(-90deg);
         }

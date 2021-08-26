@@ -139,10 +139,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                 });
 
                 setAppList(tmpList);
-                if (space_id) {
+                if (isEdit) {
                     // edit
                     const {
-                        header: { key, value },
+                        header: { key, value, type },
                     } = data;
 
                     const tmpList: any = [];
@@ -164,27 +164,24 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         });
                     });
                     setSelectedAppList(tmpSelectedList);
-                    const isDefault = key === 'uberctx-trace' || key === 'baggage-trace';
+                    const isDefault = type !== 'custom';
                     form.setFieldsValue({
-                        header: isDefault ? key : 'Custom',
+                        header: type,
                         header_key: isDefault ? '' : key,
                         header_value: isDefault ? '' : value,
                         service_name: tmpList,
                     });
 
-                    setHeaderType(
-                        key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom'
-                    );
+                    setHeaderType(type);
 
                     setCurrentSpace({
-                        space_id: location?.state?.record?.base_dev_space_id,
+                        space_id: record?.base_dev_space_id,
                     });
-                    if (isEdit) {
-                        setHeaderInfo({
-                            key,
-                            value,
-                        });
-                    }
+
+                    setHeaderInfo({
+                        key,
+                        value,
+                    });
                 }
             } catch (e) {
                 setAppList([]);
@@ -265,11 +262,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     `dev_space/${space_id}/update_mesh_dev_space_info`,
                     {
                         header: {
-                            key: header === 'Custom' ? header_key : headerInfo?.key,
-                            value: header === 'Custom' ? header_value : headerInfo?.value,
+                            type: header,
+                            key: header === 'custom' ? header_key : headerInfo?.key,
+                            value: header === 'custom' ? header_value : headerInfo?.value,
                         },
                         apps: meshAppInfo,
-                        namespace: headerInfo?.key,
+                        namespace,
                     }
                 );
 
@@ -304,11 +302,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     isLimit: Boolean(resource_limit_set),
                     mesh_dev_info: {
                         header: {
-                            key: header === 'Custom' ? header_key : headerInfo?.key,
-                            value: header === 'Custom' ? header_value : headerInfo?.value,
+                            type: header,
+                            key: header === 'custom' ? header_key : headerInfo?.key,
+                            value: header === 'custom' ? header_value : headerInfo?.value,
                         },
                         apps: meshAppInfo,
-                        namespace: headerInfo?.value,
+                        namespace,
                     },
                 });
 
@@ -332,17 +331,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         const type = e.target.value;
         setHeaderType(type);
         if (type !== 'Custom') {
-            if (!headerInfo?.key) {
-                setHeaderInfo({
-                    key: type,
-                    value: namespace,
-                });
-            } else {
-                setHeaderInfo({
-                    ...headerInfo,
-                    key: type,
-                });
-            }
+            setHeaderInfo({
+                key: type,
+                value: namespace,
+            });
         } else {
             const values: { [index: string]: string } = form.getFieldsValue();
             const { header_key, header_value } = values;
@@ -392,6 +384,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     limitObj = {};
                 }
             }
+            setNameSpace(record?.namespace);
             setCurrentSpace({
                 space_name: record?.base_dev_space_name,
                 namespace: record?.base_dev_space_namespace,
@@ -571,12 +564,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                     rules={[{ required: true }]}
                                 >
                                     <Radio.Group onChange={handleChangeHeader}>
-                                        <Radio value={'uberctx-trace'}>Jaeger</Radio>
-                                        <Radio value={'baggage-trace'}>Zipkin</Radio>
-                                        <Radio value={'Custom'}>Custom</Radio>
+                                        <Radio value="jaeger">Jaeger</Radio>
+                                        <Radio value="zipkin">Zipkin</Radio>
+                                        <Radio value="custom">Custom</Radio>
                                     </Radio.Group>
                                 </Form.Item>
-                                {headerType === 'Custom' && (
+                                {headerType === 'custom' && (
                                     <div className="header-box">
                                         <Form.Item
                                             label="Tracing Headers"

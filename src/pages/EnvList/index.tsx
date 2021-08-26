@@ -272,9 +272,11 @@ const EnvList = () => {
                                     visible={index === popVisibleIndex}
                                     content={
                                         <>
-                                            <PopItem onClick={() => handleReset(record)}>
-                                                {t('common.bt.reset')}
-                                            </PopItem>
+                                            {!record.is_base_space && (
+                                                <PopItem onClick={() => handleReset(record)}>
+                                                    {t('common.bt.reset')}
+                                                </PopItem>
+                                            )}
                                             {record.deletable && (
                                                 <PopItem
                                                     onClick={() => {

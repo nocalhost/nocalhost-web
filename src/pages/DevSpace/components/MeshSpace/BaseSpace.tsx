@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../../images/icon/icon_cluster.svg';
 import { ReactComponent as IconSpace } from '../../../../images/icon/icon_normal_devspace.svg';
-import { ReactComponent as IconWorkLoad } from '../../../../images/icon/image_normal_applicationService.svg';
-import { ReactComponent as IconBlueWorkLoad } from '../../../../images/icon/image_active_blue_applicationService.svg';
+import IconWorkLoad from '../../../../images/icon/image_normal_applicationService.svg';
+import IconBlueWorkLoad from '../../../../images/icon/image_active_blue_applicationService.svg';
 import { ReactComponent as ImageEmpty } from '../../../../images/icon/image_empty_space.svg';
 import { ReactComponent as ImageComputerUp } from '../../../../images/mesh-icon/image_computerUp.svg';
 import { ReactComponent as ImageComputerDown } from '../../../../images/mesh-icon/image_computerDown.svg';
@@ -997,14 +997,14 @@ const BaseSpace = ({
                                         <div key={key} className="workload-item">
                                             <div className="icon-box">
                                                 {animationEnd ? (
-                                                    <Icon
-                                                        component={IconBlueWorkLoad}
-                                                        style={{ fontSize: 32 }}
-                                                    ></Icon>
+                                                    <img
+                                                        src={IconBlueWorkLoad}
+                                                        style={{ width: 32, height: 34 }}
+                                                    />
                                                 ) : (
-                                                    <Icon
-                                                        component={IconWorkLoad}
-                                                        style={{ fontSize: 32 }}
+                                                    <img
+                                                        src={IconWorkLoad}
+                                                        style={{ width: 32, height: 34 }}
                                                     />
                                                 )}
                                             </div>
@@ -1073,9 +1073,9 @@ const BaseSpace = ({
                                         return (
                                             <div key={key} className="workload-item">
                                                 <div className="icon-box">
-                                                    <Icon
-                                                        component={IconWorkLoad}
-                                                        style={{ fontSize: 32 }}
+                                                    <img
+                                                        src={IconWorkLoad}
+                                                        style={{ width: 32, height: 34 }}
                                                     />
                                                     <div className="tip-icon">
                                                         <CommonIcon

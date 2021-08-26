@@ -584,8 +584,6 @@ const ContentWrap = styled.div<ContentStyleProps>`
             position: relative;
             z-index: 0;
             margin-top: 16px;
-            padding: 16px;
-            padding-top: 0px;
             background: rgb(239, 244, 249);
             border-radius: 4px;
             height: 100%;
@@ -632,6 +630,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             .selected-workload-container {
                 flex: 2;
                 display: flex;
+                padding: 0 16px 14px;
                 flex-direction: column;
                 .service-box {
                     border-radius: 4px;
@@ -735,9 +734,24 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 }
             }
 
+            .workload-container {
+                background: rgb(239, 244, 249);
+                border-radius: 4px;
+                box-shadow: inset -1px -1px 0px 0px rgba(40, 47, 55, 0.05),
+                    inset 1px 1px 0px 0px rgba(255, 255, 255, 0.75),
+                    -10px -10px 12px 0px rgba(255, 255, 255, 0.6),
+                    12px 12px 12px 0px rgba(40, 47, 55, 0.05);
+            }
+
             .selected-workload-container {
                 flex: 1;
                 margin-left: 40px;
+                background: rgb(239, 244, 249);
+                border-radius: 4px;
+                box-shadow: inset -1px -1px 0px 0px rgba(40, 47, 55, 0.05),
+                    inset 1px 1px 0px 0px rgba(255, 255, 255, 0.75),
+                    -10px -10px 12px 0px rgba(255, 255, 255, 0.6),
+                    12px 12px 12px 0px rgba(40, 47, 55, 0.05);
             }
         }
     }
@@ -1061,7 +1075,7 @@ const BaseSpace = ({
                                               border: '1px solid rgb(26, 196, 111)',
                                               boxShadow: '0px 0px 10px 0px rgba(27, 203, 122, 0.2)',
                                           }
-                                        : { border: '1px solid transparent' }
+                                        : { border: '1px solid #dae1e8' }
                                 }
                             >
                                 <div className="arrowShadow"></div>

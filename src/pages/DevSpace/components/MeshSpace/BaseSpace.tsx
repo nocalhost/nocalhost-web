@@ -724,14 +724,19 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 .service-box,
                 .selected-box {
                     flex: 2;
+                    position: relative;
 
                     .empty-box {
-                        width: 100%;
-                        height: 100%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: 110px;
+                        height: 147px;
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
+                        transform: translate(-50%, -50%);
 
                         span {
                             margin-top: 8px;

@@ -26,6 +26,7 @@ interface StyleType {
     color?: string;
     marginLeft?: string | number;
     marginRight?: string | number;
+    opacity?: number;
 }
 
 interface PropsType {

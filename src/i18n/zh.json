@@ -88,7 +88,8 @@
             "reset": "重置",
             "select": "选择",
             "next": "下一步",
-            "prev": "上一步"
+            "prev": "上一步",
+            "disabled": "当前页面不支持伸缩菜单"
         },
         "select": {
             "all": "全部"

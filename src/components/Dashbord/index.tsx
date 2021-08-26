@@ -19,7 +19,12 @@ import { ReactComponent as IconNormalClusters } from '../../images/icon/icon_nor
 import { ReactComponent as IconSelectedClusters } from '../../images/icon/icon_electedl_clusters.svg';
 import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
 import { ReactComponent as IconSelectedDevspace } from '../../images/icon/icon_elected_devspace.svg';
-
+// interface RouterParams {
+//     record?: {
+//         id: number;
+//         space_type: 'IsolateSpace' | 'ShareSpace';
+//     };
+// }
 function Dashbord() {
     // const history = useHistory();
     const urlParams = useLocation();
@@ -27,6 +32,11 @@ function Dashbord() {
     // const { user } = useContext(UserContext);
     const [expand, setExpand] = useState(true);
     const { t } = useTranslation();
+    const state: any = urlParams.state;
+    const isMeshAnimation =
+        urlParams.pathname === '/dashboard/devspace/mesh-space' ||
+        (urlParams.pathname === '/dashboard/devspace/space-operation' &&
+            state?.record?.space_type === 'ShareSpace');
 
     const DASHBOARD = [
         {
@@ -79,12 +89,17 @@ function Dashbord() {
             })}
             {/* <div onClick={toAppliction}>application</div>
             <div onClick={toUser}>user</div> */}
-            <Bottom expand={expand} onClick={() => setExpand(!expand)}>
+            <Bottom
+                expand={expand}
+                onClick={() => {
+                    !isMeshAnimation && setExpand(!expand);
+                }}
+            >
                 <CommonIcon
-                    // title={t('common.bt.expand')}
+                    title={isMeshAnimation ? t('common.bt.disabled') : ''}
                     HoverIcon={expand ? IconArrowLeftHover : IconArrowRightHover}
                     NormalIcon={expand ? IconArrowLeftNormal : IconArrowRightNormal}
-                    style={{ fontSize: '20px' }}
+                    style={{ fontSize: '20px', opacity: isMeshAnimation ? 0.5 : 1 }}
                 ></CommonIcon>
                 {/* {expand ? (
                     <CommonIcon

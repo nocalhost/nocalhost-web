@@ -177,9 +177,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             position: absolute;
             z-index: 2;
             top: 18px;
-            // cubic-bezier(0.65, -0.08, 1, 0.14)
-            // cubic-bezier(0.71, -0.14, 0.97, 0.69)
-            // cubic-bezier(.72,-0.03,1,.5)
+            // cubic-bezier(0.68, -0.03, 0.95, 0.11),
             animation: blue-to-bottom 2s 0.1s 1 linear,
                 blue-cubic-left 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
                 blue-cubic-bottom 0.5s 2.6s 1 linear, blue-line-left 2s 3.1s 1 linear,
@@ -187,7 +185,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 blue-cubic-last-left 0.5s 5.1s 1 linear,
                 back-cubic-last-left 0.5s 6.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
                 back-blue-cubic-last-bottom 0.5s 6.6s 1 linear, back-blue-line-left 2s 7.1s 1 linear,
-                back-blue-cubic-bottom 0.5s 9.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                back-blue-cubic-bottom 0.5s 9.1s 1 cubic-bezier(0.68, -0.03, 0.85, 0.15),
                 back-blue-cubic-left 0.5s 9.1s 1 linear, back-blue-to-bottom 2s 9.7s 1 linear;
             animation-fill-mode: forwards;
             // cubic-bezier(.51,0,1,.14)
@@ -208,7 +206,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 back-green-cubic-last-right 0.5s 10.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
                 back-green-cubic-last-bottom 0.5s 10.1s 1 linear,
                 back-green-line-left 2.5s 10.6s 1 linear, back-green-cubic-right 0.5s 13.1s 1 linear,
-                back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+                back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.68, -0.03, 0.85, 0.15),
                 back-blue-to-bottom 2s 14.2s 1 linear;
             animation-fill-mode: forwards;
         }
@@ -988,7 +986,9 @@ const BaseSpace = ({
                                         title={t('resources.meshSpace.tracingHeaderTip')}
                                     ></CommonIcon>
                                 )}
-                                <span style={greenCluster ? { color: '#12a75c' } : {}}>
+                                <span
+                                    style={greenCluster && headerInfo ? { color: '#12a75c' } : {}}
+                                >
                                     {headerInfo
                                         ? `cluster:${headerInfo?.key}=${headerInfo?.value}`
                                         : t('resources.meshSpace.setTracingHeader')}

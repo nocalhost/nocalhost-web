@@ -81,7 +81,8 @@
             "reset": "Reset",
             "select": "Select",
             "next": "Next",
-            "prev": "Previous"
+            "prev": "Previous",
+            "disabled": "The current page does not support scaling"
         },
         "info": {
             "logout": "Sign out",

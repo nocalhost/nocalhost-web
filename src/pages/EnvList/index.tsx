@@ -181,7 +181,7 @@ const EnvList = () => {
                 return (
                     <FlexBox>
                         {record.cluster_admin ? 'ClusterScope' : record.namespace}
-                        {record.cluster_admin && (
+                        {record.cluster_admin === 1 && (
                             <Popover>
                                 <CommonIcon
                                     NormalIcon={IconLimits}

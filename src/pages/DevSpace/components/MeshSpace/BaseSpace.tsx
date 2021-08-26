@@ -345,14 +345,15 @@ const ContentWrap = styled.div<ContentStyleProps>`
         0% {
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
-                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 5}px
+                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 5 - 12}px
                 )
                 rotate(90deg);
         }
         100% {
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
-                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
+                    ${(props) =>
+                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4 - 15}px
                 )
                 rotate(90deg);
         }
@@ -362,7 +363,8 @@ const ContentWrap = styled.div<ContentStyleProps>`
         0% {
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
-                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4}px
+                    ${(props) =>
+                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 - 40 + 4 - 12}px
                 )
                 rotate(-90deg);
         }
@@ -370,7 +372,8 @@ const ContentWrap = styled.div<ContentStyleProps>`
         100% {
             top: ${(props) => props.selectBoxHeight / 2 + 32 + 40 + 300 - 15}px;
             transform: translateX(
-                    ${(props) => props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9}px
+                    ${(props) =>
+                        props.wayRightWidth + 22 - props.selectBoxWidth / 2 + 10 + 9 - 12}px
                 )
                 rotate(-90deg);
         }
@@ -503,19 +506,29 @@ const ContentWrap = styled.div<ContentStyleProps>`
         padding: 16px 24px;
         .wayOrLineD {
             position: absolute;
-            right: ${(props) => props.selectBoxWidth + 16}px;
-            width: 39px;
+            right: ${(props) => props.selectBoxWidth + 31}px;
+            width: 40px;
             height: 10px;
             background-image: url(${wayOrLine});
             top: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40}px;
             transform: translateY(-10px);
             z-index: 1;
         }
-        .mainZhe {
+
+        .mainZheLeft {
             position: absolute;
             top: 40px;
-            left: 16px;
-            width: 100%;
+            left: ${(props) => props.workLoadWidth / 2 - 40}px;
+            width: 80px;
+            height: 16px;
+            background: rgb(239, 244, 249);
+            z-index: 3;
+        }
+        .mainZheRight {
+            position: absolute;
+            top: 40px;
+            right: ${(props) => props.selectBoxWidth / 2 - 40}px;
+            width: 80px;
             height: 16px;
             background: rgb(239, 244, 249);
             z-index: 3;
@@ -523,20 +536,20 @@ const ContentWrap = styled.div<ContentStyleProps>`
         .serviceZhe {
             position: absolute;
             height: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40 + 10}px;
-            width: 20px;
+            width: 15px;
             top: 114px;
-            right: ${(props) => props.selectBoxWidth + 57}px;
+            right: ${(props) => props.selectBoxWidth + 57 + 32 - 17}px;
             z-index: 3;
-            background: #fff;
+            background: rgb(239, 244, 249);
         }
         .selectedZhe {
             position: absolute;
             height: ${(props) => props.selectBoxHeight / 2 + 40 + 32 + 40 + 10}px;
-            width: 20px;
+            width: 15px;
             top: 114px;
-            right: ${(props) => props.selectBoxWidth - 5}px;
+            right: ${(props) => props.selectBoxWidth - 5 + 21}px;
             z-index: 3;
-            background: #fff;
+            background: rgb(239, 244, 249);
         }
         .icon-wrap {
             display: flex;
@@ -595,12 +608,6 @@ const ContentWrap = styled.div<ContentStyleProps>`
             // box-shadow: inset -1px -1px 0 0 rgba(40, 47, 55, 0.05),
             //     inset 1px 1px 0 0 rgba(255, 255, 255, 0.75),
             //     -10px -10px 12px 0 rgba(255, 255, 255, 0.6), 12px 12px 12px 0 rgba(40, 47, 55, 0.05);
-            .main-shadow {
-                height: 16px;
-                width: 100%;
-                position: relative;
-                z-index: 2;
-            }
             .wrap {
                 display: flex;
                 flex: 1;
@@ -808,6 +815,7 @@ const BaseSpace = ({
     const [selectBoxWidth, setSelectBoxWidth] = useState(0);
     const [selectBoxHeight, setSelectBoxHeight] = useState(0);
     const [wayOrLineOffsetTop, setWayOrLineOffsetTop] = useState(0);
+    const [workLoadWidth, setWorkLoadWidth] = useState(0);
     const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
     const [selectAnimationSpaceEnd, setSelectAnimationSpaceEnd] = useState(false);
     const [greenCluster, setGreenCluster] = useState(false);
@@ -924,6 +932,7 @@ const BaseSpace = ({
             setWayLeftWidth(width);
             setWayRightWidth(rightWidth);
             setSelectBoxWidth(selectBoxWidth);
+            setWorkLoadWidth(workLoadWidth);
             setSelectBoxHeight(selectBoxHeight);
             setWayOrLineOffsetTop(wayOrLineOffsetTop);
         } else {
@@ -986,6 +995,7 @@ const BaseSpace = ({
             selectBoxWidth={selectBoxWidth}
             wayOrLineOffsetTop={wayOrLineOffsetTop}
             selectBoxHeight={selectBoxHeight}
+            workLoadWidth={workLoadWidth}
         >
             <div className="header">
                 {showBlueArrayIndex === 1 && currentStep == 0 && appList.length > 0 && (
@@ -1068,7 +1078,8 @@ const BaseSpace = ({
                             <div className="wayRightDown"></div>
                         </WayRight>
                         <div className="wayOrLineD" ref={wayOrLineRef}></div>
-                        <div className="mainZhe"></div>
+                        <div className="mainZheLeft"></div>
+                        <div className="mainZheRight"></div>
                         <div className="serviceZhe"></div>
                         <div className="selectedZhe"></div>
                     </div>
@@ -1078,7 +1089,6 @@ const BaseSpace = ({
                     style={currentStep === 1 ? { marginTop: '0px', zIndex: 0 } : { zIndex: 3 }}
                     ref={mainRef}
                 >
-                    <div className="main-shadow"></div>
                     <div className="wrap">
                         <div className="workload-container" ref={workLoadRef}>
                             <div className="title">

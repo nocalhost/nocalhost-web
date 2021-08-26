@@ -16,6 +16,7 @@ export interface ContentStyleProps {
     selectBoxWidth: number;
     wayOrLineOffsetTop: number;
     selectBoxHeight: number;
+    workLoadWidth: number;
 }
 
 export interface SpaceIconStyleProps {

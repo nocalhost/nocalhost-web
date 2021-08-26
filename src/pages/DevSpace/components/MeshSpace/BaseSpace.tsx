@@ -255,7 +255,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             transform: translateX(36px) rotate(90deg);
         }
         50% {
-            transform: translateX(12px) rotate(135deg);
+            transform: translateX(14px) rotate(135deg);
         }
         100% {
             transform: translateX(4px) rotate(180deg);
@@ -317,6 +317,9 @@ const ContentWrap = styled.div<ContentStyleProps>`
     @keyframes green-cubic-last-right {
         0% {
             transform: translateX(${(props) => props.wayRightWidth + 22}px) rotate(-90deg);
+        }
+        50% {
+            transform: translateX(${(props) => props.wayRightWidth + 40}px) rotate(-80deg);
         }
         100% {
             transform: translateX(${(props) => props.wayRightWidth + 46}px) rotate(0deg);
@@ -463,6 +466,9 @@ const ContentWrap = styled.div<ContentStyleProps>`
     @keyframes blue-cubic-last-left {
         0% {
             transform: translateX(-${(props) => props.wayLeftWidth + 20}px) rotate(90deg);
+        }
+        50% {
+            transform: translateX(-${(props) => props.wayLeftWidth + 33}px) rotate(70deg);
         }
         100% {
             transform: translateX(-${(props) => props.wayLeftWidth + 46}px) rotate(0deg);
@@ -819,7 +825,20 @@ const BaseSpace = ({
             }
 
             if (args[0]?.animationName === 'back-blue-to-bottom') {
-                setShowBlueArrayIndex(3);
+                timer.current && clearTimeout(timer.current);
+                timer.current = null;
+                if (headerInfo) {
+                    setShowBlueArrayIndex(3);
+                } else {
+                    setShowBlueArrayIndex(0);
+                    timer.current = window.setTimeout(() => {
+                        if (headerInfo) {
+                            setShowBlueArrayIndex(2);
+                        } else {
+                            setShowBlueArrayIndex(3);
+                        }
+                    }, 500);
+                }
             }
         });
         secondBlueArrow?.current?.addEventListener('webkitAnimationStart', function (...args: any) {

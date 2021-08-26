@@ -474,7 +474,10 @@
             "selectBasicService": "从基础开发空间选择开发服务",
             "setTracingHeader": "Set Tracing Headers",
             "shareWorkloadTip": "xxxxx",
-            "tracingHeaderTip": "xxxxxxx"
+            "tracingHeaderTip": "xxxxxxx",
+            "selectUser": "请选择所有者",
+            "selectClusterPlaceholder": "请选择集群",
+            "selectBaseSpace": "请选择基础开发空间"
         },
         "profile": {
             "name": "个人信息",

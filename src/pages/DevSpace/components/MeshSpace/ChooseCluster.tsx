@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconCluster } from '../../../../images/icon/icon_cluster.svg';
 import FlowImage from '../../../../images/icon/image_flow.svg';
+import FlowImageEn from '../../../../images/icon/image_enFlow.svg';
 
 const Cluster = styled.div`
     height: 100%;
@@ -53,12 +54,12 @@ const Cluster = styled.div`
 `;
 
 const ChooseCluster = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (
         <Cluster>
             <div className="content">
                 <div className="image-bg">
-                    <img src={FlowImage} />
+                    <img src={i18n.language === 'zh' ? FlowImage : FlowImageEn} />
                 </div>
                 <div className="icon-wrap">
                     <Icon component={IconCluster} style={{ fontSize: 70 }} />

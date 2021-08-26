@@ -45,7 +45,7 @@ interface RouterParams {
 }
 
 const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const location = useLocation<RouterParams>();
     const history = useHistory();
     const space_id = location?.state?.record?.id;
@@ -486,6 +486,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         options={userList}
                         optionFilterProp="label"
                         disabled={isEdit}
+                        placeholder={t('resources.meshSpace.selectUser')}
                     />
                 </Form.Item>
                 <Form.Item
@@ -499,6 +500,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         onChange={handleClusterChange}
                         optionFilterProp="label"
                         disabled={isEdit}
+                        placeholder={t('selectClusterPlaceholder')}
                     />
                 </Form.Item>
                 <Form.Item
@@ -512,6 +514,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         options={filterSpaceList}
                         optionFilterProp="label"
                         disabled={isEdit}
+                        placeholder={t('resources.meshSpace.selectBaseSpace')}
                     />
                 </Form.Item>
             </>
@@ -529,7 +532,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     }}
                 />
             )}
-            <ContentWrap isEdit={isEdit}>
+            <ContentWrap isEdit={isEdit} lang={i18n.language}>
                 <div className="left">
                     {!isEdit && (
                         <Steps

@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
+interface IProps {
+    isEdit: boolean;
+    lang: string;
+}
+
 // eslint-disable-next-line no-undef
-export const ContentWrap = styled.div<{ isEdit: boolean }>`
+export const ContentWrap = styled.div<IProps>`
     display: flex;
     padding: ${(props) => (props.isEdit ? 0 : 24)}px;
 
@@ -38,7 +43,7 @@ export const ContentWrap = styled.div<{ isEdit: boolean }>`
                 position: absolute;
                 z-index: 10;
                 top: 0;
-                left: 64px;
+                left: ${(props) => (props.lang === 'zh' ? 64 : 82)}px;
             }
         }
         .dev-service-item {

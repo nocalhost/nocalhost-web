@@ -149,7 +149,6 @@ const ChooseType = ({
     onCancel?: () => void;
 }) => {
     const { t, i18n } = useTranslation();
-    console.log(i18n.language);
     const handleCancel = () => {
         onCancel && onCancel();
     };

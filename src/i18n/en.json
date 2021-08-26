@@ -473,7 +473,10 @@
             "selectBasicService": "Select development services from the basic development space",
             "setTracingHeader": "Set Tracing Headers",
             "shareWorkloadTip": "xxxxx",
-            "tracingHeaderTip": "xxxxxxx"
+            "tracingHeaderTip": "xxxxxxx",
+            "selectUser": "Please select an owner",
+            "selectClusterPlaceholder": "Please select a cluster",
+            "selectBaseSpace": "Please select the basic development space"
         },
         "profile": {
             "name": "Profile",

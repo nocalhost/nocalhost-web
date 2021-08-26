@@ -14,7 +14,6 @@ export interface ContentStyleProps {
     wayRightWidth: number;
     wayLeftWidth: number;
     selectBoxWidth: number;
-    wayOrLineOffsetTop: number;
     selectBoxHeight: number;
     workLoadWidth: number;
 }

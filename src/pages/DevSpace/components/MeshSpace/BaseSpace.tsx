@@ -806,6 +806,7 @@ const BaseSpace = ({
     const { t } = useTranslation();
     const firstBlueArrow = useRef<SVGSVGElement>(null);
     const timer = useRef<number | null>(null);
+    const resetTimer = useRef<number | null>(null);
     const headRef = useRef<HTMLDivElement>(null);
     const workLoadRef = useRef<HTMLDivElement>(null);
     const selectBoxRef = useRef<HTMLDivElement>(null);
@@ -819,7 +820,6 @@ const BaseSpace = ({
     const [wayRightWidth, setWayRightWidth] = useState(0);
     const [selectBoxWidth, setSelectBoxWidth] = useState(0);
     const [selectBoxHeight, setSelectBoxHeight] = useState(0);
-    const [wayOrLineOffsetTop, setWayOrLineOffsetTop] = useState(0);
     const [workLoadWidth, setWorkLoadWidth] = useState(0);
     const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
     const [selectAnimationSpaceEnd, setSelectAnimationSpaceEnd] = useState(false);
@@ -921,29 +921,48 @@ const BaseSpace = ({
             }
         });
     };
+    const handleDomStyle = () => {
+        const headWidth = headRef?.current?.offsetWidth || 0;
+        // const headHeight = headRef?.current?.offsetHeight || 0;
+        const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
+        const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
+        const selectBoxHeight = selectBoxRef?.current?.offsetHeight || 0;
+        const width: number = Math.ceil(headWidth / 2 - workLoadWidth / 2);
+        const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
+        // const mainRefTop = mainRef?.current?.offsetTop || 0;
+        setWayLeftWidth(width);
+        setWayRightWidth(rightWidth);
+        setSelectBoxWidth(selectBoxWidth);
+        setWorkLoadWidth(workLoadWidth);
+        setSelectBoxHeight(selectBoxHeight);
+    };
     useEffect(() => {
         if (currentStep === 1) {
             setShowBlueArrayIndex(2);
             setAnimationEnd(false);
-            const headWidth = headRef?.current?.offsetWidth || 0;
-            // const headHeight = headRef?.current?.offsetHeight || 0;
-            const workLoadWidth = workLoadRef?.current?.offsetWidth || 0;
-            const selectBoxWidth = selectBoxRef?.current?.offsetWidth || 0;
-            const selectBoxHeight = selectBoxRef?.current?.offsetHeight || 0;
-            const width: number = Math.ceil(headWidth / 2 - workLoadWidth / 2);
-            const rightWidth: number = Math.ceil(headWidth / 2 - selectBoxWidth / 2);
-            const wayOrLineOffsetTop = wayOrLineRef?.current?.offsetTop || 0;
-            // const mainRefTop = mainRef?.current?.offsetTop || 0;
-            setWayLeftWidth(width);
-            setWayRightWidth(rightWidth);
-            setSelectBoxWidth(selectBoxWidth);
-            setWorkLoadWidth(workLoadWidth);
-            setSelectBoxHeight(selectBoxHeight);
-            setWayOrLineOffsetTop(wayOrLineOffsetTop);
+            handleDomStyle();
+            windowResize();
         } else {
             setShowBlueArrayIndex(1);
         }
     }, [currentStep]);
+    const windowResize = () => {
+        let flag = false;
+        window.addEventListener('resize', function () {
+            if (!flag) {
+                setShowBlueArrayIndex(0);
+                flag = true;
+            }
+            if (resetTimer.current) {
+                clearTimeout(resetTimer.current);
+            }
+            resetTimer.current = window.setTimeout(() => {
+                flag = false;
+                handleDomStyle();
+                setShowBlueArrayIndex(2);
+            }, 300);
+        });
+    };
     useEffect(() => {
         if (showBlueArrayIndex === 1 && currentStep == 0 && appList.length > 0) {
             firstAnimationHandle();
@@ -998,7 +1017,6 @@ const BaseSpace = ({
             wayLeftWidth={wayLeftWidth - 50}
             wayRightWidth={wayRightWidth - 50}
             selectBoxWidth={selectBoxWidth}
-            wayOrLineOffsetTop={wayOrLineOffsetTop}
             selectBoxHeight={selectBoxHeight}
             workLoadWidth={workLoadWidth}
         >

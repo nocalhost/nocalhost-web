@@ -164,10 +164,11 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         });
                     });
                     setSelectedAppList(tmpSelectedList);
+                    const isDefault = key === 'uberctx-trace' || key === 'baggage-trace';
                     form.setFieldsValue({
-                        header: key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom',
-                        header_key: key,
-                        header_value: value,
+                        header: isDefault ? key : 'Custom',
+                        header_key: isDefault ? '' : key,
+                        header_value: isDefault ? '' : value,
                         service_name: tmpList,
                     });
 
@@ -178,6 +179,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     setCurrentSpace({
                         space_id: location?.state?.record?.base_dev_space_id,
                     });
+                    if (isEdit) {
+                        setHeaderInfo({
+                            key,
+                            value,
+                        });
+                    }
                 }
             } catch (e) {
                 setAppList([]);
@@ -387,7 +394,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
             }
             setCurrentSpace({
                 space_name: record?.base_dev_space_name,
-                namespace: record?.namespace,
+                namespace: record?.base_dev_space_namespace,
             });
             setShareSpace({
                 name: record?.space_name,
@@ -447,11 +454,11 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
 
         timer.current = window.setTimeout(() => {
             const values: { [index: string]: string } = form.getFieldsValue();
-            const { headerKey, headerValue } = values;
-            if (headerKey && headerValue) {
+            const { header_key, header_value } = values;
+            if (header_key && header_value) {
                 setHeaderInfo({
-                    key: headerKey,
-                    value: headerValue,
+                    key: header_key,
+                    value: header_value,
                 });
             }
         }, 500);

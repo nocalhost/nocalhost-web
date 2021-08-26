@@ -255,7 +255,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
             transform: translateX(36px) rotate(90deg);
         }
         50% {
-            transform: translateX(12px) rotate(135deg);
+            transform: translateX(14px) rotate(135deg);
         }
         100% {
             transform: translateX(4px) rotate(180deg);

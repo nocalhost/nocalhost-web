@@ -148,7 +148,8 @@ const ChooseType = ({
     onCreateMesh: () => void;
     onCancel?: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    console.log(i18n.language);
     const handleCancel = () => {
         onCancel && onCancel();
     };
@@ -181,7 +182,12 @@ const ChooseType = ({
                                     <Button onClick={() => onCreateDev()} type="primary">
                                         {t('common.bt.select')}
                                     </Button>
-                                    <a>
+                                    <a
+                                        href={`https://nocalhost.dev/${
+                                            i18n.language === 'zh' ? 'zh-CN' : ''
+                                        }/docs/server/server-overview#devspace`}
+                                        target="_black"
+                                    >
                                         {t('resources.devSpace.tips.learnMore')}
                                         <Icon
                                             component={IconLink}

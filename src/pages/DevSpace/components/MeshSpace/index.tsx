@@ -330,7 +330,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const handleChangeHeader = async (e: RadioChangeEvent) => {
         const type = e.target.value;
         setHeaderType(type);
-        if (type !== 'Custom') {
+        if (type !== 'custom') {
             setHeaderInfo({
                 key: type,
                 value: namespace,
@@ -651,7 +651,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                             </>
                         )}
                         <div className="btn-box">
-                            <Button style={{ marginRight: 12 }}>{t('common.bt.cancel')}</Button>
+                            <Button
+                                style={{ marginRight: 12 }}
+                                onClick={() => history.push('/dashboard/devspace')}
+                            >
+                                {t('common.bt.cancel')}
+                            </Button>
                             {currentStep === 1 && !space_id && (
                                 <Button onClick={() => setCurrentStep(0)}>
                                     {t('common.bt.prev')}

@@ -11,7 +11,7 @@ import { ReactComponent as IconSpace } from '../../../../images/icon/icon_normal
 import IconWorkLoad from '../../../../images/icon/image_normal_applicationService.svg';
 import IconBlueWorkLoad from '../../../../images/icon/image_active_blue_applicationService.svg';
 import IconGreenWorkLoad from '../../../../images/icon/image_active_green_applicationService.svg';
-import { ReactComponent as ImageEmpty } from '../../../../images/icon/image_empty_space.svg';
+import ImageEmpty from '../../../../images/icon/image_empty_space.svg';
 import { ReactComponent as ImageComputerUp } from '../../../../images/mesh-icon/image_computerUp.svg';
 import { ReactComponent as ImageComputerDown } from '../../../../images/mesh-icon/image_computerDown.svg';
 import { ReactComponent as IconExplain } from '../../../../images/icon/icon_label_explain.svg';
@@ -647,9 +647,10 @@ const ContentWrap = styled.div<ContentStyleProps>`
                     background: #ffffff;
                     display: flex;
                     flex-wrap: wrap;
-                    justify-content: space-between;
                     align-content: flex-start;
+                    justify-content: space-between;
                     border-radius: 4px;
+
                     .workload-item {
                         margin-bottom: 12px;
                         height: 60px;
@@ -1047,7 +1048,7 @@ const BaseSpace = ({
                                 <div className="arrowShadow"></div>
                                 {!currentSpace && (
                                     <div className="empty-box">
-                                        <ImageEmpty />
+                                        <img src={ImageEmpty} />
                                         <span>{t('resources.meshSpace.selectBasicService')}</span>
                                     </div>
                                 )}
@@ -1158,7 +1159,7 @@ const BaseSpace = ({
                                 >
                                     {selectedAppList.length === 0 && (
                                         <div className="empty-box">
-                                            <ImageEmpty />
+                                            <img src={ImageEmpty} />
                                             <span>
                                                 {t('resources.meshSpace.selectBasicService')}
                                             </span>

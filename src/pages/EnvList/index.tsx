@@ -272,11 +272,12 @@ const EnvList = () => {
                                     visible={index === popVisibleIndex}
                                     content={
                                         <>
-                                            {!record.is_base_space && (
-                                                <PopItem onClick={() => handleReset(record)}>
-                                                    {t('common.bt.reset')}
-                                                </PopItem>
-                                            )}
+                                            {!record.is_base_space &&
+                                                record.cluster_admin !== 1 && (
+                                                    <PopItem onClick={() => handleReset(record)}>
+                                                        {t('common.bt.reset')}
+                                                    </PopItem>
+                                                )}
                                             {record.deletable && (
                                                 <PopItem
                                                     onClick={() => {

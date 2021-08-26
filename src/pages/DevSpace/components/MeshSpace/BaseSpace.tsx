@@ -662,11 +662,16 @@ const ContentWrap = styled.div<ContentStyleProps>`
                     padding: 12px 20px;
                     margin-top: 16px;
                     background: #ffffff;
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-content: flex-start;
+                    // display: flex;
+                    // flex-wrap: wrap;
+                    // align-content: flex-start;
+                    // justify-content: space-between;
+                    // border-radius: 4px;
+                    display: grid;
                     justify-content: space-between;
-                    border-radius: 4px;
+                    align-content: start;
+                    grid-template-columns: repeat(auto-fill, 110px);
+                    grid-gap: 10px;
 
                     .workload-item {
                         margin-bottom: 12px;

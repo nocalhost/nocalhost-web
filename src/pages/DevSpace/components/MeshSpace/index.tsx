@@ -385,6 +385,14 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     limitObj = {};
                 }
             }
+            setCurrentSpace({
+                space_name: record?.base_dev_space_name,
+                namespace: record?.namespace,
+            });
+            setShareSpace({
+                name: record?.space_name,
+                namespace: record?.namespace,
+            });
         }
     }, [record]);
 

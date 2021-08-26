@@ -1006,15 +1006,6 @@ const BaseSpace = ({
                                                         style={{ fontSize: 32 }}
                                                     />
                                                 )}
-                                                <div className="tip-icon">
-                                                    <CommonIcon
-                                                        style={{ fontSize: 16 }}
-                                                        NormalIcon={IconPath}
-                                                        title={t(
-                                                            'resources.meshSpace.shareWorkloadTip'
-                                                        )}
-                                                    />
-                                                </div>
                                             </div>
                                             <div
                                                 className="workload-info"
@@ -1080,11 +1071,20 @@ const BaseSpace = ({
                                     {selectedAppList.map((item: any, key: number) => {
                                         return (
                                             <div key={key} className="workload-item">
-                                                <div>
+                                                <div className="icon-box">
                                                     <Icon
                                                         component={IconWorkLoad}
                                                         style={{ fontSize: 32 }}
                                                     />
+                                                    <div className="tip-icon">
+                                                        <CommonIcon
+                                                            style={{ fontSize: 16 }}
+                                                            NormalIcon={IconPath}
+                                                            title={t(
+                                                                'resources.meshSpace.shareWorkloadTip'
+                                                            )}
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div className="workload-info">
                                                     <Icon

@@ -15,3 +15,21 @@ export function windowAnimationEndHandle(element: any, callBack: any) {
         callBack(...args);
     });
 }
+
+export function removeWindowAnimationStartHandle(element: any, callBack: any) {
+    element.removeEventListener('webkitAnimationStart', function (...args: any) {
+        callBack(...args);
+    });
+    element.removeEventListener('animationetart', function (...args: any) {
+        callBack(...args);
+    });
+}
+
+export function removeWindowAnimationEndHandle(element: any, callBack: any) {
+    element.removeEventListener('webkitAnimationEnd', function (...args: any) {
+        callBack(...args);
+    });
+    element.removeEventListener('animationend', function (...args: any) {
+        callBack(...args);
+    });
+}

@@ -32,7 +32,11 @@ import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 import CommonIcon from '../../../../components/CommonIcon';
 import { ContentStyleProps, SpaceIconStyleProps } from './type';
 import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
-import { windowAnimationStartHandle, windowAnimationEndHandle } from './windowAnimationHandle';
+import {
+    windowAnimationStartHandle,
+    windowAnimationEndHandle,
+    removeWindowAnimationEndHandle,
+} from './windowAnimationHandle';
 
 const ICON_MAP: {
     [index: string]: React.FunctionComponent<
@@ -931,7 +935,29 @@ const BaseSpace = ({
             threeAnimationHandle();
         }
     }, [currentStep, wayRightWidth, appList, showBlueArrayIndex]);
+    useEffect(() => {
+        if (secondBlueArrow?.current) {
+            removeWindowAnimationEndHandle(secondBlueArrow?.current, function (...args: any) {
+                if (args[0]?.animationName === 'blue-cubic-last-left') {
+                    setAnimationEnd(true);
+                }
 
+                if (args[0]?.animationName === 'back-blue-to-bottom') {
+                    timer.current && clearTimeout(timer.current);
+                    timer.current = null;
+                    if (headerInfo) {
+                        setShowBlueArrayIndex(3);
+                    } else {
+                        setShowBlueArrayIndex(0);
+                        timer.current = window.setTimeout(() => {
+                            setShowBlueArrayIndex(2);
+                        }, 500);
+                    }
+                }
+            });
+            secondAnimationHandle();
+        }
+    }, [headerInfo]);
     return (
         <ContentWrap
             hiddenIcon={currentSpace && appList.length > 0}

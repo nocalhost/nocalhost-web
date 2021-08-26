@@ -648,8 +648,8 @@ const ContentWrap = styled.div<ContentStyleProps>`
 
                             .tip-icon {
                                 position: absolute;
-                                top: 0;
-                                left: 100%;
+                                top: 4px;
+                                left: calc(100% - 2px);
                                 background: rgb(182, 194, 205);
                                 border-radius: 9.14px;
                                 height: 16px;

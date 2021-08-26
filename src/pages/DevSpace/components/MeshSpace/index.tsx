@@ -172,9 +172,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         service_name: tmpList,
                     });
 
-                    setHeaderType(
-                        key === 'uberctx-trace' || key === 'baggage-trace' ? key : 'Custom'
-                    );
+                    setHeaderType(type);
 
                     setCurrentSpace({
                         space_id: record?.base_dev_space_id,
@@ -571,7 +569,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <Radio value="custom">Custom</Radio>
                                     </Radio.Group>
                                 </Form.Item>
-                                {headerType === 'Custom' && (
+                                {headerType === 'custom' && (
                                     <div className="header-box">
                                         <Form.Item
                                             label="Tracing Headers"

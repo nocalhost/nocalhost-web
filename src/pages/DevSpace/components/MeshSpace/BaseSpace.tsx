@@ -23,6 +23,7 @@ import { ReactComponent as IconStatefulSet } from '../../../../images/icon/icon_
 import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg';
 import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow.svg';
 import { ReactComponent as IconTracingHeader } from '../../../../images/icon/icon_normal_tracingHeaders.svg';
+import { ReactComponent as IconActiveTracingHeader } from '../../../../images/icon/icon_active_tracingHeaders.svg';
 import WayLeftDown from '../../../../images/mesh-icon/way_leftDown.svg';
 import WayLeftUp from '../../../../images/mesh-icon/way_leftUp.svg';
 import WayRightDown from '../../../../images/mesh-icon/way_rightDown.svg';
@@ -208,7 +209,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 back-green-cubic-last-bottom 0.5s 10.1s 1 linear,
                 back-green-line-left 2.5s 10.6s 1 linear, back-green-cubic-right 0.5s 13.1s 1 linear,
                 back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
-                back-blue-to-bottom 2s 13.7s 1 linear;
+                back-blue-to-bottom 2s 14.2s 1 linear;
             animation-fill-mode: forwards;
         }
     }
@@ -774,6 +775,7 @@ const BaseSpace = ({
     const [wayOrLineOffsetTop, setWayOrLineOffsetTop] = useState(0);
     const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
     const [selectAnimationSpaceEnd, setSelectAnimationSpaceEnd] = useState(false);
+    const [greenCluster, setGreenCluster] = useState(false);
     useEffect(() => {
         if (currentSpace && appList.length > 0) {
             if (currentStep === 0) {
@@ -822,6 +824,17 @@ const BaseSpace = ({
         });
     };
     const threeAnimationHandle = () => {
+        // blue-to-bottom 2s 0.1s 1 linear,
+        //         green-cubic-right 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+        //         green-cubic-bottom 0.5s 2.6s 1 linear, green-line-left 2.5s 3.1s 1 linear,
+        //         green-cubic-last-bottom 0.5s 5.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+        //         green-cubic-last-right 0.5s 5.6s 1 linear, green-last-line-left 0.5s 7.1s 1 linear,
+        //         back-green-last-line-left 0.5s 8.6s 1 linear,
+        //         back-green-cubic-last-right 0.5s 10.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
+        //         back-green-cubic-last-bottom 0.5s 10.1s 1 linear,
+        //         back-green-line-left 2.5s 10.6s 1 linear, back-green-cubic-right 0.5s 13.1s 1 linear,
+        //         back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
+        //         back-blue-to-bottom 2s 14.2s 1 linear;
         threeBlueArrow?.current?.addEventListener('webkitAnimationEnd', function (...args: any) {
             if (args[0]?.animationName === 'green-cubic-last-right') {
                 setSelectAnimationEnd(true);
@@ -833,7 +846,12 @@ const BaseSpace = ({
             if (args[0]?.animationName === 'green-last-line-left') {
                 setSelectAnimationSpaceEnd(true);
             }
-
+            if (args[0]?.animationName === 'blue-to-bottom') {
+                setGreenCluster(true);
+            }
+            if (args[0]?.animationName === 'back-green-cubic-bottom') {
+                setGreenCluster(true);
+            }
             if (args[0]?.animationName === 'back-blue-to-bottom') {
                 setShowBlueArrayIndex(2);
             }
@@ -847,6 +865,12 @@ const BaseSpace = ({
             }
             if (args[0]?.animationName === 'back-green-last-line-left') {
                 setSelectAnimationSpaceEnd(false);
+            }
+            if (args[0]?.animationName === 'back-blue-to-bottom') {
+                setGreenCluster(false);
+            }
+            if (args[0]?.animationName === 'green-cubic-bottom') {
+                setGreenCluster(false);
             }
         });
     };
@@ -934,12 +958,29 @@ const BaseSpace = ({
                 {currentStep === 1 && (
                     <div className="tracing-header" ref={headRef}>
                         <div className="content">
-                            <div className="desc">
+                            <div
+                                className="desc"
+                                style={
+                                    greenCluster && !!headerInfo
+                                        ? {
+                                              background: 'rgb(186, 237, 212)',
+                                              boxShadow: '0px 0px 8px 0px rgba(18, 167, 92, 0.1)',
+                                          }
+                                        : {}
+                                }
+                            >
                                 {headerInfo ? (
-                                    <Icon
-                                        component={IconTracingHeader}
-                                        style={{ fontSize: 16, marginRight: 4 }}
-                                    />
+                                    greenCluster ? (
+                                        <Icon
+                                            component={IconActiveTracingHeader}
+                                            style={{ fontSize: 16, marginRight: 4 }}
+                                        />
+                                    ) : (
+                                        <Icon
+                                            component={IconTracingHeader}
+                                            style={{ fontSize: 16, marginRight: 4 }}
+                                        />
+                                    )
                                 ) : (
                                     <CommonIcon
                                         NormalIcon={IconExplain}
@@ -947,10 +988,11 @@ const BaseSpace = ({
                                         title={t('resources.meshSpace.tracingHeaderTip')}
                                     ></CommonIcon>
                                 )}
-
-                                {headerInfo
-                                    ? `cluster:${headerInfo?.key}=${headerInfo?.value}`
-                                    : t('resources.meshSpace.setTracingHeader')}
+                                <span style={greenCluster ? { color: '#12a75c' } : {}}>
+                                    {headerInfo
+                                        ? `cluster:${headerInfo?.key}=${headerInfo?.value}`
+                                        : t('resources.meshSpace.setTracingHeader')}
+                                </span>
                             </div>
                         </div>
                     </div>

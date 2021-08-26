@@ -584,6 +584,7 @@ const ContentWrap = styled.div<ContentStyleProps>`
                 height: 100%;
             }
             .title {
+                height: 40px;
                 display: flex;
                 align-items: center;
                 .title-info {

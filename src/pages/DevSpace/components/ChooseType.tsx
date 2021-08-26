@@ -10,6 +10,7 @@ import { ReactComponent as IconSpace } from '../../../images/icon/icon_quarantin
 import { ReactComponent as IconLink } from '../../../images/icon/icon_external_link.svg';
 import { ReactComponent as ImageDevSpace } from '../../../images/icon/bg_popup_quarantine_space.svg';
 import { ReactComponent as ImageMeshSpace } from '../../../images/icon/bg_popup_sharing_space.svg';
+import { ReactComponent as IconClose } from '../../../images/icon/icon_close.svg';
 
 const WrapBox = styled.div`
     position: fixed;
@@ -19,6 +20,20 @@ const WrapBox = styled.div`
     bottom: 0;
     background: rgba(255, 255, 255, 0.9);
     z-index: 10;
+
+    .close-box {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 36px;
+        height: 36px;
+        background: #e5e9ef;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
 `;
 
 const ContentBox = styled.div`
@@ -141,7 +156,10 @@ const ChooseType = ({
         e.stopPropagation();
     };
     return (
-        <WrapBox onClick={handleCancel}>
+        <WrapBox>
+            <div className="close-box" onClick={handleCancel}>
+                <Icon component={IconClose} style={{ fontSize: 20 }} />
+            </div>
             <ContentBox onClick={handleClickContent}>
                 <ContentTitle>{t('resources.devSpace.tips.chooseType')}</ContentTitle>
 

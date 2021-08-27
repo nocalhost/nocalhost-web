@@ -135,16 +135,87 @@ export const ContentWrap = styled.div<ContentStyleProps>`
             position: absolute;
             z-index: 2;
             top: 18px;
-            // cubic-bezier(0.68, -0.03, 0.95, 0.11),
-            animation: blue-to-bottom 2s 0.1s 1 linear,
-                blue-cubic-left 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
-                blue-cubic-bottom 0.5s 2.6s 1 linear, blue-line-left 2s 3.1s 1 linear,
-                blue-cubic-last-bottom 0.5s 5.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
-                blue-cubic-last-left 0.5s 5.1s 1 linear,
-                back-cubic-last-left 0.5s 6.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
-                back-blue-cubic-last-bottom 0.5s 6.6s 1 linear, back-blue-line-left 2s 7.1s 1 linear,
-                back-blue-cubic-bottom 0.5s 9.1s 1 cubic-bezier(0.66, 0.06, 0.89, 0.34),
-                back-blue-cubic-left 0.5s 9.1s 1 linear, back-blue-to-bottom 2s 9.7s 1 linear;
+            // ${(props) => props.animationTime.arroundTime}
+            animation: blue-to-bottom ${(props) => props.animationTime.topTime}ms 100ms 1 linear,
+                blue-cubic-left ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) => props.animationTime.topTime + 100 + 500}ms 1
+                    cubic-bezier(0.65, -0.08, 1, 0.14),
+                blue-cubic-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) => props.animationTime.topTime + 100 + 500}ms 1 linear,
+                blue-line-left ${(props) => props.animationTime.leftLineTime}ms
+                    ${(props) =>
+                        props.animationTime.arroundTime + props.animationTime.topTime + 100 + 500}ms
+                    1 linear,
+                blue-cubic-last-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500}ms
+                    1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                blue-cubic-last-left ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500}ms
+                    1 linear,
+                back-cubic-last-left ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                back-blue-cubic-last-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 linear,
+                back-blue-line-left ${(props) => props.animationTime.leftLineTime}ms
+                    ${(props) =>
+                        2 * props.animationTime.arroundTime +
+                        props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 linear,
+                back-blue-cubic-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        2 * props.animationTime.arroundTime +
+                        2 * props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 cubic-bezier(0.66, 0.06, 0.89, 0.34),
+                back-blue-cubic-left ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        2 * props.animationTime.arroundTime +
+                        2 * props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 linear,
+                back-blue-to-bottom ${(props) => props.animationTime.topTime}ms
+                    ${(props) =>
+                        3 * props.animationTime.arroundTime +
+                        2 * props.animationTime.leftLineTime +
+                        props.animationTime.topTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 linear;
             animation-fill-mode: forwards;
             // cubic-bezier(.51,0,1,.14)
         }
@@ -155,17 +226,125 @@ export const ContentWrap = styled.div<ContentStyleProps>`
             position: absolute;
             z-index: 2;
             top: 18px;
-            animation: blue-to-bottom 2s 0.1s 1 linear,
-                green-cubic-right 0.5s 2.6s 1 cubic-bezier(0.65, -0.08, 1, 0.14),
-                green-cubic-bottom 0.5s 2.6s 1 linear, green-line-left 2.5s 3.1s 1 linear,
-                green-cubic-last-bottom 0.5s 5.6s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
-                green-cubic-last-right 0.5s 5.6s 1 linear, green-last-line-left 0.5s 7.1s 1 linear,
-                back-green-last-line-left 0.5s 8.6s 1 linear,
-                back-green-cubic-last-right 0.5s 10.1s 1 cubic-bezier(0.72, -0.03, 1, 0.5),
-                back-green-cubic-last-bottom 0.5s 10.1s 1 linear,
-                back-green-line-left 2.5s 10.6s 1 linear, back-green-cubic-right 0.5s 13.1s 1 linear,
-                back-green-cubic-bottom 0.5s 13.1s 1 cubic-bezier(0.66, 0.06, 0.89, 0.34),
-                back-blue-to-bottom 2s 14.2s 1 linear;
+            animation: blue-to-bottom ${(props) => props.animationTime.topTime}ms 100ms 1 linear,
+                green-cubic-right ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) => props.animationTime.topTime + 100 + 500}ms
+                    cubic-bezier(0.65, -0.08, 1, 0.14),
+                green-cubic-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) => props.animationTime.topTime + 100 + 500}ms 1 linear,
+                green-line-left ${(props) => props.animationTime.leftRightTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime + props.animationTime.arroundTime + 100 + 500}ms
+                    1 linear,
+                green-cubic-last-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500}ms
+                    1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                green-cubic-last-right ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        props.animationTime.arroundTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500}ms
+                    1 linear,
+                green-last-line-left ${(props) => props.animationTime.lastGreenTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        2 * props.animationTime.arroundTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000}ms
+                    1 linear,
+                back-green-last-line-left ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        2 * props.animationTime.arroundTime +
+                        props.animationTime.lastGreenTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000}ms
+                    1 linear,
+                back-green-cubic-last-right ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        2 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000}ms
+                    1 cubic-bezier(0.72, -0.03, 1, 0.5),
+                back-green-cubic-last-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        2 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000}ms
+                    1 linear,
+                back-green-line-left ${(props) => props.animationTime.leftRightTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        3 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000}ms
+                    1 linear,
+                back-green-cubic-right ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        3 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        2 * props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000}ms
+                    1 linear,
+                back-green-cubic-bottom ${(props) => props.animationTime.arroundTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        3 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        2 * props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000}ms
+                    1 cubic-bezier(0.66, 0.06, 0.89, 0.34),
+                back-blue-to-bottom ${(props) => props.animationTime.topTime}ms
+                    ${(props) =>
+                        props.animationTime.topTime +
+                        4 * props.animationTime.arroundTime +
+                        2 * props.animationTime.lastGreenTime +
+                        2 * props.animationTime.leftRightTime +
+                        100 +
+                        500 +
+                        1000 +
+                        1000 +
+                        1000 +
+                        500}ms
+                    1 linear;
             animation-fill-mode: forwards;
         }
     }
@@ -366,7 +545,7 @@ export const ContentWrap = styled.div<ContentStyleProps>`
             top: 269px;
         }
         100% {
-            top: 226px;
+            top: 244px;
         }
     }
 
@@ -384,7 +563,7 @@ export const ContentWrap = styled.div<ContentStyleProps>`
             transform: translateX(-36px) rotate(270deg);
         }
         50% {
-            transform: translateX(-10px) rotate(225deg);
+            transform: translateX(-15px) rotate(225deg);
         }
         100% {
             transform: translateX(-2px) rotate(180deg);

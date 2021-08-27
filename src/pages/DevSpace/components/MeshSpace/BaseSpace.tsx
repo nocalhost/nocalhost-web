@@ -96,6 +96,22 @@ const BaseSpace = ({
     const [selectAnimationEnd, setSelectAnimationEnd] = useState(false);
     const [selectAnimationSpaceEnd, setSelectAnimationSpaceEnd] = useState(false);
     const [greenCluster, setGreenCluster] = useState(false);
+    const [animationTime, setAnimationTime] = useState({});
+    const speed = 0.1;
+    const handleSpeed = () => {
+        const arroundTime = Math.ceil(Math.sqrt(32 * 32 + 25 * 25)) / speed;
+        const lastGreenTime = 40 / speed;
+        const leftLineTime = (wayLeftWidth - 50) / speed;
+        const leftRightTime = (wayRightWidth - 50) / speed;
+        const topTime = 170 / speed;
+        setAnimationTime({
+            arroundTime,
+            lastGreenTime,
+            leftLineTime,
+            leftRightTime,
+            topTime,
+        });
+    };
     useEffect(() => {
         if (currentSpace && appList.length > 0) {
             if (currentStep === 0) {
@@ -247,6 +263,7 @@ const BaseSpace = ({
             appList.length > 0 &&
             showBlueArrayIndex === 2
         ) {
+            handleSpeed();
             secondAnimationHandle();
         }
     }, [currentStep, wayLeftWidth, appList, showBlueArrayIndex]);
@@ -291,6 +308,7 @@ const BaseSpace = ({
             selectBoxWidth={selectBoxWidth}
             selectBoxHeight={selectBoxHeight}
             workLoadWidth={workLoadWidth}
+            animationTime={animationTime}
         >
             <div className="header">
                 {showBlueArrayIndex === 1 && currentStep == 0 && appList.length > 0 && (

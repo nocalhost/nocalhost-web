@@ -249,52 +249,49 @@ const EnvList = () => {
                 return (
                     <FlexBox id="operation">
                         {record.modifiable && (
-                            <>
-                                <IconBox onClick={() => handleEdit(record)}>
-                                    <CommonIcon
-                                        NormalIcon={IconNormalEdit}
-                                        HoverIcon={IconSelectedEdit}
-                                        style={{ fontSize: '20px' }}
-                                    ></CommonIcon>
-                                </IconBox>
-                                <IconBox onClick={() => handleKube(record)}>
-                                    <CommonIcon
-                                        NormalIcon={IconNormalKube}
-                                        HoverIcon={IconSelectedKube}
-                                        style={{ fontSize: '20px' }}
-                                        title="Kubeconfig"
-                                    ></CommonIcon>
-                                </IconBox>
-                                <Popover
-                                    trigger="click"
-                                    overlayClassName="operationPop"
-                                    onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
-                                    visible={index === popVisibleIndex}
-                                    content={
-                                        <>
-                                            {!record.is_base_space &&
-                                                record.cluster_admin !== 1 && (
-                                                    <PopItem onClick={() => handleReset(record)}>
-                                                        {t('common.bt.reset')}
-                                                    </PopItem>
-                                                )}
-                                            {record.deletable && (
-                                                <PopItem
-                                                    onClick={() => {
-                                                        setPopVisibleIndex(-1);
-                                                        handleDelete(record);
-                                                    }}
-                                                >
-                                                    {t('common.bt.delete')}
-                                                </PopItem>
-                                            )}
-                                        </>
-                                    }
-                                >
-                                    <Icon component={IconMore} />
-                                </Popover>
-                            </>
+                            <IconBox onClick={() => handleEdit(record)}>
+                                <CommonIcon
+                                    NormalIcon={IconNormalEdit}
+                                    HoverIcon={IconSelectedEdit}
+                                    style={{ fontSize: '20px' }}
+                                ></CommonIcon>
+                            </IconBox>
                         )}
+                        <IconBox onClick={() => handleKube(record)}>
+                            <CommonIcon
+                                NormalIcon={IconNormalKube}
+                                HoverIcon={IconSelectedKube}
+                                style={{ fontSize: '20px' }}
+                                title="Kubeconfig"
+                            ></CommonIcon>
+                        </IconBox>
+                        <Popover
+                            trigger="click"
+                            overlayClassName="operationPop"
+                            onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
+                            visible={index === popVisibleIndex}
+                            content={
+                                <>
+                                    {!record.is_base_space && record.cluster_admin !== 1 && (
+                                        <PopItem onClick={() => handleReset(record)}>
+                                            {t('common.bt.reset')}
+                                        </PopItem>
+                                    )}
+                                    {record.deletable && (
+                                        <PopItem
+                                            onClick={() => {
+                                                setPopVisibleIndex(-1);
+                                                handleDelete(record);
+                                            }}
+                                        >
+                                            {t('common.bt.delete')}
+                                        </PopItem>
+                                    )}
+                                </>
+                            }
+                        >
+                            <Icon component={IconMore} />
+                        </Popover>
                     </FlexBox>
                 );
             },

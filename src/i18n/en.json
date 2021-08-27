@@ -472,11 +472,14 @@
             "selectCluster": "Please select a cluster in the form on the left",
             "selectBasicService": "Select development services from the basic development space",
             "setTracingHeader": "Set Tracing Headers",
-            "shareWorkloadTip": "xxxxx",
-            "tracingHeaderTip": "xxxxxxx",
+            "selectServiceTip": "Select the application service to be developed from the basic space, and the selected application service will be copied to the shared space",
+            "shareWorkloadTip": "The shadow application copied from the basic space, the traffic with header {{header}} in the basic space will be forwarded here",
+            "tracingHeaderTip": "Please select Tracing Headers on the left, traffic with this header will be forwarded from the basic space to the shared space",
             "selectUser": "Please select an owner",
             "selectClusterPlaceholder": "Please select a cluster",
-            "selectBaseSpace": "Please select the basic development space"
+            "selectBaseSpace": "Please select the basic development space",
+            "inputSpaceName": "Please enter the development space name",
+            "selectDevService": "Please select development service"
         },
         "profile": {
             "name": "Profile",

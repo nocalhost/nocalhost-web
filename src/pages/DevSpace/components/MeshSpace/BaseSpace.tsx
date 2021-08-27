@@ -552,7 +552,10 @@ const BaseSpace = ({
                                                             style={{ fontSize: 16 }}
                                                             NormalIcon={IconPath}
                                                             title={t(
-                                                                'resources.meshSpace.shareWorkloadTip'
+                                                                'resources.meshSpace.shareWorkloadTip',
+                                                                {
+                                                                    header: `${headerInfo?.key}=${headerInfo?.value}`,
+                                                                }
                                                             )}
                                                         />
                                                     </div>

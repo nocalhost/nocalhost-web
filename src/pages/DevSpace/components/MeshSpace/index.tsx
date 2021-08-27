@@ -179,7 +179,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     });
 
                     setHeaderInfo({
-                        key,
+                        key:
+                            type === 'jaeger'
+                                ? 'uberctx-trace'
+                                : type === 'zipkin'
+                                ? 'baggage-trace'
+                                : key,
                         value,
                     });
                 }
@@ -334,7 +339,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         setHeaderType(type);
         if (type !== 'custom') {
             setHeaderInfo({
-                key: type,
+                key: type === 'jaeger' ? 'uberctx-trace' : 'baggage-trace',
                 value: namespace,
             });
         } else {
@@ -500,7 +505,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         onChange={handleClusterChange}
                         optionFilterProp="label"
                         disabled={isEdit}
-                        placeholder={t('selectClusterPlaceholder')}
+                        placeholder={t('resources.meshSpace.selectClusterPlaceholder')}
                     />
                 </Form.Item>
                 <Form.Item
@@ -560,7 +565,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                     name="space_name"
                                     rules={[{ required: true }]}
                                 >
-                                    <Input onChange={handleInputSpaceName} />
+                                    <Input
+                                        onChange={handleInputSpaceName}
+                                        placeholder={t('resources.meshSpace.inputSpaceName')}
+                                    />
                                 </Form.Item>
 
                                 <Form.Item
@@ -604,6 +612,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                         <CommonIcon
                                             NormalIcon={IconHelp}
                                             style={{ fontSize: 20 }}
+                                            title={t('resources.meshSpace.selectServiceTip')}
                                         ></CommonIcon>
                                     </div>
                                     <Form.Item
@@ -615,6 +624,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                             mode="multiple"
                                             onChange={handleSelectApp}
                                             options={appList}
+                                            placeholder={t('resources.meshSpace.selectDevService')}
                                         />
                                     </Form.Item>
                                 </div>

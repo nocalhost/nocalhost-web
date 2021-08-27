@@ -16,6 +16,7 @@ export interface ContentStyleProps {
     selectBoxWidth: number;
     selectBoxHeight: number;
     workLoadWidth: number;
+    animationTime: any;
 }
 
 export interface SpaceIconStyleProps {

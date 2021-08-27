@@ -167,9 +167,9 @@ const BaseSpace = ({
             if (args[0]?.animationName === 'blue-to-bottom') {
                 setGreenCluster(true);
             }
-            if (args[0]?.animationName === 'back-green-cubic-bottom') {
-                setGreenCluster(true);
-            }
+            // if (args[0]?.animationName === 'back-green-cubic-bottom') {
+            //     setGreenCluster(true);
+            // }
             if (args[0]?.animationName === 'back-blue-to-bottom') {
                 setShowBlueArrayIndex(2);
             }

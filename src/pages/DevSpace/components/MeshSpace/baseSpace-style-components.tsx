@@ -641,7 +641,7 @@ export const ContentWrap = styled.div<ContentStyleProps>`
                                 position: absolute;
                                 top: 4px;
                                 left: calc(100% - 2px);
-                                background: rgb(182, 194, 205);
+                                background: #e9edf0;
                                 border-radius: 9.14px;
                                 height: 16px;
                                 width: 16px;

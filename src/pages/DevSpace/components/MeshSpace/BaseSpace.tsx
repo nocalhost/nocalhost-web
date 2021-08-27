@@ -460,7 +460,7 @@ const BaseSpace = ({
                                                 }
                                             >
                                                 <SpaceIcon
-                                                    end={animationEnd}
+                                                    animationEnd={animationEnd}
                                                     selectEnd={
                                                         selectAnimationSpaceEnd &&
                                                         !selectedAppList.find(
@@ -568,7 +568,7 @@ const BaseSpace = ({
                                                             : {}
                                                     }
                                                 >
-                                                    <SelectIcon end={selectAnimationEnd}>
+                                                    <SelectIcon animationEnd={selectAnimationEnd}>
                                                         <Icon
                                                             component={
                                                                 ICON_MAP[item.kind] ||

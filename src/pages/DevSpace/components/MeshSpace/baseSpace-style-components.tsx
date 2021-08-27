@@ -9,14 +9,14 @@ import wayOrLine from '../../../../images/mesh-icon/way4.svg';
 export const SpaceIcon = styled.div<SpaceIconStyleProps>`
     g {
         stroke: ${(props) =>
-            props.end ? '#0080ff' : props.selectEnd ? '#12a75c' : 'rgb(121, 135, 156);'};
+            props.animationEnd ? '#0080ff' : props.selectEnd ? '#12a75c' : 'rgb(121, 135, 156);'};
     }
 `;
 
 // eslint-disable-next-line no-undef
-export const SelectIcon = styled.div<{ end: boolean }>`
+export const SelectIcon = styled.div<{ animationEnd: boolean }>`
     g {
-        stroke: ${(props) => (props.end ? '#12a75c' : 'rgb(121, 135, 156);')};
+        stroke: ${(props) => (props.animationEnd ? '#12a75c' : 'rgb(121, 135, 156);')};
     }
 `;
 

@@ -20,5 +20,5 @@ export interface ContentStyleProps {
 
 export interface SpaceIconStyleProps {
     selectEnd: boolean;
-    end: boolean;
+    animationEnd: boolean;
 }

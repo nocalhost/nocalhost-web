@@ -65,6 +65,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [selectedAppList, setSelectedAppList] = useState<any>([]);
     const [meshAppInfo, setMeshAppInfo] = useState<any>();
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
+    const [inputHeaderInfo, setInputHeaderInfo] = useState<HeaderInfo>();
     const [namespace, setNameSpace] = useState<string>('');
     const timer = useRef<number | null>();
     const [form] = Form.useForm();
@@ -187,6 +188,13 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                 : key,
                         value,
                     });
+
+                    if (type === 'custom') {
+                        setInputHeaderInfo({
+                            key,
+                            value,
+                        });
+                    }
                 }
             } catch (e) {
                 setAppList([]);
@@ -343,12 +351,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                 value: namespace,
             });
         } else {
-            const values: { [index: string]: string } = form.getFieldsValue();
-            const { header_key, header_value } = values;
-            if (header_key && header_value) {
+            if (inputHeaderInfo?.key && inputHeaderInfo?.value) {
                 setHeaderInfo({
-                    key: header_key,
-                    value: header_value,
+                    key: inputHeaderInfo?.key,
+                    value: inputHeaderInfo?.value,
                 });
             } else {
                 setHeaderInfo(undefined);
@@ -457,6 +463,10 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
             const { header_key, header_value } = values;
             if (header_key && header_value) {
                 setHeaderInfo({
+                    key: header_key,
+                    value: header_value,
+                });
+                setInputHeaderInfo({
                     key: header_key,
                     value: header_value,
                 });

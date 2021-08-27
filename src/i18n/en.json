@@ -431,7 +431,7 @@
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to develop",
                 "sumOfItem": "Total {{count}} item",
-                "devSpaceDesc": "Description information  information description ",
+                "devSpaceDesc": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
                 "meshSpaceDesc": "Description information   description information  description information description information description information description information description information description information description information description information description ",
                 "learnMore": "Learn More"
             }

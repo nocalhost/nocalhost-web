@@ -152,6 +152,7 @@ const ChooseType = ({
     const handleCancel = () => {
         onCancel && onCancel();
     };
+    console.log('lang: ', i18n.language);
     const handleClickContent = (e: React.MouseEvent) => {
         e.stopPropagation();
     };

@@ -103,12 +103,13 @@ const BaseSpace = ({
         const lastGreenTime = 40 / speed;
         const leftLineTime = (wayLeftWidth - 50) / speed;
         const leftRightTime = (wayRightWidth - 50) / speed;
+        const topTime = 170 / speed;
         setAnimationTime({
             arroundTime,
             lastGreenTime,
             leftLineTime,
             leftRightTime,
-            topTime: 1700,
+            topTime,
         });
     };
     useEffect(() => {

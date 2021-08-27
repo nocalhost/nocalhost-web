@@ -9,6 +9,7 @@ import { Base64 } from 'js-base64';
 import styled from 'styled-components';
 
 import { ClusterItemInfo } from '../../types/index';
+import './index.less';
 
 const PromptBox = styled.div`
     display: flex;
@@ -109,68 +110,73 @@ const AddCluster = (props: IProps) => {
             width={680}
             title={isEdit ? t('resources.cluster.edit') : t('resources.cluster.add')}
         >
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleSubmit}
-                initialValues={{
-                    storage_class: 'default',
-                }}
-            >
-                <Form.Item
-                    name="name"
-                    label={t('resources.cluster.fields.name')}
-                    rules={[{ required: true }]}
+            <div className="cluster-modal">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleSubmit}
+                    initialValues={{
+                        storage_class: 'default',
+                    }}
                 >
-                    <Input disabled={isEdit} />
-                </Form.Item>
-                {isEdit && (
-                    <Form.Item name="storage_class" label={t('resources.cluster.storage_class')}>
-                        <Radio.Group>
-                            <Radio value="default">Default</Radio>
-                            {storageList.map((item, index) => {
-                                return (
-                                    <Radio key={index} value={item}>
-                                        {item}
-                                    </Radio>
-                                );
-                            })}
-                        </Radio.Group>
+                    <Form.Item
+                        name="name"
+                        label={t('resources.cluster.fields.name')}
+                        rules={[{ required: true }]}
+                    >
+                        <Input disabled={isEdit} />
                     </Form.Item>
-                )}
-                {!isEdit && (
-                    <>
+                    {isEdit && (
                         <Form.Item
-                            label="KubeConfig"
-                            name="kubeconfig"
-                            rules={[{ required: true }]}
+                            name="storage_class"
+                            label={t('resources.cluster.storage_class')}
                         >
-                            <Input.TextArea
-                                placeholder={t('resources.cluster.tips.inputPlaceholder')}
-                                rows={4}
-                            ></Input.TextArea>
+                            <Radio.Group>
+                                <Radio value="default">Default</Radio>
+                                {storageList.map((item, index) => {
+                                    return (
+                                        <Radio key={index} value={item}>
+                                            {item}
+                                        </Radio>
+                                    );
+                                })}
+                            </Radio.Group>
                         </Form.Item>
-                        <PromptBox>
-                            <IconBox>
-                                <Icon style={{ fontSize: 20 }} component={IconQuery} />
-                            </IconBox>
-                            <ul>
-                                <li>{t('resources.cluster.tips.kubeconfig')}</li>
-                                <li>kubectl config use-context dev-cluster</li>
-                                <li>kubectl config view --minify --raw --flatten</li>
-                            </ul>
-                        </PromptBox>
-                    </>
-                )}
-                <BtnBox>
-                    <Button onClick={() => onCancel()} style={{ marginRight: 12 }}>
-                        {t('common.bt.cancel')}
-                    </Button>
-                    <Button htmlType="submit" type="primary">
-                        {t('common.bt.confirm')}
-                    </Button>
-                </BtnBox>
-            </Form>
+                    )}
+                    {!isEdit && (
+                        <>
+                            <Form.Item
+                                label="KubeConfig"
+                                name="kubeconfig"
+                                rules={[{ required: true }]}
+                            >
+                                <Input.TextArea
+                                    placeholder={t('resources.cluster.tips.inputPlaceholder')}
+                                    rows={4}
+                                ></Input.TextArea>
+                            </Form.Item>
+                            <PromptBox>
+                                <IconBox>
+                                    <Icon style={{ fontSize: 20 }} component={IconQuery} />
+                                </IconBox>
+                                <ul>
+                                    <li>{t('resources.cluster.tips.kubeconfig')}</li>
+                                    <li>kubectl config use-context dev-cluster</li>
+                                    <li>kubectl config view --minify --raw --flatten</li>
+                                </ul>
+                            </PromptBox>
+                        </>
+                    )}
+                    <BtnBox>
+                        <Button onClick={() => onCancel()} style={{ marginRight: 12 }}>
+                            {t('common.bt.cancel')}
+                        </Button>
+                        <Button htmlType="submit" type="primary">
+                            {t('common.bt.confirm')}
+                        </Button>
+                    </BtnBox>
+                </Form>
+            </div>
         </Modal>
     );
 };

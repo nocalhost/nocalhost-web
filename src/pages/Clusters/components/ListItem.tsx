@@ -112,6 +112,7 @@ const FlexColumnDiv = styled.div`
 const DetailItem = styled.li`
     display: flex;
     justify-content: space-between;
+    font-size: 14px;
     align-items: center;
     line-height: 20px;
     margin-bottom: 16px;
@@ -336,17 +337,31 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             radius: 0.82,
         });
         chart.axis(false);
+        const colorArr = ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'];
+        const legendArr = resources.map((item, index) => {
+            return {
+                name: t(`resources.cluster.${item.resource_name}`),
+                marker: {
+                    symbol: 'circle',
+                    fill: colorArr[index],
+                    radius: 4,
+                },
+            };
+        });
         chart.legend({
             position: 'bottom',
+            custom: true,
+            items: legendArr,
             itemWidth: 60,
             offsetY: -20,
+            fontSize: 14,
         });
 
         // 将数据映射到上面注册的Shape——interval，并绑定动画
         chart
             .interval()
             .position('resource_name*percentage')
-            .color('resource_name', ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'])
+            .color('resource_name', colorArr)
             .shape('tick')
             .size(12)
             .animate({
@@ -460,7 +475,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                         <DetailItemLabel>
                             {t('resources.cluster.fields.created_at')}
                         </DetailItemLabel>
-                        <span>{moment(data.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>
+                        <span>{moment(data.created_at).format('YYYY/MM/DD hh:mm:ss')}</span>
                     </DetailItem>
                     <DetailItem>
                         <DetailItemLabel>{t('resources.cluster.fields.user')}</DetailItemLabel>

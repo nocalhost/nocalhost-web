@@ -175,8 +175,8 @@
                 "storage_class": "Storage Class"
             },
             "tips": {
-                "kubeconfig": "How to get kubeconfig?",
-                "inputPlaceholder": "Please input Kubeconfig",
+                "kubeconfig": "How to get KubeConfig?",
+                "inputPlaceholder": "Please input KubeConfig",
                 "addSuccess": "Add Cluster Success!",
                 "editSuccess": "Edit Cluster Success!"
             },

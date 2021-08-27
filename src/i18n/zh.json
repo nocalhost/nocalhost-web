@@ -176,8 +176,8 @@
                 "storage_class": "存储类型"
             },
             "tips": {
-                "kubeconfig": "如何获取 kubeconfig？",
-                "inputPlaceholder": "请输入 Kubeconfig",
+                "kubeconfig": "如何获取 kubeConfig？",
+                "inputPlaceholder": "请输入 KubeConfig",
                 "addSuccess": "添加集群成功",
                 "editSuccess": "修改集群成功"
             },

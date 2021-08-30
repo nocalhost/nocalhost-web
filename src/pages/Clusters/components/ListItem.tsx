@@ -337,7 +337,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
             radius: 0.82,
         });
         chart.axis(false);
-        const colorArr = ['#fe8afe', '#ffd05a', '#1ee7e7', '#49a5ff'];
+        const colorArr = ['#49a5ff', '#1ee7e7', '#ffd05a', '#fe8afe'];
         const legendArr = resources.map((item, index) => {
             return {
                 name: t(`resources.cluster.${item.resource_name}`),
@@ -361,7 +361,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         chart
             .interval()
             .position('resource_name*percentage')
-            .color('resource_name', colorArr)
+            .color('resource_name', colorArr.reverse())
             .shape('tick')
             .size(12)
             .animate({

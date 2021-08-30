@@ -24,6 +24,10 @@ const OtherConfigItem = styled.div`
     border-radius: 4px;
     display: flex;
     align-items: center;
+
+    .ant-form-item {
+        margin-bottom: 0;
+    }
 `;
 
 const DescBox = styled.div`

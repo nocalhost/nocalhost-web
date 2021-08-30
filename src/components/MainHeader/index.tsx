@@ -135,7 +135,7 @@ function MainHeader() {
             <FlexBetween>
                 <Flex>
                     <Logo src={IconLogo}></Logo>
-                    <LogoName>Nocalhost Service Dashboard</LogoName>
+                    <LogoName>Nocalhost Server Dashboard</LogoName>
                 </Flex>
                 <FlexHeader>
                     <Popover

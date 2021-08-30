@@ -59,7 +59,7 @@ function Login() {
                 <LoginHeader>
                     <Flex>
                         <Logo src={IconLogo}></Logo>
-                        <LogoName>Nocalhost Service Dashboard</LogoName>
+                        <LogoName>Nocalhost Server Dashboard</LogoName>
                     </Flex>
                     <a
                         href="https://nocalhost.dev/docs/server/deploy-server/"

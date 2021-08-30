@@ -131,6 +131,9 @@ const CardItem = styled.div`
         font-family: PingFangSC-Regular;
         font-size: 12px;
         font-weight: normal;
+        max-height: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &:nth-child(2) {
@@ -152,7 +155,6 @@ const ChooseType = ({
     const handleCancel = () => {
         onCancel && onCancel();
     };
-    console.log('lang: ', i18n.language);
     const handleClickContent = (e: React.MouseEvent) => {
         e.stopPropagation();
     };

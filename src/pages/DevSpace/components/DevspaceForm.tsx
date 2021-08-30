@@ -340,7 +340,6 @@ const DevspaceForm = ({
                         </Form.Item>
                     </FormFlexBox>
                 </OtherConfigItem>
-
                 {!isAdmin && (
                     <>
                         <OtherConfigItem>

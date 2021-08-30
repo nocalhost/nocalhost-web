@@ -422,7 +422,6 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
 
     const onEdit = () => {
         setShowEdit(false);
-        message.success(t('common.message.edit'));
         onSubmit();
     };
 

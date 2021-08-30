@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Input, Radio, Button, message } from 'antd';
+import { Modal, Form, Input, Button, message, Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 import HTTP from '../../api/fetch';
 import Icon from '@ant-design/icons';
@@ -131,16 +131,16 @@ const AddCluster = (props: IProps) => {
                             name="storage_class"
                             label={t('resources.cluster.storage_class')}
                         >
-                            <Radio.Group>
-                                <Radio value="default">Default</Radio>
+                            <Select>
+                                <Select.Option value="default">Default</Select.Option>
                                 {storageList.map((item, index) => {
                                     return (
-                                        <Radio key={index} value={item}>
+                                        <Select.Option key={index} value={item}>
                                             {item}
-                                        </Radio>
+                                        </Select.Option>
                                     );
                                 })}
-                            </Radio.Group>
+                            </Select>
                         </Form.Item>
                     )}
                     {!isEdit && (

@@ -131,7 +131,7 @@ const CardItem = styled.div`
         font-family: PingFangSC-Regular;
         font-size: 12px;
         font-weight: normal;
-        max-height: 130px;
+        height: 130px;
         overflow: hidden;
         text-overflow: ellipsis;
     }

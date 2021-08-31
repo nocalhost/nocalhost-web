@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Tooltip } from 'antd';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
@@ -33,7 +33,7 @@ interface PropsType {
     HoverIcon?: React.ComponentType;
     NormalIcon: React.ComponentType;
     style?: StyleType;
-    title?: string;
+    title?: string | ReactNode;
     placement?: TooltipPlacement;
 }
 

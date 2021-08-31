@@ -19,7 +19,7 @@ const WrapBox = styled.div`
     right: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 0.9);
-    z-index: 10;
+    z-index: 100;
 
     .close-box {
         position: absolute;
@@ -58,7 +58,11 @@ const CardBox = styled.div`
     justify-content: center;
 `;
 
-const CardItem = styled.div`
+interface ICardItem {
+    lang: string;
+}
+
+const CardItem = styled.div<ICardItem>`
     width: 506px;
     height: 260px;
     display: flex;
@@ -134,6 +138,11 @@ const CardItem = styled.div`
         height: 130px;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: break-all;
+        text-align: ${(props) => (props.lang === 'zh' ? 'justify' : 'left')};
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
     }
 
     &:nth-child(2) {
@@ -167,7 +176,7 @@ const ChooseType = ({
                 <ContentTitle>{t('resources.devSpace.tips.chooseType')}</ContentTitle>
 
                 <CardBox>
-                    <CardItem>
+                    <CardItem lang={i18n.language}>
                         <div className="left">
                             <div className="title">
                                 <Icon
@@ -203,7 +212,7 @@ const ChooseType = ({
                             <ImageDevSpace />
                         </div>
                     </CardItem>
-                    <CardItem>
+                    <CardItem lang={i18n.language}>
                         <div className="left">
                             <div className="title">
                                 <Icon

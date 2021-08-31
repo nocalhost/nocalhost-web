@@ -437,6 +437,16 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
         }
     }
 
+    const ResourceTip = () => {
+        return (
+            <>
+                <span>{t('resources.cluster.tips.resourceTip')}</span>
+                <br />
+                <span>{t('resources.cluster.tips.resourceTip2')}</span>
+            </>
+        );
+    };
+
     return (
         <ListBox>
             <DetailContainer>
@@ -522,7 +532,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                         {t('resources.cluster.workload')}
                         <CommonIcon
                             NormalIcon={IconHelp}
-                            title={t('resources.cluster.tips.resourceTip')}
+                            title={<ResourceTip />}
                             style={{ fontSize: 20, marginLeft: 6 }}
                         />
                     </InfoTitle>

@@ -180,7 +180,8 @@
                 "inputPlaceholder": "请输入 KubeConfig",
                 "addSuccess": "添加集群成功",
                 "editSuccess": "修改集群成功",
-                "resourceTip": "CPU使用值：每秒使用值(30秒采集一次指标)内存、容器组、本地存储使用值：瞬时使用值(30秒采集一次指标)"
+                "resourceTip": "CPU使用值：每秒使用值(30秒采集一次指标)",
+                "resourceTip2": "内存、容器组、本地存储使用值：当前使用值(30秒采集一次指标)"
             },
             "delete": {
                 "confirm": {

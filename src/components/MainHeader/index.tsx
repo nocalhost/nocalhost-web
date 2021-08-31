@@ -416,7 +416,11 @@ function MainHeader() {
                 <AddCluster onCancel={() => setDialogType('')} onSubmit={handleOkClusterForm} />
             )}
             {dialogType === DIALOG_TYPE.MESH && (
-                <ChooseType onCreateDev={onCreateDev} onCreateMesh={onCreateMesh} />
+                <ChooseType
+                    onCancel={() => setDialogType('')}
+                    onCreateDev={onCreateDev}
+                    onCreateMesh={onCreateMesh}
+                />
             )}
             {dialogType === DIALOG_TYPE.DEVSPACES && (
                 <Dialog

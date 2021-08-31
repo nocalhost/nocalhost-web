@@ -13,6 +13,7 @@ import { ReactComponent as IconDelete } from '../../../images/icon/icon_btn_del.
 import { ReactComponent as IconData } from '../../../images/icon/icon_resource_data.svg';
 import AddCluster from '../../../components/AddCluster';
 import CommonIcon from '../../../components/CommonIcon';
+import { ReactComponent as IconHelp } from '../../../images/icon/icon_label_query.svg';
 import { ClusterItemInfo } from '../../../types/index';
 import DeleteModal from '../../../components/DeleteModal';
 
@@ -83,6 +84,8 @@ const InfoTitle = styled.h3`
     margin-bottom: 0;
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 10;
 `;
 
 const Flex1Ul = styled.ul`
@@ -517,6 +520,11 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                     <InfoTitle>
                         <Icon component={IconData} style={{ fontSize: 20, marginRight: 6 }} />
                         {t('resources.cluster.workload')}
+                        <CommonIcon
+                            NormalIcon={IconHelp}
+                            title={t('resources.cluster.tips.resourceTip')}
+                            style={{ fontSize: 20, marginLeft: 6 }}
+                        />
                     </InfoTitle>
                     <canvas
                         style={{ position: 'relative', top: '-20px' }}

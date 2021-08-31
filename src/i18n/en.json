@@ -178,7 +178,8 @@
                 "kubeconfig": "How to get KubeConfig?",
                 "inputPlaceholder": "Please input KubeConfig",
                 "addSuccess": "Add Cluster Success!",
-                "editSuccess": "Edit Cluster Success!"
+                "editSuccess": "Edit Cluster Success!",
+                "resourceTip": "CPU usage value: usage value per second (collection of indicators every 30 seconds) memory, container group, local storage usage value: instantaneous usage value (collection of indicators every 30 seconds)"
             },
             "delete": {
                 "confirm": {

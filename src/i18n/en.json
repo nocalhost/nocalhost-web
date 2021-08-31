@@ -315,7 +315,7 @@
                 "cluster_scope": "This space has cluster resource permissions",
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
-                "setLimitDesc": "Let me explain what to do after turning on the resource limit",
+                "setLimitDesc": "Setting the resource limit will limit the total resource usage of the current space, and the resource usage of the Container in each Pod in the current space will also be limited",
                 "setBaseSpaceTip": "Whether to set as the basic development space",
                 "setBaseSpaceDesc": "Set as the basic development space, add Istio sidecar automatic injection tags to the corresponding namespace"
             },

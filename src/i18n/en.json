@@ -281,7 +281,7 @@
         },
         "space": {
             "name": "DevSpace",
-            "shareType": "ShareType",
+            "shareType": "ShareSpace",
             "isolateSpace": "IsolateSpace",
             "fields": {
                 "space_name": "Space Name",

@@ -242,6 +242,7 @@ function Application() {
                 const index = args[2];
                 const record = args[1];
                 const object = JSON.parse(record?.context);
+                const canOperation = !!user.is_admin || record.user_id === user.id;
                 return (
                     <div style={{ display: 'flex' }} id="operation">
                         <IconBox onClick={() => handleEdit(record.id)}>
@@ -253,9 +254,9 @@ function Application() {
                             ></CommonIcon>
                         </IconBox>
                         {/* {(!!record.editable || !!user.is_admin) && (
-                            
+                                !!user.is_admin && 
                         )} */}
-                        {!!user.is_admin && (
+                        {
                             <Popover
                                 trigger="click"
                                 placement="bottom"
@@ -289,46 +290,55 @@ function Application() {
                                                       })
                                             }
                                         ></DeleteModal>
-
-                                        <PopItem
-                                            disabled={record.public === 1}
-                                            onClick={() => {
-                                                {
-                                                    record.public === 0 &&
-                                                        history.push(
-                                                            `/dashboard/application/authorize/${record.id}?name=${object.application_name}`
-                                                        );
-                                                }
-                                            }}
-                                        >
-                                            {t('resources.application.bt.auth')}
-                                        </PopItem>
-                                        <PopItem
-                                            onClick={() => {
-                                                setDeleteModalShow(true);
-                                                setPopVisibleIndex(-1);
-                                                setType(record.public === 0 ? 'public' : 'private');
-                                            }}
-                                        >
-                                            {record.public === 0
-                                                ? t('resources.application.auth.bt.public')
-                                                : t('resources.application.auth.bt.private')}
-                                        </PopItem>
-                                        <PopItem
-                                            onClick={() => {
-                                                setDeleteModalShow(true);
-                                                setPopVisibleIndex(-1);
-                                                setType('delete');
-                                            }}
-                                        >
-                                            {t('common.bt.delete')}
-                                        </PopItem>
+                                        {!!user.is_admin && (
+                                            <PopItem
+                                                disabled={record.public === 1}
+                                                onClick={() => {
+                                                    {
+                                                        record.public === 0 &&
+                                                            history.push(
+                                                                `/dashboard/application/authorize/${record.id}?name=${object.application_name}`
+                                                            );
+                                                    }
+                                                }}
+                                            >
+                                                {t('resources.application.bt.auth')}
+                                            </PopItem>
+                                        )}
+                                        {
+                                            <PopItem
+                                                disabled={!canOperation}
+                                                onClick={() => {
+                                                    setDeleteModalShow(true);
+                                                    setPopVisibleIndex(-1);
+                                                    setType(
+                                                        record.public === 0 ? 'public' : 'private'
+                                                    );
+                                                }}
+                                            >
+                                                {record.public === 0
+                                                    ? t('resources.application.auth.bt.public')
+                                                    : t('resources.application.auth.bt.private')}
+                                            </PopItem>
+                                        }
+                                        {
+                                            <PopItem
+                                                disabled={!canOperation}
+                                                onClick={() => {
+                                                    setDeleteModalShow(true);
+                                                    setPopVisibleIndex(-1);
+                                                    setType('delete');
+                                                }}
+                                            >
+                                                {t('common.bt.delete')}
+                                            </PopItem>
+                                        }
                                     </Fragment>
                                 }
                             >
                                 <Icon component={IconMore} style={{ fontSize: '20px' }} />
                             </Popover>
-                        )}
+                        }
                     </div>
                 );
             },

@@ -59,8 +59,8 @@ export const PopItem = styled.div<DisabledType>`
     line-height: 40px;
     cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     &:hover {
-        color: #ff3f3f;
-        background: rgb(255, 63, 63, 0.08);
+        color: ${(props) => (props.disabled ? '#36435c' : '#ff3f3f')};
+        background: ${(props) => (props.disabled ? '#fff' : 'rgb(255, 63, 63, 0.08)')};
     }
 `;
 

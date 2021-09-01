@@ -309,11 +309,15 @@ function Application() {
                                             <PopItem
                                                 disabled={!canOperation}
                                                 onClick={() => {
-                                                    setDeleteModalShow(true);
-                                                    setPopVisibleIndex(-1);
-                                                    setType(
-                                                        record.public === 0 ? 'public' : 'private'
-                                                    );
+                                                    if (canOperation) {
+                                                        setDeleteModalShow(true);
+                                                        setPopVisibleIndex(-1);
+                                                        setType(
+                                                            record.public === 0
+                                                                ? 'public'
+                                                                : 'private'
+                                                        );
+                                                    }
                                                 }}
                                             >
                                                 {record.public === 0
@@ -325,9 +329,11 @@ function Application() {
                                             <PopItem
                                                 disabled={!canOperation}
                                                 onClick={() => {
-                                                    setDeleteModalShow(true);
-                                                    setPopVisibleIndex(-1);
-                                                    setType('delete');
+                                                    if (canOperation) {
+                                                        setDeleteModalShow(true);
+                                                        setPopVisibleIndex(-1);
+                                                        setType('delete');
+                                                    }
                                                 }}
                                             >
                                                 {t('common.bt.delete')}

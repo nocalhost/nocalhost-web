@@ -145,8 +145,11 @@ const CardItem = styled.div<ICardItem>`
         -webkit-box-orient: vertical;
     }
 
-    &:nth-child(2) {
+    &:hover {
         box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.12), 0 0.5px 1.5px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    &:nth-child(2) {
         margin-right: 0;
     }
 `;

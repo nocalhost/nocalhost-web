@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Switch, Button, message } from 'antd';
+import { Form, Input, Select, Switch, Button, message, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
 import styled from 'styled-components';
@@ -120,6 +120,7 @@ const DevspaceForm = ({
     const [space_req_cpu, set_space_req_cpu] = useState('');
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
     useEffect(() => {
         if (isEdit && record) {
@@ -193,6 +194,7 @@ const DevspaceForm = ({
     }
 
     const handleSubmit = async (values: any) => {
+        setIsSubmit(true);
         try {
             const {
                 space_name,
@@ -263,6 +265,7 @@ const DevspaceForm = ({
                         onSubmit && onSubmit();
                     }
                 }
+                setIsSubmit(false);
             } else {
                 const response = await HTTP.post('dev_space', {
                     cluster_id,
@@ -273,12 +276,14 @@ const DevspaceForm = ({
                     isLimit,
                     space_resource_limit: limitObj,
                 });
+                setIsSubmit(false);
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
                     onSubmit && onSubmit();
                 }
             }
         } catch (e) {
+            setIsSubmit(false);
             throw new Error(e);
         }
     };
@@ -286,12 +291,22 @@ const DevspaceForm = ({
     return (
         <>
             <Form
-                style={{ minWidth: 632 }}
+                style={{ minWidth: 632, position: 'relative' }}
                 form={form}
                 layout="vertical"
                 scrollToFirstError={true}
                 onFinish={handleSubmit}
             >
+                {isSubmit && (
+                    <Spin
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    />
+                )}
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
                     <Input />
                 </Form.Item>
@@ -518,7 +533,7 @@ const DevspaceForm = ({
                     <Button onClick={onCancel} style={{ marginRight: 12 }}>
                         {t('common.bt.cancel')}
                     </Button>
-                    <Button type="primary" htmlType="submit">
+                    <Button disabled={isSubmit} type="primary" htmlType="submit">
                         {t('common.bt.confirm')}
                     </Button>
                 </BtnBox>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Switch, Button, message, Spin } from 'antd';
+import { Form, Input, Select, Switch, Button, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
 import styled from 'styled-components';
@@ -297,16 +297,6 @@ const DevspaceForm = ({
                 scrollToFirstError={true}
                 onFinish={handleSubmit}
             >
-                {isSubmit && (
-                    <Spin
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                        }}
-                    />
-                )}
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
                     <Input />
                 </Form.Item>

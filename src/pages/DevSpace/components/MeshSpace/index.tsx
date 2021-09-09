@@ -67,6 +67,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [headerInfo, setHeaderInfo] = useState<HeaderInfo>();
     const [inputHeaderInfo, setInputHeaderInfo] = useState<HeaderInfo>();
     const [namespace, setNameSpace] = useState<string>('');
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const timer = useRef<number | null>();
     const [form] = Form.useForm();
 
@@ -223,6 +224,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     };
 
     const handleSubmit = async (values: any) => {
+        setIsSubmit(true);
         if (currentStep === 0) {
             setFormInfo({
                 ...values,
@@ -307,6 +309,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                 if (modifyFlag) {
                     message.success(t('common.message.edit'));
                 }
+                setIsSubmit(false);
             } else {
                 const response = await HTTP.post('dev_space', {
                     ...formInfo,
@@ -325,6 +328,8 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         namespace,
                     },
                 });
+
+                setIsSubmit(false);
 
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
@@ -693,7 +698,12 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                                 </Button>
                             )}
                             {currentStep === 1 && (
-                                <Button style={{ marginLeft: 12 }} type="primary" htmlType="submit">
+                                <Button
+                                    disabled={isSubmit}
+                                    style={{ marginLeft: 12 }}
+                                    type="primary"
+                                    htmlType="submit"
+                                >
                                     {t('common.bt.confirm')}
                                 </Button>
                             )}

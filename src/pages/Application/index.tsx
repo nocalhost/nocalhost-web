@@ -48,6 +48,13 @@ function Application() {
     const [filterValue, setFilterValue] = useState({ name: '', type: 'all' });
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [popVisibleIndex, setPopVisibleIndex] = useState(-1);
+    const [currentRecord, setCurrentRecord] = useState<{
+        id: string;
+        application_name: string;
+    }>({
+        id: '',
+        application_name: '',
+    });
     const [type, setType] = useState('');
     const [formData, setFormData] = useState({});
     const { user } = useContext(UserContext);
@@ -265,31 +272,6 @@ function Application() {
                                 onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
                                 content={
                                     <Fragment>
-                                        <DeleteModal
-                                            title={
-                                                type === 'delete'
-                                                    ? t('resources.application.delete.deleteTitle')
-                                                    : type === 'public'
-                                                    ? t('resources.application.auth.public.title')
-                                                    : t('resources.application.auth.private.title')
-                                            }
-                                            onCancel={() => setDeleteModalShow(false)}
-                                            onConfirm={() => handleDelete(record.id)}
-                                            visible={deleteModalShow}
-                                            message={
-                                                type === 'delete'
-                                                    ? t('resources.application.delete.info', {
-                                                          name: object.application_name,
-                                                      })
-                                                    : type === 'public'
-                                                    ? t('resources.application.auth.public.info', {
-                                                          name: object.application_name,
-                                                      })
-                                                    : t('resources.application.auth.private.info', {
-                                                          name: object.application_name,
-                                                      })
-                                            }
-                                        ></DeleteModal>
                                         {!!user.is_admin && (
                                             <PopItem
                                                 disabled={record.public === 1}
@@ -310,6 +292,11 @@ function Application() {
                                                 disabled={!canOperation}
                                                 onClick={() => {
                                                     if (canOperation) {
+                                                        setCurrentRecord({
+                                                            id: record.id,
+                                                            application_name:
+                                                                object.application_name,
+                                                        });
                                                         setDeleteModalShow(true);
                                                         setPopVisibleIndex(-1);
                                                         setType(
@@ -330,6 +317,11 @@ function Application() {
                                                 disabled={!canOperation}
                                                 onClick={() => {
                                                     if (canOperation) {
+                                                        setCurrentRecord({
+                                                            id: record.id,
+                                                            application_name:
+                                                                object.application_name,
+                                                        });
                                                         setDeleteModalShow(true);
                                                         setPopVisibleIndex(-1);
                                                         setType('delete');
@@ -434,6 +426,32 @@ function Application() {
                     )}
                 </TableWrap>
             </TableBox>
+
+            <DeleteModal
+                title={
+                    type === 'delete'
+                        ? t('resources.application.delete.deleteTitle')
+                        : type === 'public'
+                        ? t('resources.application.auth.public.title')
+                        : t('resources.application.auth.private.title')
+                }
+                onCancel={() => setDeleteModalShow(false)}
+                onConfirm={() => handleDelete(currentRecord.id)}
+                visible={deleteModalShow}
+                message={
+                    type === 'delete'
+                        ? t('resources.application.delete.info', {
+                              name: currentRecord?.application_name,
+                          })
+                        : type === 'public'
+                        ? t('resources.application.auth.public.info', {
+                              name: currentRecord?.application_name,
+                          })
+                        : t('resources.application.auth.private.info', {
+                              name: currentRecord?.application_name,
+                          })
+                }
+            ></DeleteModal>
         </div>
     );
 }

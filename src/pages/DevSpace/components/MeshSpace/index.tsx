@@ -224,13 +224,13 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     };
 
     const handleSubmit = async (values: any) => {
-        setIsSubmit(true);
         if (currentStep === 0) {
             setFormInfo({
                 ...values,
             });
             !namespace && generateNamespace(values.user_id);
         } else {
+            setIsSubmit(true);
             const { header, header_key, header_value } = values;
             const {
                 container_limits_cpu,

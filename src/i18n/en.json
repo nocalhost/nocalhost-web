@@ -433,8 +433,8 @@
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to develop",
                 "sumOfItem": "Total {{count}} item",
-                "devSpaceDesc": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
-                "meshSpaceDesc": "A shared development space corresponds to a K8s namespace. The shared development space is established based on the basic development space and shares the services of the basic development space; users have all the permissions of their own shared development space and can share the permissions of the shared development space with other users.",
+                "devSpaceDesc": "A isolated DevSpace corresponds to one K8s namespace and they are isolated from each other, users have all the privileges of their own isolated DevSpace, and can share the isolated DevSpace privileges with other users.",
+                "meshSpaceDesc": "A shared DevSpace corresponds to a K8s namespace. The shared DevSpace is built based on the base DevSpace and shares the services of the base DevSpace; users have all the permissions of their own shared DevSpace and can share the shared DevSpace to other users.",
                 "learnMore": "Learn More"
             }
         },

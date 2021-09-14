@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-299.000000, -383.000000)">
+            <g id="编组-8" transform="translate(299.000000, 383.000000)">
+                <path d="M17.8571429,7.85714286 L17.8571429,7.85714286 L17.8571429,15 C17.8571429,16.5779564 16.5779564,17.8571429 15,17.8571429 L5,17.8571429 C3.42204357,17.8571429 2.14285714,16.5779564 2.14285714,15 L2.14285714,5 C2.14285714,3.42204357 3.42204357,2.14285714 5,2.14285714 L11.4285714,2.14285714 L11.4285714,2.14285714" id="路径" stroke="#B6C2CD" stroke-width="1.5"></path>
+                <path d="M17.4696699,1.46966991 L18.5303301,2.53033009 L9.12,11.9396699 L7,13 L8.06,10.8796699 L17.4696699,1.46966991 Z" id="形状结合" fill="#36435C" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

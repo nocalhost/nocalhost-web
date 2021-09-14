@@ -1,0 +1,23 @@
+.avatarPop {
+    padding-top: 0px !important;
+}
+
+.tranPop {
+    padding-right: 0px !important;
+}
+
+.avatarPop .ant-popover-arrow {
+    display: none;
+}
+
+.tranPop .ant-popover-arrow {
+    display: none;
+}
+
+.addPop {
+    padding-top: 0px !important;
+}
+
+.addPop .ant-popover-arrow {
+    display: none;
+}

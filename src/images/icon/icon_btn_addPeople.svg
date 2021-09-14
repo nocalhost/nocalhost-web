@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-切图" transform="translate(-419.000000, -383.000000)" stroke="#36435C" stroke-width="1.5">
+            <g id="编组-8" transform="translate(419.000000, 383.000000)">
+                <path d="M11,17.5 L4.5,17.5 C3.3954305,17.5 2.5,16.6045695 2.5,15.5 L2.5,4.5 C2.5,3.3954305 3.3954305,2.5 4.5,2.5 L15.5,2.5 C16.6045695,2.5 17.5,3.3954305 17.5,4.5 L17.5,11" id="路径"></path>
+                <circle id="椭圆形" cx="10" cy="7" r="2"></circle>
+                <path d="M13.4996345,11.0613378 C12.8171672,9.8319905 11.5057445,9 10,9 C7.790861,9 6,10.790861 6,13" id="路径"></path>
+                <line x1="12.5" y1="14.5" x2="18" y2="14.5" id="路径"></line>
+                <line x1="15.25" y1="11.75" x2="15.25" y2="17.25" id="路径"></line>
+            </g>
+        </g>
+    </g>
+</svg>

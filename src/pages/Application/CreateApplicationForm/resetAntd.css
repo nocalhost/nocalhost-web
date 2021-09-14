@@ -1,0 +1,21 @@
+#creareApplicationForm .ant-row {
+    display: block;
+}
+#creareApplicationForm .ant-radio-wrapper {
+    margin-right: 40px;
+}
+/* #creareApplicationForm .ant-input:hover {
+    border-color: #0080ff !important;
+}
+#creareApplicationForm .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #0080ff !important;
+}
+#creareApplicationForm .ant-form-item-control-input-content {
+    border-radius: 2px;
+}
+#creareApplicationForm .ant-input-affix-wrapper {
+    border: 1px solid #dae1e8;
+}
+#creareApplicationForm .ant-form-item-control-input-content .ant-input {
+    border: 1px solid #dae1e8;
+} */

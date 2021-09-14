@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-Menu-交互备份" transform="translate(-619.000000, -299.000000)" stroke="#36435C" stroke-width="1.5">
+            <g id="icon_close" transform="translate(619.000000, 299.000000)">
+                <g id="编组-12" transform="translate(10.000000, 10.000000) rotate(-315.000000) translate(-10.000000, -10.000000) translate(3.000000, 3.000000)">
+                    <line x1="-2.27318164e-13" y1="7" x2="14" y2="7" id="路径-5"></line>
+                    <line x1="7" y1="0" x2="7" y2="14" id="路径-8"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

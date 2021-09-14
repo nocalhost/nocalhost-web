@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160px" height="160px" viewBox="0 0 160 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <defs>
+        <rect id="path-1" x="0" y="0" width="100" height="100" rx="8"></rect>
+        <filter x="-50.0%" y="-40.0%" width="200.0%" height="200.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="10" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="15" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0366009094   0 0 0 0 0.0603229773   0 0 0 0 0.276098279  0 0 0 0.14 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-30.5%" y="-20.5%" width="161.0%" height="161.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.929411765   0 0 0 0 0.345098039   0 0 0 0 0.929411765  0 0 0 0.05 0" type="matrix" in="shadowInnerInner1" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="-1" dy="-1" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feComposite in="shadowOffsetInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.105718866   0 0 0 0 0.734375  0 0 0 0.1 0" type="matrix" in="shadowInnerInner2" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-124.3%" y="-125.0%" width="348.6%" height="350.0%" filterUnits="objectBoundingBox" id="filter-5">
+            <feGaussianBlur stdDeviation="20" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-124.3%" y="-125.0%" width="348.6%" height="350.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="20" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-124.3%" y="-125.0%" width="348.6%" height="350.0%" filterUnits="objectBoundingBox" id="filter-7">
+            <feGaussianBlur stdDeviation="20" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-110.5%" y="-111.1%" width="321.0%" height="322.2%" filterUnits="objectBoundingBox" id="filter-8">
+            <feGaussianBlur stdDeviation="20" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01-开发环境-创建环境-创建共享开发环境" transform="translate(-948.000000, -398.000000)">
+            <g id="创建共享开发环境" transform="translate(244.000000, 104.000000)">
+                <g id="Right" transform="translate(420.000000, 0.000000)">
+                    <g id="引导图" transform="translate(0.000000, 24.000000)">
+                        <g id="编组-6" transform="translate(48.000000, 290.000000)">
+                            <g id="编组-2" transform="translate(266.000000, 0.000000)">
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="icon_bg_cluster">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-1"></use>
+                                </g>
+                                <g id="编组-7" opacity="0.695382" mask="url(#mask-2)">
+                                    <g transform="translate(-12.000000, 38.000000)">
+                                        <ellipse id="Oval" fill="#6F38FF" opacity="0.204297" filter="url(#filter-5)" cx="50.8478261" cy="24" rx="24.1304348" ry="24"></ellipse>
+                                        <rect id="Rectangle" fill="#0080FF" opacity="0.303934" filter="url(#filter-6)" x="80.7391304" y="14" width="48.2608696" height="48" rx="3.36"></rect>
+                                        <path d="M90.7486957,54 C92.6043724,54 94.1086957,55.5043232 94.1086957,57.36 L94.1086957,78 C94.1086957,91.254834 83.305132,102 69.9782609,102 C56.6513897,102 45.8478261,91.254834 45.8478261,78 C45.8478261,64.745166 56.6513897,54 69.9782609,54 L69.9782609,54 L90.7486957,54 Z" id="Combined-Shape" fill="#1EE7E7" opacity="0.196027" filter="url(#filter-7)"></path>
+                                        <ellipse id="Oval-Copy-2" fill="#ED58ED" opacity="0.198842" filter="url(#filter-8)" cx="27.1467391" cy="70.6" rx="27.1467391" ry="27"></ellipse>
+                                    </g>
+                                </g>
+                                <g id="编组-15" mask="url(#mask-2)">
+                                    <g transform="translate(16.000000, 16.000000)">
+                                        <g id="编组-10" transform="translate(4.375000, 2.187500)">
+                                            <rect id="矩形" fill="#36435C" x="0" y="0" width="54.6875" height="17.5" rx="3.28125"></rect>
+                                            <rect id="矩形" fill="#E8EEF4" x="6.5140029" y="4.375" width="4.37344635" height="8.75"></rect>
+                                            <rect id="矩形备份-6" fill="#E8EEF4" x="15.2608956" y="4.375" width="4.37344635" height="8.75"></rect>
+                                            <rect id="矩形备份-7" fill="#B6C2CD" x="37.1820622" y="7.65625" width="13.125" height="2.1875"></rect>
+                                        </g>
+                                        <g id="编组-10备份" transform="translate(4.375000, 21.875000)">
+                                            <path d="M51.40625,0 C53.2184343,2.44210397e-15 54.6875,1.46906566 54.6875,3.28125 L54.687,4.989 L49.9932417,2.27840866 C47.2583612,0.698863781 43.8886934,0.698863781 41.153813,2.27840866 L27.9758806,9.88939427 C25.2543999,11.4612001 23.5730971,14.3593748 23.5571548,17.5001884 L3.28125,17.5 C1.46906566,17.5 5.82610874e-16,16.0309343 0,14.21875 L0,3.28125 C-6.66017784e-16,1.46906566 1.46906566,-1.11196348e-16 3.28125,0 L51.40625,0 Z M47.9779128,4.92220156 L48.3521796,5.11980213 L54.687,8.778 L54.6875,14.21875 C54.6875,16.0309343 53.2184343,17.5 51.40625,17.5 L26.839,17.5 L26.8439791,17.2933505 C26.9234079,15.5363944 27.8301214,13.9224664 29.2819766,12.9404261 L29.6169427,12.7307877 L42.794875,5.11980213 C44.3914942,4.19766616 46.3321461,4.1317993 47.9779128,4.92220156 Z" id="形状结合" fill="#36435C"></path>
+                                            <rect id="矩形" fill="#E8EEF4" x="6.5140029" y="4.375" width="4.37344635" height="8.75"></rect>
+                                            <rect id="矩形备份-6" fill="#E8EEF4" x="15.2608956" y="4.375" width="4.37344635" height="8.75"></rect>
+                                        </g>
+                                        <g id="编组-10备份-2" transform="translate(4.375000, 41.562500)">
+                                            <path d="M23.557,0 L23.5570404,13.0797356 C23.5570404,14.6592037 23.9783389,16.1787084 24.7416016,17.5007267 L3.28125,17.5 C1.46906566,17.5 5.82610874e-16,16.0309343 0,14.21875 L0,3.28125 C-6.66017784e-16,1.46906566 1.46906566,-1.11196348e-16 3.28125,0 L23.557,0 Z M51.40625,0 C53.2184343,2.44210397e-15 54.6875,1.46906566 54.6875,3.28125 L54.6875,14.21875 C54.6875,16.0309343 53.2184343,17.5 51.40625,17.5 L29.0268739,17.5013034 C27.7621113,16.5373035 26.9657104,15.0711609 26.8522951,13.474747 L26.8382904,13.0797356 L26.838,0 L51.40625,0 Z" id="形状结合" fill="#36435C"></path>
+                                            <rect id="矩形" fill="#E8EEF4" x="6.5140029" y="4.375" width="4.37344635" height="8.75"></rect>
+                                            <rect id="矩形备份-6" fill="#E8EEF4" x="15.2608956" y="4.375" width="4.37344635" height="8.75"></rect>
+                                            <rect id="矩形备份-7" fill="#B6C2CD" x="37.1820622" y="7.65625" width="13.125" height="2.1875"></rect>
+                                        </g>
+                                        <g id="编组-10" transform="translate(31.215625, 26.250000)">
+                                            <path d="M15.8360819,0.74480213 L2.75766814,8.35578774 C1.05121716,9.34885725 0,11.1841254 0,13.1702644 L0,28.3922356 C0,30.3783746 1.05121716,32.2136428 2.75766814,33.2067123 L15.8360819,40.8176979 C17.5425328,41.8107674 19.6449672,41.8107674 21.3514181,40.8176979 L34.4298319,33.2067123 C36.1362828,32.2136428 37.1875,30.3783746 37.1875,28.3922356 L37.1875,13.1702644 C37.1875,11.1841254 36.1362828,9.34885725 34.4298319,8.35578774 L21.3514181,0.74480213 C19.6449672,-0.248267377 17.5425328,-0.248267377 15.8360819,0.74480213 Z" id="路径" fill="#36435C" fill-rule="nonzero"></path>
+                                            <path d="M15.8360819,0.74480213 L2.75766814,8.35578774 C1.05121716,9.34885725 0,11.1841254 0,13.1702644 L0,28.3922356 C0,30.3783746 1.05121716,32.2136428 2.75766814,33.2067123 L15.8360819,40.8176979 C17.5425328,41.8107674 19.6449672,41.8107674 21.3514181,40.8176979 L34.4298319,33.2067123 C36.1362828,32.2136428 37.1875,30.3783746 37.1875,28.3922356 L37.1875,13.1702644 C37.1875,11.1841254 36.1362828,9.34885725 34.4298319,8.35578774 L21.3514181,0.74480213 C19.6449672,-0.248267377 17.5425328,-0.248267377 15.8360819,0.74480213 Z" id="路径备份" fill="#36435C" fill-rule="nonzero"></path>
+                                            <line x1="18.59375" y1="5.1953125" x2="18.59375" y2="12.9882812" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875"></line>
+                                            <line x1="28.6237583" y1="11.0631385" x2="28.6504312" y2="18.8099084" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875" transform="translate(28.637095, 14.936523) rotate(60.000000) translate(-28.637095, -14.936523) "></line>
+                                            <line x1="28.6504312" y1="22.7525916" x2="28.6237583" y2="30.4993615" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875" transform="translate(28.637095, 26.625977) rotate(120.000000) translate(-28.637095, -26.625977) "></line>
+                                            <line x1="18.59375" y1="28.5742188" x2="18.59375" y2="36.3671875" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875" transform="translate(18.593750, 32.470703) rotate(180.000000) translate(-18.593750, -32.470703) "></line>
+                                            <line x1="8.53706884" y1="22.7525916" x2="8.56374173" y2="30.4993615" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875" transform="translate(8.550405, 26.625977) rotate(240.000000) translate(-8.550405, -26.625977) "></line>
+                                            <line x1="8.56374173" y1="11.0631385" x2="8.53706884" y2="18.8099084" id="路径-2" stroke="#E8EEF4" stroke-width="2.1875" transform="translate(8.550405, 14.936523) rotate(300.000000) translate(-8.550405, -14.936523) "></line>
+                                            <line x1="18.59375" y1="12.9882812" x2="18.59375" y2="20.78125" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875"></line>
+                                            <line x1="21.9281951" y1="14.9596228" x2="21.954868" y2="22.7063928" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875" transform="translate(21.941532, 18.833008) rotate(60.000000) translate(-21.941532, -18.833008) "></line>
+                                            <line x1="21.954868" y1="18.8561072" x2="21.9281951" y2="26.6028772" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875" transform="translate(21.941532, 22.729492) rotate(120.000000) translate(-21.941532, -22.729492) "></line>
+                                            <line x1="18.59375" y1="20.78125" x2="18.59375" y2="28.5742188" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875" transform="translate(18.593750, 24.677734) rotate(180.000000) translate(-18.593750, -24.677734) "></line>
+                                            <line x1="15.232632" y1="18.8561072" x2="15.2593049" y2="26.6028772" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875" transform="translate(15.245968, 22.729492) rotate(240.000000) translate(-15.245968, -22.729492) "></line>
+                                            <line x1="15.2593049" y1="14.9596228" x2="15.232632" y2="22.7063928" id="路径-2" stroke="#B6C2CD" stroke-width="2.1875" transform="translate(15.245968, 18.833008) rotate(300.000000) translate(-15.245968, -18.833008) "></line>
+                                            <ellipse id="椭圆形" stroke="#E8EEF4" stroke-width="2.1875" cx="18.59375" cy="20.78125" rx="8.6808369" ry="8.75"></ellipse>
+                                            <ellipse id="椭圆形备份" stroke="#E8EEF4" stroke-width="2.1875" cx="18.59375" cy="20.78125" rx="8.6808369" ry="8.75"></ellipse>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

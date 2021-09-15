@@ -42,22 +42,28 @@
         "user": {
             "info": "User belongs to the independent concept of Nocalhost, it's different with user in Kubernetes. When you use Nocalhost Server and Nocalhost Plugins, User is used to identify your identity and access control to resources.",
             "more": "Manage User",
-            "url": "https://nocalhost.dev/docs/server/manage-user"
+            "url": "https://nocalhost.dev/docs/server/server-overview#user"
         },
         "cluster": {
             "info": "A Nocalhost Cluster is usually corresponds to a Kubernetes cluster. Nocalhost supports to manage multi cluster like TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s etc.",
             "more": "Manage Cluster",
-            "url": "https://nocalhost.dev/docs/server/manage-cluster"
+            "url": "https://nocalhost.dev/docs/server/server-overview#cluster"
         },
         "devspace": {
             "info": "DevSpace is a concept of Nocalhost, which represents a pre-allocated development space managed by Nocalhost. Developers can deploy, uninstall, develop, and debug applications within DevSpace. DevSpaces are isolated from each other.",
             "more": "Manage DevSpace",
-            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
+            "url": "https://nocalhost.dev/docs/server/server-overview#devspace"
         },
         "application": {
             "info": "Application is a concept of Nocalhost, it is mainly used to manage a set of manifest files you want to apply for local development, it supports both Kubernetes manifest and helm chart. In other words, these manifests usually contain all the K8s resources that your own application depends on. If possible, we should try to keep it to a minimum.",
             "more": "Manage Applications",
-            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
+            "url": "https://nocalhost.dev/docs/server/server-overview#application"
+        },
+        "meshspace": {
+            "url": "https://nocalhost.dev/docs/server/manage-devspace-mesh"
+        },
+        "isospace": {
+            "url": "https://nocalhost.dev/docs/server/manage-devspace-iso"
         }
     },
     "common": {
@@ -316,8 +322,8 @@
                 "setAdminTip": "Whether to set as a cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
                 "setLimitDesc": "Setting the resource limit will limit the total resource usage of the current space, and the resource usage of the Container in each Pod in the current space will also be limited",
-                "setBaseSpaceTip": "Whether to set as the basic development space",
-                "setBaseSpaceDesc": "Set as the basic development space, add Istio sidecar automatic injection tags to the corresponding namespace"
+                "setBaseSpaceTip": "Whether to set as the base development space",
+                "setBaseSpaceDesc": "Set as the base development space, add Istio sidecar automatic injection tags to the corresponding namespace"
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",
@@ -467,19 +473,19 @@
         "meshSpace": {
             "selectBasic": "Select Base Space",
             "create": "Create Mesh Space",
-            "basicSpace": "Basic Space",
+            "basicSpace": "Base Space",
             "spaceName": "Dev Space Name",
             "tracingHeader": "Tracing Headers",
             "devService": "Dev Service",
             "selectCluster": "Please select a cluster in the form on the left",
-            "selectBasicService": "Select development services from the basic development space",
+            "selectBasicService": "Select development services from the base development space",
             "setTracingHeader": "Set Tracing Headers",
-            "selectServiceTip": "Select the application service to be developed from the basic space, and the selected application service will be copied to the shared space",
-            "shareWorkloadTip": "The shadow application copied from the basic space, the traffic with header {{header}} in the basic space will be forwarded here",
+            "selectServiceTip": "Select the application service to be developed from the base space, and the selected application service will be copied to the shared space",
+            "shareWorkloadTip": "The shadow application copied from the base space, the traffic with header {{header}} in the basic space will be forwarded here",
             "tracingHeaderTip": "Please select Tracing Headers on the left, traffic with this header will be forwarded from the basic space to the shared space",
             "selectUser": "Please select an owner",
             "selectClusterPlaceholder": "Please select a cluster",
-            "selectBaseSpace": "Please select the basic development space",
+            "selectBaseSpace": "Please select the base development space",
             "inputSpaceName": "Please enter the development space name",
             "selectDevService": "Please select development service"
         },

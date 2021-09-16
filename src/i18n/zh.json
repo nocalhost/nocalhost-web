@@ -42,22 +42,28 @@
         "user": {
             "info": "用户属于 Nocalhost 的独立概念，与 Kubernetes 中的 User 不同。 当您使用 Nocalhost Server 和 Nocalhost 插件时，用户用于识别您的身份和对资源的访问控制。",
             "more": "管理用户",
-            "url": "https://nocalhost.dev/docs/server/manage-user"
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview/#user"
         },
         "cluster": {
             "info": "集群是 Nocalhost 的一个概念，它管理运行开发空间中的应用程序的资源，通常对应着一个 Kubernetes 集群。Nocalhost 支持同时管理多个集群，这些集群可以是 TKE, ACK, CCE, GKE, ECS, Minikube, Kind, MicroK8s 等等。",
             "more": "管理集群",
-            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-cluster"
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview/#cluster"
         },
         "devspace": {
             "info": "开发空间是 Nocalhost 的一个概念，其代表由 Nocalhost 管理的一个预分配的云端开发的空间，开发者可以在 DevSpace 中随时部署，卸载，开发，调试应用。",
             "more": "管理开发空间",
-            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace"
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview/#devspace"
         },
         "application": {
             "info": "应用是 Nocalhost 的一个概念，它主要用于管理您想用于本地开发的一组 Manifest 文件。也就是说，这些 Manifest 通常包含你的应用所依赖的所有 K8s 资源，如果可能，我们应该尽量保持它的最小化。",
             "more": "管理应用",
-            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-app"
+            "url": "https://nocalhost.dev/zh-CN/docs/server/server-overview/#application"
+        },
+        "meshspace": {
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace-mesh"
+        },
+        "isospace": {
+            "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace-iso"
         }
     },
     "common": {

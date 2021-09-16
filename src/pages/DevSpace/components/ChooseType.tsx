@@ -196,12 +196,7 @@ const ChooseType = ({
                                     <Button onClick={() => onCreateDev()} type="primary">
                                         {t('common.bt.select')}
                                     </Button>
-                                    <a
-                                        href={`https://nocalhost.dev/${
-                                            i18n.language === 'zh' ? 'zh-CN' : ''
-                                        }/docs/server/server-overview#devspace`}
-                                        target="_black"
-                                    >
+                                    <a href={t('document.isospace.url')} target="_black">
                                         {t('resources.devSpace.tips.learnMore')}
                                         <Icon
                                             component={IconLink}
@@ -232,7 +227,7 @@ const ChooseType = ({
                                     <Button onClick={() => onCreateMesh()} type="primary">
                                         {t('common.bt.select')}
                                     </Button>
-                                    <a>
+                                    <a href={t('document.meshspace.url')} target="_black">
                                         {t('resources.devSpace.tips.learnMore')}
                                         <Icon
                                             component={IconLink}

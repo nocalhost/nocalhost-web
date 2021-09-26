@@ -496,7 +496,7 @@
             "selectBaseSpace": "Please select the base development space",
             "inputSpaceName": "Please enter the development space name",
             "selectDevService": "Please select development service",
-            "tip": "The Mesh development space is successfully created. When developing in the shared development space, the request header needs to be added as follows Tracing Header ",
+            "tip": "The MeshSpace is successfully created. When developing in the MeshSpace, the request header needs to be added as follows Tracing Header ",
             "tipImportant": "{{headerName}}: {{headerValue}}"
         },
         "profile": {

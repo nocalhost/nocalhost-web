@@ -338,8 +338,8 @@
                 "list": "环境列表",
                 "download": "下载 KubeConfig",
                 "resource_limit_not_implemented": "资源限制还未实现",
-                "copyHeaderName": "复制请求头名字",
-                "copyHeaderValue": "复制请求头值"
+                "copyHeaderName": "复制追踪请求头字段名",
+                "copyHeaderValue": "复制追踪请求头字段值"
             },
             "tips": {
                 "addSuccess": "创建开发空间成功！"

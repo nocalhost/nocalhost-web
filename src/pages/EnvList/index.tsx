@@ -370,7 +370,7 @@ const EnvList = () => {
     const selectAllOption = { value: 'all', text: t('common.select.all') };
 
     const spaceTypeOption = [
-        { value: 'ShareSpace', text: t('resources.space.shareType') },
+        { value: 'MeshSpace', text: t('resources.space.meshSpace') },
         { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
     ];
 

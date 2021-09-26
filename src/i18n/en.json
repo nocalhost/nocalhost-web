@@ -293,6 +293,7 @@
         "space": {
             "name": "DevSpace",
             "shareType": "ShareSpace",
+            "meshSpace": "MeshSpace",
             "isolateSpace": "IsolateSpace",
             "fields": {
                 "space_name": "Space Name",

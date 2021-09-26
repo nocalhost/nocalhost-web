@@ -69,10 +69,12 @@
     "common": {
         "operation": "Operation",
         "otherSet": "More Config",
+        "about": "About",
         "message": {
             "add": "Success Add",
             "edit": "Success Edit",
-            "delete": "Success Delete"
+            "delete": "Success Delete",
+            "copy": "Copy successfully"
         },
         "bt": {
             "delete": "Delete",
@@ -92,7 +94,10 @@
         },
         "info": {
             "logout": "Sign out",
-            "language": "Language"
+            "language": "Language",
+            "version": "Version",
+            "branch": "Branch",
+            "commitId": "Commit_ID"
         },
         "noSearch": "No relevant results were found",
         "noData": "No Data",
@@ -332,7 +337,9 @@
                 "show": "Show Space",
                 "list": "Space List",
                 "download": "Download KubeConfig",
-                "resource_limit_not_implemented": "Resource limit has not been implemented"
+                "resource_limit_not_implemented": "Resource limit has not been implemented",
+                "copyHeaderName": "Copy Tracing Header Name",
+                "copyHeaderValue": "Copy Tracing Header Value"
             },
             "tips": {
                 "addSuccess": "Successfully created a development environment！"
@@ -487,7 +494,9 @@
             "selectClusterPlaceholder": "Please select a cluster",
             "selectBaseSpace": "Please select the base development space",
             "inputSpaceName": "Please enter the development space name",
-            "selectDevService": "Please select development service"
+            "selectDevService": "Please select development service",
+            "tip": "The Mesh development space is successfully created. When developing in the shared development space, the request header needs to be added as follows Tracing Header {{headerName}}: {{headerValue}} ",
+            "tipImportant": "（The header data is taken from the form of creating MeshSpace）"
         },
         "profile": {
             "name": "Profile",

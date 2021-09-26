@@ -4,7 +4,18 @@ import BreadCard from '../../../../components/BreadCard';
 import { useTranslation } from 'react-i18next';
 
 import { ContentWrap } from './style-components';
-import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent, Switch, message } from 'antd';
+import {
+    Steps,
+    Button,
+    Form,
+    Select,
+    Input,
+    Radio,
+    RadioChangeEvent,
+    Switch,
+    message,
+    Modal,
+} from 'antd';
 
 import { queryAllCluster, queryAllUser } from '../../../../services';
 import HTTP from '../../../../api/fetch';
@@ -17,6 +28,7 @@ import { ReactComponent as IconResource } from '../../../../images/icon/icon_res
 import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
 import CommonIcon from '../../../../components/CommonIcon';
 import { useLocation, useHistory } from 'react-router-dom';
+const { info } = Modal;
 
 interface SelectMap {
     text?: any;
@@ -328,12 +340,30 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         namespace,
                     },
                 });
-
                 setIsSubmit(false);
-
                 if (response.code === 0) {
-                    message.success(t('resources.space.tips.addSuccess'));
-                    history.push('/dashboard/devspace');
+                    info({
+                        content: (
+                            <div>
+                                {t('resources.meshSpace.tip', {
+                                    headerName: headerInfo?.key,
+                                    headerValue: headerInfo?.value,
+                                })}
+                                <span
+                                    style={{
+                                        fontFamily: 'PingFangSC-Semibold',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    {t('resources.meshSpace.tipImportant')}
+                                </span>
+                            </div>
+                        ),
+                        onOk() {
+                            history.push('/dashboard/devspace');
+                        },
+                        okText: t('common.bt.confirm'),
+                    });
                 }
             }
         }

@@ -49,6 +49,7 @@ import { ReactComponent as IconExplain } from '../../images/icon/icon_label_expl
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
+import CopyToClipboard from 'react-copy-to-clipboard';
 interface RouteParams {
     id: string;
 }
@@ -123,6 +124,9 @@ const EnvList = () => {
             title: t('resources.space.fields.space_name'),
             key: 'space_name',
             dataIndex: 'space_name',
+            sorter: (a: any, b: any) => {
+                return a.space_name > b.space_name ? 1 : -1;
+            },
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
@@ -177,6 +181,9 @@ const EnvList = () => {
             key: 'namespace',
             width: '180px',
             dataIndex: 'namespace',
+            sorter: (a: any, b: any) => {
+                return a.namespace > b.namespace ? 1 : -1;
+            },
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
@@ -199,6 +206,9 @@ const EnvList = () => {
             key: 'cluster_id',
             width: '140px',
             dataIndex: 'cluster_name',
+            sorter: (a: any, b: any) => {
+                return a.cluster_name > b.cluster_name ? 1 : -1;
+            },
         },
         {
             title: t('resources.space.fields.resource_limit'),
@@ -222,12 +232,18 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return <span>{moment(record.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>;
             },
+            sorter: (a: any, b: any) => {
+                return +new Date(a.created_at) - +new Date(b.created_at);
+            },
         },
         {
             title: t('resources.space.fields.user'),
             key: 'user',
             width: '160px',
             dataIndex: 'user_name',
+            sorter: (a: any, b: any) => {
+                return a.user_name < b.user_name ? 1 : -1;
+            },
             render: (text: string, record: any) => {
                 return record?.cooper_user?.length > 0 || record?.viewer_user?.length > 0 ? (
                     <Popover content={<PopoverBox record={record} />}>
@@ -269,6 +285,7 @@ const EnvList = () => {
                             trigger="click"
                             overlayClassName="operationPop"
                             onVisibleChange={(v) => setPopVisibleIndex(v ? index : -1)}
+                            placement="leftTop"
                             visible={index === popVisibleIndex}
                             content={
                                 <>
@@ -286,6 +303,34 @@ const EnvList = () => {
                                         >
                                             {t('common.bt.delete')}
                                         </PopItem>
+                                    )}
+                                    {record.space_type === 'MeshSpace' && (
+                                        <>
+                                            <PopItem>
+                                                <CopyToClipboard
+                                                    text={record.trace_header.key}
+                                                    onCopy={handleCopy}
+                                                >
+                                                    <span style={{ paddingRight: 12 }}>
+                                                        {t(
+                                                            'resources.space.actions.copyHeaderName'
+                                                        )}
+                                                    </span>
+                                                </CopyToClipboard>
+                                            </PopItem>
+                                            <PopItem>
+                                                <CopyToClipboard
+                                                    text={record.trace_header.key}
+                                                    onCopy={handleCopy}
+                                                >
+                                                    <span style={{ paddingRight: 12 }}>
+                                                        {t(
+                                                            'resources.space.actions.copyHeaderValue'
+                                                        )}
+                                                    </span>
+                                                </CopyToClipboard>
+                                            </PopItem>
+                                        </>
                                     )}
                                 </>
                             }
@@ -342,6 +387,10 @@ const EnvList = () => {
     useEffect(() => {
         handleFilter();
     }, [filterValue]);
+
+    function handleCopy() {
+        message.success(t('common.message.copy'));
+    }
 
     function handleFilter(resourceList = spaceList) {
         const tmpList = resourceList.filter((item: any) => {

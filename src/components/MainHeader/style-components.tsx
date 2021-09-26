@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import IconMore from '../../images/icon/icon_more_black.svg';
+import ImageVersionInfoBg from '../../images/about_popup_bg.svg';
 
 export const Logo = styled.img`
     width: 37px;
@@ -154,6 +155,45 @@ export const AvaterBox = styled.div`
             background: rgb(54, 67, 92, 0.5);
             border-radius: 50%;
             cursor: pointer;
+        }
+    }
+`;
+
+export const VersionInfo = styled.div`
+    width: 320px;
+    height: 248px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff url(${ImageVersionInfoBg}) no-repeat;
+
+    .content {
+        width: 260px;
+        height: 84px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 20px;
+        background: #ffffff;
+        font-size: 12px;
+        color: rgb(54, 67, 92);
+
+        &-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            span {
+                &:nth-child(2) {
+                    display: block;
+                    max-width: 180px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
         }
     }
 `;

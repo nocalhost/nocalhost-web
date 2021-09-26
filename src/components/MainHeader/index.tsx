@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     Logo,
     MainContent,
@@ -18,11 +18,12 @@ import {
     HeaderSection,
     Tran,
     AvaterBox,
+    VersionInfo,
 } from './style-components';
 import IconLogo from '../../images/logo.png';
 import { UserContext } from '../../provider/appContext';
 import { useTranslation } from 'react-i18next';
-import { Popover } from 'antd';
+import { Popover, Modal } from 'antd';
 import './reset.css';
 import Dialog from '../Dialog';
 import Icon from '@ant-design/icons';
@@ -45,24 +46,34 @@ import { ReactComponent as IconNormalUser } from '../../images/icon/icon_normal_
 import { ReactComponent as IconNormalApplications } from '../../images/icon/icon_normal_applications.svg';
 import { ReactComponent as IconNormalCluster } from '../../images/icon/icon_normal_clusters.svg';
 import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconAbout } from '../../images/icon/icon_about.svg';
 import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
+import ImageVersionInfo from '../../images/icon_logoWords.svg';
 import AddCluster from '../../components/AddCluster';
 import DevspaceForm from '../../pages/DevSpace/components/DevspaceForm';
 import ChooseType from '../../pages/DevSpace/components/ChooseType';
 import { queryAllUser, queryAllCluster } from '../../services';
 import { useHistory } from 'react-router-dom';
+import HTTP from '../../api/fetch';
 const DIALOG_TYPE = {
     USER: 'user',
     APPLICATION: 'application',
     CLUSTERS: 'clusters',
     DEVSPACES: 'devspaces',
     MESH: 'mesh',
+    ABOUT: 'about',
 };
 
 interface SelectMap {
     text: any;
     value: any;
     label?: any;
+}
+
+interface VersionInfoType {
+    version: string;
+    branch: string;
+    commit_id: string;
 }
 
 function MainHeader() {
@@ -76,8 +87,21 @@ function MainHeader() {
     const [avaterPopVisible, setAvaterPopVisible] = useState(false);
     const [profilePopVisible, setProfilePopVisible] = useState(false);
     const [languageVisible, setLanguageVisible] = useState(false);
+    const [versionInfo, setVersionInfo] = useState<VersionInfoType>();
     const history = useHistory();
-    // console.log(i18n);
+
+    useEffect(() => {
+        queryVersionInfo();
+    }, []);
+
+    const queryVersionInfo = async () => {
+        const response = await HTTP.get('version');
+        const { data, code } = response;
+        if (code === 0) {
+            setVersionInfo(data);
+        }
+    };
+
     const handleOkUserForm = () => {
         setDialogType('');
     };
@@ -359,6 +383,15 @@ function MainHeader() {
                                             ></Icon>
                                             <Label>{t('resources.profile.name')}</Label>
                                         </AvatarItem>
+                                        <AvatarItem
+                                            onClick={() => {
+                                                setProfilePopVisible(false);
+                                                setDialogType(DIALOG_TYPE.ABOUT);
+                                            }}
+                                        >
+                                            <Icon component={IconAbout} style={{ fontSize: 20 }} />
+                                            <Label>{t('common.about')}</Label>
+                                        </AvatarItem>
                                     </Section>
 
                                     <AvatarItem onClick={signOut}>
@@ -436,6 +469,33 @@ function MainHeader() {
                         onCancel={() => setDialogType('')}
                     />
                 </Dialog>
+            )}
+            {dialogType === DIALOG_TYPE.ABOUT && (
+                <Modal
+                    width={320}
+                    style={{ padding: 0, borderRadius: 4 }}
+                    visible={dialogType === DIALOG_TYPE.ABOUT}
+                    onCancel={() => setDialogType('')}
+                    footer={null}
+                >
+                    <VersionInfo>
+                        <img src={ImageVersionInfo} />
+                        <div className="content">
+                            <div className="content-item">
+                                <span>{t('common.info.version')}</span>
+                                <span>{versionInfo?.version}</span>
+                            </div>
+                            <div className="content-item">
+                                <span>{t('common.info.branch')}</span>
+                                <span>{versionInfo?.branch}</span>
+                            </div>
+                            <div className="content-item">
+                                <span>{t('common.info.commitId')}</span>
+                                <span>{versionInfo?.commit_id.slice(0, 7)}</span>
+                            </div>
+                        </div>
+                    </VersionInfo>
+                </Modal>
             )}
         </MainContent>
     );

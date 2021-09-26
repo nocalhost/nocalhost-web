@@ -447,8 +447,8 @@
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to develop",
                 "sumOfItem": "Total {{count}} item",
-                "devSpaceDesc": "A isolated DevSpace corresponds to one K8s namespace and they are isolated from each other, users have all the privileges of their own isolated DevSpace, and can share the isolated DevSpace privileges with other users.",
-                "meshSpaceDesc": "A shared DevSpace corresponds to a K8s namespace. The shared DevSpace is built based on the base DevSpace and shares the services of the base DevSpace; users have all the permissions of their own shared DevSpace and can share the shared DevSpace to other users.",
+                "devSpaceDesc": "An IsolateSpace corresponds to a Kubernetes' namespace, and the DevSpace are isolated from each other; users have all the permissions of their IsolateSpace and can share the permissions of the IsolateSpace with other users.",
+                "meshSpaceDesc": "A MeshSpace corresponds to a Kubernetes' namespace. The MeshSpace is established based on the BaseSpace and shares the services of the BaseSpace; users have all the permissions of their own MeshSpace and can share the permissions of the MeshSpace with other users.",
                 "learnMore": "Learn More"
             }
         },

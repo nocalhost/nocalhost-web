@@ -345,17 +345,17 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     info({
                         content: (
                             <div>
-                                {t('resources.meshSpace.tip', {
-                                    headerName: headerInfo?.key,
-                                    headerValue: headerInfo?.value,
-                                })}
+                                {t('resources.meshSpace.tip')}
                                 <span
                                     style={{
                                         fontFamily: 'PingFangSC-Semibold',
                                         fontWeight: 'bold',
                                     }}
                                 >
-                                    {t('resources.meshSpace.tipImportant')}
+                                    {t('resources.meshSpace.tipImportant', {
+                                        headerName: headerInfo?.key,
+                                        headerValue: headerInfo?.value,
+                                    })}
                                 </span>
                             </div>
                         ),

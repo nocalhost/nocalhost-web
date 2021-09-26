@@ -497,8 +497,8 @@
             "selectBaseSpace": "请选择基础开发空间",
             "inputSpaceName": "请输入开发空间名称",
             "selectDevService": "请选择开发服务",
-            "tip": "共享开发空间创建成功，在该共享开发空间下开发时，请求头需加入以下 Tracing Header {{headerName}}: {{headerValue}} ",
-            "tipImportant": "（header 数据从创建 MeshSpace 的表单里面取）"
+            "tip": "共享开发空间创建成功，在该共享开发空间下开发时，请求头需加入以下 Tracing Header ",
+            "tipImportant": " {{headerName}}: {{headerValue}} "
         },
         "profile": {
             "name": "个人信息",

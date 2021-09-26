@@ -474,6 +474,7 @@ function MainHeader() {
                 <Modal
                     width={320}
                     style={{ padding: 0, borderRadius: 4 }}
+                    bodyStyle={{ padding: 0 }}
                     visible={dialogType === DIALOG_TYPE.ABOUT}
                     onCancel={() => setDialogType('')}
                     footer={null}

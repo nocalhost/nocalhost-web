@@ -339,8 +339,7 @@
                 "list": "Space List",
                 "download": "Download KubeConfig",
                 "resource_limit_not_implemented": "Resource limit has not been implemented",
-                "copyHeaderName": "Copy Tracing Header Name",
-                "copyHeaderValue": "Copy Tracing Header Value"
+                "copyTracingHeader": "Copy Tracing Header"
             },
             "tips": {
                 "addSuccess": "Successfully created a development environment！"

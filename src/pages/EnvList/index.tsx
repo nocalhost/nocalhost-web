@@ -308,24 +308,12 @@ const EnvList = () => {
                                         <>
                                             <PopItem>
                                                 <CopyToClipboard
-                                                    text={record.trace_header.key}
+                                                    text={`${record.trace_header.key}=${record.trace_header.value}`}
                                                     onCopy={handleCopy}
                                                 >
                                                     <span style={{ paddingRight: 12 }}>
                                                         {t(
-                                                            'resources.space.actions.copyHeaderName'
-                                                        )}
-                                                    </span>
-                                                </CopyToClipboard>
-                                            </PopItem>
-                                            <PopItem>
-                                                <CopyToClipboard
-                                                    text={record.trace_header.value}
-                                                    onCopy={handleCopy}
-                                                >
-                                                    <span style={{ paddingRight: 12 }}>
-                                                        {t(
-                                                            'resources.space.actions.copyHeaderValue'
+                                                            'resources.space.actions.copyTracingHeader'
                                                         )}
                                                     </span>
                                                 </CopyToClipboard>

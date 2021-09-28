@@ -308,7 +308,7 @@ const EnvList = () => {
                                         <>
                                             <PopItem>
                                                 <CopyToClipboard
-                                                    text={`${record.trace_header.key}=${record.trace_header.value}`}
+                                                    text={`${record.trace_header.key}:${record.trace_header.value}`}
                                                     onCopy={handleCopy}
                                                 >
                                                     <span style={{ paddingRight: 12 }}>

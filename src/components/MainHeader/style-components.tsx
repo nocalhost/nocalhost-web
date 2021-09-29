@@ -11,7 +11,7 @@ export const MainContent = styled.div`
     background-color: ${(props) => props.theme.mainBgColor};
     width: 100%;
     /* height: 60px; */
-    padding: 18px 24px 18px 20px;
+    padding: 18px 0 20px;
 `;
 
 export const LogoName = styled.div`
@@ -31,6 +31,8 @@ export const Flex = styled.div`
 `;
 
 export const FlexBetween = styled(Flex)`
+    padding-left: 24px;
+    padding-right: 18px;
     justify-content: space-between;
 `;
 export const FlexHeader = styled(FlexBetween)`
@@ -194,6 +196,32 @@ export const VersionInfo = styled.div`
                     text-overflow: ellipsis;
                 }
             }
+        }
+    }
+`;
+
+export const UpgradeBox = styled.div`
+    display: flex;
+    padding: 0 24px 0;
+    align-items: center;
+    justify-content: space-between;
+    background: rgb(230, 247, 255);
+    border-radius: 0;
+    height: 40px;
+    color: rgb(54, 67, 92);
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+
+    .left {
+        display: flex;
+        align-items: center;
+
+        .info {
+            margin-left: 4px;
+        }
+
+        .link {
+            color: #0080ff;
         }
     }
 `;

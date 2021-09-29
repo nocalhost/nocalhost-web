@@ -84,7 +84,9 @@
             "edit": "修改成功",
             "delete": "删除成功",
             "reset": "重置成功",
-            "copy": "复制成功"
+            "copy": "复制成功",
+            "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
+            "link": "点击查看更新指引"
         },
         "bt": {
             "delete": "删除",

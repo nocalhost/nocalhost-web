@@ -163,12 +163,16 @@ export const AvaterBox = styled.div`
 
 export const VersionInfo = styled.div`
     width: 320px;
-    height: 248px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    min-height: 274px;
+    padding: 30px 30px 10px;
+    margin: 0 auto;
     background: #ffffff url(${ImageVersionInfoBg}) no-repeat;
+    background-size: cover;
+    text-align: center;
+
+    img {
+        margin: 0 auto;
+    }
 
     .content {
         width: 260px;
@@ -177,10 +181,12 @@ export const VersionInfo = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin-top: 20px;
+        margin-top: 10px;
         background: #ffffff;
         font-size: 12px;
         color: rgb(54, 67, 92);
+        border-radius: 4px;
+        border: 1px solid rgb(237, 241, 244);
 
         &-item {
             display: flex;
@@ -196,6 +202,37 @@ export const VersionInfo = styled.div`
                     text-overflow: ellipsis;
                 }
             }
+        }
+    }
+
+    .tip {
+        &-version {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #36435c;
+
+            a {
+                height: 16px;
+                line-height: 16px;
+
+                span {
+                    visibility: hidden;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+
+                    span {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+
+        &-copyright {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #79879c;
         }
     }
 `;

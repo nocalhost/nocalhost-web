@@ -51,6 +51,8 @@ import { ReactComponent as IconAbout } from '../../images/icon/icon_about.svg';
 import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
 import { ReactComponent as IconTip } from '../../images/icon/icon_label_tips.svg';
 import { ReactComponent as IconClose } from '../../images/icon/icon_close.svg';
+import { ReactComponent as IconLink } from '../../images/icon/icon_external_link.svg';
+
 import ImageVersionInfo from '../../images/icon_logoWords.svg';
 import AddCluster from '../../components/AddCluster';
 import DevspaceForm from '../../pages/DevSpace/components/DevspaceForm';
@@ -93,9 +95,14 @@ function MainHeader() {
     const [languageVisible, setLanguageVisible] = useState(false);
     const [versionInfo, setVersionInfo] = useState<VersionInfoType>();
     const [showUpgrade, setShowUpgrade] = useState<boolean>(false);
+    const [upgradeInfo, setUpgradeInfo] = useState<{
+        current_version: string;
+        upgrade_version: string;
+    }>();
     const history = useHistory();
 
     useEffect(() => {
+        queryUpgradeInfo();
         queryVersionInfo();
     }, []);
 
@@ -104,10 +111,18 @@ function MainHeader() {
         const { data, code } = response;
         if (code === 0) {
             setVersionInfo(data);
+        }
+    };
+
+    const queryUpgradeInfo = async () => {
+        const response = await HTTP.get('nocalhost/version/upgrade_info');
+        const { data, code } = response;
+        if (code === 0) {
+            setUpgradeInfo(data);
             const hiddenUpgradeDate = localStorage.getItem('showUpgrade');
             const isHide =
                 hiddenUpgradeDate && hiddenUpgradeDate === moment(new Date()).format('YYYY-MM-DD');
-            setShowUpgrade(!isHide);
+            setShowUpgrade(data.has_new_version && !isHide);
         }
     };
 
@@ -435,8 +450,8 @@ function MainHeader() {
                         <Icon component={IconTip} style={{ fontSize: 16 }} />
                         <span>
                             {t('common.message.upgrade', {
-                                latest: '0.5.8',
-                                current: '0.5.6',
+                                latest: upgradeInfo?.upgrade_version,
+                                current: upgradeInfo?.current_version,
                             })}
                         </span>
                         <a href="" className="link">
@@ -530,6 +545,26 @@ function MainHeader() {
                                 <span>{t('common.info.commitId')}</span>
                                 <span>{versionInfo?.commit_id.slice(0, 7)}</span>
                             </div>
+                        </div>
+                        <div className="tip">
+                            <div className="tip-version">
+                                {t('common.message.release', {
+                                    version: upgradeInfo?.upgrade_version,
+                                })}
+                                <a>
+                                    {t('common.message.link')}
+                                    <Icon
+                                        component={IconLink}
+                                        style={{
+                                            fontSize: 20,
+                                            marginLeft: 2,
+                                            position: 'relative',
+                                            top: 3,
+                                        }}
+                                    />
+                                </a>
+                            </div>
+                            <div className="tip-copyright">Copyright © 2021 Nocalhost</div>
                         </div>
                     </VersionInfo>
                 </Modal>

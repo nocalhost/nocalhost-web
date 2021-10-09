@@ -76,7 +76,8 @@
             "delete": "Success Delete",
             "copy": "Copy successfully",
             "upgrade": "Nocalhost Server Dashboard version {{latest}} has been released. Your current version is {{current}}.",
-            "link": "Click to view updated guidelines"
+            "link": "Click to view updated guidelines",
+            "release": "Version {{version}} has been released,"
         },
         "bt": {
             "delete": "Delete",

@@ -761,7 +761,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         <div className="btn-box">
                             <Button className="left">{t('common.bt.cancel')}</Button>
                             <CopyToClipboard
-                                text={`${headerInfo?.key}:${headerInfo?.value}`}
+                                text={`${headerInfo?.key}: ${headerInfo?.value}`}
                                 onCopy={handleCopy}
                             >
                                 <Button type="primary">{t('nh.action.copy')}</Button>

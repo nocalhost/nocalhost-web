@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="00-Menu-交互备份" transform="translate(-219.000000, -299.000000)">
-            <g id="icon_close" transform="translate(219.000000, 299.000000)">
-                <rect id="矩形" stroke="#B6C2CD" stroke-width="1.5" x="5" y="2" width="13" height="13" rx="1.42857143"></rect>
-                <g id="编组-12" transform="translate(2.000000, 4.000000)">
-                    <rect id="矩形" fill="#36435C" x="0" y="0" width="14" height="14" rx="1.42857143"></rect>
-                    <path d="M7.6222298,11.2857143 L7.6222298,8.52481203 L9.2673031,8.52481203 L9.2673031,8.94887218 L10.5714286,8.94887218 L10.5714286,4.25714286 L7.6222298,4.25714286 L7.6222298,2.71428571 L6.30958063,2.71428571 L6.30958063,4.25714286 L3.42857143,4.25714286 L3.42857143,8.99398496 L4.67303103,8.99398496 L4.67303103,8.52481203 L6.30958063,8.52481203 L6.30958063,11.2857143 L7.6222298,11.2857143 Z M9.2673031,7.23458647 L7.6222298,7.23458647 L7.6222298,5.54736842 L9.2673031,5.54736842 L9.2673031,7.23458647 Z M6.30958063,7.23458647 L4.67303103,7.23458647 L4.67303103,5.54736842 L6.30958063,5.54736842 L6.30958063,7.23458647 Z" id="中" fill="#FFFFFF" fill-rule="nonzero"></path>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect height="13" rx="1.428571" stroke="#b6c2cd" stroke-width="1.5" width="13" x="5" y="2"/><g transform="translate(2 4)"><rect fill="#36435c" height="14" rx="1.428571" width="14"/><path d="m7.6222298 11.2857143v-2.76090227h1.6450733v.42406015h1.3041255v-4.69172932h-2.9491988v-1.54285715h-1.31264917v1.54285715h-2.8810092v4.7368421h1.2444596v-.46917293h1.6365496v2.76090227zm1.6450733-4.05112783h-1.6450733v-1.68721805h1.6450733zm-2.95772247 0h-1.6365496v-1.68721805h1.6365496z" fill="#fff" fill-rule="nonzero"/></g></g></svg>

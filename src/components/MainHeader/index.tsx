@@ -547,23 +547,25 @@ function MainHeader() {
                             </div>
                         </div>
                         <div className="tip">
-                            <div className="tip-version">
-                                {t('common.message.release', {
-                                    version: upgradeInfo?.upgrade_version,
-                                })}
-                                <a>
-                                    {t('common.message.link')}
-                                    <Icon
-                                        component={IconLink}
-                                        style={{
-                                            fontSize: 20,
-                                            marginLeft: 2,
-                                            position: 'relative',
-                                            top: 3,
-                                        }}
-                                    />
-                                </a>
-                            </div>
+                            {showUpgrade && (
+                                <div className="tip-version">
+                                    {t('common.message.release', {
+                                        version: upgradeInfo?.upgrade_version,
+                                    })}
+                                    <a>
+                                        {t('common.message.link')}
+                                        <Icon
+                                            component={IconLink}
+                                            style={{
+                                                fontSize: 20,
+                                                marginLeft: 2,
+                                                position: 'relative',
+                                                top: 3,
+                                            }}
+                                        />
+                                    </a>
+                                </div>
+                            )}
                             <div className="tip-copyright">Copyright © 2021 Nocalhost</div>
                         </div>
                     </VersionInfo>

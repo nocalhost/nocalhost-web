@@ -163,7 +163,6 @@ export const AvaterBox = styled.div`
 
 export const VersionInfo = styled.div`
     width: 320px;
-    min-height: 274px;
     padding: 30px 30px 10px;
     margin: 0 auto;
     background: #ffffff url(${ImageVersionInfoBg}) no-repeat;

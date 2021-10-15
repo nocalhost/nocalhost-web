@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="198px" height="86px" viewBox="0 0 198 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_logoWords</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="54" height="54" rx="12"></rect>
+        <filter x="-13.0%" y="-9.3%" width="125.9%" height="125.9%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Modal/Confirm备份-4" transform="translate(-61.000000, -28.000000)">
+            <g id="icon_logoWords" transform="translate(61.000000, 28.000000)">
+                <text id="Nocalhost-Server-Das" font-family="SourceHanSansTC-Bold, Source Han Sans TC" font-size="14" font-weight="bold" fill="#36435C">
+                    <tspan x="0.587" y="82">Nocalhost Server Dashboard</tspan>
+                </text>
+                <g id="编组-3" transform="translate(72.000000, 2.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="矩形">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                        <rect stroke-opacity="0.05" stroke="#000000" stroke-width="0.5" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" x="0.25" y="0.25" width="53.5" height="53.5" rx="12"></rect>
+                    </g>
+                    <g id="Group-15-Copy-2" mask="url(#mask-2)">
+                        <g transform="translate(7.000000, 14.000000)">
+                            <ellipse id="Oval" fill="#6F38FF" cx="16.5217391" cy="8.66666667" rx="8.69565217" ry="8.66666667"></ellipse>
+                            <rect id="Rectangle" fill="#0080FF" x="29.5652174" y="2.6" width="10.4347826" height="10.4" rx="1.21081081"></rect>
+                            <path d="M32.7022327,8.66666667 C33.370945,8.66666667 33.9130435,9.20876513 33.9130435,9.87747748 L33.9130435,17.3333333 C33.9130435,22.1198012 30.0198674,26 25.2173913,26 C20.4149152,26 16.5217391,22.1198012 16.5217391,17.3333333 C16.5217391,12.5468655 20.4149152,8.66666667 25.2173913,8.66666667 L25.2173913,8.66666667 L32.7022327,8.66666667 Z" id="Combined-Shape" fill="#1EE7E7"></path>
+                            <path d="M32.7022327,8.66666667 C33.370945,8.66666667 33.9130435,9.20876513 33.9130435,9.87747748 L33.9122174,12.9996667 L30.7760282,13 C30.1073159,13 29.5652174,12.4579015 29.5652174,11.7891892 L29.5652174,8.66666667 L32.7022327,8.66666667 Z" id="Combined-Shape" fill="#03BDE3"></path>
+                            <path d="M25.2173913,8.66666667 L25.2135482,8.92683008 C25.0755207,13.5929499 21.2368975,17.3333333 16.5217391,17.3333333 L16.5217391,17.3333333 C16.5217391,12.6338922 20.2746322,8.8080644 24.9563578,8.67049692 L25.2173913,8.66666667 Z" id="Combined-Shape" fill="#5570FF"></path>
+                            <ellipse id="Oval-Copy-2" fill="#ED58ED" cx="6.08695652" cy="14.7333333" rx="6.08695652" ry="6.06666667"></ellipse>
+                            <path d="M7.82996199,8.91904569 C10.3423088,9.66608973 12.173913,11.9865275 12.173913,14.7333333 C12.173913,15.197731 12.1215583,15.6499414 12.0224106,16.0844212 C9.50686043,14.565367 7.82608696,11.8116454 7.82608696,8.66666667 Z" id="Combined-Shape" fill="#CB6AFB"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

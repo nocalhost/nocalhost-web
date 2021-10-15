@@ -69,10 +69,15 @@
     "common": {
         "operation": "Operation",
         "otherSet": "More Config",
+        "about": "About",
         "message": {
             "add": "Success Add",
             "edit": "Success Edit",
-            "delete": "Success Delete"
+            "delete": "Success Delete",
+            "copy": "Copy successfully",
+            "upgrade": "Nocalhost Server Dashboard version {{latest}} has been released. Your current version is {{current}}.",
+            "link": "Click to view updated guidelines",
+            "release": "Version {{version}} has been released,"
         },
         "bt": {
             "delete": "Delete",
@@ -92,7 +97,10 @@
         },
         "info": {
             "logout": "Sign out",
-            "language": "Language"
+            "language": "Language",
+            "version": "Version",
+            "branch": "Branch",
+            "commitId": "Commit_ID"
         },
         "noSearch": "No relevant results were found",
         "noData": "No Data",
@@ -288,6 +296,7 @@
         "space": {
             "name": "DevSpace",
             "shareType": "ShareSpace",
+            "meshSpace": "MeshSpace",
             "isolateSpace": "IsolateSpace",
             "fields": {
                 "space_name": "Space Name",
@@ -332,7 +341,8 @@
                 "show": "Show Space",
                 "list": "Space List",
                 "download": "Download KubeConfig",
-                "resource_limit_not_implemented": "Resource limit has not been implemented"
+                "resource_limit_not_implemented": "Resource limit has not been implemented",
+                "copyTracingHeader": "Copy Tracing Header"
             },
             "tips": {
                 "addSuccess": "Successfully created a development environment！"
@@ -439,8 +449,8 @@
                 "changeRoleSuccess": "Successfully changed the user role!",
                 "chooseType": "Select the type of space to develop",
                 "sumOfItem": "Total {{count}} item",
-                "devSpaceDesc": "A isolated DevSpace corresponds to one K8s namespace and they are isolated from each other, users have all the privileges of their own isolated DevSpace, and can share the isolated DevSpace privileges with other users.",
-                "meshSpaceDesc": "A shared DevSpace corresponds to a K8s namespace. The shared DevSpace is built based on the base DevSpace and shares the services of the base DevSpace; users have all the permissions of their own shared DevSpace and can share the shared DevSpace to other users.",
+                "devSpaceDesc": "An IsolateSpace corresponds to a Kubernetes' namespace, and the DevSpace are isolated from each other; users have all the permissions of their IsolateSpace and can share the permissions of the IsolateSpace with other users.",
+                "meshSpaceDesc": "A MeshSpace corresponds to a Kubernetes' namespace. The MeshSpace is established based on the BaseSpace and shares the services of the BaseSpace; users have all the permissions of their own MeshSpace and can share the permissions of the MeshSpace with other users.",
                 "learnMore": "Learn More"
             }
         },
@@ -487,7 +497,9 @@
             "selectClusterPlaceholder": "Please select a cluster",
             "selectBaseSpace": "Please select the base development space",
             "inputSpaceName": "Please enter the development space name",
-            "selectDevService": "Please select development service"
+            "selectDevService": "Please select development service",
+            "tip": "The MeshSpace is successfully created. When developing in the MeshSpace, the request header needs to be added as follows \"Tracing Header\" ",
+            "tipImportant": "{{headerName}}: {{headerValue}}"
         },
         "profile": {
             "name": "Profile",

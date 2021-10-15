@@ -3,8 +3,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import BreadCard from '../../../../components/BreadCard';
 import { useTranslation } from 'react-i18next';
 
-import { ContentWrap } from './style-components';
-import { Steps, Button, Form, Select, Input, Radio, RadioChangeEvent, Switch, message } from 'antd';
+import { ContentWrap, CopyDialog } from './style-components';
+import {
+    Steps,
+    Button,
+    Form,
+    Select,
+    Input,
+    Radio,
+    RadioChangeEvent,
+    Switch,
+    message,
+    Modal,
+} from 'antd';
 
 import { queryAllCluster, queryAllUser } from '../../../../services';
 import HTTP from '../../../../api/fetch';
@@ -15,8 +26,10 @@ import BaseSpace from './BaseSpace';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconResource } from '../../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconHelp } from '../../../../images/icon/icon_label_query.svg';
+import { ReactComponent as IconTip } from '../../../../images/icon/icon_label_tips.svg';
 import CommonIcon from '../../../../components/CommonIcon';
 import { useLocation, useHistory } from 'react-router-dom';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface SelectMap {
     text?: any;
@@ -68,6 +81,7 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
     const [inputHeaderInfo, setInputHeaderInfo] = useState<HeaderInfo>();
     const [namespace, setNameSpace] = useState<string>('');
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const [showCopy, setShowCopy] = useState<boolean>(false);
     const timer = useRef<number | null>();
     const [form] = Form.useForm();
 
@@ -328,12 +342,9 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                         namespace,
                     },
                 });
-
                 setIsSubmit(false);
-
                 if (response.code === 0) {
-                    message.success(t('resources.space.tips.addSuccess'));
-                    history.push('/dashboard/devspace');
+                    setShowCopy(true);
                 }
             }
         }
@@ -541,6 +552,11 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
         );
     };
 
+    const handleCopy = () => {
+        message.success(t('common.message.copy'));
+        history.push('/dashboard/devspace');
+    };
+
     return (
         <>
             {!isEdit && (
@@ -727,6 +743,33 @@ const MeshSpace = ({ isEdit = false, record }: { isEdit?: boolean; record?: any 
                     )}
                 </div>
             </ContentWrap>
+            <Modal visible={showCopy} width={400} bodyStyle={{ padding: 0 }} footer={null}>
+                <CopyDialog>
+                    <Icon component={IconTip} style={{ fontSize: 30 }} />
+                    <div className="content">
+                        <div className="title">
+                            {t('resources.space.actions.copyTracingHeader')}
+                        </div>
+                        <div className="desc">{t('resources.meshSpace.tip')}</div>
+
+                        <div className="copy">
+                            {t('resources.meshSpace.tipImportant', {
+                                headerName: headerInfo?.key,
+                                headerValue: headerInfo?.value,
+                            })}
+                        </div>
+                        <div className="btn-box">
+                            <Button className="left">{t('common.bt.cancel')}</Button>
+                            <CopyToClipboard
+                                text={`${headerInfo?.key}: ${headerInfo?.value}`}
+                                onCopy={handleCopy}
+                            >
+                                <Button type="primary">{t('nh.action.copy')}</Button>
+                            </CopyToClipboard>
+                        </div>
+                    </div>
+                </CopyDialog>
+            </Modal>
         </>
     );
 };

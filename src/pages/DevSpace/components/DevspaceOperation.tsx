@@ -37,7 +37,7 @@ const PanelWrap = styled.div`
 interface RouterParams {
     record: {
         id: number;
-        space_type: 'IsolateSpace' | 'ShareSpace';
+        space_type: 'IsolateSpace' | 'MeshSpace';
     };
 }
 

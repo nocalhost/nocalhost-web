@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     Logo,
     MainContent,
@@ -18,11 +18,13 @@ import {
     HeaderSection,
     Tran,
     AvaterBox,
+    VersionInfo,
+    UpgradeBox,
 } from './style-components';
 import IconLogo from '../../images/logo.png';
 import { UserContext } from '../../provider/appContext';
 import { useTranslation } from 'react-i18next';
-import { Popover } from 'antd';
+import { Popover, Modal } from 'antd';
 import './reset.css';
 import Dialog from '../Dialog';
 import Icon from '@ant-design/icons';
@@ -45,24 +47,39 @@ import { ReactComponent as IconNormalUser } from '../../images/icon/icon_normal_
 import { ReactComponent as IconNormalApplications } from '../../images/icon/icon_normal_applications.svg';
 import { ReactComponent as IconNormalCluster } from '../../images/icon/icon_normal_clusters.svg';
 import { ReactComponent as IconNormalDevspace } from '../../images/icon/icon_normal_devspace.svg';
+import { ReactComponent as IconAbout } from '../../images/icon/icon_about.svg';
 import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
+import { ReactComponent as IconTip } from '../../images/icon/icon_label_tips.svg';
+import { ReactComponent as IconClose } from '../../images/icon/icon_close.svg';
+import { ReactComponent as IconLink } from '../../images/icon/icon_external_link.svg';
+
+import ImageVersionInfo from '../../images/icon_logoWords.svg';
 import AddCluster from '../../components/AddCluster';
 import DevspaceForm from '../../pages/DevSpace/components/DevspaceForm';
 import ChooseType from '../../pages/DevSpace/components/ChooseType';
 import { queryAllUser, queryAllCluster } from '../../services';
 import { useHistory } from 'react-router-dom';
+import HTTP from '../../api/fetch';
+import moment from 'moment';
 const DIALOG_TYPE = {
     USER: 'user',
     APPLICATION: 'application',
     CLUSTERS: 'clusters',
     DEVSPACES: 'devspaces',
     MESH: 'mesh',
+    ABOUT: 'about',
 };
 
 interface SelectMap {
     text: any;
     value: any;
     label?: any;
+}
+
+interface VersionInfoType {
+    version: string;
+    branch: string;
+    commit_id: string;
 }
 
 function MainHeader() {
@@ -76,8 +93,39 @@ function MainHeader() {
     const [avaterPopVisible, setAvaterPopVisible] = useState(false);
     const [profilePopVisible, setProfilePopVisible] = useState(false);
     const [languageVisible, setLanguageVisible] = useState(false);
+    const [versionInfo, setVersionInfo] = useState<VersionInfoType>();
+    const [showUpgrade, setShowUpgrade] = useState<boolean>(false);
+    const [upgradeInfo, setUpgradeInfo] = useState<{
+        current_version: string;
+        upgrade_version: string;
+    }>();
     const history = useHistory();
-    // console.log(i18n);
+
+    useEffect(() => {
+        queryUpgradeInfo();
+        queryVersionInfo();
+    }, []);
+
+    const queryVersionInfo = async () => {
+        const response = await HTTP.get('version');
+        const { data, code } = response;
+        if (code === 0) {
+            setVersionInfo(data);
+        }
+    };
+
+    const queryUpgradeInfo = async () => {
+        const response = await HTTP.get('nocalhost/version/upgrade_info');
+        const { data, code } = response;
+        if (code === 0) {
+            setUpgradeInfo(data);
+            const hiddenUpgradeDate = localStorage.getItem('showUpgrade');
+            const isHide =
+                hiddenUpgradeDate && hiddenUpgradeDate === moment(new Date()).format('YYYY-MM-DD');
+            setShowUpgrade(data.has_new_version && !isHide);
+        }
+    };
+
     const handleOkUserForm = () => {
         setDialogType('');
     };
@@ -130,6 +178,12 @@ function MainHeader() {
         setDialogType('');
         history.push('/dashboard/devspace/mesh-space');
     };
+
+    const handleHiddenUpgrade = () => {
+        localStorage.setItem('showUpgrade', moment(new Date()).format('YYYY-MM-DD'));
+        setShowUpgrade(false);
+    };
+
     return (
         <MainContent>
             <FlexBetween>
@@ -359,6 +413,15 @@ function MainHeader() {
                                             ></Icon>
                                             <Label>{t('resources.profile.name')}</Label>
                                         </AvatarItem>
+                                        <AvatarItem
+                                            onClick={() => {
+                                                setProfilePopVisible(false);
+                                                setDialogType(DIALOG_TYPE.ABOUT);
+                                            }}
+                                        >
+                                            <Icon component={IconAbout} style={{ fontSize: 20 }} />
+                                            <Label>{t('common.about')}</Label>
+                                        </AvatarItem>
                                     </Section>
 
                                     <AvatarItem onClick={signOut}>
@@ -381,6 +444,27 @@ function MainHeader() {
                     </HeaderSection>
                 </FlexHeader>
             </FlexBetween>
+            {showUpgrade && (
+                <UpgradeBox>
+                    <div className="left">
+                        <Icon component={IconTip} style={{ fontSize: 16 }} />
+                        <span>
+                            {t('common.message.upgrade', {
+                                latest: upgradeInfo?.upgrade_version,
+                                current: upgradeInfo?.current_version,
+                            })}
+                        </span>
+                        <a href="" className="link">
+                            {t('common.message.link')}
+                        </a>
+                    </div>
+                    <Icon
+                        onClick={handleHiddenUpgrade}
+                        component={IconClose}
+                        style={{ fontSize: 20, cursor: 'pointer' }}
+                    />
+                </UpgradeBox>
+            )}
             {dialogType === DIALOG_TYPE.USER && (
                 <Dialog
                     visible={dialogType === DIALOG_TYPE.USER}
@@ -436,6 +520,56 @@ function MainHeader() {
                         onCancel={() => setDialogType('')}
                     />
                 </Dialog>
+            )}
+            {dialogType === DIALOG_TYPE.ABOUT && (
+                <Modal
+                    width={320}
+                    style={{ padding: 0, borderRadius: 4 }}
+                    bodyStyle={{ padding: 0 }}
+                    visible={dialogType === DIALOG_TYPE.ABOUT}
+                    onCancel={() => setDialogType('')}
+                    footer={null}
+                >
+                    <VersionInfo>
+                        <img src={ImageVersionInfo} />
+                        <div className="content">
+                            <div className="content-item">
+                                <span>{t('common.info.version')}</span>
+                                <span>{versionInfo?.version}</span>
+                            </div>
+                            <div className="content-item">
+                                <span>{t('common.info.branch')}</span>
+                                <span>{versionInfo?.branch}</span>
+                            </div>
+                            <div className="content-item">
+                                <span>{t('common.info.commitId')}</span>
+                                <span>{versionInfo?.commit_id.slice(0, 7)}</span>
+                            </div>
+                        </div>
+                        <div className="tip">
+                            {showUpgrade && (
+                                <div className="tip-version">
+                                    {t('common.message.release', {
+                                        version: upgradeInfo?.upgrade_version,
+                                    })}
+                                    <a>
+                                        {t('common.message.link')}
+                                        <Icon
+                                            component={IconLink}
+                                            style={{
+                                                fontSize: 20,
+                                                marginLeft: 2,
+                                                position: 'relative',
+                                                top: 3,
+                                            }}
+                                        />
+                                    </a>
+                                </div>
+                            )}
+                            <div className="tip-copyright">Copyright © 2021 Nocalhost</div>
+                        </div>
+                    </VersionInfo>
+                </Modal>
             )}
         </MainContent>
     );

@@ -69,9 +69,13 @@
     "common": {
         "operation": "操作",
         "otherSet": "其他设置",
+        "about": "关于",
         "info": {
             "logout": "退出登录",
-            "language": "语言"
+            "language": "语言",
+            "version": "版本",
+            "branch": "分支",
+            "commitId": "提交 ID"
         },
         "noSearch": "未搜索到相关结果",
         "noData": "暂无数据",
@@ -79,7 +83,11 @@
             "add": "新增成功",
             "edit": "修改成功",
             "delete": "删除成功",
-            "reset": "重置成功"
+            "reset": "重置成功",
+            "copy": "复制成功",
+            "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
+            "link": "点击查看更新指引",
+            "release": "Version {{version}} 已发布，"
         },
         "bt": {
             "delete": "删除",
@@ -289,6 +297,7 @@
         "space": {
             "name": "开发空间",
             "shareType": "共享空间",
+            "meshSpace": "共享空间",
             "isolateSpace": "隔离空间",
             "fields": {
                 "space_name": "空间名称",
@@ -331,7 +340,8 @@
                 "show": "环境详情",
                 "list": "环境列表",
                 "download": "下载 KubeConfig",
-                "resource_limit_not_implemented": "资源限制还未实现"
+                "resource_limit_not_implemented": "资源限制还未实现",
+                "copyTracingHeader": "复制 Tracing Header"
             },
             "tips": {
                 "addSuccess": "创建开发空间成功！"
@@ -488,7 +498,9 @@
             "selectClusterPlaceholder": "请选择集群",
             "selectBaseSpace": "请选择基础开发空间",
             "inputSpaceName": "请输入开发空间名称",
-            "selectDevService": "请选择开发服务"
+            "selectDevService": "请选择开发服务",
+            "tip": "共享开发空间创建成功，在该共享开发空间下开发时，请求头需加入以下 「Tracing Header」 ",
+            "tipImportant": " {{headerName}}: {{headerValue}} "
         },
         "profile": {
             "name": "个人信息",

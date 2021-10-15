@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="00-Menu-交互备份" transform="translate(-379.000000, -425.000000)">
-            <g id="编组-19备份-2" transform="translate(377.000000, 423.000000)">
-                <g id="编组-8" transform="translate(2.000000, 2.000000)">
-                    <rect id="矩形备份-11" fill="#1EE7E7" x="7.5" y="4.5" width="8" height="8" rx="1"></rect>
-                    <rect id="矩形" fill="#0080FF" x="4.5" y="7.5" width="8" height="8" rx="1"></rect>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect fill="#1ee7e7" height="8" rx="1" width="8" x="7.5" y="4.5"/><rect fill="#0080ff" height="8" rx="1" width="8" x="4.5" y="7.5"/></g></svg>

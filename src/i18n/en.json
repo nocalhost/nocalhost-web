@@ -74,7 +74,10 @@
             "add": "Success Add",
             "edit": "Success Edit",
             "delete": "Success Delete",
-            "copy": "Copy successfully"
+            "copy": "Copy successfully",
+            "upgrade": "Nocalhost Server Dashboard version {{latest}} has been released. Your current version is {{current}}.",
+            "link": "Click to view updated guidelines",
+            "release": "Version {{version}} has been released,"
         },
         "bt": {
             "delete": "Delete",
@@ -495,7 +498,7 @@
             "selectBaseSpace": "Please select the base development space",
             "inputSpaceName": "Please enter the development space name",
             "selectDevService": "Please select development service",
-            "tip": "The MeshSpace is successfully created. When developing in the MeshSpace, the request header needs to be added as follows Tracing Header ",
+            "tip": "The MeshSpace is successfully created. When developing in the MeshSpace, the request header needs to be added as follows \"Tracing Header\" ",
             "tipImportant": "{{headerName}}: {{headerValue}}"
         },
         "profile": {

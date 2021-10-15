@@ -94,3 +94,45 @@ export const ContentWrap = styled.div<IProps>`
         background: #ffffff;
     }
 `;
+
+export const CopyDialog = styled.div`
+    display: flex;
+    padding: 20px 16px;
+
+    .content {
+        margin-left: 8px;
+
+        .title {
+            color: rgb(39, 58, 83);
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .desc {
+            margin-top: 16px;
+            color: rgb(39, 58, 83);
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+        }
+
+        .copy {
+            display: inline-block;
+            background: rgb(230, 247, 255);
+            border-radius: 2px;
+            color: rgb(39, 58, 83);
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+        }
+
+        .btn-box {
+            margin-top: 24px;
+            display: flex;
+            justify-content: flex-end;
+
+            .left {
+                margin-right: 12px;
+            }
+        }
+    }
+`;

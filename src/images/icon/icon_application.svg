@@ -1,18 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="00-Menu-交互备份" transform="translate(-265.000000, -230.000000)">
-            <g id="编组-15" transform="translate(265.000000, 230.000000)">
-                <polygon id="矩形" fill="#B6C2CD" points="0 17.1563623 8 20.6191214 8 30.5327496 0 27.0699905"></polygon>
-                <polygon id="矩形备份-6" fill="#E8EEF4" points="8 13.6936031 16 17.1563623 8 20.6191214 0 17.1563623"></polygon>
-                <polygon id="矩形备份-10" fill="#E8EEF4" points="16 1.21592012 24 3.77997487 16 7.24273399 8 3.77997487"></polygon>
-                <polygon id="矩形备份-7" fill="#E8EEF4" points="24 13.6936031 32 17.1563623 24 20.6191214 16 17.1563623"></polygon>
-                <polygon id="矩形备份-2" fill="#B6C2CD" points="16 17.1563623 24 20.6191214 24 30.5327496 16 27.0699905"></polygon>
-                <polygon id="矩形备份-8" fill="#B6C2CD" points="8 3.77997487 16 7.24273399 16 17.1563623 8 13.6936031"></polygon>
-                <polygon id="矩形" fill="#36435C" transform="translate(12.000000, 23.844556) scale(-1, 1) translate(-12.000000, -23.844556) " points="8 17.1563623 16 20.6191214 16 30.5327496 8 27.0699905"></polygon>
-                <polygon id="矩形备份-4" fill="#36435C" transform="translate(28.000000, 23.844556) scale(-1, 1) translate(-28.000000, -23.844556) " points="24 17.1563623 32 20.6191214 32 30.5327496 24 27.0699905"></polygon>
-                <polygon id="矩形备份-9" fill="#36435C" transform="translate(20.000000, 10.468169) scale(-1, 1) translate(-20.000000, -10.468169) " points="16 3.77997487 24 7.24273399 24 17.1563623 16 13.6936031"></polygon>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="m0 17.1563623 8 3.4627591v9.9136282l-8-3.4627591z" fill="#b6c2cd"/><g fill="#e8eef4"><path d="m8 13.6936031 8 3.4627592-8 3.4627591-8-3.4627591z"/><path d="m16 1.21592012 8 2.56405475-8 3.46275912-8-3.46275912z"/><path d="m24 13.6936031 8 3.4627592-8 3.4627591-8-3.4627591z"/></g><path d="m16 17.1563623 8 3.4627591v9.9136282l-8-3.4627591z" fill="#b6c2cd"/><path d="m8 3.77997487 8 3.46275912v9.91362831l-8-3.4627592z" fill="#b6c2cd"/><path d="m8 17.1563623 8 3.4627591v9.9136282l-8-3.4627591z" fill="#36435c" transform="matrix(-1 0 0 1 24 0)"/><path d="m24 17.1563623 8 3.4627591v9.9136282l-8-3.4627591z" fill="#36435c" transform="matrix(-1 0 0 1 56 0)"/><path d="m16 3.77997487 8 3.46275912v9.91362831l-8-3.4627592z" fill="#36435c" transform="matrix(-1 0 0 1 40 0)"/></g></svg>

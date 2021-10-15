@@ -84,7 +84,10 @@
             "edit": "修改成功",
             "delete": "删除成功",
             "reset": "重置成功",
-            "copy": "复制成功"
+            "copy": "复制成功",
+            "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
+            "link": "点击查看更新指引",
+            "release": "Version {{version}} 已发布，"
         },
         "bt": {
             "delete": "删除",
@@ -496,7 +499,7 @@
             "selectBaseSpace": "请选择基础开发空间",
             "inputSpaceName": "请输入开发空间名称",
             "selectDevService": "请选择开发服务",
-            "tip": "共享开发空间创建成功，在该共享开发空间下开发时，请求头需加入以下 Tracing Header ",
+            "tip": "共享开发空间创建成功，在该共享开发空间下开发时，请求头需加入以下 「Tracing Header」 ",
             "tipImportant": " {{headerName}}: {{headerValue}} "
         },
         "profile": {

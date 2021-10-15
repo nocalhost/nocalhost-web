@@ -11,7 +11,7 @@ export const MainContent = styled.div`
     background-color: ${(props) => props.theme.mainBgColor};
     width: 100%;
     /* height: 60px; */
-    padding: 18px 24px 18px 20px;
+    padding: 18px 0 20px;
 `;
 
 export const LogoName = styled.div`
@@ -31,6 +31,8 @@ export const Flex = styled.div`
 `;
 
 export const FlexBetween = styled(Flex)`
+    padding-left: 24px;
+    padding-right: 18px;
     justify-content: space-between;
 `;
 export const FlexHeader = styled(FlexBetween)`
@@ -161,12 +163,15 @@ export const AvaterBox = styled.div`
 
 export const VersionInfo = styled.div`
     width: 320px;
-    height: 248px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 30px 30px 10px;
+    margin: 0 auto;
     background: #ffffff url(${ImageVersionInfoBg}) no-repeat;
+    background-size: cover;
+    text-align: center;
+
+    img {
+        margin: 0 auto;
+    }
 
     .content {
         width: 260px;
@@ -175,10 +180,12 @@ export const VersionInfo = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin-top: 20px;
+        margin-top: 10px;
         background: #ffffff;
         font-size: 12px;
         color: rgb(54, 67, 92);
+        border-radius: 4px;
+        border: 1px solid rgb(237, 241, 244);
 
         &-item {
             display: flex;
@@ -194,6 +201,63 @@ export const VersionInfo = styled.div`
                     text-overflow: ellipsis;
                 }
             }
+        }
+    }
+
+    .tip {
+        &-version {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #36435c;
+
+            a {
+                height: 16px;
+                line-height: 16px;
+
+                span {
+                    visibility: hidden;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+
+                    span {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+
+        &-copyright {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #79879c;
+        }
+    }
+`;
+
+export const UpgradeBox = styled.div`
+    display: flex;
+    padding: 0 24px 0;
+    align-items: center;
+    justify-content: space-between;
+    background: rgb(230, 247, 255);
+    border-radius: 0;
+    height: 40px;
+    color: rgb(54, 67, 92);
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+
+    .left {
+        display: flex;
+        align-items: center;
+
+        .info {
+            margin-left: 4px;
+        }
+
+        .link {
+            color: #0080ff;
         }
     }
 `;

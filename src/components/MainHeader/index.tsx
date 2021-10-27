@@ -552,7 +552,7 @@ function MainHeader() {
                                     {t('common.message.release', {
                                         version: upgradeInfo?.upgrade_version,
                                     })}
-                                    <a>
+                                    <a href={t('document.helmUpgrade.url')} target="_blank">
                                         {t('common.message.link')}
                                         <Icon
                                             component={IconLink}

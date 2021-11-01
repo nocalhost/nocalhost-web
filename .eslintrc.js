@@ -61,6 +61,7 @@ module.exports = {
         'one-var': 0,
         'react/no-danger': 2,
         'react/display-name': 0,
+        'react/jsx-no-target-blank': 0,
         'global-require': 0,
         'no-trailing-spaces': 0,
         '@typescript-eslint/explicit-module-boundary-types': 'off',

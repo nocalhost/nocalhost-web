@@ -34,7 +34,7 @@ const KubeConfig = (props: PropParam) => {
     let shareList: any = [
         {
             name: record.user_name,
-            id: record.user_id,
+            id: record?.space_own_type?.Str === 'Viewer' ? record.id : record.user_id,
         },
     ];
     shareList = shareList.concat(record.cooper_user).concat(record.viewer_user);
@@ -46,9 +46,8 @@ const KubeConfig = (props: PropParam) => {
     });
     const { t } = useTranslation();
     const [kubeConfig, setKubeConfig] = useState<string>('');
-
     useEffect(() => {
-        queryDetail(record.user_id);
+        queryDetail(record?.space_own_type?.Str === 'Viewer' ? record.id : record.user_id);
     }, []);
 
     async function queryDetail(id: any) {

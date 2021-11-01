@@ -26,7 +26,7 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
     initOptions.method = 'GET';
     // eslint-disable-next-line
     // @ts-ignore
-    const apiHost = window._env_.API_HOST || window.location.origin;
+    const apiHost = window._env_?.API_HOST || window.location.origin;
 
     if (apiHost.indexOf('http') >= 0) {
         apiUrl = apiHost;

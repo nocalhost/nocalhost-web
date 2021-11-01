@@ -65,7 +65,9 @@
         "isospace": {
             "url": "https://nocalhost.dev/zh-CN/docs/server/manage-devspace-iso"
         },
-        "helmUpgrade": "https://nocalhost.dev/zh-CN/docs/server/upgrade"
+        "helmUpgrade": {
+            "url": "https://nocalhost.dev/zh-CN/docs/server/upgrade"
+        }
     },
     "common": {
         "operation": "操作",

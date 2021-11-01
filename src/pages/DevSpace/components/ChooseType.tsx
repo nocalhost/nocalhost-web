@@ -227,7 +227,7 @@ const ChooseType = ({
                                     <Button onClick={() => onCreateMesh()} type="primary">
                                         {t('common.bt.select')}
                                     </Button>
-                                    <a href={t('document.meshspace.url')} target="_black">
+                                    <a href={t('document.meshspace.url')} target="_blank">
                                         {t('resources.devSpace.tips.learnMore')}
                                         <Icon
                                             component={IconLink}

@@ -77,7 +77,7 @@ function Overview() {
             ></SummaryCard>
             <CardBox>
                 <Row gutter={20}>
-                    <Col span={8}>
+                    <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/user')}>
                             <Water src={UserWater}></Water>
                             <H mb="30px">
@@ -101,7 +101,7 @@ function Overview() {
                             </FlexBetween>
                         </Card>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/application')}>
                             <Water src={ApplicationWater}></Water>
                             <H mb="30px">
@@ -125,7 +125,7 @@ function Overview() {
                             </FlexBetween>
                         </Card>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/devspace')}>
                             <Water src={DevSpaceWater}></Water>
                             <H mb="30px">
@@ -136,6 +136,30 @@ function Overview() {
                                         style={{ fontSize: '20px', marginLeft: '4px' }}
                                     ></Icon>
                                 </span>
+                            </H>
+                            {/* <Time>2020/02/08-2021/07/28</Time> */}
+                            <FlexBetween>
+                                <AmountBox>
+                                    <Total>{devSpaceData.length}</Total>
+                                    {/* <I>个</I> */}
+                                </AmountBox>
+                                <IconBox>
+                                    <SvgIcon src={IconColorDevspace} alt="" />
+                                </IconBox>
+                            </FlexBetween>
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card>
+                            <Water src={DevSpaceWater}></Water>
+                            <H mb="30px">
+                                <>{t('resources.cost.name')}</>
+                                {/* <span className="enter">
+                                    <Icon
+                                        component={IconEnter}
+                                        style={{ fontSize: '20px', marginLeft: '4px' }}
+                                    ></Icon>
+                                </span> */}
                             </H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>

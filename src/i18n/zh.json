@@ -531,7 +531,8 @@
             "formTitle": "闲时成本降低策略",
             "formDesc": "通过配置开发空间闲时休眠来降低开发空间的计算资源和成本。",
             "idleSleepTime": "空间不活跃后休眠（Min）",
-            "idleDeleteTime": "空间不活跃后删除（Min）"
+            "idleDeleteTime": "空间不活跃后删除（Min）",
+            "sleeping": "休眠中："
         }
     }
 }

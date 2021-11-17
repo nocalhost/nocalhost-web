@@ -17,6 +17,7 @@ import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
 import {
+    NormalCard,
     Card,
     CardBox,
     H,
@@ -80,7 +81,7 @@ function Overview() {
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/user')}>
                             <Water src={UserWater}></Water>
-                            <H mb="30px">
+                            <H mb="6px">
                                 <>{t('resources.users.name')}</>
                                 <span className="enter">
                                     <Icon
@@ -104,7 +105,7 @@ function Overview() {
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/application')}>
                             <Water src={ApplicationWater}></Water>
-                            <H mb="30px">
+                            <H mb="6px">
                                 <>{t('resources.application.name')}</>
                                 <span className="enter">
                                     <Icon
@@ -128,7 +129,7 @@ function Overview() {
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/devspace')}>
                             <Water src={DevSpaceWater}></Water>
-                            <H mb="30px">
+                            <H mb="6px">
                                 <>{t('resources.space.name')}</>
                                 <span className="enter">
                                     <Icon
@@ -141,7 +142,10 @@ function Overview() {
                             <FlexBetween>
                                 <AmountBox>
                                     <Total>{devSpaceData.length}</Total>
-                                    {/* <I>个</I> */}
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorDevspace} alt="" />
@@ -150,9 +154,9 @@ function Overview() {
                         </Card>
                     </Col>
                     <Col span={6}>
-                        <Card>
+                        <NormalCard>
                             <Water src={DevSpaceWater}></Water>
-                            <H mb="30px">
+                            <H mb="6px">
                                 <>{t('resources.cost.name')}</>
                                 {/* <span className="enter">
                                     <Icon
@@ -171,7 +175,7 @@ function Overview() {
                                     <SvgIcon src={IconColorDevspace} alt="" />
                                 </IconBox>
                             </FlexBetween>
-                        </Card>
+                        </NormalCard>
                     </Col>
                 </Row>
                 <CardBox>

@@ -1,20 +1,27 @@
 import styled from 'styled-components';
 import { HType, FlexType } from './type';
 
-export const Card = styled.div`
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px 0px rgba(40, 47, 55, 0.05);
-    background: #fff;
-    padding: 20px 23px 23px 20px;
+export const NormalCard = styled.div`
+    border-radius: 4px;
+    background: #f9fbfd;
+    padding: 20px;
     position: relative;
     cursor: pointer;
+`;
+
+export const Card = styled(NormalCard)`
     .enter {
-        display: none;
+        visibility: hidden;
     }
+
     &:hover {
-        box-shadow: 0px 8px 20px 0px rgba(40, 47, 55, 0.15);
+        background: rgb(243, 246, 250);
+        border-radius: 4px;
+        border: 1px solid rgb(226, 232, 238);
+        box-shadow: 0 4px 10px 0 rgba(54, 67, 92, 0.12);
+
         span {
-            display: inline !important;
+            visibility: visible !important;
         }
     }
 `;
@@ -25,11 +32,11 @@ export const CardBox = styled.div`
 
 // eslint-disable-next-line no-undef
 export const H = styled.div<HType>`
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     color: rgb(54, 67, 92);
-    height: 24px;
-    line-height: 24px;
+    display: flex;
+    align-items: center;
     margin-bottom: ${(props) => (props.mb ? props.mb : '0px')};
     margin-right: 8px;
 `;
@@ -60,7 +67,7 @@ export const AmountBox = styled.div`
 `;
 
 export const Total = styled.div`
-    font-size: 48px;
+    font-size: 32px;
     font-weight: bold;
     color: rgb(54, 67, 92);
 `;

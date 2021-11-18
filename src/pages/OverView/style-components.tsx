@@ -107,8 +107,8 @@ export const IconBox = styled.div`
 `;
 
 export const SvgIcon = styled.img`
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
 `;
 
 export const LoadingBox = styled.div`

@@ -6,10 +6,8 @@ import { useTranslation } from 'react-i18next';
 import IconColorUser from '../../images/icon/icon_color_users.svg';
 import IconColorApplications from '../../images/icon/icon_color_applications.svg';
 import IconColorDevspace from '../../images/icon/icon_color_devspace.svg';
-import UserWater from '../../images/icon/Users.svg';
-import ApplicationWater from '../../images/icon/Applications.svg';
+import IconColorCost from '../../images/icon/icon_color_costReduction.svg';
 import ClusterWater from '../../images/icon/Cluster.svg';
-import DevSpaceWater from '../../images/icon/DevSpace.svg';
 import HTTP from '../../api/fetch';
 import Icon from '@ant-design/icons';
 import { useHistory } from 'react-router';
@@ -80,7 +78,6 @@ function Overview() {
                 <Row gutter={20}>
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/user')}>
-                            <Water src={UserWater}></Water>
                             <H mb="6px">
                                 <>{t('resources.users.name')}</>
                                 <span className="enter">
@@ -104,7 +101,6 @@ function Overview() {
                     </Col>
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/application')}>
-                            <Water src={ApplicationWater}></Water>
                             <H mb="6px">
                                 <>{t('resources.application.name')}</>
                                 <span className="enter">
@@ -128,7 +124,6 @@ function Overview() {
                     </Col>
                     <Col span={6}>
                         <Card onClick={() => history.push('/dashboard/devspace')}>
-                            <Water src={DevSpaceWater}></Water>
                             <H mb="6px">
                                 <>{t('resources.space.name')}</>
                                 <span className="enter">
@@ -155,7 +150,6 @@ function Overview() {
                     </Col>
                     <Col span={6}>
                         <NormalCard>
-                            <Water src={DevSpaceWater}></Water>
                             <H mb="6px">
                                 <>{t('resources.cost.name')}</>
                                 {/* <span className="enter">
@@ -172,7 +166,7 @@ function Overview() {
                                     {/* <I>个</I> */}
                                 </AmountBox>
                                 <IconBox>
-                                    <SvgIcon src={IconColorDevspace} alt="" />
+                                    <SvgIcon src={IconColorCost} alt="" />
                                 </IconBox>
                             </FlexBetween>
                         </NormalCard>

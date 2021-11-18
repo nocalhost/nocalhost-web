@@ -1,1 +1,20 @@
-<svg height="80" viewBox="0 0 80 80" width="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="a" x1="-3.093922%" x2="84.222927%" y1="-7.837655%" y2="88.349991%"><stop offset="0" stop-color="#a974ff"/><stop offset="1" stop-color="#49a5ff"/></linearGradient><circle id="b" cx="40" cy="40" r="24"/><filter id="c" height="183.3%" width="183.3%" x="-41.7%" y="-33.3%"><feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"/><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/><feColorMatrix in="shadowBlurOuter1" type="matrix" values="0 0 0 0 0.305882353   0 0 0 0 0.639215686   0 0 0 0 1  0 0 0 0.4 0"/></filter><circle id="d" cx="40" cy="40" r="15"/><filter id="e" height="146.7%" width="146.7%" x="-23.3%" y="-16.7%"><feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/><feColorMatrix in="shadowBlurOuter1" type="matrix" values="0 0 0 0 0.211764706   0 0 0 0 0.262745098   0 0 0 0 0.360784314  0 0 0 0.15 0"/></filter></defs><g fill="none" fill-rule="evenodd"><g><use fill="#000" filter="url(#c)" xlink:href="#b"/><use fill="url(#a)" fill-rule="evenodd" xlink:href="#b"/></g><circle cx="40" cy="40" fill="#fff" opacity=".5" r="18"/><g><use fill="#000" filter="url(#e)" xlink:href="#d"/><use fill="#fff" fill-rule="evenodd" xlink:href="#d"/></g><g transform="translate(30 30)"><path d="m9.37575757 2c2.21515153 0 4.12424243 1.2825 5.04242423 3.1425 2.2735875.13557037 4.2035331 1.54497722 5.0790498 3.5265085-.3659532-.4134228-.9011382-.67420291-1.4972316-.67420291h-8c-1.1045695 0-2 .8954305-2 2v5.00519441c0 1.1045695.8954305 2 2 2l4.418-.001-.0422424.001h-9.3757576c-2.78878788-.1521875-5-2.33875-5-5 0-2.25625 1.58909091-4.163125 3.77121212-4.785.21060606-2.9140625 2.63666666-5.215 5.60454545-5.215z" fill="#52a0ff" fill-rule="nonzero"/><g stroke="#52a0ff" stroke-width="2"><path d="m13.1745386 15.8401964-2.7704855-3 2.7704855-2.99999997"/><path d="m15.8588923 15.8401964 2.7704855-3-2.7704855-2.99999997"/></g></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_color_devspace</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01-概览" transform="translate(-1042.000000, -370.000000)">
+            <g id="数据" transform="translate(244.000000, 264.000000)">
+                <g id="编组-3备份-2" transform="translate(592.000000, 72.000000)">
+                    <g id="编组-5" transform="translate(206.000000, 34.000000)">
+                        <circle id="icon_color_devspace" fill="#F5E9FF" cx="24" cy="24" r="24"></circle>
+                        <g id="编组-15" transform="translate(12.000000, 12.000000)">
+                            <path d="M11.2509091,2.4 C13.9090909,2.4 16.2,3.939 17.3018182,6.171 C20.0292311,6.33363126 22.3445435,8.02386693 23.395647,10.4004782 C22.9552232,9.90557792 22.3140253,9.59376671 21.6,9.59376671 L21.6,9.59376671 L12,9.59376671 C10.6745166,9.59376671 9.6,10.6682833 9.6,11.9937667 L9.6,11.9937667 L9.6,18 C9.6,19.3254834 10.6745166,20.4 12,20.4 L12,20.4 L17.296,20.399 L17.2509091,20.4 L6,20.4 C2.65345454,20.217375 0,17.5935 0,14.4 C0,11.6925 1.90690909,9.40425 4.52545454,8.65800001 C4.77818182,5.16112499 7.68945453,2.4 11.2509091,2.4 Z" id="形状结合" fill="#C274FB" fill-rule="nonzero"></path>
+                            <polyline id="路径" stroke="#C274FB" stroke-width="2.4" points="15.8094463 19.0082357 12.4848637 15.4082357 15.8094463 11.8082357"></polyline>
+                            <polyline id="路径" stroke="#C274FB" stroke-width="2.4" points="19.0306707 19.0082357 22.3552533 15.4082357 19.0306707 11.8082357"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

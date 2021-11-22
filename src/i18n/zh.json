@@ -114,7 +114,8 @@
     },
     "resources": {
         "dashboard": {
-            "name": "概览"
+            "name": "概览",
+            "dataOverview": "数据总览"
         },
         "users": {
             "name": "用户",

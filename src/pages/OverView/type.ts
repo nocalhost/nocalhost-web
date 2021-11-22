@@ -1,7 +1,7 @@
 export interface HType {
     mb?: string;
+    bg?: string;
 }
-
 export interface FlexType {
     mb?: string;
 }

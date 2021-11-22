@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { HType, FlexType } from './type';
 
-export const NormalCard = styled.div`
+export const NormalCard = styled.div<HType>`
     border-radius: 4px;
-    background: #f9fbfd;
+    background: ${(props) => (props.bg ? props.bg : '#fff')};
     padding: 20px;
     position: relative;
     cursor: pointer;
@@ -15,7 +15,6 @@ export const Card = styled(NormalCard)`
     }
 
     &:hover {
-        background: rgb(243, 246, 250);
         border-radius: 4px;
         border: 1px solid rgb(226, 232, 238);
         box-shadow: 0 4px 10px 0 rgba(54, 67, 92, 0.12);
@@ -24,6 +23,10 @@ export const Card = styled(NormalCard)`
             visibility: visible !important;
         }
     }
+`;
+
+export const DataCard = styled(Card)`
+    background: #f9fbfd;
 `;
 
 export const CardBox = styled.div`

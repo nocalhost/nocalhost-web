@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="106px" height="67px" viewBox="0 0 106 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Data</title>
-    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="SourceHanSansTC-Bold, Source Han Sans TC" font-size="48" font-weight="bold" opacity="0.033852">
-        <g id="01-概览" transform="translate(-1310.000000, -264.000000)" fill="#36435C">
-            <g id="数据" transform="translate(244.000000, 264.000000)">
-                <g id="Data-2" transform="translate(1062.000000, 0.000000)">
-                    <text id="Data">
-                        <tspan x="0.8" y="56">Data</tspan>
-                    </text>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg height="67" viewBox="0 0 106 67" width="106" xmlns="http://www.w3.org/2000/svg"><text style="fill:#36435c;fill-rule:evenodd;font-family:SourceHanSansTC-Bold, Source Han Sans TC;font-size:48;font-weight:bold;opacity:.033852" transform="translate(-4)"><tspan x=".8" y="56">Data</tspan></text></svg>

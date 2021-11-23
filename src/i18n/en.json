@@ -532,7 +532,7 @@
             "formDesc": "Reduce the computational resources and cost of the development space by configuring the development space to hibernate when idle.",
             "idleSleepTime": "Dormancy after space inactivity (Min)",
             "idleDeleteTime": "Delete after space inactivity (Min)",
-            "sleeping": "sleeping"
+            "sleeping": "sleeping: "
         }
     }
 }

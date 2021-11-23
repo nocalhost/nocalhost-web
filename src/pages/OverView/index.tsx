@@ -8,6 +8,8 @@ import IconColorApplications from '../../images/icon/icon_color_applications.svg
 import IconColorDevspace from '../../images/icon/icon_color_devspace.svg';
 import IconColorCost from '../../images/icon/icon_color_costReduction.svg';
 import ClusterWater from '../../images/icon/Cluster.svg';
+import DataWater from '../../images/icon/Data.svg';
+
 import HTTP from '../../api/fetch';
 import Icon from '@ant-design/icons';
 import { useHistory } from 'react-router';
@@ -31,6 +33,7 @@ import {
     Flex,
     IconBox,
     LoadingBox,
+    SleepingBox,
 } from './style-components';
 function Overview() {
     const history = useHistory();
@@ -78,13 +81,13 @@ function Overview() {
             <CardBox>
                 <NormalCard>
                     <Flex mb="24px">
-                        <H>{t('resources.dashboard.dataOverview')}</H>
-                        <Water src={ClusterWater}></Water>
+                        <H bold={true}>{t('resources.dashboard.dataOverview')}</H>
+                        <Water src={DataWater}></Water>
                     </Flex>
                     <Row gutter={20}>
                         <Col span={6}>
                             <DataCard onClick={() => history.push('/dashboard/user')}>
-                                <H mb="6px">
+                                <H>
                                     <>{t('resources.users.name')}</>
                                     <span className="enter">
                                         <Icon
@@ -93,7 +96,6 @@ function Overview() {
                                         ></Icon>
                                     </span>
                                 </H>
-                                {/* <Time>2020/02/08-2021/07/28</Time> */}
                                 <FlexBetween>
                                     <AmountBox>
                                         <Total>{userData.length}</Total>
@@ -107,7 +109,7 @@ function Overview() {
                         </Col>
                         <Col span={6}>
                             <DataCard onClick={() => history.push('/dashboard/application')}>
-                                <H mb="6px">
+                                <H>
                                     <>{t('resources.application.name')}</>
                                     <span className="enter">
                                         <Icon
@@ -130,7 +132,7 @@ function Overview() {
                         </Col>
                         <Col span={6}>
                             <DataCard onClick={() => history.push('/dashboard/devspace')}>
-                                <H mb="6px">
+                                <H>
                                     <>{t('resources.space.name')}</>
                                     <span className="enter">
                                         <Icon
@@ -143,10 +145,10 @@ function Overview() {
                                 <FlexBetween>
                                     <AmountBox>
                                         <Total>{devSpaceData.length}</Total>
-                                        <div>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
+                                        <SleepingBox>
+                                            <span>{t('resources.cost.sleeping')}</span>
+                                            <span>28</span>
+                                        </SleepingBox>
                                     </AmountBox>
                                     <IconBox>
                                         <SvgIcon src={IconColorDevspace} alt="" />
@@ -155,8 +157,8 @@ function Overview() {
                             </DataCard>
                         </Col>
                         <Col span={6}>
-                            <NormalCard bg="#f9fbfd">
-                                <H mb="6px">
+                            <NormalCard height="98px" bg="#f9fbfd">
+                                <H>
                                     <>{t('resources.cost.name')}</>
                                     {/* <span className="enter">
                                     <Icon
@@ -183,7 +185,7 @@ function Overview() {
                 <CardBox>
                     <Card style={{ cursor: 'auto' }}>
                         <Flex mb="24px">
-                            <H>{t('resources.cluster.name')}</H>
+                            <H bold={true}>{t('resources.cluster.name')}</H>
                             <Dot>{clusterData.length}</Dot>
                             <Water src={ClusterWater}></Water>
                         </Flex>

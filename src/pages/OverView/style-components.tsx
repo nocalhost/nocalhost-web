@@ -3,14 +3,19 @@ import { HType, FlexType } from './type';
 
 export const NormalCard = styled.div<HType>`
     border-radius: 4px;
+    height: ${(props) => (props.height ? props.height : 'auto')};
     background: ${(props) => (props.bg ? props.bg : '#fff')};
     padding: 20px;
     position: relative;
     cursor: pointer;
 `;
 
-export const Card = styled(NormalCard)`
+export const Card = styled(NormalCard)<HType>`
+    height: ${(props) => (props.height ? props.height : 'auto')};
+
     .enter {
+        display: inline-block;
+        height: 20px;
         visibility: hidden;
     }
 
@@ -26,7 +31,12 @@ export const Card = styled(NormalCard)`
 `;
 
 export const DataCard = styled(Card)`
+    height: 98px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: #f9fbfd;
+    padding-bottom: 16px;
 `;
 
 export const CardBox = styled.div`
@@ -36,7 +46,8 @@ export const CardBox = styled.div`
 // eslint-disable-next-line no-undef
 export const H = styled.div<HType>`
     font-size: 12px;
-    font-weight: 600;
+    font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
+    font-family: ${(props) => (props.bold ? 'PingFangSC-Semibold' : 'PingFangSC-Regular')};
     color: rgb(54, 67, 92);
     display: flex;
     align-items: center;
@@ -122,4 +133,18 @@ export const LoadingBox = styled.div`
     justify-content: center;
     background: #fff;
     border-radius: 8px;
+`;
+
+export const SleepingBox = styled.div`
+    margin-left: 6px;
+    padding: 0 8px;
+    position: relative;
+    top: -12px;
+    height: 20px;
+    display: flex;
+    background: #e6eaee;
+    border-radius: 11px;
+    align-items: center;
+    font-size: 14px;
+    color: #79879c;
 `;

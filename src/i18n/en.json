@@ -335,7 +335,15 @@
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
                 "setLimitDesc": "Setting the resource limit will limit the total resource usage of the current space, and the resource usage of the Container in each Pod in the current space will also be limited",
                 "setBaseSpaceTip": "Whether to set as the base development space",
-                "setBaseSpaceDesc": "Set as the base development space, add Istio sidecar automatic injection tags to the corresponding namespace"
+                "setBaseSpaceDesc": "Set as the base development space, add Istio sidecar automatic injection tags to the corresponding namespace",
+                "setVClusterTip": "Whether to set as VCluster",
+                "setVClusterDesc": "设置为虚拟集群之后怎么样这里说明一下（最好不可超过一行）",
+                "vClusterAccessWay": "Access Way",
+                "plugInOnly": "Plug-in only access",
+                "vClusterSettings": "Advanced Settings ",
+                "vClusterVersion": "Version",
+                "vClusterVersionDesc": "The chart version of the virtual cluster to deploy",
+                "vClusterHelmDesc": "For related parameters, please refer to "
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",

@@ -336,7 +336,15 @@
                 "setAdminDesc": "设置为集群管理员，则该用户有权限添加编辑用户、集群",
                 "setLimitDesc": "设置资源限制，则限制当前空间总资源使用量，当前空间中每个 Pod 中的 Container 的资源使用量也将会被限制",
                 "setBaseSpaceTip": "是否设置为基础开发空间",
-                "setBaseSpaceDesc": "设置为基础开发空间，在对应的命名空间加上 Istio 边车自动注入标签"
+                "setBaseSpaceDesc": "设置为基础开发空间，在对应的命名空间加上 Istio 边车自动注入标签",
+                "setVClusterTip": "是否创建为虚拟集群",
+                "setVClusterDesc": "设置为虚拟集群之后怎么样这里说明一下（最好不可超过一行）",
+                "vClusterAccessWay": "访问方式",
+                "plugInOnly": "仅限插件访问",
+                "vClusterSettings": "高级设置",
+                "vClusterVersion": "版本",
+                "vClusterVersionDesc": "要部署的 VCluster 版本",
+                "vClusterHelmDesc": "相关参数，请参考 "
             },
             "actions": {
                 "create": "创建开发空间",

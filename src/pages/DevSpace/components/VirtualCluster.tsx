@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Form, Switch, Radio, Select, Input } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
 
-import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
+import { ReactComponent as VClusterIcon } from '../../../images/icon/icon_switch_vcluster.svg';
 import {
     FormFlexBox,
     OtherConfigItem,
@@ -56,6 +57,15 @@ const Arrow = styled.i`
 `;
 
 export default function VirtualCluster() {
+    const { t } = useTranslation();
+
+    const l = useCallback(
+        (key: string) => {
+            return t(`resources.space.fields.${key}`);
+        },
+        [t]
+    );
+
     const [isVCluster, setIsVCluster] = useState(false);
 
     const container = useRef<HTMLDivElement | null>(null);
@@ -80,11 +90,11 @@ export default function VirtualCluster() {
     return (
         <>
             <OtherConfigItem>
-                <Icon component={IconBaseSpace} style={{ fontSize: 32, marginRight: 8 }} />
+                <Icon component={VClusterIcon} style={{ fontSize: 32, marginRight: 8 }} />
                 <FormFlexBox>
                     <DescBox>
-                        <span>设置为虚拟集群</span>
-                        <span>{`设置为虚拟集群之后怎么样这里说明一下（最好不可超过一行）`}</span>
+                        <span>{l('setVClusterTip')}</span>
+                        <span>{l('setVClusterDesc')}</span>
                     </DescBox>
                     <Form.Item name="dev_space_type">
                         <Switch onChange={setIsVCluster} checked={isVCluster} />
@@ -94,39 +104,35 @@ export default function VirtualCluster() {
             {isVCluster && (
                 <LimitWrap>
                     <Divide />
-                    <LimitTitle>集群访问方式</LimitTitle>
+                    <LimitTitle>{l('vClusterAccessWay')}</LimitTitle>
                     <Form.Item name="service_type">
                         <Radio.Group>
-                            <Radio value="ClusterIP">仅限插件访问</Radio>
+                            <Radio value="ClusterIP">{l('plugInOnly')}</Radio>
                             <Radio value="LoadBalancer">LoadBalancer</Radio>
                             <Radio value="NodePort">NodePort</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <LimitTitle onClick={more} style={{ cursor: 'pointer' }}>
                         <Arrow />
-                        高级配置
+                        {l('vClusterSettings')}
                     </LimitTitle>
                     <Container ref={container}>
                         <FormFlexBox>
                             <Form.Item
                                 name="version"
-                                label="VCluster 版本号"
+                                label={`VCluster ${l('vClusterVersion')}`}
                                 style={{
                                     width: '100%',
                                     marginRight: 12,
                                     flexBasis: '100%',
                                 }}
                             >
-                                <Select
-                                    disabled
-                                    placeholder="请选择 VCluster 版本 "
-                                    style={{ width: '100%' }}
-                                >
+                                <Select disabled style={{ width: '100%' }}>
                                     <Select.Option value="latest">latest</Select.Option>
                                 </Select>
                             </Form.Item>
                         </FormFlexBox>
-                        <Tips>部署虚拟集群的图表版本</Tips>
+                        <Tips>{l('vClusterVersionDesc')}</Tips>
                         <FormFlexBox>
                             <Form.Item
                                 name="values"
@@ -137,13 +143,13 @@ export default function VirtualCluster() {
                                     flexBasis: '100%',
                                 }}
                             >
-                                <Input.TextArea rows={8} placeholder={HELM_VALUES_PLACEHOLDER} />
+                                <Input.TextArea rows={7} placeholder={HELM_VALUES_PLACEHOLDER} />
                             </Form.Item>
                         </FormFlexBox>
                         <Tips>
-                            {`所有可用值，请参考 `}
-                            <a target="_bank" href="https://nocalhost.dev/docs/introduction">
-                                https://nocalhost.dev/docs/introduction
+                            {l('vClusterHelmDesc')}
+                            <a target="_bank" href="https://www.vcluster.com/docs/config-reference">
+                                Configuration Reference
                             </a>
                         </Tips>
                     </Container>

@@ -11,13 +11,14 @@ import { ReactComponent as IconResource } from '../../../images/icon/icon_resour
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
+import VirtualCluster from './VirtualCluster';
 
-const FormFlexBox = styled(FlexBox)`
+export const FormFlexBox = styled(FlexBox)`
     flex: 1;
     justify-content: space-between;
 `;
 
-const OtherConfigItem = styled.div`
+export const OtherConfigItem = styled.div`
     padding: 10px 12px;
     margin-top: 8px;
     background: #f9fbfd;
@@ -30,7 +31,7 @@ const OtherConfigItem = styled.div`
     }
 `;
 
-const DescBox = styled.div`
+export const DescBox = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -51,24 +52,32 @@ const DescBox = styled.div`
     }
 `;
 
-const LimitWrap = styled.div`
-    height: 288px;
+export const LimitWrap = styled.div`
+    max-height: 288px;
     overflow: scroll;
     padding: 12px 12px 0;
     background: #f9fbfd;
     font-size: 14px;
     color: #36435c;
+
+    .ant-form-item-control-input {
+        box-shadow: none;
+    }
+    .ant-row.ant-form-item {
+        margin-left: 40px;
+    }
 `;
 
-const LimitTitle = styled.div`
+export const LimitTitle = styled.div`
     margin: 12px 0;
+    margin-left: 40px;
     color: rgb(54, 67, 92);
     font-family: PingFangSC-Semibold;
     font-size: 14px;
     font-weight: 600;
 `;
 
-const Divide = styled.div`
+export const Divide = styled.div`
     height: 1px;
     background: #e6ebf2;
 `;
@@ -215,6 +224,10 @@ const DevspaceForm = ({
                 space_req_mem,
                 space_storage_capacity,
                 resource_limit_set,
+                dev_space_type,
+                service_type,
+                version,
+                values: helmValues,
             } = values;
 
             const limitObj = resource_limit_set
@@ -267,7 +280,7 @@ const DevspaceForm = ({
                 }
                 setIsSubmit(false);
             } else {
-                const response = await HTTP.post('dev_space', {
+                let data: any = {
                     cluster_id,
                     cluster_admin: cluster_admin ? 1 : 0,
                     is_base_space,
@@ -275,7 +288,17 @@ const DevspaceForm = ({
                     space_name,
                     isLimit,
                     space_resource_limit: limitObj,
-                });
+                };
+
+                if (dev_space_type == true) {
+                    data = {
+                        ...data,
+                        dev_space_type: 3,
+                        virtual_cluster: { service_type, version, values: helmValues },
+                    };
+                }
+
+                const response = await HTTP.post('dev_space', data);
                 setIsSubmit(false);
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
@@ -295,6 +318,7 @@ const DevspaceForm = ({
                 form={form}
                 layout="vertical"
                 scrollToFirstError={true}
+                initialValues={{ service_type: 'ClusterIP', version: 'latest', values: null }}
                 onFinish={handleSubmit}
             >
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
@@ -362,6 +386,9 @@ const DevspaceForm = ({
                                 </Form.Item>
                             </FormFlexBox>
                         </OtherConfigItem>
+
+                        <VirtualCluster />
+
                         <OtherConfigItem>
                             <Icon
                                 component={IconResource}

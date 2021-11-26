@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Switch, Button, message } from 'antd';
+import { Form, Input, Select, Switch, Button, message, Popover } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
 import styled from 'styled-components';
@@ -9,8 +9,12 @@ import HTTP from '../../../api/fetch';
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
+import { ReactComponent as IconSleep } from '../../../images/icon/icon_switch_sleep.svg';
+import { ReactComponent as IconDelete } from '../../../images/icon/icon_input_del.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
+import { TimePicker } from './form-component';
+import TimerPickerPanel from './TimePickerPanel';
 
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -120,6 +124,29 @@ const DevspaceForm = ({
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const [sleepTimeList, setSleepTimeList] = useState([
+        {
+            start: '周一 20:00',
+            end: '周二 08:00',
+        },
+        {
+            start: '周一 20:00',
+            end: '周二 08:00',
+        },
+        {
+            start: '周一 20:00',
+            end: '周二 08:00',
+        },
+        {
+            start: '周一 20:00',
+            end: '周二 08:00',
+        },
+        {
+            start: '周一 20:00',
+            end: '周二 08:00',
+        },
+    ]);
+    const [showTimePanel, setShowTimePanel] = useState<boolean>(false);
 
     useEffect(() => {
         if (isEdit && record) {
@@ -285,6 +312,14 @@ const DevspaceForm = ({
             setIsSubmit(false);
             throw new Error(e);
         }
+    };
+
+    const handleAddTime = () => {
+        setSleepTimeList(sleepTimeList);
+    };
+
+    const handleDeleteTime = (key: number) => {
+        setSleepTimeList((currentTimeList) => currentTimeList.filter((item, i) => i !== key));
     };
 
     return (
@@ -551,10 +586,7 @@ const DevspaceForm = ({
                             </LimitWrap>
                         )}
                         <OtherConfigItem>
-                            <Icon
-                                component={IconResource}
-                                style={{ fontSize: 34, marginRight: 8 }}
-                            />
+                            <Icon component={IconSleep} style={{ fontSize: 34, marginRight: 8 }} />
                             <FormFlexBox>
                                 <DescBox>
                                     <span>{t('resources.cost.formTitle')}</span>
@@ -575,34 +607,52 @@ const DevspaceForm = ({
                                 <FormFlexBox style={{ paddingLeft: 44 }}>
                                     <Form.Item
                                         name="space_req_mem"
-                                        label={t('resources.cost.idleSleepTime')}
+                                        label={t('resources.cost.sleepTimeRange')}
                                         style={{
                                             width: '100%',
                                             marginRight: 12,
                                             flexBasis: '50%',
                                         }}
                                     >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) => set_space_req_mem(e.target.value)}
-                                        />
+                                        <TimePicker>
+                                            {sleepTimeList.map((item, key) => {
+                                                return (
+                                                    <div className="time-item" key={key}>
+                                                        {`${item.start}~${item.end}`}
+                                                        <div
+                                                            className="icon"
+                                                            onClick={() => handleDeleteTime(key)}
+                                                        >
+                                                            <Icon
+                                                                component={IconDelete}
+                                                                style={{
+                                                                    fontSize: 16,
+                                                                    marginLeft: 10,
+                                                                    cursor: 'pointer',
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                            <Popover
+                                                visible={showTimePanel}
+                                                trigger="click"
+                                                onVisibleChange={(visible) =>
+                                                    setShowTimePanel(visible)
+                                                }
+                                                content={
+                                                    <TimerPickerPanel
+                                                        handleHide={() => setShowTimePanel(false)}
+                                                    />
+                                                }
+                                            >
+                                                <div className="add-item" onClick={handleAddTime}>
+                                                    <span>{t('resources.cost.addTimeRange')}</span>
+                                                </div>
+                                            </Popover>
+                                        </TimePicker>
                                     </Form.Item>
-                                    <Form.Item
-                                        name="space_limits_mem"
-                                        label={t('resources.cost.idleDeleteTime')}
-                                        style={{ flexBasis: '50%' }}
-                                    >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) =>
-                                                set_space_limits_mem(e.target.value)
-                                            }
-                                        />
-                                    </Form.Item>
-                                </FormFlexBox>
-                                <FormFlexBox>
-                                    <div></div>
-                                    <div></div>
                                 </FormFlexBox>
                             </LimitWrap>
                         )}

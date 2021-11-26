@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_input_del</title>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="11交互补充" transform="translate(-280.000000, -596.000000)">
+            <g id="编组-18备份-5" transform="translate(50.000000, 488.000000)">
+                <g id="编组-26" transform="translate(52.000000, 72.000000)">
+                    <g id="编组-50" transform="translate(0.000000, 28.000000)">
+                        <g id="编组-52" transform="translate(178.000000, 8.000000)">
+                            <path d="M8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 Z M10.9344931,4.00484669 L8,6.939 L5.06550686,4.00484669 L4.00484669,5.06550686 L6.939,8 L4.00484669,10.9344931 L5.06550686,11.9951533 L8,9.061 L10.9344931,11.9951533 L11.9951533,10.9344931 L9.061,8 L11.9951533,5.06550686 L10.9344931,4.00484669 Z" id="形状结合" fill="#B6C2CD"></path>
+                            <g id="icon_close" transform="translate(1.000000, 1.000000)">
+                                <g id="编组-12" transform="translate(7.000000, 7.000000) rotate(-315.000000) translate(-7.000000, -7.000000) translate(2.100000, 2.100000)"></g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -49,7 +49,11 @@ import { ReactComponent as IconExplain } from '../../images/icon/icon_label_expl
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
+import { ReactComponent as IconNormalSleep } from '../../images/icon/icon_sleep_normal.svg';
+import { ReactComponent as IconActiveSleep } from '../../images/icon/icon_sleep_active.svg';
+
 import CopyToClipboard from 'react-copy-to-clipboard';
+import SleepTip from './components/SleepTip';
 interface RouteParams {
     id: string;
 }
@@ -219,8 +223,16 @@ const EnvList = () => {
                     <FlexBox>
                         <Dot isActive={record.resource_limit_set}></Dot>
                         {record.resource_limit_set
-                            ? t('resources.space.fields.resource_limit_set')
-                            : t('resources.space.fields.resource_limit_unset')}
+                            ? t('resources.cost.active')
+                            : t('resources.cost.sleep')}
+                        <Popover trigger="click" content={<SleepTip />}>
+                            <IconBox style={{ marginLeft: 8 }}>
+                                <CommonIcon
+                                    NormalIcon={IconNormalSleep}
+                                    HoverIcon={IconActiveSleep}
+                                ></CommonIcon>
+                            </IconBox>
+                        </Popover>
                     </FlexBox>
                 );
             },

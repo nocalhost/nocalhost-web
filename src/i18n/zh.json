@@ -535,7 +535,14 @@
             "idleDeleteTime": "空间不活跃后删除（Min）",
             "sleeping": "休眠中：",
             "tableLabel": "成本降低",
-            "status": "状态"
+            "status": "状态",
+            "sleep": "休眠",
+            "active": "活跃",
+            "sleepTimeRange": "休眠时间范围",
+            "addTimeRange": "添加时间范围",
+            "sleepTime": "休眠时间",
+            "wakeTime": "唤醒时间",
+            "wakeUpTip": "该空间已进入休眠模式 {{time}} min，确认强制唤醒？唤醒后，当日休眠时间段将不再进入休眠。"
         }
     }
 }

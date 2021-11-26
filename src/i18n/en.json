@@ -534,7 +534,14 @@
             "idleDeleteTime": "Delete after space inactivity (Min)",
             "sleeping": "sleeping: ",
             "tableLabel": "Cost Reduction",
-            "status": "Status"
+            "status": "Status",
+            "sleep": "Sleep",
+            "active": "Active",
+            "sleepTimeRange": "Sleep time range",
+            "addTimeRange": "Add time range",
+            "sleepTime": "Sleep Time",
+            "wakeTime": "Wake Time",
+            "wakeUpTip": "The space has been in hibernation mode for {{time}} min, confirm to force wake up? After waking up, the space will no longer be in hibernation for the day's hibernation time period."
         }
     }
 }

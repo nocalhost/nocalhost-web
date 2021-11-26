@@ -331,3 +331,7 @@ input:-webkit-autofill:active {
 .ant-tooltip-arrow-content {
     background-color: #1a2433;
 }
+
+.ant-popover-inner-content {
+    padding: 0;
+}

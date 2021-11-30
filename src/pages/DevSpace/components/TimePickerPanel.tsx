@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
 import styled from 'styled-components';
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconSleep } from '../../../images/icon/icon_title_sleep.svg';
 import { ReactComponent as IconWakeup } from '../../../images/icon/icon_title_wakeup.svg';
+import classNames from 'classnames';
 
 const TimePanel = styled.div`
     width: 420px;
@@ -88,8 +89,13 @@ const SelectWrap = styled.div`
         cursor: pointer;
 
         &.selected {
+            padding-left: 26px;
             color: #36435c;
             box-shadow: inset 0 1px 0 0 rgb(243, 246, 250), inset 0 -1px 0 0 rgb(243, 246, 250);
+        }
+
+        &.week {
+            padding-left: 0;
         }
 
         &:hover {
@@ -100,6 +106,7 @@ const SelectWrap = styled.div`
 
 interface IProp {
     handleHide: () => void;
+    handleSelect: (sleep: string[], wake: string[]) => void;
 }
 
 const WEEK_ARR = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
@@ -115,15 +122,31 @@ const generateArr = (num: number): string[] => {
 const HOUR_ARR = generateArr(24);
 const MIN_ARR = generateArr(60);
 
-const SelectPanel = ({ data }: { data: string[] }) => {
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
-
+const SelectPanel = ({
+    data,
+    handleSelect,
+    type,
+    defaultIndex = 0,
+}: {
+    data: string[];
+    handleSelect: (index: number, type: string) => void;
+    type: string;
+    defaultIndex?: number;
+}) => {
+    const [currentIndex, setCurrentIndex] = useState<number>(defaultIndex);
     const ulRef = useRef<any>();
+
+    const { t } = useTranslation();
 
     const handleSelectItem = (index: number) => {
         setCurrentIndex(index);
         ulRef.current.scrollTop = index * 36;
+        handleSelect(index, type);
     };
+
+    useEffect(() => {
+        ulRef.current.scrollTop = defaultIndex * 36;
+    }, []);
 
     return (
         <SelectWrap>
@@ -132,10 +155,21 @@ const SelectPanel = ({ data }: { data: string[] }) => {
                     return (
                         <li
                             key={index}
-                            className={index === currentIndex ? 'selected' : ''}
+                            className={classNames({
+                                selected: index === currentIndex,
+                                week: type === 'week',
+                            })}
                             onClick={() => handleSelectItem(index)}
                         >
-                            {item}
+                            {`${item}${
+                                index !== currentIndex
+                                    ? ''
+                                    : type === 'hour'
+                                    ? t('resources.cost.hour')
+                                    : type === 'min'
+                                    ? t('resources.cost.min')
+                                    : ''
+                            }`}
                         </li>
                     );
                 })}
@@ -144,15 +178,50 @@ const SelectPanel = ({ data }: { data: string[] }) => {
     );
 };
 
-const TimePickerPanel = ({ handleHide }: IProp) => {
+const TimePickerPanel = ({ handleHide, handleSelect }: IProp) => {
     const { t } = useTranslation();
+    const [sleepTime, setSleepTime] = useState(['周一', '20', '00']);
+    const [wakeTime, setWakeTime] = useState(['周二', '08', '00']);
 
     const handleConfirm = () => {
         handleHide && handleHide();
+        handleSelect(sleepTime, wakeTime);
     };
 
     const handleCancel = () => {
         handleHide && handleHide();
+    };
+
+    const onSelectSleep = (index: number, type: string) => {
+        const current = sleepTime.slice(0);
+        switch (type) {
+            case 'week':
+                current.splice(0, 1, WEEK_ARR[index]);
+                break;
+            case 'hour':
+                current.splice(1, 1, HOUR_ARR[index]);
+                break;
+            case 'min':
+                current.splice(2, 1, HOUR_ARR[index]);
+                break;
+        }
+        setSleepTime(current);
+    };
+
+    const onSelectWakeup = (index: number, type: string) => {
+        const current = wakeTime.slice();
+        switch (type) {
+            case 'week':
+                current.splice(0, 1, WEEK_ARR[index]);
+                break;
+            case 'hour':
+                current.splice(1, 1, HOUR_ARR[index]);
+                break;
+            case 'min':
+                current.splice(2, 1, HOUR_ARR[index]);
+                break;
+        }
+        setWakeTime(current);
     };
 
     return (
@@ -169,14 +238,29 @@ const TimePickerPanel = ({ handleHide }: IProp) => {
             </div>
             <div className="content">
                 <div className="left">
-                    <SelectPanel data={WEEK_ARR} />
-                    <SelectPanel data={HOUR_ARR} />
-                    <SelectPanel data={MIN_ARR} />
+                    <SelectPanel data={WEEK_ARR} type="week" handleSelect={onSelectSleep} />
+                    <SelectPanel
+                        data={HOUR_ARR}
+                        type="hour"
+                        defaultIndex={20}
+                        handleSelect={onSelectSleep}
+                    />
+                    <SelectPanel data={MIN_ARR} type="min" handleSelect={onSelectSleep} />
                 </div>
                 <div className="right">
-                    <SelectPanel data={WEEK_ARR} />
-                    <SelectPanel data={HOUR_ARR} />
-                    <SelectPanel data={MIN_ARR} />
+                    <SelectPanel
+                        data={WEEK_ARR}
+                        type="week"
+                        defaultIndex={1}
+                        handleSelect={onSelectWakeup}
+                    />
+                    <SelectPanel
+                        data={HOUR_ARR}
+                        type="hour"
+                        defaultIndex={8}
+                        handleSelect={onSelectWakeup}
+                    />
+                    <SelectPanel data={MIN_ARR} type="min" handleSelect={onSelectWakeup} />
                 </div>
             </div>
             <div className="btn-box">

@@ -90,7 +90,8 @@
             "copy": "复制成功",
             "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
             "link": "点击查看更新指引",
-            "release": "Version {{version}} 已发布，"
+            "release": "Version {{version}} 已发布，",
+            "operate": "操作成功"
         },
         "bt": {
             "delete": "删除",
@@ -542,7 +543,10 @@
             "addTimeRange": "添加时间范围",
             "sleepTime": "休眠时间",
             "wakeTime": "唤醒时间",
-            "wakeUpTip": "该空间已进入休眠模式 {{time}} min，确认强制唤醒？唤醒后，当日休眠时间段将不再进入休眠。"
+            "wakeUpTip": "该空间已进入休眠模式 {{time}}，确认强制唤醒？唤醒后，当日休眠时间段将不再进入休眠。",
+            "hour": "时",
+            "min": "分",
+            "sleepTip": "确认强制休眠？这将导致除已进入开发模式以外的工作负载副本数缩减为0。强制休眠后，当日唤醒时间段将不再自动唤醒。"
         }
     }
 }

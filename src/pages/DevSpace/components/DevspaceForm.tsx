@@ -11,6 +11,7 @@ import { ReactComponent as IconResource } from '../../../images/icon/icon_resour
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
 import { ReactComponent as IconSleep } from '../../../images/icon/icon_switch_sleep.svg';
 import { ReactComponent as IconDelete } from '../../../images/icon/icon_input_del.svg';
+import { ReactComponent as IconAdd } from '../../../images/icon/icon_add.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
 import { TimePicker } from './form-component';
@@ -60,6 +61,12 @@ const LimitWrap = styled.div`
     background: #f9fbfd;
     font-size: 14px;
     color: #36435c;
+`;
+
+const SleepModeWrap = styled(LimitWrap)`
+    .ant-form-item-control-input {
+        box-shadow: none;
+    }
 `;
 
 const LimitTitle = styled.div`
@@ -124,28 +131,7 @@ const DevspaceForm = ({
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
-    const [sleepTimeList, setSleepTimeList] = useState([
-        {
-            start: '周一 20:00',
-            end: '周二 08:00',
-        },
-        {
-            start: '周一 20:00',
-            end: '周二 08:00',
-        },
-        {
-            start: '周一 20:00',
-            end: '周二 08:00',
-        },
-        {
-            start: '周一 20:00',
-            end: '周二 08:00',
-        },
-        {
-            start: '周一 20:00',
-            end: '周二 08:00',
-        },
-    ]);
+    const [sleepTimeList, setSleepTimeList] = useState<{ start: string; end: string }[]>([]);
     const [showTimePanel, setShowTimePanel] = useState<boolean>(false);
 
     useEffect(() => {
@@ -320,6 +306,16 @@ const DevspaceForm = ({
 
     const handleDeleteTime = (key: number) => {
         setSleepTimeList((currentTimeList) => currentTimeList.filter((item, i) => i !== key));
+    };
+
+    const handleAddSleepTime = (sleep: string[], wake: string[]) => {
+        setSleepTimeList((currentTimeList) => {
+            currentTimeList.push({
+                start: `${sleep[0]} ${sleep[1]}:${sleep[2]}`,
+                end: `${wake[0]} ${wake[1]}:${wake[2]}`,
+            });
+            return currentTimeList;
+        });
     };
 
     return (
@@ -602,7 +598,7 @@ const DevspaceForm = ({
                             </FormFlexBox>
                         </OtherConfigItem>
                         {showCost && (
-                            <LimitWrap>
+                            <SleepModeWrap>
                                 <Divide style={{ marginBottom: 12 }} />
                                 <FormFlexBox style={{ paddingLeft: 44 }}>
                                     <Form.Item
@@ -644,17 +640,22 @@ const DevspaceForm = ({
                                                 content={
                                                     <TimerPickerPanel
                                                         handleHide={() => setShowTimePanel(false)}
+                                                        handleSelect={handleAddSleepTime}
                                                     />
                                                 }
                                             >
                                                 <div className="add-item" onClick={handleAddTime}>
+                                                    <Icon
+                                                        component={IconAdd}
+                                                        style={{ fontSize: 16, marginRight: 4 }}
+                                                    />
                                                     <span>{t('resources.cost.addTimeRange')}</span>
                                                 </div>
                                             </Popover>
                                         </TimePicker>
                                     </Form.Item>
                                 </FormFlexBox>
-                            </LimitWrap>
+                            </SleepModeWrap>
                         )}
                     </>
                 )}

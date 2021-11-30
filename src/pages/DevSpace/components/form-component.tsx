@@ -20,6 +20,7 @@ export const TimePicker = styled.div`
 
     .time-item {
         color: #36435c;
+        background: #ffffff;
         padding: 0 8px;
 
         &:nth-child(2n + 1) {
@@ -35,6 +36,14 @@ export const TimePicker = styled.div`
     .add-item {
         justify-content: center;
         position: relative;
+        cursor: pointer;
+        color: #79879c;
+
+        svg {
+            g {
+                stroke: #79879c;
+            }
+        }
     }
 
     .time-panel {

@@ -51,6 +51,8 @@ import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_qu
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 import { ReactComponent as IconNormalSleep } from '../../images/icon/icon_sleep_normal.svg';
 import { ReactComponent as IconActiveSleep } from '../../images/icon/icon_sleep_active.svg';
+import { ReactComponent as IconNormalWake } from '../../images/icon/icon_title_wakeup.svg';
+import { ReactComponent as IconActiveWake } from '../../images/icon/icon_wakeup_active.svg';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SleepTip from './components/SleepTip';
@@ -221,15 +223,23 @@ const EnvList = () => {
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
-                        <Dot isActive={record.resource_limit_set}></Dot>
-                        {record.resource_limit_set
-                            ? t('resources.cost.active')
-                            : t('resources.cost.sleep')}
-                        <Popover trigger="click" content={<SleepTip />}>
+                        <Dot isActive={!record.is_asleep}></Dot>
+                        {record.is_asleep ? t('resources.cost.sleep') : t('resources.cost.active')}
+                        <Popover
+                            trigger="click"
+                            visible={sleepMap.get(record.id)}
+                            onVisibleChange={(visible) => handleSleepTipVisible(record.id, visible)}
+                            content={
+                                <SleepTip
+                                    record={record}
+                                    handleSleepTipVisible={handleSleepTipVisible}
+                                />
+                            }
+                        >
                             <IconBox style={{ marginLeft: 8 }}>
                                 <CommonIcon
-                                    NormalIcon={IconNormalSleep}
-                                    HoverIcon={IconActiveSleep}
+                                    NormalIcon={record.is_asleep ? IconNormalWake : IconNormalSleep}
+                                    HoverIcon={record.is_asleep ? IconActiveWake : IconActiveSleep}
                                 ></CommonIcon>
                             </IconBox>
                         </Popover>
@@ -374,7 +384,7 @@ const EnvList = () => {
     }
 
     const [spaceList, setSpaceList] = useState([]);
-    const [filterList, setFilterList] = useState([]);
+    const [filterList, setFilterList] = useState<IRecord[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -388,6 +398,7 @@ const EnvList = () => {
         user_id: 'all',
         space_type: 'all',
     });
+    const [sleepMap, setSleepMap] = useState(new Map());
 
     const [showChooseType, setShowChooseType] = useState<boolean>(false);
 
@@ -405,12 +416,30 @@ const EnvList = () => {
     };
 
     useEffect(() => {
-        querySpaceList();
+        querySpaceList(true);
     }, []);
 
     useEffect(() => {
         handleFilter();
     }, [filterValue]);
+
+    const handleSleepTipVisible = (id: number, visible: boolean, refresh?: boolean) => {
+        const tmpMap = sleepMap;
+        tmpMap.set(id, visible);
+        setSleepMap(tmpMap);
+        if (refresh) {
+            const tmpList: IRecord[] = filterList;
+            for (let i = 0, len = tmpList.length; i < len; i++) {
+                if (tmpList[i].id === id) {
+                    tmpList[i].is_asleep = !tmpList[i].is_asleep;
+                    tmpList[i].sleep_at = new Date();
+                }
+            }
+            setFilterList([...tmpList]);
+        } else {
+            setFilterList([...filterList]);
+        }
+    };
 
     function handleCopy() {
         message.success(t('common.message.copy'));
@@ -478,26 +507,30 @@ const EnvList = () => {
         });
     }
 
-    async function querySpaceList() {
-        setIsLoading(true);
+    async function querySpaceList(showLoading?: boolean) {
+        if (showLoading) {
+            setIsLoading(true);
+        }
         const nameMap = await queryAllUser();
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
         const selectUsersMap = new Map();
         const selectClusterMap = new Map();
+        const tmpMap = new Map();
         if (response.code === 0) {
             const tmpList = response.data.map((item: any) => {
                 selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
                 selectClusterMap.set(item.cluster_id, item.cluster_name);
+                tmpMap.set(item.id, false);
                 return {
                     ...item,
                     user_name: nameMap.get(item.user_id),
                 };
             });
-
             setSpaceList(tmpList);
             handleFilter(tmpList);
+
             // setFilterList(tmpList);
             setUserList([
                 ...Array.from(selectUsersMap).map((item) => {
@@ -508,7 +541,6 @@ const EnvList = () => {
                     };
                 }),
             ]);
-
             setClusterList([
                 ...Array.from(selectClusterMap).map((item) => {
                     return {
@@ -519,7 +551,7 @@ const EnvList = () => {
                 }),
             ]);
         }
-
+        setSleepMap(tmpMap);
         setIsLoading(false);
     }
 

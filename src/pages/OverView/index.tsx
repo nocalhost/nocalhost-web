@@ -14,6 +14,7 @@ import HTTP from '../../api/fetch';
 import Icon from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
+import { ReactComponent as IconSleep } from '../../images/icon/icon_title_sleep.svg';
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
 import {
@@ -146,8 +147,18 @@ function Overview() {
                                     <AmountBox>
                                         <Total>{devSpaceData.length}</Total>
                                         <SleepingBox>
-                                            <span>{t('resources.cost.sleeping')}</span>
-                                            <span>28</span>
+                                            <Icon
+                                                component={IconSleep}
+                                                style={{ fontSize: 20, marginRight: 2 }}
+                                            />
+                                            <span>
+                                                ·&nbsp;
+                                                {
+                                                    devSpaceData.filter(
+                                                        (item: any) => item.is_asleep
+                                                    ).length
+                                                }
+                                            </span>
                                         </SleepingBox>
                                     </AmountBox>
                                     <IconBox>

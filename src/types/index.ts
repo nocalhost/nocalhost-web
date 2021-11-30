@@ -18,3 +18,19 @@ export interface ClusterItemInfo {
         used: number;
     }[];
 }
+
+export interface IOption {
+    label: string;
+    value: string | number;
+}
+
+export interface LoginToken {
+    email: string;
+    exp: number;
+    iat: number;
+    is_admin: number;
+    nbf: number;
+    user_id: number;
+    username: string;
+    uuid: string;
+}

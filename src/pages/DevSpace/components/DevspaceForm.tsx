@@ -16,6 +16,7 @@ import { ReactComponent as IconAdd } from '../../../images/icon/icon_add.svg';
 import { queryAllCluster, queryAllUser } from '../../../services';
 import { TimePicker } from './form-component';
 import TimerPickerPanel from './TimePickerPanel';
+import { IOption } from '../../../types';
 
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -131,7 +132,7 @@ const DevspaceForm = ({
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
-    const [sleepTimeList, setSleepTimeList] = useState<{ start: string; end: string }[]>([]);
+    const [sleepTimeList, setSleepTimeList] = useState<{ start: IOption[]; end: IOption[] }[]>([]);
     const [showTimePanel, setShowTimePanel] = useState<boolean>(false);
 
     useEffect(() => {
@@ -164,15 +165,50 @@ const DevspaceForm = ({
             setIsAdmin(Boolean(cluster_admin));
             setShowLimit(Boolean(resource_limit_set));
 
+            setShowCost(record?.sleep_config?.by_week?.length > 0);
+
             form.setFieldsValue({
                 space_name,
                 user_id: user_name,
                 cluster_id: cluster_name,
                 cluster_admin: Boolean(cluster_admin),
                 resource_limit_set: Boolean(resource_limit_set),
+                configSleep: Boolean(record?.sleep_config?.by_week?.length > 0),
                 is_base_space,
                 ...limitObj,
             });
+
+            // handle sleep time
+            const weekMap = new Map();
+            ['sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'].forEach((item, index) => {
+                weekMap.set(index, t(`resources.cost.${item}`));
+            });
+            const sleepConfigList = record?.sleep_config?.by_week || [];
+            const tmpList = sleepConfigList.map((item: any) => {
+                return {
+                    start: [
+                        {
+                            label: `${weekMap.get(item.sleep_day)}`,
+                            value: item.sleep_day,
+                        },
+                        {
+                            label: `${item.sleep_time}`,
+                            value: item.sleep_time,
+                        },
+                    ],
+                    end: [
+                        {
+                            label: `${weekMap.get(item.wakeup_day)}`,
+                            value: item.wakeup_day,
+                        },
+                        {
+                            label: `${item.wakeup_time}`,
+                            value: item.wakeup_time,
+                        },
+                    ],
+                };
+            });
+            setSleepTimeList(tmpList);
         }
     }, [record]);
 
@@ -278,6 +314,10 @@ const DevspaceForm = ({
                     }
                 }
                 setIsSubmit(false);
+                // submit sleeping time
+                if (showCost && sleepTimeList.length > 0) {
+                    submitSleepList();
+                }
             } else {
                 const response = await HTTP.post('dev_space', {
                     cluster_id,
@@ -291,6 +331,10 @@ const DevspaceForm = ({
                 setIsSubmit(false);
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
+                    // submit sleeping time
+                    if (showCost && sleepTimeList.length > 0) {
+                        await submitSleepList(response?.data?.id);
+                    }
                     onSubmit && onSubmit();
                 }
             }
@@ -300,6 +344,29 @@ const DevspaceForm = ({
         }
     };
 
+    async function submitSleepList(id?: number) {
+        const utcOffset = new Date().getTimezoneOffset();
+        const wakeData = sleepTimeList.map((item: { start: IOption[]; end: IOption[] }) => {
+            return {
+                sleep_day: item?.start?.[0]?.value,
+                sleep_time: item?.start?.[1]?.value,
+                utc_offset: utcOffset,
+                wakeup_day: item?.end?.[0]?.value,
+                wakeup_time: item?.end?.[1]?.value,
+            };
+        });
+
+        await HTTP.put(
+            `dev_space/${id ?? record.id}/sleep_config`,
+            {
+                by_week: wakeData,
+            },
+            {
+                is_v2: true,
+            }
+        );
+    }
+
     const handleAddTime = () => {
         setSleepTimeList(sleepTimeList);
     };
@@ -308,11 +375,23 @@ const DevspaceForm = ({
         setSleepTimeList((currentTimeList) => currentTimeList.filter((item, i) => i !== key));
     };
 
-    const handleAddSleepTime = (sleep: string[], wake: string[]) => {
+    const handleAddSleepTime = (sleep: IOption[], wake: IOption[]) => {
         setSleepTimeList((currentTimeList) => {
             currentTimeList.push({
-                start: `${sleep[0]} ${sleep[1]}:${sleep[2]}`,
-                end: `${wake[0]} ${wake[1]}:${wake[2]}`,
+                start: [
+                    sleep[0],
+                    {
+                        label: `${sleep[1]?.label}:${sleep[2]?.label}`,
+                        value: `${sleep[1]?.value}:${sleep[2]?.value}`,
+                    },
+                ],
+                end: [
+                    wake[0],
+                    {
+                        label: `${wake[1]?.label}:${wake[2]?.label}`,
+                        value: `${wake[1]?.value}:${wake[2]?.value}`,
+                    },
+                ],
             });
             return currentTimeList;
         });
@@ -588,7 +667,7 @@ const DevspaceForm = ({
                                     <span>{t('resources.cost.formTitle')}</span>
                                     <span>{t('resources.cost.formDesc')}</span>
                                 </DescBox>
-                                <Form.Item name="resource_limit_set">
+                                <Form.Item name="configSleep">
                                     <Switch
                                         checked={showCost}
                                         disabled={!canSetLimit}
@@ -614,7 +693,7 @@ const DevspaceForm = ({
                                             {sleepTimeList.map((item, key) => {
                                                 return (
                                                     <div className="time-item" key={key}>
-                                                        {`${item.start}~${item.end}`}
+                                                        {`${item?.start?.[0].label} ${item?.start?.[1].label}~${item?.end?.[0].label} ${item?.end?.[1].label}`}
                                                         <div
                                                             className="icon"
                                                             onClick={() => handleDeleteTime(key)}

@@ -7,6 +7,8 @@ import { ReactComponent as IconSleep } from '../../../images/icon/icon_title_sle
 import { ReactComponent as IconWakeup } from '../../../images/icon/icon_title_wakeup.svg';
 import classNames from 'classnames';
 
+import { IOption } from '../../../types/index';
+
 const TimePanel = styled.div`
     width: 420px;
     height: 352px;
@@ -106,15 +108,23 @@ const SelectWrap = styled.div`
 
 interface IProp {
     handleHide: () => void;
-    handleSelect: (sleep: string[], wake: string[]) => void;
+    handleSelect: (sleep: IOption[], wake: IOption[]) => void;
 }
 
-const WEEK_ARR = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-
-const generateArr = (num: number): string[] => {
+const generateArr = (num: number): IOption[] => {
     const arr = [];
     for (let i = 0; i < num; i++) {
-        arr.push(i < 10 ? `0${i}` : `${i}`);
+        arr.push(
+            i < 10
+                ? {
+                      label: `0${i}`,
+                      value: `0${i}`,
+                  }
+                : {
+                      label: `${i}`,
+                      value: `${i}`,
+                  }
+        );
     }
     return arr;
 };
@@ -128,7 +138,7 @@ const SelectPanel = ({
     type,
     defaultIndex = 0,
 }: {
-    data: string[];
+    data: IOption[];
     handleSelect: (index: number, type: string) => void;
     type: string;
     defaultIndex?: number;
@@ -161,7 +171,7 @@ const SelectPanel = ({
                             })}
                             onClick={() => handleSelectItem(index)}
                         >
-                            {`${item}${
+                            {`${item.label}${
                                 index !== currentIndex
                                     ? ''
                                     : type === 'hour'
@@ -180,8 +190,65 @@ const SelectPanel = ({
 
 const TimePickerPanel = ({ handleHide, handleSelect }: IProp) => {
     const { t } = useTranslation();
-    const [sleepTime, setSleepTime] = useState(['周一', '20', '00']);
-    const [wakeTime, setWakeTime] = useState(['周二', '08', '00']);
+    const [sleepTime, setSleepTime] = useState<IOption[]>([
+        {
+            label: t('resources.cost.mon'),
+            value: 1,
+        },
+        {
+            label: '20',
+            value: '20',
+        },
+        {
+            label: '00',
+            value: '00',
+        },
+    ]);
+    const [wakeTime, setWakeTime] = useState<IOption[]>([
+        {
+            label: t('resources.cost.tues'),
+            value: 2,
+        },
+        {
+            label: '08',
+            value: '08',
+        },
+        {
+            label: '00',
+            value: '00',
+        },
+    ]);
+
+    const WEEK_ARR = [
+        {
+            label: t('resources.cost.mon'),
+            value: 1,
+        },
+        {
+            label: t('resources.cost.tues'),
+            value: 2,
+        },
+        {
+            label: t('resources.cost.wed'),
+            value: 3,
+        },
+        {
+            label: t('resources.cost.thur'),
+            value: 4,
+        },
+        {
+            label: t('resources.cost.fri'),
+            value: 5,
+        },
+        {
+            label: t('resources.cost.sat'),
+            value: 6,
+        },
+        {
+            label: t('resources.cost.sun'),
+            value: 0,
+        },
+    ];
 
     const handleConfirm = () => {
         handleHide && handleHide();

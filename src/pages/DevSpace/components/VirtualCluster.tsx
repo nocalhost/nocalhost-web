@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
 
+import CommonIcon from '../../../components/CommonIcon';
 import { ReactComponent as VClusterIcon } from '../../../images/icon/icon_switch_vcluster.svg';
+import { ReactComponent as IconHelp } from '../../../images/icon/icon_label_query.svg';
 import {
     FormFlexBox,
     OtherConfigItem,
@@ -56,6 +58,16 @@ const Arrow = styled.i`
     }
 `;
 
+const PlugInOnly = styled.div`
+    display: flex;
+    align-items: center;
+
+    svg:hover {
+        path {
+            fill: #36435c;
+        }
+    }
+`;
 export default function VirtualCluster() {
     const { t } = useTranslation();
 
@@ -107,7 +119,16 @@ export default function VirtualCluster() {
                     <LimitTitle>{l('vClusterAccessWay')}</LimitTitle>
                     <Form.Item name="service_type">
                         <Radio.Group>
-                            <Radio value="ClusterIP">{l('plugInOnly')}</Radio>
+                            <Radio value="ClusterIP" style={{}}>
+                                <PlugInOnly>
+                                    {l('plugInOnly')}
+                                    <CommonIcon
+                                        NormalIcon={IconHelp}
+                                        title={l('plugInOnlyTips')}
+                                        style={{ fontSize: 16, marginLeft: 6 }}
+                                    />
+                                </PlugInOnly>
+                            </Radio>
                             <Radio value="LoadBalancer">LoadBalancer</Radio>
                             <Radio value="NodePort">NodePort</Radio>
                         </Radio.Group>

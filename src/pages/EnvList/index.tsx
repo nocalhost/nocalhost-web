@@ -360,6 +360,7 @@ const EnvList = () => {
     const spaceTypeOption = [
         { value: 'MeshSpace', text: t('resources.space.meshSpace') },
         { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
+        { value: 'VCluster', text: 'VCluster' },
     ];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);

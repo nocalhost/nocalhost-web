@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SummaryCard from '../../components/SummaryCard';
 import { ListItem } from './ListItem';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Spin, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import IconColorUser from '../../images/icon/icon_color_users.svg';
 import IconColorApplications from '../../images/icon/icon_color_applications.svg';
@@ -15,6 +15,8 @@ import Icon from '@ant-design/icons';
 import { useHistory } from 'react-router';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import { ReactComponent as IconSleep } from '../../images/icon/icon_title_sleep.svg';
+import { ReactComponent as IconHelp } from '../../images/icon/icon_label_query.svg';
+// import CommonIcon from '../../components/CommonIcon';
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
 import {
@@ -146,20 +148,29 @@ function Overview() {
                                 <FlexBetween>
                                     <AmountBox>
                                         <Total>{devSpaceData.length}</Total>
-                                        <SleepingBox>
-                                            <Icon
-                                                component={IconSleep}
-                                                style={{ fontSize: 20, marginRight: 2 }}
-                                            />
-                                            <span>
-                                                ·&nbsp;
-                                                {
-                                                    devSpaceData.filter(
-                                                        (item: any) => item.is_asleep
-                                                    ).length
-                                                }
-                                            </span>
-                                        </SleepingBox>
+                                        <Tooltip
+                                            title={t('resources.cost.nsSleeping', {
+                                                count: devSpaceData.filter(
+                                                    (item: any) => item.is_asleep
+                                                ).length,
+                                            })}
+                                        >
+                                            <SleepingBox>
+                                                <Icon
+                                                    component={IconSleep}
+                                                    style={{ fontSize: 20, marginRight: 2 }}
+                                                />
+
+                                                <span>
+                                                    ·&nbsp;
+                                                    {
+                                                        devSpaceData.filter(
+                                                            (item: any) => item.is_asleep
+                                                        ).length
+                                                    }
+                                                </span>
+                                            </SleepingBox>
+                                        </Tooltip>
                                     </AmountBox>
                                     <IconBox>
                                         <SvgIcon src={IconColorDevspace} alt="" />
@@ -171,12 +182,12 @@ function Overview() {
                             <NormalCard height="98px" bg="#f9fbfd">
                                 <H>
                                     <>{t('resources.cost.name')}</>
-                                    {/* <span className="enter">
-                                    <Icon
-                                        component={IconEnter}
-                                        style={{ fontSize: '20px', marginLeft: '4px' }}
-                                    ></Icon>
-                                </span> */}
+                                    <span className="enter">
+                                        <Icon
+                                            component={IconHelp}
+                                            style={{ fontSize: '20px', marginLeft: '4px' }}
+                                        ></Icon>
+                                    </span>
                                 </H>
                                 {/* <Time>2020/02/08-2021/07/28</Time> */}
                                 <FlexBetween>

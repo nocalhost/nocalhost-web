@@ -542,17 +542,18 @@
             "addTimeRange": "Add time range",
             "sleepTime": "Sleep Time",
             "wakeTime": "Wake Time",
-            "wakeUpTip": "The space has been in hibernation mode for {{time}}, confirm to force wake up? After waking up, the space will no longer be in hibernation for the day's hibernation time period.",
+            "wakeUpTip": "The space has been in sleeping mode for {{time}}, confirm to force wake up? After waking up, the space will no longer be in hibernation for the day's hibernation time period.",
             "hour": "hour",
             "min": "min",
-            "sleepTip": "Confirm forced hibernation? This will cause the number of copies of the workload other than those already in development mode to be reduced to 0. After forced hibernation, there will be no more automatic wake-ups for the day's wake-up time period.",
+            "sleepTip": "Confirm forced sleeping? This will cause the number of copies of the workload other than those already in development mode to be reduced to 0. After forced hibernation, there will be no more automatic wake-ups for the day's wake-up time period.",
             "mon": "Mon",
             "tues": "Tues",
             "wed": "Wed",
             "thur": "Thur",
             "fri": "Fri",
             "sat": "Sat",
-            "sun": "Sun"
+            "sun": "Sun",
+            "nsSleeping": "Space in sleeping · {{count}}"
         }
     }
 }

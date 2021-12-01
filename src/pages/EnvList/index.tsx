@@ -240,6 +240,7 @@ const EnvList = () => {
                                 <CommonIcon
                                     NormalIcon={record.is_asleep ? IconNormalWake : IconNormalSleep}
                                     HoverIcon={record.is_asleep ? IconActiveWake : IconActiveSleep}
+                                    active={sleepMap.get(record.id)}
                                 ></CommonIcon>
                             </IconBox>
                         </Popover>
@@ -295,7 +296,11 @@ const EnvList = () => {
                     <Popover content={<PopoverBox record={record} />}>
                         <FlexBox>
                             {record.user_name}
-                            <Icon component={IconExplain} style={{ fontSize: 20, marginLeft: 4 }} />
+                            <Icon
+                                className="icon-explain"
+                                component={IconExplain}
+                                style={{ fontSize: 20, marginLeft: 4 }}
+                            />
                         </FlexBox>
                     </Popover>
                 ) : (

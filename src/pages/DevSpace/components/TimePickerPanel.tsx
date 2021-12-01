@@ -108,7 +108,9 @@ const SelectWrap = styled.div`
 
 interface IProp {
     handleHide: () => void;
-    handleSelect: (sleep: IOption[], wake: IOption[]) => void;
+    handleSelect: (sleep: IOption[], wake: IOption[], index?: number) => void;
+    index?: number;
+    defaultValue?: { start: IOption[]; end: IOption[] };
 }
 
 const generateArr = (num: number): IOption[] => {
@@ -188,36 +190,8 @@ const SelectPanel = ({
     );
 };
 
-const TimePickerPanel = ({ handleHide, handleSelect }: IProp) => {
+const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IProp) => {
     const { t } = useTranslation();
-    const [sleepTime, setSleepTime] = useState<IOption[]>([
-        {
-            label: t('resources.cost.mon'),
-            value: 1,
-        },
-        {
-            label: '20',
-            value: '20',
-        },
-        {
-            label: '00',
-            value: '00',
-        },
-    ]);
-    const [wakeTime, setWakeTime] = useState<IOption[]>([
-        {
-            label: t('resources.cost.tues'),
-            value: 2,
-        },
-        {
-            label: '08',
-            value: '08',
-        },
-        {
-            label: '00',
-            value: '00',
-        },
-    ]);
 
     const WEEK_ARR = [
         {
@@ -250,9 +224,48 @@ const TimePickerPanel = ({ handleHide, handleSelect }: IProp) => {
         },
     ];
 
+    const defaultStartDay = Number(defaultValue?.start?.[0]?.value ?? 1);
+    const defaultStartTime = defaultValue?.start?.[1]?.value ?? '20:00';
+    const defaultStartHour = Number(String(defaultStartTime).split(':')[0]);
+    const defaultStartMin = Number(String(defaultStartTime).split(':')[1]);
+
+    const defaultEndDay = Number(defaultValue?.end?.[0]?.value ?? 1);
+    const defaultEndTime = defaultValue?.end?.[1]?.value ?? '08:00';
+    const defaultEndHour = Number(String(defaultEndTime).split(':')[0]);
+    const defaultEndMin = Number(String(defaultEndTime).split(':')[1]);
+
+    const [sleepTime, setSleepTime] = useState<IOption[]>([
+        {
+            label: WEEK_ARR[defaultStartDay].label,
+            value: WEEK_ARR[defaultStartDay].value,
+        },
+        {
+            label: HOUR_ARR[defaultStartHour].label,
+            value: defaultStartHour,
+        },
+        {
+            label: MIN_ARR[defaultStartMin].label,
+            value: HOUR_ARR[defaultStartHour].value,
+        },
+    ]);
+    const [wakeTime, setWakeTime] = useState<IOption[]>([
+        {
+            label: WEEK_ARR[defaultEndDay].label,
+            value: WEEK_ARR[defaultEndDay].value,
+        },
+        {
+            label: HOUR_ARR[defaultEndHour].label,
+            value: HOUR_ARR[defaultEndHour].value,
+        },
+        {
+            label: MIN_ARR[defaultEndMin].label,
+            value: MIN_ARR[defaultEndMin].value,
+        },
+    ]);
+
     const handleConfirm = () => {
         handleHide && handleHide();
-        handleSelect(sleepTime, wakeTime);
+        handleSelect(sleepTime, wakeTime, index);
     };
 
     const handleCancel = () => {
@@ -305,29 +318,44 @@ const TimePickerPanel = ({ handleHide, handleSelect }: IProp) => {
             </div>
             <div className="content">
                 <div className="left">
-                    <SelectPanel data={WEEK_ARR} type="week" handleSelect={onSelectSleep} />
+                    <SelectPanel
+                        data={WEEK_ARR}
+                        type="week"
+                        handleSelect={onSelectSleep}
+                        defaultIndex={+defaultStartDay}
+                    />
                     <SelectPanel
                         data={HOUR_ARR}
                         type="hour"
-                        defaultIndex={20}
+                        defaultIndex={defaultStartHour}
                         handleSelect={onSelectSleep}
                     />
-                    <SelectPanel data={MIN_ARR} type="min" handleSelect={onSelectSleep} />
+                    <SelectPanel
+                        data={MIN_ARR}
+                        type="min"
+                        defaultIndex={defaultStartMin}
+                        handleSelect={onSelectSleep}
+                    />
                 </div>
                 <div className="right">
                     <SelectPanel
                         data={WEEK_ARR}
                         type="week"
-                        defaultIndex={1}
+                        defaultIndex={+defaultEndDay}
                         handleSelect={onSelectWakeup}
                     />
                     <SelectPanel
                         data={HOUR_ARR}
                         type="hour"
-                        defaultIndex={8}
+                        defaultIndex={defaultEndHour}
                         handleSelect={onSelectWakeup}
                     />
-                    <SelectPanel data={MIN_ARR} type="min" handleSelect={onSelectWakeup} />
+                    <SelectPanel
+                        data={MIN_ARR}
+                        type="min"
+                        defaultIndex={defaultEndMin}
+                        handleSelect={onSelectWakeup}
+                    />
                 </div>
             </div>
             <div className="btn-box">

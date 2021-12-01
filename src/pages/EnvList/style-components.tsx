@@ -4,6 +4,16 @@ export const FlexBox = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
+
+    .icon-explain {
+        svg {
+            &:hover {
+                path {
+                    fill: #79879c;
+                }
+            }
+        }
+    }
 `;
 
 export const ContentWrap = styled.div`

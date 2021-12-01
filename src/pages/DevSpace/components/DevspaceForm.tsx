@@ -132,7 +132,9 @@ const DevspaceForm = ({
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
-    const [sleepTimeList, setSleepTimeList] = useState<{ start: IOption[]; end: IOption[] }[]>([]);
+    const [sleepTimeList, setSleepTimeList] = useState<
+        { start: IOption[]; end: IOption[]; isEdit?: boolean }[]
+    >([]);
     const [showTimePanel, setShowTimePanel] = useState<boolean>(false);
 
     useEffect(() => {
@@ -206,6 +208,7 @@ const DevspaceForm = ({
                             value: item.wakeup_time,
                         },
                     ],
+                    isEdit: false,
                 };
             });
             setSleepTimeList(tmpList);
@@ -345,7 +348,7 @@ const DevspaceForm = ({
     };
 
     async function submitSleepList(id?: number) {
-        const utcOffset = new Date().getTimezoneOffset();
+        const utcOffset = -new Date().getTimezoneOffset();
         const wakeData = sleepTimeList.map((item: { start: IOption[]; end: IOption[] }) => {
             return {
                 sleep_day: item?.start?.[0]?.value,
@@ -392,8 +395,42 @@ const DevspaceForm = ({
                         value: `${wake[1]?.value}:${wake[2]?.value}`,
                     },
                 ],
+                isEdit: false,
             });
             return currentTimeList;
+        });
+    };
+
+    const handleEditSleepTime = (sleep: IOption[], wake: IOption[], index: number = 0) => {
+        // TODO
+        setSleepTimeList((currentTimeList) => {
+            currentTimeList[index] = {
+                start: [
+                    sleep[0],
+                    {
+                        label: `${sleep[1]?.label}:${sleep[2]?.label}`,
+                        value: `${sleep[1]?.value}:${sleep[2]?.value}`,
+                    },
+                ],
+                end: [
+                    wake[0],
+                    {
+                        label: `${wake[1]?.label}:${wake[2]?.label}`,
+                        value: `${wake[1]?.value}:${wake[2]?.value}`,
+                    },
+                ],
+                isEdit: false,
+            };
+            return currentTimeList;
+        });
+    };
+
+    const handleShowEditTime = (index: number, visible: boolean = true) => {
+        setSleepTimeList((currentList) => {
+            if (currentList?.[index]) {
+                currentList[index].isEdit = visible;
+            }
+            return [...currentList];
         });
     };
 
@@ -692,22 +729,43 @@ const DevspaceForm = ({
                                         <TimePicker>
                                             {sleepTimeList.map((item, key) => {
                                                 return (
-                                                    <div className="time-item" key={key}>
-                                                        {`${item?.start?.[0].label} ${item?.start?.[1].label}~${item?.end?.[0].label} ${item?.end?.[1].label}`}
-                                                        <div
-                                                            className="icon"
-                                                            onClick={() => handleDeleteTime(key)}
-                                                        >
-                                                            <Icon
-                                                                component={IconDelete}
-                                                                style={{
-                                                                    fontSize: 16,
-                                                                    marginLeft: 10,
-                                                                    cursor: 'pointer',
-                                                                }}
+                                                    <Popover
+                                                        trigger="click"
+                                                        key={key}
+                                                        visible={item.isEdit}
+                                                        onVisibleChange={(visible) => {
+                                                            handleShowEditTime(key, visible);
+                                                        }}
+                                                        content={
+                                                            <TimerPickerPanel
+                                                                handleHide={() =>
+                                                                    handleShowEditTime(key, false)
+                                                                }
+                                                                index={key}
+                                                                defaultValue={item}
+                                                                handleSelect={handleEditSleepTime}
                                                             />
+                                                        }
+                                                    >
+                                                        <div className="time-item">
+                                                            {`${item?.start?.[0].label} ${item?.start?.[1].label}~${item?.end?.[0].label} ${item?.end?.[1].label}`}
+                                                            <div
+                                                                className="icon"
+                                                                onClick={() =>
+                                                                    handleDeleteTime(key)
+                                                                }
+                                                            >
+                                                                <Icon
+                                                                    component={IconDelete}
+                                                                    style={{
+                                                                        fontSize: 16,
+                                                                        marginLeft: 10,
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </Popover>
                                                 );
                                             })}
                                             <Popover

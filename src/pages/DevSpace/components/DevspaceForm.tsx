@@ -316,11 +316,9 @@ const DevspaceForm = ({
                         onSubmit && onSubmit();
                     }
                 }
-                setIsSubmit(false);
                 // submit sleeping time
-                if (showCost && sleepTimeList.length > 0) {
-                    submitSleepList();
-                }
+                await submitSleepList();
+                setIsSubmit(false);
             } else {
                 const response = await HTTP.post('dev_space', {
                     cluster_id,

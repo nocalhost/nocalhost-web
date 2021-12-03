@@ -8,6 +8,16 @@ export const NormalCard = styled.div<HType>`
     padding: 20px;
     position: relative;
     cursor: pointer;
+
+    .enter {
+        svg {
+            &:hover {
+                path {
+                    fill: #36435c;
+                }
+            }
+        }
+    }
 `;
 
 export const Card = styled(NormalCard)<HType>`

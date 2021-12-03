@@ -252,9 +252,9 @@ const EnvList = () => {
             title: t('resources.cost.tableLabel'),
             key: 'cluster_id',
             width: '160px',
-            dataIndex: 'cluster_name',
-            sorter: (a: any, b: any) => {
-                return a.cluster_name > b.cluster_name ? 1 : -1;
+            dataIndex: 'sleep_saving',
+            render: (num: number) => {
+                return num ? `${(num * 100).toFixed(1)}%` : '-';
             },
         },
         {

@@ -41,6 +41,17 @@ const TimePanel = styled.div`
     .content {
         flex: 1;
         display: flex;
+        position: relative;
+
+        &::before {
+            display: block;
+            content: '';
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            background: rgb(243, 246, 250);
+            top: 36px;
+        }
 
         .left,
         .right {
@@ -91,9 +102,8 @@ const SelectWrap = styled.div`
         cursor: pointer;
 
         &.selected {
-            padding-left: 26px;
             color: #36435c;
-            box-shadow: inset 0 1px 0 0 rgb(243, 246, 250), inset 0 -1px 0 0 rgb(243, 246, 250);
+            // box-shadow: inset 0 1px 0 0 rgb(243, 246, 250), inset 0 -1px 0 0 rgb(243, 246, 250);
         }
 
         &.week {
@@ -195,6 +205,10 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
 
     const WEEK_ARR = [
         {
+            label: t('resources.cost.sun'),
+            value: 0,
+        },
+        {
             label: t('resources.cost.mon'),
             value: 1,
         },
@@ -218,10 +232,6 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
             label: t('resources.cost.sat'),
             value: 6,
         },
-        {
-            label: t('resources.cost.sun'),
-            value: 0,
-        },
     ];
 
     const defaultStartDay = Number(defaultValue?.start?.[0]?.value ?? 1);
@@ -229,7 +239,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
     const defaultStartHour = Number(String(defaultStartTime).split(':')[0]);
     const defaultStartMin = Number(String(defaultStartTime).split(':')[1]);
 
-    const defaultEndDay = Number(defaultValue?.end?.[0]?.value ?? 1);
+    const defaultEndDay = Number(defaultValue?.end?.[0]?.value ?? 2);
     const defaultEndTime = defaultValue?.end?.[1]?.value ?? '08:00';
     const defaultEndHour = Number(String(defaultEndTime).split(':')[0]);
     const defaultEndMin = Number(String(defaultEndTime).split(':')[1]);
@@ -241,11 +251,11 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
         },
         {
             label: HOUR_ARR[defaultStartHour].label,
-            value: defaultStartHour,
+            value: HOUR_ARR[defaultStartHour].value,
         },
         {
             label: MIN_ARR[defaultStartMin].label,
-            value: HOUR_ARR[defaultStartHour].value,
+            value: HOUR_ARR[defaultStartMin].value,
         },
     ]);
     const [wakeTime, setWakeTime] = useState<IOption[]>([

@@ -16,7 +16,7 @@ import { useHistory } from 'react-router';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import { ReactComponent as IconSleep } from '../../images/icon/icon_title_sleep.svg';
 import { ReactComponent as IconHelp } from '../../images/icon/icon_label_query.svg';
-// import CommonIcon from '../../components/CommonIcon';
+import CommonIcon from '../../components/CommonIcon';
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
 import {
@@ -46,6 +46,7 @@ function Overview() {
     const [clusterData, setClusterData] = useState([]);
     const [devSpaceData, setDevSpaceData] = useState([]);
     const [clusterLoading, setClusterLoading] = useState(false);
+    const [averageCostSave, setAverageCostSave] = useState<string>('');
     const getUser = async () => {
         const result = await HTTP.get('users');
         setUserData(result.data || []);
@@ -62,7 +63,16 @@ function Overview() {
     };
     const getDevSpaceData = async () => {
         const result = await HTTP.get('dev_space', null, { is_v2: true });
-        setDevSpaceData(result.data || []);
+        const data = result.data || [];
+        setDevSpaceData(data);
+        const costSaveData = data
+            .filter((item: any) => item.sleep_saving > 0)
+            .map((item: any) => item.sleep_saving);
+        const sum = costSaveData.reduce((prev: number, curr: number) => prev + curr, 0);
+        const len = costSaveData.length;
+        if (len > 0) {
+            setAverageCostSave(`${((sum / len) * 100).toFixed(1)}%`);
+        }
     };
     const getRace = async () => {
         await getUser();
@@ -183,16 +193,17 @@ function Overview() {
                                 <H>
                                     <>{t('resources.cost.name')}</>
                                     <span className="enter">
-                                        <Icon
-                                            component={IconHelp}
+                                        <CommonIcon
+                                            title={t('resources.cost.averageSaveTip')}
+                                            NormalIcon={IconHelp}
                                             style={{ fontSize: '20px', marginLeft: '4px' }}
-                                        ></Icon>
+                                        ></CommonIcon>
                                     </span>
                                 </H>
                                 {/* <Time>2020/02/08-2021/07/28</Time> */}
                                 <FlexBetween>
                                     <AmountBox>
-                                        <Total>{devSpaceData.length}</Total>
+                                        <Total>{averageCostSave}</Total>
                                         {/* <I>个</I> */}
                                     </AmountBox>
                                     <IconBox>

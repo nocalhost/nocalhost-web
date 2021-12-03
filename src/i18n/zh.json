@@ -554,7 +554,8 @@
             "fri": "周五",
             "sat": "周六",
             "sun": "周日",
-            "nsSleeping": "空间休眠中 · {{count}}"
+            "nsSleeping": "空间休眠中 · {{count}}",
+            "averageSaveTip": "降低比率的总和 / 启用休眠的空间数量"
         }
     }
 }

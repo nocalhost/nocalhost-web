@@ -553,7 +553,8 @@
             "fri": "Fri",
             "sat": "Sat",
             "sun": "Sun",
-            "nsSleeping": "Space in sleeping · {{count}}"
+            "nsSleeping": "Space in sleeping · {{count}}",
+            "averageSaveTip": "Sum of reduction ratios / amount of space with hibernation enabled"
         }
     }
 }

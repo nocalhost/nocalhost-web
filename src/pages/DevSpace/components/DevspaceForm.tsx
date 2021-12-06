@@ -140,7 +140,8 @@ const DevspaceForm = ({
                     const tmpObj = JSON.parse(space_resource_limit);
                     const obj: { [index: string]: any } = {};
                     Object.keys(tmpObj).forEach((item) => {
-                        obj[item] = parseFloat(tmpObj[item]) || undefined;
+                        const tmpNumber = parseFloat(tmpObj[item]);
+                        obj[item] = Number.isNaN(tmpNumber) ? undefined : tmpNumber;
                     });
                     limitObj = obj;
                 }

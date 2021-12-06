@@ -11,6 +11,6 @@ COPY . ./
 RUN yarn build
 
 # production environment
-FROM nocalhost-docker.pkg.coding.net/nocalhost/public/nginx:distroless
+FROM nginx:1.21-alpine
 ENV TZ="Asia/Shanghai"
 COPY --from=build /app/build /usr/share/nginx/html

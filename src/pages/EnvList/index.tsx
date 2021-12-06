@@ -277,7 +277,7 @@ const EnvList = () => {
             width: '120px',
             dataIndex: 'created_at',
             render: (text: string, record: any) => {
-                return <span>{moment(record.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>;
+                return <span>{moment(record.created_at).format('YYYY/MM/DD hh:mm:ss')}</span>;
             },
             sorter: (a: any, b: any) => {
                 return +new Date(a.created_at) - +new Date(b.created_at);

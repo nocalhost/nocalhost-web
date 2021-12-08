@@ -255,7 +255,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
         },
         {
             label: MIN_ARR[defaultStartMin].label,
-            value: HOUR_ARR[defaultStartMin].value,
+            value: MIN_ARR[defaultStartMin].value,
         },
     ]);
     const [wakeTime, setWakeTime] = useState<IOption[]>([
@@ -292,7 +292,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
                 current.splice(1, 1, HOUR_ARR[index]);
                 break;
             case 'min':
-                current.splice(2, 1, HOUR_ARR[index]);
+                current.splice(2, 1, MIN_ARR[index]);
                 break;
         }
         setSleepTime(current);
@@ -308,7 +308,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
                 current.splice(1, 1, HOUR_ARR[index]);
                 break;
             case 'min':
-                current.splice(2, 1, HOUR_ARR[index]);
+                current.splice(2, 1, MIN_ARR[index]);
                 break;
         }
         setWakeTime(current);

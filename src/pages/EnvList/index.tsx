@@ -185,7 +185,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.namespace'),
             key: 'namespace',
-            width: '180px',
+            maxWidth: '180px',
             dataIndex: 'namespace',
             sorter: (a: any, b: any) => {
                 return a.namespace > b.namespace ? 1 : -1;
@@ -210,7 +210,7 @@ const EnvList = () => {
         {
             title: t('resources.cluster.name'),
             key: 'cluster_id',
-            width: '140px',
+            maxWidth: '140px',
             dataIndex: 'cluster_name',
             sorter: (a: any, b: any) => {
                 return a.cluster_name > b.cluster_name ? 1 : -1;
@@ -219,7 +219,7 @@ const EnvList = () => {
         {
             title: t('resources.cost.status'),
             key: 'resource_limit',
-            width: '140px',
+            maxWidth: '140px',
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
@@ -251,7 +251,7 @@ const EnvList = () => {
         {
             title: t('resources.cost.tableLabel'),
             key: 'cluster_id',
-            width: '160px',
+            maxWidth: '160px',
             dataIndex: 'sleep_saving',
             render: (num: number) => {
                 return num ? `${(num * 100).toFixed(1)}%` : '-';
@@ -260,7 +260,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.resource_limit'),
             key: 'resource_limit',
-            width: '140px',
+            maxWidth: '140px',
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
@@ -274,7 +274,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.created_at'),
             key: 'created_at',
-            width: '120px',
+            maxWidth: '120px',
             dataIndex: 'created_at',
             render: (text: string, record: any) => {
                 return <span>{moment(record.created_at).format('YYYY/MM/DD hh:mm:ss')}</span>;
@@ -286,7 +286,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.user'),
             key: 'user',
-            width: '160px',
+            maxWidth: '160px',
             dataIndex: 'user_name',
             sorter: (a: any, b: any) => {
                 return a.user_name < b.user_name ? 1 : -1;
@@ -310,7 +310,7 @@ const EnvList = () => {
         },
         {
             title: t('common.operation'),
-            width: '160px',
+            maxWidth: '160px',
             key: 'operation',
             render: (text: string, record: any, index: number) => {
                 return (

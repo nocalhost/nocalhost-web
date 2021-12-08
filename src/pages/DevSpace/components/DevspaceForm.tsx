@@ -400,7 +400,6 @@ const DevspaceForm = ({
     };
 
     const handleEditSleepTime = (sleep: IOption[], wake: IOption[], index: number = 0) => {
-        // TODO
         setSleepTimeList((currentTimeList) => {
             currentTimeList[index] = {
                 start: [

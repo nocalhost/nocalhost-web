@@ -120,6 +120,8 @@ const DevspaceForm = ({
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [isBaseSpace, setIsBaseSpace] = useState<boolean>(false);
+    const [isVCluster, setIsVCluster] = useState(false);
     const [userList, setUserList] = useState<any>([]);
     const [clusterList, setClusterList] = useState<any>([]);
 
@@ -353,41 +355,45 @@ const DevspaceForm = ({
                     </Form.Item>
                 </FormFlexBox>
                 <OtherConfigTitle>{t('common.otherSet')}</OtherConfigTitle>
-                <OtherConfigItem>
-                    <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
-                    <FormFlexBox>
-                        <DescBox>
-                            <span>{t('resources.space.fields.setAdminTip')}</span>
-                            <span>{t('resources.space.fields.setAdminDesc')}</span>
-                        </DescBox>
-                        <Form.Item name="cluster_admin">
-                            <Switch
-                                checked={isAdmin}
-                                disabled={isEdit}
-                                onChange={(checked) => setIsAdmin(checked)}
-                            />
-                        </Form.Item>
-                    </FormFlexBox>
-                </OtherConfigItem>
+                {!isVCluster && (
+                    <OtherConfigItem>
+                        <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
+                        <FormFlexBox>
+                            <DescBox>
+                                <span>{t('resources.space.fields.setAdminTip')}</span>
+                                <span>{t('resources.space.fields.setAdminDesc')}</span>
+                            </DescBox>
+                            <Form.Item name="cluster_admin">
+                                <Switch checked={isAdmin} disabled={isEdit} onChange={setIsAdmin} />
+                            </Form.Item>
+                        </FormFlexBox>
+                    </OtherConfigItem>
+                )}
                 {!isAdmin && (
                     <>
-                        <OtherConfigItem>
-                            <Icon
-                                component={IconBaseSpace}
-                                style={{ fontSize: 32, marginRight: 8 }}
-                            />
-                            <FormFlexBox>
-                                <DescBox>
-                                    <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
-                                    <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
-                                </DescBox>
-                                <Form.Item valuePropName="checked" name="is_base_space">
-                                    <Switch disabled={isEdit} />
-                                </Form.Item>
-                            </FormFlexBox>
-                        </OtherConfigItem>
+                        {!isVCluster && (
+                            <OtherConfigItem>
+                                <Icon
+                                    component={IconBaseSpace}
+                                    style={{ fontSize: 32, marginRight: 8 }}
+                                />
+                                <FormFlexBox>
+                                    <DescBox>
+                                        <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
+                                        <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
+                                    </DescBox>
+                                    <Form.Item valuePropName="checked" name="is_base_space">
+                                        <Switch
+                                            checked={isBaseSpace}
+                                            onChange={setIsBaseSpace}
+                                            disabled={isEdit}
+                                        />
+                                    </Form.Item>
+                                </FormFlexBox>
+                            </OtherConfigItem>
+                        )}
 
-                        <VirtualCluster />
+                        {!isBaseSpace && <VirtualCluster changeIsVCluster={setIsVCluster} />}
 
                         <OtherConfigItem>
                             <Icon

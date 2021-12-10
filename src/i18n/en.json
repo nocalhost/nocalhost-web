@@ -309,6 +309,7 @@
                 "namespace": "Namespace",
                 "created_at": "Created At",
                 "cluster": "Cluster",
+                "isVCluster": "The space is set up as a virtual cluster",
                 "application": "Application",
                 "resource": "Resource",
                 "cpu": "CPU",

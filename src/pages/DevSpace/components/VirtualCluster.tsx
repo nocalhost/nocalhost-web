@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Form, Switch, Radio, Select, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
 
+import HTTP from '../../../api/fetch';
 import CommonIcon from '../../../components/CommonIcon';
 import { ReactComponent as VClusterIcon } from '../../../images/icon/icon_switch_vcluster.svg';
 import { ReactComponent as IconHelp } from '../../../images/icon/icon_label_query.svg';
@@ -61,15 +62,26 @@ const Arrow = styled.i`
 const PlugInOnly = styled.div`
     display: flex;
     align-items: center;
-
-    svg:hover {
-        path {
-            fill: #36435c;
-        }
-    }
 `;
-export default function VirtualCluster() {
+export default function VirtualCluster({
+    changeIsVCluster,
+}: {
+    changeIsVCluster: (isVCluster: boolean) => void;
+}) {
     const { t } = useTranslation();
+
+    const [versions, setVersions] = useState([]);
+
+    useEffect(() => {
+        getVersion();
+    }, []);
+
+    const getVersion = useCallback(async () => {
+        const {
+            data: { versions },
+        } = await HTTP.get('nocalhost/version/vcluster');
+        setVersions(versions);
+    }, []);
 
     const l = useCallback(
         (key: string) => {
@@ -109,7 +121,13 @@ export default function VirtualCluster() {
                         <span>{l('setVClusterDesc')}</span>
                     </DescBox>
                     <Form.Item name="dev_space_type">
-                        <Switch onChange={setIsVCluster} checked={isVCluster} />
+                        <Switch
+                            checked={isVCluster}
+                            onChange={(checked) => {
+                                changeIsVCluster(checked);
+                                setIsVCluster(checked);
+                            }}
+                        />
                     </Form.Item>
                 </FormFlexBox>
             </OtherConfigItem>
@@ -148,8 +166,13 @@ export default function VirtualCluster() {
                                     flexBasis: '100%',
                                 }}
                             >
-                                <Select disabled style={{ width: '100%' }}>
+                                <Select style={{ width: '100%' }}>
                                     <Select.Option value="latest">latest</Select.Option>
+                                    {versions.map((version) => (
+                                        <Select.Option key={version} value={version}>
+                                            {version}
+                                        </Select.Option>
+                                    ))}
                                 </Select>
                             </Form.Item>
                         </FormFlexBox>

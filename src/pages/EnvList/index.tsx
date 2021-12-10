@@ -49,7 +49,10 @@ import { ReactComponent as IconExplain } from '../../images/icon/icon_label_expl
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
+import { ReactComponent as VClusterIcon } from '../../images/icon/icon_vcluster.svg';
+
 import CopyToClipboard from 'react-copy-to-clipboard';
+import styled from 'styled-components';
 interface RouteParams {
     id: string;
 }
@@ -80,6 +83,21 @@ interface FilterType {
     space_type: string;
 }
 
+const SpaceType = styled.div`
+    .v_cluster {
+        svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 6px;
+            path {
+                fill: #f88600;
+            }
+            path:nth-child(-n + 3) {
+                fill: #fac480;
+            }
+        }
+    }
+`;
 const PopoverBox = (props: { record: UserProps }) => {
     const { record } = props;
     const { cooper_user, viewer_user } = record;
@@ -162,17 +180,27 @@ const EnvList = () => {
             key: 'space_type',
             render: (text: string, record: any) => {
                 return (
-                    <SpaceTypeItem name={record.space_type}>
-                        <Icon
-                            component={
-                                record.space_type === 'IsolateSpace'
-                                    ? IconQuarantineSpace
-                                    : IconShareSpace
-                            }
-                            style={{ fontSize: 20, marginRight: 4 }}
-                        />
-                        {record.space_type}
-                    </SpaceTypeItem>
+                    <SpaceType>
+                        <SpaceTypeItem name={record.space_type}>
+                            <Icon
+                                component={
+                                    record.space_type === 'IsolateSpace'
+                                        ? IconQuarantineSpace
+                                        : IconShareSpace
+                                }
+                                style={{ fontSize: 20, marginRight: 4 }}
+                            />
+                            {record.space_type}
+                        </SpaceTypeItem>
+                        {record.dev_space_type === 3 && (
+                            <CommonIcon
+                                NormalIcon={VClusterIcon}
+                                className="v_cluster"
+                                title={t('resources.space.fields.isVCluster')}
+                                style={{ fontSize: 16, marginLeft: 6 }}
+                            />
+                        )}
+                    </SpaceType>
                 );
             },
         },

@@ -310,6 +310,7 @@
                 "namespace": "命名空间",
                 "created_at": "创建于",
                 "cluster": "集群",
+                "isVCluster": "该空间已设为虚拟集群",
                 "application": "应用",
                 "resource": "资源",
                 "cpu": "CPU",

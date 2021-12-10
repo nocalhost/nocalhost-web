@@ -114,7 +114,8 @@
     },
     "resources": {
         "dashboard": {
-            "name": "概览"
+            "name": "概览",
+            "vClusterName": "虚拟集群"
         },
         "users": {
             "name": "用户",

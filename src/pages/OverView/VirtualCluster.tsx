@@ -1,5 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+
+import CommonIcon from '../../components/CommonIcon';
 
 import { ReactComponent as VClusterIcon } from '../../images/icon/icon_vcluster.svg';
 
@@ -28,12 +32,26 @@ const C = styled.div`
         }
     }
 `;
-
-export function VClusterAggregate({ count }: { count: number }) {
+interface BlockProps {
+    count: number;
+}
+const Block: React.FunctionComponent<BlockProps> = (props) => {
     return (
         <C>
             <VClusterIcon />
-            <span>· {count}</span>
+            <span>· {props.count}</span>
         </C>
+    );
+};
+
+export function VClusterAggregate(props: BlockProps) {
+    const { t } = useTranslation();
+
+    return (
+        <CommonIcon
+            NormalIcon={Block.bind(null, props)}
+            title={`${t('resources.dashboard.vClusterName')} · ${props.count}`}
+            style={{ fontSize: 16, marginLeft: 6 }}
+        />
     );
 }

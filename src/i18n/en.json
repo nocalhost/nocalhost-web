@@ -113,7 +113,8 @@
     },
     "resources": {
         "dashboard": {
-            "name": "Overview"
+            "name": "Overview",
+            "vClusterName": "Virtual Cluster"
         },
         "users": {
             "name": "User",

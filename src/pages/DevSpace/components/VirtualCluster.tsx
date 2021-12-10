@@ -62,6 +62,11 @@ const Arrow = styled.i`
 const PlugInOnly = styled.div`
     display: flex;
     align-items: center;
+    svg:hover {
+        path {
+            fill: #36445c;
+        }
+    }
 `;
 export default function VirtualCluster({
     changeIsVCluster,

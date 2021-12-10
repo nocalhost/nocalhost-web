@@ -172,7 +172,6 @@ export default function VirtualCluster({
                                 }}
                             >
                                 <Select style={{ width: '100%' }}>
-                                    <Select.Option value="latest">latest</Select.Option>
                                     {versions.map((version) => (
                                         <Select.Option key={version} value={version}>
                                             {version}

@@ -391,7 +391,7 @@ const DevspaceForm = ({
         await HTTP.put(
             `dev_space/${id ?? record.id}/sleep_config`,
             {
-                by_week: wakeData,
+                by_week: showCost ? wakeData : [],
             },
             {
                 is_v2: true,

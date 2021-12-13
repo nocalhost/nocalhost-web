@@ -262,7 +262,10 @@ const EnvList = () => {
             dataIndex: 'sleep_minute',
             render: (num: number, record: ISpaceData) => {
                 return num
-                    ? `${(num / moment().diff(moment(record.created_at), 'minutes')).toFixed(2)}%`
+                    ? `${(
+                          (num / moment().diff(moment(record.created_at), 'minutes')) *
+                          100
+                      ).toFixed(2)}%`
                     : '-';
             },
         },

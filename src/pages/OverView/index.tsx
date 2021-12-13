@@ -19,6 +19,7 @@ import { ReactComponent as IconHelp } from '../../images/icon/icon_label_query.s
 import CommonIcon from '../../components/CommonIcon';
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
+import moment from 'moment';
 import {
     NormalCard,
     Card,
@@ -66,8 +67,10 @@ function Overview() {
         const data = result.data || [];
         setDevSpaceData(data);
         const costSaveData = data
-            .filter((item: any) => item.sleep_saving > 0)
-            .map((item: any) => item.sleep_saving);
+            .filter((item: any) => item.sleep_minute > 0)
+            .map((item: any) => {
+                return item.sleep_minute / moment().diff(moment(item.created_at), 'minutes');
+            });
         const sum = costSaveData.reduce((prev: number, curr: number) => prev + curr, 0);
         const len = costSaveData.length;
         if (len > 0) {

@@ -56,6 +56,8 @@ import { ReactComponent as IconActiveWake } from '../../images/icon/icon_wakeup_
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SleepTip from './components/SleepTip';
+
+import { ISpaceData } from '../../types';
 interface RouteParams {
     id: string;
 }
@@ -72,11 +74,6 @@ interface SelectMap {
     text: any;
     value: any;
     label?: any;
-}
-
-interface IRecord {
-    id: number;
-    [index: string]: any;
 }
 
 interface FilterType {
@@ -220,11 +217,13 @@ const EnvList = () => {
             title: t('resources.cost.status'),
             key: 'resource_limit',
             maxWidth: '140px',
-            render: (text: string, record: any) => {
+            render: (text: string, record: ISpaceData) => {
                 return (
                     <FlexBox>
-                        <Dot isActive={!record.is_asleep}></Dot>
-                        {record.is_asleep ? t('resources.cost.sleep') : t('resources.cost.active')}
+                        <Dot isActive={record.sleep_status !== 'asleep'}></Dot>
+                        {record.sleep_status === 'asleep'
+                            ? t('resources.cost.sleep')
+                            : t('resources.cost.active')}
                         <Popover
                             trigger="click"
                             visible={sleepMap.get(record.id)}
@@ -238,8 +237,16 @@ const EnvList = () => {
                         >
                             <IconBox style={{ marginLeft: 8 }}>
                                 <CommonIcon
-                                    NormalIcon={record.is_asleep ? IconNormalWake : IconNormalSleep}
-                                    HoverIcon={record.is_asleep ? IconActiveWake : IconActiveSleep}
+                                    NormalIcon={
+                                        record.sleep_status === 'asleep'
+                                            ? IconNormalWake
+                                            : IconNormalSleep
+                                    }
+                                    HoverIcon={
+                                        record.sleep_status === 'asleep'
+                                            ? IconActiveWake
+                                            : IconActiveSleep
+                                    }
                                     active={sleepMap.get(record.id)}
                                 ></CommonIcon>
                             </IconBox>
@@ -252,9 +259,11 @@ const EnvList = () => {
             title: t('resources.cost.tableLabel'),
             key: 'cluster_id',
             maxWidth: '160px',
-            dataIndex: 'sleep_saving',
-            render: (num: number) => {
-                return num ? `${(num * 100).toFixed(1)}%` : '-';
+            dataIndex: 'sleep_minute',
+            render: (num: number, record: ISpaceData) => {
+                return num
+                    ? `${(num / moment().diff(moment(record.created_at), 'minutes')).toFixed(2)}%`
+                    : '-';
             },
         },
         {
@@ -389,14 +398,14 @@ const EnvList = () => {
     }
 
     const [spaceList, setSpaceList] = useState([]);
-    const [filterList, setFilterList] = useState<IRecord[]>([]);
+    const [filterList, setFilterList] = useState<ISpaceData[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showKube, setShowKube] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [showReset, setShowReset] = useState<boolean>(false);
-    const [record, setRecord] = useState<IRecord>();
+    const [record, setRecord] = useState<ISpaceData>();
     const [filterValue, setFilterValue] = useState<FilterType>({
         space_name: '',
         cluster_id: 'all',
@@ -433,10 +442,11 @@ const EnvList = () => {
         tmpMap.set(id, visible);
         setSleepMap(tmpMap);
         if (refresh) {
-            const tmpList: IRecord[] = filterList;
+            const tmpList: ISpaceData[] = filterList;
             for (let i = 0, len = tmpList.length; i < len; i++) {
                 if (tmpList[i].id === id) {
-                    tmpList[i].is_asleep = !tmpList[i].is_asleep;
+                    tmpList[i].sleep_status =
+                        tmpList[i].sleep_status === 'asleep' ? 'wakeup' : 'asleep';
                     tmpList[i].sleep_at = new Date();
                 }
             }

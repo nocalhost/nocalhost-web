@@ -9,6 +9,7 @@ import Icon from '@ant-design/icons';
 import moment from 'moment';
 
 import HTTP from '../../../api/fetch';
+import { ISpaceData } from '../../../types';
 
 const TipBox = styled.div`
     width: 306px;
@@ -41,11 +42,7 @@ const SleepTip = ({
     record,
     handleSleepTipVisible,
 }: {
-    record: {
-        is_asleep: boolean;
-        id: number;
-        sleep_at: string;
-    };
+    record: ISpaceData;
     handleSleepTipVisible: (id: number, visible: boolean, refresh?: boolean) => void;
 }) => {
     const { t } = useTranslation();
@@ -56,7 +53,7 @@ const SleepTip = ({
 
     const handleConfirm = () => {
         const { id } = record;
-        if (record.is_asleep) {
+        if (record.sleep_status === 'asleep') {
             wakeUpFn(id);
         } else {
             forceSleep(id);
@@ -64,16 +61,11 @@ const SleepTip = ({
         handleSleepTipVisible(record?.id, false, true);
     };
 
-    const formatTime = (time: string) => {
-        // @ts-ignore
-        const x = new moment();
+    const formatTime = (time: string | Date) => {
         // @ts-ignore
         const y = new moment(time);
-        const duration = moment.duration(x.diff(y));
-        const day = duration.days();
-        const hour = duration.hours();
-        const min = duration.minutes();
-        return `${day * 24 + hour}h${min}min`;
+        const min = moment().diff(y, 'minutes');
+        return `${min}min`;
     };
 
     // sleep
@@ -97,7 +89,7 @@ const SleepTip = ({
             <div className="content">
                 <Icon component={IconTip} style={{ fontSize: 20, marginRight: 8, marginTop: 2 }} />
                 <div className="desc">
-                    {record.is_asleep
+                    {record.sleep_status === 'asleep'
                         ? t('resources.cost.wakeUpTip', {
                               time: formatTime(record.sleep_at),
                           })

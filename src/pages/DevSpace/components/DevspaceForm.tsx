@@ -17,6 +17,7 @@ import { queryAllCluster, queryAllUser } from '../../../services';
 import { TimePicker } from './form-component';
 import TimerPickerPanel from './TimePickerPanel';
 import { IOption } from '../../../types';
+import { DEFAULT_SLEEP_TIME } from '../../../contants';
 
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -218,6 +219,36 @@ const DevspaceForm = ({
     useEffect(() => {
         getClusters();
         getUsers();
+
+        // init sleep time
+        if (!isEdit) {
+            setSleepTimeList(
+                DEFAULT_SLEEP_TIME.map((item) => {
+                    return {
+                        start: [
+                            {
+                                label: t(item.start.label),
+                                value: item.start.value,
+                            },
+                            {
+                                label: '20:00',
+                                value: '20:00',
+                            },
+                        ],
+                        end: [
+                            {
+                                label: t(item.end.label),
+                                value: item.end.value,
+                            },
+                            {
+                                label: '08:00',
+                                value: '08:00',
+                            },
+                        ],
+                    };
+                })
+            );
+        }
     }, []);
 
     async function getClusters() {
@@ -429,6 +460,10 @@ const DevspaceForm = ({
             }
             return [...currentList];
         });
+    };
+
+    const handleConfigSleep = (checked: boolean) => {
+        setShowCost(checked);
     };
 
     return (
@@ -705,7 +740,7 @@ const DevspaceForm = ({
                                     <Switch
                                         checked={showCost}
                                         disabled={!canSetLimit}
-                                        onChange={(checked: boolean) => setShowCost(checked)}
+                                        onChange={handleConfigSleep}
                                     />
                                 </Form.Item>
                             </FormFlexBox>

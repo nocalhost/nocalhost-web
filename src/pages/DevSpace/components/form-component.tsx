@@ -23,6 +23,8 @@ export const TimePicker = styled.div`
         color: #36435c;
         background: #ffffff;
         padding: 0 8px;
+        display: flex;
+        justify-content: space-between;
 
         &:hover {
             border: 1px solid rgb(0, 128, 255);
@@ -57,6 +59,7 @@ export const TimePicker = styled.div`
         &:hover {
             border: 1px dashed rgb(0, 128, 255);
             box-shadow: 0 0 4px 0 rgba(0, 128, 255, 0.5);
+            color: #36435c;
         }
 
         svg {

@@ -71,7 +71,7 @@ function Overview() {
         const sum = costSaveData.reduce((prev: number, curr: number) => prev + curr, 0);
         const len = costSaveData.length;
         if (len > 0) {
-            setAverageCostSave(`${((sum / len) * 100).toFixed(1)}%`);
+            setAverageCostSave(`${((sum / len) * 100).toFixed(2)}%`);
         }
     };
     const getRace = async () => {

@@ -66,6 +66,7 @@ const TimePanel = styled.div`
 
     .btn-box {
         height: 50px;
+        padding-right: 12px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -168,7 +169,8 @@ const SelectPanel = ({
 
     useEffect(() => {
         ulRef.current.scrollTop = defaultIndex * 36;
-    }, []);
+        setCurrentIndex(defaultIndex);
+    }, [defaultIndex]);
 
     return (
         <SelectWrap>
@@ -239,10 +241,12 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
     const defaultStartHour = Number(String(defaultStartTime).split(':')[0]);
     const defaultStartMin = Number(String(defaultStartTime).split(':')[1]);
 
-    const defaultEndDay = Number(defaultValue?.end?.[0]?.value ?? 2);
     const defaultEndTime = defaultValue?.end?.[1]?.value ?? '08:00';
     const defaultEndHour = Number(String(defaultEndTime).split(':')[0]);
     const defaultEndMin = Number(String(defaultEndTime).split(':')[1]);
+    const [defaultEndDay, setDefaultEndDay] = useState<number>(
+        Number(defaultValue?.end?.[0]?.value ?? 2)
+    );
 
     const [sleepTime, setSleepTime] = useState<IOption[]>([
         {
@@ -284,10 +288,16 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
 
     const onSelectSleep = (index: number, type: string) => {
         const current = sleepTime.slice(0);
+        const currWakeTime = wakeTime.slice();
         switch (type) {
-            case 'week':
+            case 'week': {
                 current.splice(0, 1, WEEK_ARR[index]);
+                const nextDay = index < 6 ? index + 1 : 0;
+                currWakeTime.splice(0, 1, WEEK_ARR[nextDay]);
+                setWakeTime(currWakeTime);
+                setDefaultEndDay(nextDay);
                 break;
+            }
             case 'hour':
                 current.splice(1, 1, HOUR_ARR[index]);
                 break;
@@ -295,6 +305,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
                 current.splice(2, 1, MIN_ARR[index]);
                 break;
         }
+
         setSleepTime(current);
     };
 
@@ -351,7 +362,7 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
                     <SelectPanel
                         data={WEEK_ARR}
                         type="week"
-                        defaultIndex={+defaultEndDay}
+                        defaultIndex={defaultEndDay}
                         handleSelect={onSelectWakeup}
                     />
                     <SelectPanel
@@ -369,10 +380,10 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
                 </div>
             </div>
             <div className="btn-box">
-                <Button onClick={handleCancel} style={{ marginRight: 12 }}>
+                <Button onClick={handleCancel} style={{ marginRight: 12, borderRadius: 4 }}>
                     {t('common.bt.cancel')}
                 </Button>
-                <Button onClick={handleConfirm} type="primary">
+                <Button onClick={handleConfirm} type="primary" style={{ borderRadius: 4 }}>
                     {t('common.bt.confirm')}
                 </Button>
             </div>

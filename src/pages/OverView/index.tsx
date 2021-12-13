@@ -18,6 +18,7 @@ import { ReactComponent as IconSleep } from '../../images/icon/icon_title_sleep.
 import { ReactComponent as IconHelp } from '../../images/icon/icon_label_query.svg';
 import CommonIcon from '../../components/CommonIcon';
 import { ClusterItemType } from './type';
+import { ISpaceData } from '../../types';
 import NotData from '../../components/NotData';
 import moment from 'moment';
 import {
@@ -164,7 +165,8 @@ function Overview() {
                                         <Tooltip
                                             title={t('resources.cost.nsSleeping', {
                                                 count: devSpaceData.filter(
-                                                    (item: any) => item.is_asleep
+                                                    (item: ISpaceData) =>
+                                                        item.sleep_status === 'asleep'
                                                 ).length,
                                             })}
                                         >
@@ -178,7 +180,8 @@ function Overview() {
                                                     ·&nbsp;
                                                     {
                                                         devSpaceData.filter(
-                                                            (item: any) => item.is_asleep
+                                                            (item: ISpaceData) =>
+                                                                item.sleep_status === 'asleep'
                                                         ).length
                                                     }
                                                 </span>

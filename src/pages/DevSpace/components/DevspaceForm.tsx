@@ -14,7 +14,7 @@ import { ReactComponent as IconDelete } from '../../../images/icon/icon_input_de
 import { ReactComponent as IconAdd } from '../../../images/icon/icon_add.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
-import { TimePicker } from './form-component';
+import { TimePicker, RuleTip } from './form-component';
 import TimerPickerPanel from './TimePickerPanel';
 import { IOption } from '../../../types';
 import { DEFAULT_SLEEP_TIME } from '../../../contants';
@@ -750,12 +750,13 @@ const DevspaceForm = ({
                                 <Divide style={{ marginBottom: 12 }} />
                                 <FormFlexBox style={{ paddingLeft: 44 }}>
                                     <Form.Item
-                                        name="space_req_mem"
+                                        name="sleepTimeList"
                                         label={t('resources.cost.sleepTimeRange')}
                                         style={{
                                             width: '100%',
                                             marginRight: 12,
                                             flexBasis: '50%',
+                                            marginBottom: 4,
                                         }}
                                     >
                                         <TimePicker>
@@ -800,6 +801,7 @@ const DevspaceForm = ({
                                                     </Popover>
                                                 );
                                             })}
+
                                             <Popover
                                                 visible={showTimePanel}
                                                 trigger="click"
@@ -822,6 +824,9 @@ const DevspaceForm = ({
                                                 </div>
                                             </Popover>
                                         </TimePicker>
+                                        <RuleTip className="rule-tip">
+                                            {t('resources.cost.ruleTip')}
+                                        </RuleTip>
                                     </Form.Item>
                                 </FormFlexBox>
                             </SleepModeWrap>

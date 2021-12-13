@@ -73,3 +73,8 @@ export const TimePicker = styled.div`
         background: #ffffff;
     }
 `;
+
+export const RuleTip = styled.div`
+    font-size: 12px;
+    color: #79879c;
+`;

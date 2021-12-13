@@ -555,7 +555,8 @@
             "sat": "周六",
             "sun": "周日",
             "nsSleeping": "空间休眠中 · {{count}}",
-            "averageSaveTip": "降低比率的总和 / 启用休眠的空间数量"
+            "averageSaveTip": "降低比率的总和 / 启用休眠的空间数量",
+            "ruleTip": "若为空则不进入休眠模式"
         }
     }
 }

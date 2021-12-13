@@ -554,7 +554,8 @@
             "sat": "Sat",
             "sun": "Sun",
             "nsSleeping": "Space in sleeping · {{count}}",
-            "averageSaveTip": "Sum of reduction ratios / amount of space with hibernation enabled"
+            "averageSaveTip": "Sum of reduction ratios / amount of space with hibernation enabled",
+            "ruleTip": "If empty, no hibernation mode."
         }
     }
 }

@@ -3,6 +3,7 @@ import { Form, Switch, Radio, Select, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Icon from '@ant-design/icons';
 import styled from 'styled-components';
+import { FormInstance } from 'antd';
 
 import HTTP from '../../../api/fetch';
 import CommonIcon from '../../../components/CommonIcon';
@@ -71,10 +72,12 @@ const PlugInOnly = styled.div`
 export default function VirtualCluster({
     changeIsVCluster,
     isEdit,
+    form,
     initialIsVCluster,
 }: {
     changeIsVCluster: (isVCluster: boolean) => void;
     isEdit: boolean;
+    form: FormInstance<any>;
     initialIsVCluster: boolean;
 }) {
     const { t } = useTranslation();
@@ -96,7 +99,8 @@ export default function VirtualCluster({
             data: { versions },
         } = await HTTP.get('nocalhost/version/vcluster');
         setVersions(versions);
-    }, []);
+        form.setFieldsValue({ version: versions[0] });
+    }, [form]);
 
     const l = useCallback(
         (key: string) => {

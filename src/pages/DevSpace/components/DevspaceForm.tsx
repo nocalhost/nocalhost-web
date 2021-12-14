@@ -337,7 +337,7 @@ const DevspaceForm = ({
                 form={form}
                 layout="vertical"
                 scrollToFirstError={true}
-                initialValues={{ service_type: 'ClusterIP', version: 'latest', values: null }}
+                initialValues={{ service_type: 'ClusterIP', values: null }}
                 onFinish={handleSubmit}
             >
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
@@ -412,6 +412,7 @@ const DevspaceForm = ({
 
                         {!isBaseSpace && (
                             <VirtualCluster
+                                form={form}
                                 initialIsVCluster={isVCluster}
                                 isEdit={isEdit}
                                 changeIsVCluster={setIsVCluster}

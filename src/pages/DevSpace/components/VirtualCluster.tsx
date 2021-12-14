@@ -70,16 +70,26 @@ const PlugInOnly = styled.div`
 `;
 export default function VirtualCluster({
     changeIsVCluster,
+    isEdit,
+    initialIsVCluster,
 }: {
     changeIsVCluster: (isVCluster: boolean) => void;
+    isEdit: boolean;
+    initialIsVCluster: boolean;
 }) {
     const { t } = useTranslation();
 
     const [versions, setVersions] = useState([]);
 
+    const [isVCluster, setIsVCluster] = useState(initialIsVCluster);
+
     useEffect(() => {
         getVersion();
     }, []);
+
+    useEffect(() => {
+        setIsVCluster(initialIsVCluster);
+    }, [initialIsVCluster]);
 
     const getVersion = useCallback(async () => {
         const {
@@ -94,8 +104,6 @@ export default function VirtualCluster({
         },
         [t]
     );
-
-    const [isVCluster, setIsVCluster] = useState(false);
 
     const container = useRef<HTMLDivElement | null>(null);
 
@@ -127,10 +135,10 @@ export default function VirtualCluster({
                     </DescBox>
                     <Form.Item name="dev_space_type">
                         <Switch
+                            disabled={isEdit}
                             checked={isVCluster}
                             onChange={(checked) => {
                                 changeIsVCluster(checked);
-                                setIsVCluster(checked);
                             }}
                         />
                     </Form.Item>

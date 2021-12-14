@@ -144,8 +144,10 @@ const DevspaceForm = ({
                 space_resource_limit,
                 is_base_space,
                 deletable,
+                dev_space_type,
             } = record;
             let limitObj = {};
+            let virtual_cluster = {};
             try {
                 if (typeof space_resource_limit === 'string') {
                     const tmpObj = JSON.parse(space_resource_limit);
@@ -163,6 +165,11 @@ const DevspaceForm = ({
             setIsAdmin(Boolean(cluster_admin));
             setShowLimit(Boolean(resource_limit_set));
 
+            if (dev_space_type === 3) {
+                setIsVCluster(true);
+                virtual_cluster = record.virtual_cluster;
+            }
+
             form.setFieldsValue({
                 space_name,
                 user_id: user_name,
@@ -170,7 +177,9 @@ const DevspaceForm = ({
                 cluster_admin: Boolean(cluster_admin),
                 resource_limit_set: Boolean(resource_limit_set),
                 is_base_space,
+                dev_space_type,
                 ...limitObj,
+                ...virtual_cluster,
             });
         }
     }, [record]);
@@ -260,10 +269,18 @@ const DevspaceForm = ({
                   }
                 : null;
             if (isEdit) {
-                // edit name
-                const response = await HTTP.put(`dev_space/${record.id}`, {
+                let data: any = {
                     space_name,
-                });
+                };
+                if (dev_space_type === 3) {
+                    data = {
+                        dev_space_type,
+                        space_name,
+                        virtual_cluster: { service_type, version, values: helmValues },
+                    };
+                }
+                // edit name
+                const response = await HTTP.put(`dev_space/${record.id}`, data);
 
                 if (canSetLimit) {
                     const limitResp = await HTTP.put(
@@ -393,7 +410,13 @@ const DevspaceForm = ({
                             </OtherConfigItem>
                         )}
 
-                        {!isBaseSpace && <VirtualCluster changeIsVCluster={setIsVCluster} />}
+                        {!isBaseSpace && (
+                            <VirtualCluster
+                                initialIsVCluster={isVCluster}
+                                isEdit={isEdit}
+                                changeIsVCluster={setIsVCluster}
+                            />
+                        )}
 
                         <OtherConfigItem>
                             <Icon

@@ -50,6 +50,8 @@ import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSp
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 import { ReactComponent as VClusterIcon } from '../../images/icon/icon_vcluster.svg';
+import VClusterInstalling from '../../images/icon/icon_vcluster_installing.svg';
+import VClusterOther from '../../images/icon/icon_vcluster_other.svg';
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
@@ -84,16 +86,49 @@ interface FilterType {
 }
 
 const SpaceType = styled.div`
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
     .v_cluster {
         svg {
             width: 20px;
             height: 20px;
             margin-left: 6px;
+        }
+        &.ready {
             path {
                 fill: #f88600;
             }
             path:nth-child(-n + 3) {
                 fill: #fac480;
+            }
+        }
+        &.installing,
+        &.other {
+            position: relative;
+            &:after {
+                position: absolute;
+                bottom: -3px;
+                right: -5px;
+                width: 13px;
+                height: 13px;
+                content: ' ';
+                background-image: url(${VClusterInstalling});
+            }
+        }
+        &.installing {
+            &:after {
+                animation: spin 1s linear infinite;
+            }
+        }
+        &.other {
+            &:after {
+                background-image: url(${VClusterOther});
             }
         }
     }
@@ -179,6 +214,39 @@ const EnvList = () => {
             width: '180px',
             key: 'space_type',
             render: (text: string, record: any) => {
+                function VClusterComponent() {
+                    if (record.dev_space_type === 3) {
+                        let title = '';
+                        const { status } = record.virtual_cluster;
+
+                        let className = '';
+
+                        switch (status) {
+                            case 'Ready':
+                                title = t('resources.space.fields.vCluster_ready');
+                                className = 'ready';
+                                break;
+                            case 'Upgrading':
+                            case 'Installing':
+                                title = t('resources.space.fields.vCluster_preparation');
+                                className = 'installing';
+                                break;
+                            default:
+                                title = t('resources.space.fields.vCluster_other') + status;
+                                className = 'other';
+                                break;
+                        }
+                        return (
+                            <CommonIcon
+                                NormalIcon={VClusterIcon}
+                                className={`v_cluster ${className}`}
+                                title={title}
+                                style={{ fontSize: 16, marginLeft: 6 }}
+                            />
+                        );
+                    }
+                    return <></>;
+                }
                 return (
                     <SpaceType>
                         <SpaceTypeItem name={record.space_type}>
@@ -192,14 +260,7 @@ const EnvList = () => {
                             />
                             {record.space_type}
                         </SpaceTypeItem>
-                        {record.dev_space_type === 3 && (
-                            <CommonIcon
-                                NormalIcon={VClusterIcon}
-                                className="v_cluster"
-                                title={t('resources.space.fields.isVCluster')}
-                                style={{ fontSize: 16, marginLeft: 6 }}
-                            />
-                        )}
+                        <VClusterComponent />
                     </SpaceType>
                 );
             },

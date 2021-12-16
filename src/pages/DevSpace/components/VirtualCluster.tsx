@@ -135,9 +135,11 @@ export default function VirtualCluster({
             if (limitWrap.current) {
                 const modal: any = document.querySelector('.ant-modal-content');
 
-                const isLimit = document.body.clientHeight - modal.clientHeight - 350 < 144;
+                if (modal) {
+                    const isLimit = document.body.clientHeight - modal.clientHeight - 350 < 144;
 
-                limitWrap.current.style.maxHeight = isLimit ? '' : 'none';
+                    limitWrap.current.style.maxHeight = isLimit ? '' : 'none';
+                }
             }
 
             if (container.current) {

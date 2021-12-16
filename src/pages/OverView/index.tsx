@@ -16,6 +16,8 @@ import { useHistory } from 'react-router';
 import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.svg';
 import { ClusterItemType } from './type';
 import NotData from '../../components/NotData';
+import { VClusterAggregate } from './VirtualCluster';
+
 import {
     Card,
     CardBox,
@@ -32,6 +34,7 @@ import {
     IconBox,
     LoadingBox,
 } from './style-components';
+
 function Overview() {
     const history = useHistory();
     const { t } = useTranslation();
@@ -39,6 +42,7 @@ function Overview() {
     const [applicationData, setApplicationData] = useState([]);
     const [clusterData, setClusterData] = useState([]);
     const [devSpaceData, setDevSpaceData] = useState([]);
+    const [vClusterCount, setVClusterCount] = useState(0);
     const [clusterLoading, setClusterLoading] = useState(false);
     const getUser = async () => {
         const result = await HTTP.get('users');
@@ -56,7 +60,11 @@ function Overview() {
     };
     const getDevSpaceData = async () => {
         const result = await HTTP.get('dev_space', null, { is_v2: true });
-        setDevSpaceData(result.data || []);
+        const data = result.data || [];
+
+        setDevSpaceData(data);
+
+        setVClusterCount(data.filter((item: any) => item.dev_space_type === 3).length);
     };
     const getRace = async () => {
         await getUser();
@@ -139,9 +147,9 @@ function Overview() {
                             </H>
                             {/* <Time>2020/02/08-2021/07/28</Time> */}
                             <FlexBetween>
-                                <AmountBox>
+                                <AmountBox style={{ display: 'flex', alignItems: 'center' }}>
                                     <Total>{devSpaceData.length}</Total>
-                                    {/* <I>个</I> */}
+                                    <VClusterAggregate count={vClusterCount} />
                                 </AmountBox>
                                 <IconBox>
                                     <SvgIcon src={IconColorDevspace} alt="" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import HTTP from '../../api/fetch';
 import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
@@ -49,7 +49,12 @@ import { ReactComponent as IconExplain } from '../../images/icon/icon_label_expl
 import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSpace.svg';
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
+import { ReactComponent as VClusterIcon } from '../../images/icon/icon_vcluster.svg';
+import VClusterInstalling from '../../images/icon/icon_vcluster_installing.svg';
+import VClusterOther from '../../images/icon/icon_vcluster_other.svg';
+
 import CopyToClipboard from 'react-copy-to-clipboard';
+import styled from 'styled-components';
 interface RouteParams {
     id: string;
 }
@@ -80,6 +85,54 @@ interface FilterType {
     space_type: string;
 }
 
+const SpaceType = styled.div`
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .v_cluster {
+        svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 6px;
+        }
+        &.ready {
+            path {
+                fill: #f88600;
+            }
+            path:nth-child(-n + 3) {
+                fill: #fac480;
+            }
+        }
+        &.installing,
+        &.other {
+            position: relative;
+            &:after {
+                position: absolute;
+                bottom: -3px;
+                right: -5px;
+                width: 13px;
+                height: 13px;
+                content: ' ';
+                background-image: url(${VClusterInstalling});
+            }
+        }
+        &.installing {
+            &:after {
+                animation: spin 1s linear infinite;
+            }
+        }
+        &.other {
+            &:after {
+                background-image: url(${VClusterOther});
+            }
+        }
+    }
+`;
 const PopoverBox = (props: { record: UserProps }) => {
     const { record } = props;
     const { cooper_user, viewer_user } = record;
@@ -161,18 +214,54 @@ const EnvList = () => {
             width: '180px',
             key: 'space_type',
             render: (text: string, record: any) => {
+                function VClusterComponent() {
+                    if (record.dev_space_type === 3) {
+                        let title = '';
+                        const { status } = record.virtual_cluster;
+
+                        let className = '';
+
+                        switch (status) {
+                            case 'Ready':
+                                title = t('resources.space.fields.vCluster_ready');
+                                className = 'ready';
+                                break;
+                            case 'Upgrading':
+                            case 'Installing':
+                                title = t('resources.space.fields.vCluster_preparation');
+                                className = 'installing';
+                                break;
+                            default:
+                                title = t('resources.space.fields.vCluster_other') + status;
+                                className = 'other';
+                                break;
+                        }
+                        return (
+                            <CommonIcon
+                                NormalIcon={VClusterIcon}
+                                className={`v_cluster ${className}`}
+                                title={title}
+                                style={{ fontSize: 16, marginLeft: 6 }}
+                            />
+                        );
+                    }
+                    return <></>;
+                }
                 return (
-                    <SpaceTypeItem name={record.space_type}>
-                        <Icon
-                            component={
-                                record.space_type === 'IsolateSpace'
-                                    ? IconQuarantineSpace
-                                    : IconShareSpace
-                            }
-                            style={{ fontSize: 20, marginRight: 4 }}
-                        />
-                        {record.space_type}
-                    </SpaceTypeItem>
+                    <SpaceType>
+                        <SpaceTypeItem name={record.space_type}>
+                            <Icon
+                                component={
+                                    record.space_type === 'IsolateSpace'
+                                        ? IconQuarantineSpace
+                                        : IconShareSpace
+                                }
+                                style={{ fontSize: 20, marginRight: 4 }}
+                            />
+                            {record.space_type}
+                        </SpaceTypeItem>
+                        <VClusterComponent />
+                    </SpaceType>
                 );
             },
         },
@@ -337,8 +426,8 @@ const EnvList = () => {
         columns.splice(3, 1);
     }
 
-    const [spaceList, setSpaceList] = useState([]);
-    const [filterList, setFilterList] = useState([]);
+    const [spaceList, setSpaceList] = useState<any[]>([]);
+    const [filterList, setFilterList] = useState<any[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -360,6 +449,7 @@ const EnvList = () => {
     const spaceTypeOption = [
         { value: 'MeshSpace', text: t('resources.space.meshSpace') },
         { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
+        { value: 'VCluster', text: 'VCluster' },
     ];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -367,6 +457,49 @@ const EnvList = () => {
     const showTotal = () => {
         return t('resources.devSpace.tips.sumOfItem', { count: spaceList.length });
     };
+
+    const timedRefresh = useRef(-1);
+    const checkVCluster = useCallback(
+        (page: number) => {
+            clearTimeout(timedRefresh.current);
+
+            timedRefresh.current = window.setTimeout(async () => {
+                const data: any[] = Object.assign([], spaceList);
+
+                const ids: any[] = data
+                    .slice((page - 1) * 10)
+                    .filter(
+                        (item) =>
+                            item.dev_space_type === 3 && item.virtual_cluster.status !== 'Ready'
+                    )
+                    .map((item) => item.id);
+
+                if (ids.length) {
+                    let isUpdate = false;
+
+                    const res = await HTTP.get(`dev_space/status?ids=${ids.join('&ids=')}`);
+                    ids.forEach((id) => {
+                        const source = data.find((item) => item.id === id);
+
+                        if (source.virtual_cluster.status !== res.data[id].virtual_cluster.status) {
+                            source.virtual_cluster.status = res.data[id].virtual_cluster.status;
+                            isUpdate = true;
+                        }
+                    });
+
+                    if (isUpdate) {
+                        setSpaceList(data);
+                        setFilterList(data);
+                    }
+
+                    checkVCluster(page);
+                }
+            }, 5_000);
+        },
+        [spaceList]
+    );
+
+    useEffect(checkVCluster.bind(null, 1), [spaceList]);
 
     useEffect(() => {
         querySpaceList();
@@ -639,6 +772,7 @@ const EnvList = () => {
                             position: ['bottomCenter'],
                             showTotal: showTotal,
                             showSizeChanger: false,
+                            onChange: checkVCluster,
                         }}
                     ></Table>
                 )}

@@ -11,13 +11,14 @@ import { ReactComponent as IconResource } from '../../../images/icon/icon_resour
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
+import VirtualCluster from './VirtualCluster';
 
-const FormFlexBox = styled(FlexBox)`
+export const FormFlexBox = styled(FlexBox)`
     flex: 1;
     justify-content: space-between;
 `;
 
-const OtherConfigItem = styled.div`
+export const OtherConfigItem = styled.div`
     padding: 10px 12px;
     margin-top: 8px;
     background: #f9fbfd;
@@ -30,7 +31,7 @@ const OtherConfigItem = styled.div`
     }
 `;
 
-const DescBox = styled.div`
+export const DescBox = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -51,24 +52,32 @@ const DescBox = styled.div`
     }
 `;
 
-const LimitWrap = styled.div`
-    height: 288px;
+export const LimitWrap = styled.div`
+    max-height: 288px;
     overflow: scroll;
     padding: 12px 12px 0;
     background: #f9fbfd;
     font-size: 14px;
     color: #36435c;
+
+    .ant-form-item-control-input {
+        box-shadow: none;
+    }
+    .ant-row.ant-form-item {
+        margin-left: 40px;
+    }
 `;
 
-const LimitTitle = styled.div`
+export const LimitTitle = styled.div`
     margin: 12px 0;
+    margin-left: 40px;
     color: rgb(54, 67, 92);
     font-family: PingFangSC-Semibold;
     font-size: 14px;
     font-weight: 600;
 `;
 
-const Divide = styled.div`
+export const Divide = styled.div`
     height: 1px;
     background: #e6ebf2;
 `;
@@ -111,6 +120,8 @@ const DevspaceForm = ({
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [isBaseSpace, setIsBaseSpace] = useState<boolean>(false);
+    const [isVCluster, setIsVCluster] = useState(false);
     const [userList, setUserList] = useState<any>([]);
     const [clusterList, setClusterList] = useState<any>([]);
 
@@ -133,8 +144,10 @@ const DevspaceForm = ({
                 space_resource_limit,
                 is_base_space,
                 deletable,
+                dev_space_type,
             } = record;
             let limitObj = {};
+            let virtual_cluster = {};
             try {
                 if (typeof space_resource_limit === 'string') {
                     const tmpObj = JSON.parse(space_resource_limit);
@@ -153,6 +166,11 @@ const DevspaceForm = ({
             setIsAdmin(Boolean(cluster_admin));
             setShowLimit(Boolean(resource_limit_set));
 
+            if (dev_space_type === 3) {
+                setIsVCluster(true);
+                virtual_cluster = record.virtual_cluster;
+            }
+
             form.setFieldsValue({
                 space_name,
                 user_id: user_name,
@@ -160,7 +178,9 @@ const DevspaceForm = ({
                 cluster_admin: Boolean(cluster_admin),
                 resource_limit_set: Boolean(resource_limit_set),
                 is_base_space,
+                dev_space_type,
                 ...limitObj,
+                ...virtual_cluster,
             });
         }
     }, [record]);
@@ -216,6 +236,10 @@ const DevspaceForm = ({
                 space_req_mem,
                 space_storage_capacity,
                 resource_limit_set,
+                dev_space_type,
+                service_type,
+                version,
+                values: helmValues,
             } = values;
 
             const limitObj = resource_limit_set
@@ -246,10 +270,18 @@ const DevspaceForm = ({
                   }
                 : null;
             if (isEdit) {
-                // edit name
-                const response = await HTTP.put(`dev_space/${record.id}`, {
+                let data: any = {
                     space_name,
-                });
+                };
+                if (dev_space_type === 3) {
+                    data = {
+                        dev_space_type,
+                        space_name,
+                        virtual_cluster: { service_type, version, values: helmValues },
+                    };
+                }
+                // edit name
+                const response = await HTTP.put(`dev_space/${record.id}`, data);
 
                 if (canSetLimit) {
                     const limitResp = await HTTP.put(
@@ -268,7 +300,7 @@ const DevspaceForm = ({
                 }
                 setIsSubmit(false);
             } else {
-                const response = await HTTP.post('dev_space', {
+                let data: any = {
                     cluster_id,
                     cluster_admin: cluster_admin ? 1 : 0,
                     is_base_space,
@@ -276,7 +308,17 @@ const DevspaceForm = ({
                     space_name,
                     isLimit,
                     space_resource_limit: limitObj,
-                });
+                };
+
+                if (dev_space_type == true) {
+                    data = {
+                        ...data,
+                        dev_space_type: 3,
+                        virtual_cluster: { service_type, version, values: helmValues },
+                    };
+                }
+
+                const response = await HTTP.post('dev_space', data);
                 setIsSubmit(false);
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
@@ -296,6 +338,7 @@ const DevspaceForm = ({
                 form={form}
                 layout="vertical"
                 scrollToFirstError={true}
+                initialValues={{ service_type: 'ClusterIP', values: null }}
                 onFinish={handleSubmit}
             >
                 <Form.Item label={t('resources.devSpace.fields.space_name')} name="space_name">
@@ -330,39 +373,53 @@ const DevspaceForm = ({
                     </Form.Item>
                 </FormFlexBox>
                 <OtherConfigTitle>{t('common.otherSet')}</OtherConfigTitle>
-                <OtherConfigItem>
-                    <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
-                    <FormFlexBox>
-                        <DescBox>
-                            <span>{t('resources.space.fields.setAdminTip')}</span>
-                            <span>{t('resources.space.fields.setAdminDesc')}</span>
-                        </DescBox>
-                        <Form.Item name="cluster_admin">
-                            <Switch
-                                checked={isAdmin}
-                                disabled={isEdit}
-                                onChange={(checked) => setIsAdmin(checked)}
-                            />
-                        </Form.Item>
-                    </FormFlexBox>
-                </OtherConfigItem>
+                {!isVCluster && (
+                    <OtherConfigItem>
+                        <Icon component={IconAdmin} style={{ fontSize: 32, marginRight: 8 }} />
+                        <FormFlexBox>
+                            <DescBox>
+                                <span>{t('resources.space.fields.setAdminTip')}</span>
+                                <span>{t('resources.space.fields.setAdminDesc')}</span>
+                            </DescBox>
+                            <Form.Item name="cluster_admin">
+                                <Switch checked={isAdmin} disabled={isEdit} onChange={setIsAdmin} />
+                            </Form.Item>
+                        </FormFlexBox>
+                    </OtherConfigItem>
+                )}
                 {!isAdmin && (
                     <>
-                        <OtherConfigItem>
-                            <Icon
-                                component={IconBaseSpace}
-                                style={{ fontSize: 32, marginRight: 8 }}
+                        {!isVCluster && (
+                            <OtherConfigItem>
+                                <Icon
+                                    component={IconBaseSpace}
+                                    style={{ fontSize: 32, marginRight: 8 }}
+                                />
+                                <FormFlexBox>
+                                    <DescBox>
+                                        <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
+                                        <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
+                                    </DescBox>
+                                    <Form.Item valuePropName="checked" name="is_base_space">
+                                        <Switch
+                                            checked={isBaseSpace}
+                                            onChange={setIsBaseSpace}
+                                            disabled={isEdit}
+                                        />
+                                    </Form.Item>
+                                </FormFlexBox>
+                            </OtherConfigItem>
+                        )}
+
+                        {!isBaseSpace && (
+                            <VirtualCluster
+                                form={form}
+                                initialIsVCluster={isVCluster}
+                                isEdit={isEdit}
+                                changeIsVCluster={setIsVCluster}
                             />
-                            <FormFlexBox>
-                                <DescBox>
-                                    <span>{t('resources.space.fields.setBaseSpaceTip')}</span>
-                                    <span>{t('resources.space.fields.setBaseSpaceDesc')}</span>
-                                </DescBox>
-                                <Form.Item valuePropName="checked" name="is_base_space">
-                                    <Switch disabled={isEdit} />
-                                </Form.Item>
-                            </FormFlexBox>
-                        </OtherConfigItem>
+                        )}
+
                         <OtherConfigItem>
                             <Icon
                                 component={IconResource}

@@ -113,7 +113,8 @@
     },
     "resources": {
         "dashboard": {
-            "name": "Overview"
+            "name": "Overview",
+            "vClusterName": "Virtual Cluster"
         },
         "users": {
             "name": "User",
@@ -309,6 +310,9 @@
                 "namespace": "Namespace",
                 "created_at": "Created At",
                 "cluster": "Cluster",
+                "vCluster_ready": "VCluster space is ready to work",
+                "vCluster_preparation": "VCluster space is in preparation",
+                "vCluster_other": "VCluster space is ",
                 "application": "Application",
                 "resource": "Resource",
                 "cpu": "CPU",
@@ -331,11 +335,20 @@
                 "resource_limit_set": "Set",
                 "resource_limit_unset": "Not set",
                 "cluster_scope": "This space has cluster resource permissions",
-                "setAdminTip": "Whether to set as a cluster administrator",
+                "setAdminTip": "Set as cluster administrator",
                 "setAdminDesc": "Set as a cluster administrator, the user has the right to add and edit users, clusters",
                 "setLimitDesc": "Setting the resource limit will limit the total resource usage of the current space, and the resource usage of the Container in each Pod in the current space will also be limited",
-                "setBaseSpaceTip": "Whether to set as the base development space",
-                "setBaseSpaceDesc": "Set as the base development space, add Istio sidecar automatic injection tags to the corresponding namespace"
+                "setBaseSpaceTip": "Set as base development space",
+                "setBaseSpaceDesc": "Set as the base development space, add Istio sidecar automatic injection tags to the corresponding namespace",
+                "setVClusterTip": "Set as virtual cluster",
+                "setVClusterDesc": "Create as a base virtual cluster and use the corresponding namespace as a virtual cluster",
+                "vClusterAccessWay": "Access Way",
+                "plugInOnly": "Restricted access",
+                "plugInOnlyTips": "Access is only possible with Nocalhost \"Port forward\" method",
+                "vClusterSettings": "Advanced Settings ",
+                "vClusterVersion": "Version",
+                "vClusterVersionDesc": "The chart version of the virtual cluster to deploy",
+                "vClusterHelmDesc": "For related parameters, please refer to "
             },
             "devspaceLimitTitle": "DevSpace Resource Limit",
             "containerDefaultTitle": "Container Default",

@@ -114,7 +114,8 @@
     },
     "resources": {
         "dashboard": {
-            "name": "概览"
+            "name": "概览",
+            "vClusterName": "虚拟集群"
         },
         "users": {
             "name": "用户",
@@ -310,6 +311,9 @@
                 "namespace": "命名空间",
                 "created_at": "创建于",
                 "cluster": "集群",
+                "vCluster_ready": "VCluster 空间已准备就绪可正常工作",
+                "vCluster_preparation": "VCluster 空间正在准备中",
+                "vCluster_other": "VCluster 空间  ",
                 "application": "应用",
                 "resource": "资源",
                 "cpu": "CPU",
@@ -332,11 +336,20 @@
                 "resource_limit_set": "已设置",
                 "resource_limit_unset": "未设置",
                 "cluster_scope": "该空间拥有集群资源权限",
-                "setAdminTip": "是否设置为集群管理员",
+                "setAdminTip": "设置为集群管理员",
                 "setAdminDesc": "设置为集群管理员，则该用户有权限添加编辑用户、集群",
                 "setLimitDesc": "设置资源限制，则限制当前空间总资源使用量，当前空间中每个 Pod 中的 Container 的资源使用量也将会被限制",
-                "setBaseSpaceTip": "是否设置为基础开发空间",
-                "setBaseSpaceDesc": "设置为基础开发空间，在对应的命名空间加上 Istio 边车自动注入标签"
+                "setBaseSpaceTip": "设置为基础开发空间",
+                "setBaseSpaceDesc": "设置为基础开发空间，在对应的命名空间加上 Istio 边车自动注入标签",
+                "setVClusterTip": "设置为虚拟集群",
+                "setVClusterDesc": "创建为基础虚拟集群，将对应的命名空间作为虚拟集群使用",
+                "vClusterAccessWay": "访问方式",
+                "plugInOnly": "受限访问",
+                "plugInOnlyTips": "仅限使用 Nocalhost \"Port forward\" 方式才能访问",
+                "vClusterSettings": "高级设置",
+                "vClusterVersion": "版本",
+                "vClusterVersionDesc": "要部署的 VCluster 版本",
+                "vClusterHelmDesc": "相关参数，请参考 "
             },
             "actions": {
                 "create": "创建开发空间",

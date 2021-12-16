@@ -477,7 +477,7 @@ const EnvList = () => {
                 if (ids.length) {
                     let isUpdate = false;
 
-                    const res = await HTTP.get(`/dev_space/status?ids=${ids.join('&ids=')}`);
+                    const res = await HTTP.get(`dev_space/status?ids=${ids.join('&ids=')}`);
                     ids.forEach((id) => {
                         const source = data.find((item) => item.id === id);
 

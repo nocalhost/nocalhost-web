@@ -56,6 +56,9 @@ export const AdminCount = styled.div`
             text-decoration: underline;
         }
     }
+    path {
+        fill: #0080ff;
+    }
 `;
 
 export const Logo = styled.img`

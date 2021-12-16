@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import HTTP from '../../api/fetch';
 import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
@@ -426,8 +426,8 @@ const EnvList = () => {
         columns.splice(3, 1);
     }
 
-    const [spaceList, setSpaceList] = useState([]);
-    const [filterList, setFilterList] = useState([]);
+    const [spaceList, setSpaceList] = useState<any[]>([]);
+    const [filterList, setFilterList] = useState<any[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -457,6 +457,49 @@ const EnvList = () => {
     const showTotal = () => {
         return t('resources.devSpace.tips.sumOfItem', { count: spaceList.length });
     };
+
+    const timedRefresh = useRef(-1);
+    const checkVCluster = useCallback(
+        (page: number) => {
+            clearTimeout(timedRefresh.current);
+
+            timedRefresh.current = window.setTimeout(async () => {
+                const data: any[] = Object.assign([], spaceList);
+
+                const ids: any[] = data
+                    .slice((page - 1) * 10)
+                    .filter(
+                        (item) =>
+                            item.dev_space_type === 3 && item.virtual_cluster.status !== 'Ready'
+                    )
+                    .map((item) => item.id);
+
+                if (ids.length) {
+                    let isUpdate = false;
+
+                    const res = await HTTP.get(`/dev_space/status?ids=${ids.join('&ids=')}`);
+                    ids.forEach((id) => {
+                        const source = data.find((item) => item.id === id);
+
+                        if (source.virtual_cluster.status !== res.data[id].virtual_cluster.status) {
+                            source.virtual_cluster.status = res.data[id].virtual_cluster.status;
+                            isUpdate = true;
+                        }
+                    });
+
+                    if (isUpdate) {
+                        setSpaceList(data);
+                        setFilterList(data);
+                    }
+
+                    checkVCluster(page);
+                }
+            }, 5_000);
+        },
+        [spaceList]
+    );
+
+    useEffect(checkVCluster.bind(null, 1), [spaceList]);
 
     useEffect(() => {
         querySpaceList();
@@ -729,6 +772,7 @@ const EnvList = () => {
                             position: ['bottomCenter'],
                             showTotal: showTotal,
                             showSizeChanger: false,
+                            onChange: checkVCluster,
                         }}
                     ></Table>
                 )}

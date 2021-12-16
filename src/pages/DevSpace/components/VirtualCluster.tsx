@@ -69,6 +69,13 @@ const PlugInOnly = styled.div`
         }
     }
 `;
+
+const AccessWay = styled.div`
+    .ant-radio-wrapper {
+        margin-right: 40px;
+    }
+`;
+
 export default function VirtualCluster({
     changeIsVCluster,
     isEdit,
@@ -99,7 +106,10 @@ export default function VirtualCluster({
             data: { versions },
         } = await HTTP.get('nocalhost/version/vcluster');
         setVersions(versions);
-        form.setFieldsValue({ version: versions[0] });
+
+        if (!form.getFieldValue('version')) {
+            form.setFieldsValue({ version: versions[0] });
+        }
     }, [form]);
 
     const l = useCallback(
@@ -110,6 +120,7 @@ export default function VirtualCluster({
     );
 
     const container = useRef<HTMLDivElement | null>(null);
+    const limitWrap = useRef<HTMLDivElement | null>(null);
 
     const more = useCallback(
         (event: React.MouseEvent<HTMLElement>) => {
@@ -121,11 +132,19 @@ export default function VirtualCluster({
 
             i.classList[isExist ? 'remove' : 'add']('open');
 
+            if (limitWrap.current) {
+                const modal: any = document.querySelector('.ant-modal-content');
+
+                const isLimit = document.body.clientHeight - modal.clientHeight - 350 < 144;
+
+                limitWrap.current.style.maxHeight = isLimit ? '' : 'none';
+            }
+
             if (container.current) {
                 container.current.style.height = isExist ? '0' : 'auto';
             }
         },
-        [container]
+        [container, limitWrap]
     );
 
     return (
@@ -149,25 +168,28 @@ export default function VirtualCluster({
                 </FormFlexBox>
             </OtherConfigItem>
             {isVCluster && (
-                <LimitWrap>
+                <LimitWrap ref={limitWrap}>
                     <Divide />
                     <LimitTitle>{l('vClusterAccessWay')}</LimitTitle>
-                    <Form.Item name="service_type">
-                        <Radio.Group>
-                            <Radio value="ClusterIP" style={{}}>
-                                <PlugInOnly>
-                                    {l('plugInOnly')}
-                                    <CommonIcon
-                                        NormalIcon={IconHelp}
-                                        title={l('plugInOnlyTips')}
-                                        style={{ fontSize: 16, marginLeft: 6 }}
-                                    />
-                                </PlugInOnly>
-                            </Radio>
-                            <Radio value="LoadBalancer">LoadBalancer</Radio>
-                            <Radio value="NodePort">NodePort</Radio>
-                        </Radio.Group>
-                    </Form.Item>
+                    <AccessWay>
+                        <Form.Item name="service_type">
+                            <Radio.Group className="access-way">
+                                <Radio value="ClusterIP" style={{}}>
+                                    <PlugInOnly>
+                                        {l('plugInOnly')}
+                                        <CommonIcon
+                                            NormalIcon={IconHelp}
+                                            title={l('plugInOnlyTips')}
+                                            style={{ fontSize: 16, marginLeft: 6 }}
+                                        />
+                                    </PlugInOnly>
+                                </Radio>
+                                <Radio value="LoadBalancer">LoadBalancer</Radio>
+                                <Radio value="NodePort">NodePort</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                    </AccessWay>
+
                     <LimitTitle onClick={more} style={{ cursor: 'pointer' }}>
                         <Arrow />
                         {l('vClusterSettings')}

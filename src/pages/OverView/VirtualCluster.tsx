@@ -18,6 +18,8 @@ const C = styled.div`
     min-width: 48px;
     background: rgb(233, 237, 241);
     border-radius: 10px;
+    font-size: 12px;
+
     &:hover {
         box-shadow: 0px 0px 1px 0px rgba(54, 67, 92, 0.04), 0px 2px 4px 0px rgba(54, 67, 92, 0.2);
     }

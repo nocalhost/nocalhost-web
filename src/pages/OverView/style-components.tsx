@@ -87,7 +87,7 @@ export const Flex = styled.div<FlexType>`
 
 export const AmountBox = styled.div`
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 `;
 
 export const Total = styled.div`
@@ -147,7 +147,7 @@ export const LoadingBox = styled.div`
 
 export const SleepingBox = styled.div`
     margin-left: 6px;
-    padding: 0 8px;
+    padding: 0 4px;
     height: 20px;
     display: flex;
     background: #e6eaee;

@@ -48,6 +48,7 @@ module.exports = {
         camelcase: 0,
         'no-console': 1,
         'no-debugger': 0,
+        '@typescript-eslint/ban-ts-comment': 'off',
         'no-alert': 2,
         'no-var': 2,
         'no-return-assign': 0,

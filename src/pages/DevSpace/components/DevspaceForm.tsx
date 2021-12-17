@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Switch, Button, message } from 'antd';
+import { Form, Input, Select, Switch, Button, message, Popover } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
 import styled from 'styled-components';
@@ -9,9 +9,16 @@ import HTTP from '../../../api/fetch';
 import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg';
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
+import { ReactComponent as IconSleep } from '../../../images/icon/icon_switch_sleep.svg';
+import { ReactComponent as IconDelete } from '../../../images/icon/icon_input_del.svg';
+import { ReactComponent as IconAdd } from '../../../images/icon/icon_add.svg';
 
 import { queryAllCluster, queryAllUser } from '../../../services';
 import VirtualCluster from './VirtualCluster';
+import { TimePicker, RuleTip } from './form-component';
+import TimerPickerPanel from './TimePickerPanel';
+import { IOption } from '../../../types';
+import { DEFAULT_SLEEP_TIME } from '../../../contants';
 
 export const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -63,6 +70,7 @@ export const LimitWrap = styled.div`
     .ant-form-item-control-input {
         box-shadow: none;
     }
+
     .ant-row.ant-form-item {
         margin-left: 40px;
     }
@@ -75,6 +83,12 @@ export const LimitTitle = styled.div`
     font-family: PingFangSC-Semibold;
     font-size: 14px;
     font-weight: 600;
+`;
+
+const SleepModeWrap = styled(LimitWrap)`
+    .ant-form-item-control-input {
+        box-shadow: none;
+    }
 `;
 
 export const Divide = styled.div`
@@ -117,6 +131,7 @@ const DevspaceForm = ({
 }) => {
     const { t } = useTranslation();
     const [showLimit, setShowLimit] = useState<boolean>(false);
+    const [showCost, setShowCost] = useState<boolean>(false);
     const [form] = Form.useForm();
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -132,6 +147,10 @@ const DevspaceForm = ({
     const [space_limits_cpu, set_space_limits_cpu] = useState('');
     const [canSetLimit, setCanSetLimit] = useState<boolean>(true);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const [sleepTimeList, setSleepTimeList] = useState<
+        { start: IOption[]; end: IOption[]; isEdit?: boolean }[]
+    >([]);
+    const [showTimePanel, setShowTimePanel] = useState<boolean>(false);
 
     useEffect(() => {
         if (isEdit && record) {
@@ -170,6 +189,7 @@ const DevspaceForm = ({
                 setIsVCluster(true);
                 virtual_cluster = record.virtual_cluster;
             }
+            setShowCost(record?.sleep_config?.by_week?.length > 0);
 
             form.setFieldsValue({
                 space_name,
@@ -177,17 +197,81 @@ const DevspaceForm = ({
                 cluster_id: cluster_name,
                 cluster_admin: Boolean(cluster_admin),
                 resource_limit_set: Boolean(resource_limit_set),
+                configSleep: Boolean(record?.sleep_config?.by_week?.length > 0),
                 is_base_space,
                 dev_space_type,
                 ...limitObj,
                 ...virtual_cluster,
             });
+
+            // handle sleep time
+            const weekMap = new Map();
+            ['sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'].forEach((item, index) => {
+                weekMap.set(index, t(`resources.cost.${item}`));
+            });
+            const sleepConfigList = record?.sleep_config?.by_week || [];
+            const tmpList = sleepConfigList.map((item: any) => {
+                return {
+                    start: [
+                        {
+                            label: `${weekMap.get(item.sleep_day)}`,
+                            value: item.sleep_day,
+                        },
+                        {
+                            label: `${item.sleep_time}`,
+                            value: item.sleep_time,
+                        },
+                    ],
+                    end: [
+                        {
+                            label: `${weekMap.get(item.wakeup_day)}`,
+                            value: item.wakeup_day,
+                        },
+                        {
+                            label: `${item.wakeup_time}`,
+                            value: item.wakeup_time,
+                        },
+                    ],
+                    isEdit: false,
+                };
+            });
+            setSleepTimeList(tmpList);
         }
     }, [record]);
 
     useEffect(() => {
         getClusters();
         getUsers();
+
+        // init sleep time
+        if (!isEdit) {
+            setSleepTimeList(
+                DEFAULT_SLEEP_TIME.map((item) => {
+                    return {
+                        start: [
+                            {
+                                label: t(item.start.label),
+                                value: item.start.value,
+                            },
+                            {
+                                label: '20:00',
+                                value: '20:00',
+                            },
+                        ],
+                        end: [
+                            {
+                                label: t(item.end.label),
+                                value: item.end.value,
+                            },
+                            {
+                                label: '08:00',
+                                value: '08:00',
+                            },
+                        ],
+                    };
+                })
+            );
+        }
     }, []);
 
     async function getClusters() {
@@ -298,6 +382,8 @@ const DevspaceForm = ({
                         onSubmit && onSubmit();
                     }
                 }
+                // submit sleeping time
+                await submitSleepList();
                 setIsSubmit(false);
             } else {
                 let data: any = {
@@ -322,6 +408,10 @@ const DevspaceForm = ({
                 setIsSubmit(false);
                 if (response.code === 0) {
                     message.success(t('resources.space.tips.addSuccess'));
+                    // submit sleeping time
+                    if (showCost && sleepTimeList.length > 0) {
+                        await submitSleepList(response?.data?.id);
+                    }
                     onSubmit && onSubmit();
                 }
             }
@@ -329,6 +419,96 @@ const DevspaceForm = ({
             setIsSubmit(false);
             throw new Error(e);
         }
+    };
+
+    async function submitSleepList(id?: number) {
+        const utcOffset = -new Date().getTimezoneOffset();
+        const wakeData = sleepTimeList.map((item: { start: IOption[]; end: IOption[] }) => {
+            return {
+                sleep_day: item?.start?.[0]?.value,
+                sleep_time: item?.start?.[1]?.value,
+                utc_offset: utcOffset,
+                wakeup_day: item?.end?.[0]?.value,
+                wakeup_time: item?.end?.[1]?.value,
+            };
+        });
+
+        await HTTP.put(
+            `dev_space/${id ?? record.id}/sleep_config`,
+            {
+                by_week: showCost ? wakeData : [],
+            },
+            {
+                is_v2: true,
+            }
+        );
+    }
+
+    const handleAddTime = () => {
+        setSleepTimeList(sleepTimeList);
+    };
+
+    const handleDeleteTime = (key: number) => {
+        setSleepTimeList((currentTimeList) => currentTimeList.filter((item, i) => i !== key));
+    };
+
+    const handleAddSleepTime = (sleep: IOption[], wake: IOption[]) => {
+        setSleepTimeList((currentTimeList) => {
+            currentTimeList.push({
+                start: [
+                    sleep[0],
+                    {
+                        label: `${sleep[1]?.label}:${sleep[2]?.label}`,
+                        value: `${sleep[1]?.value}:${sleep[2]?.value}`,
+                    },
+                ],
+                end: [
+                    wake[0],
+                    {
+                        label: `${wake[1]?.label}:${wake[2]?.label}`,
+                        value: `${wake[1]?.value}:${wake[2]?.value}`,
+                    },
+                ],
+                isEdit: false,
+            });
+            return currentTimeList;
+        });
+    };
+
+    const handleEditSleepTime = (sleep: IOption[], wake: IOption[], index: number = 0) => {
+        setSleepTimeList((currentTimeList) => {
+            currentTimeList[index] = {
+                start: [
+                    sleep[0],
+                    {
+                        label: `${sleep[1]?.label}:${sleep[2]?.label}`,
+                        value: `${sleep[1]?.value}:${sleep[2]?.value}`,
+                    },
+                ],
+                end: [
+                    wake[0],
+                    {
+                        label: `${wake[1]?.label}:${wake[2]?.label}`,
+                        value: `${wake[1]?.value}:${wake[2]?.value}`,
+                    },
+                ],
+                isEdit: false,
+            };
+            return currentTimeList;
+        });
+    };
+
+    const handleShowEditTime = (index: number, visible: boolean = true) => {
+        setSleepTimeList((currentList) => {
+            if (currentList?.[index]) {
+                currentList[index].isEdit = visible;
+            }
+            return [...currentList];
+        });
+    };
+
+    const handleConfigSleep = (checked: boolean) => {
+        setShowCost(checked);
     };
 
     return (
@@ -442,138 +622,274 @@ const DevspaceForm = ({
                         {showLimit && (
                             <LimitWrap>
                                 <Divide />
-                                <LimitTitle>{t('resources.space.devspaceLimitTitle')}</LimitTitle>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="space_req_mem"
-                                        label={t('resources.space.fields.requestTotalMem')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                    >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) => set_space_req_mem(e.target.value)}
+                                <div style={{ paddingLeft: 44 }}>
+                                    <LimitTitle>
+                                        {t('resources.space.devspaceLimitTitle')}
+                                    </LimitTitle>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="space_req_mem"
+                                            label={t('resources.space.fields.requestTotalMem')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                        >
+                                            <Input
+                                                disabled={!canSetLimit}
+                                                onChange={(e: any) =>
+                                                    set_space_req_mem(e.target.value)
+                                                }
+                                            />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="space_limits_mem"
+                                            label={t('resources.space.fields.limitTotalMem')}
+                                            style={{ flexBasis: '50%' }}
+                                        >
+                                            <Input
+                                                disabled={!canSetLimit}
+                                                onChange={(e: any) =>
+                                                    set_space_limits_mem(e.target.value)
+                                                }
+                                            />
+                                        </Form.Item>
+                                    </FormFlexBox>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="space_req_cpu"
+                                            label={t('resources.space.fields.requestTotalCPU')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                        >
+                                            <Input
+                                                disabled={!canSetLimit}
+                                                onChange={(e: any) =>
+                                                    set_space_req_cpu(e.target.value)
+                                                }
+                                            />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="space_limits_cpu"
+                                            label={t('resources.space.fields.limitTotalCPU')}
+                                            style={{ flexBasis: '50%' }}
+                                        >
+                                            <Input
+                                                disabled={!canSetLimit}
+                                                onChange={(e: any) =>
+                                                    set_space_limits_cpu(e.target.value)
+                                                }
+                                            />
+                                        </Form.Item>
+                                    </FormFlexBox>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="space_pvc_count"
+                                            label={t('resources.space.fields.PVC_num')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="space_storage_capacity"
+                                            label={t('resources.space.fields.storageCapacity')}
+                                            style={{ flexBasis: '50%' }}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                    </FormFlexBox>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="space_lb_count"
+                                            label={t('resources.space.fields.lbNum')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                        <Form.Item
+                                            style={{ flexBasis: '50%', visibility: 'hidden' }}
                                         />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="space_limits_mem"
-                                        label={t('resources.space.fields.limitTotalMem')}
-                                        style={{ flexBasis: '50%' }}
-                                    >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) =>
-                                                set_space_limits_mem(e.target.value)
-                                            }
-                                        />
-                                    </Form.Item>
-                                </FormFlexBox>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="space_req_cpu"
-                                        label={t('resources.space.fields.requestTotalCPU')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                    >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) => set_space_req_cpu(e.target.value)}
-                                        />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="space_limits_cpu"
-                                        label={t('resources.space.fields.limitTotalCPU')}
-                                        style={{ flexBasis: '50%' }}
-                                    >
-                                        <Input
-                                            disabled={!canSetLimit}
-                                            onChange={(e: any) =>
-                                                set_space_limits_cpu(e.target.value)
-                                            }
-                                        />
-                                    </Form.Item>
-                                </FormFlexBox>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="space_pvc_count"
-                                        label={t('resources.space.fields.PVC_num')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="space_storage_capacity"
-                                        label={t('resources.space.fields.storageCapacity')}
-                                        style={{ flexBasis: '50%' }}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                </FormFlexBox>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="space_lb_count"
-                                        label={t('resources.space.fields.lbNum')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                    <Form.Item style={{ flexBasis: '50%', visibility: 'hidden' }} />
-                                </FormFlexBox>
-                                <LimitTitle style={{ marginTop: 0 }}>
-                                    {t('resources.space.containerDefaultTitle')}
-                                </LimitTitle>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="container_req_mem"
-                                        label={t('resources.space.fields.requestTotalMem')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                        rules={[
-                                            {
-                                                required: !!space_req_mem,
-                                            },
-                                        ]}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
+                                    </FormFlexBox>
+                                    <LimitTitle style={{ marginTop: 0 }}>
+                                        {t('resources.space.containerDefaultTitle')}
+                                    </LimitTitle>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="container_req_mem"
+                                            label={t('resources.space.fields.requestTotalMem')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                            rules={[
+                                                {
+                                                    required: !!space_req_mem,
+                                                },
+                                            ]}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
 
-                                    <Form.Item
-                                        name="container_limits_mem"
-                                        label={t('resources.space.fields.limitTotalMem')}
-                                        style={{ flexBasis: '50%' }}
-                                        rules={[
-                                            {
-                                                required: !!space_limits_mem,
-                                            },
-                                        ]}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                </FormFlexBox>
-                                <FormFlexBox>
-                                    <Form.Item
-                                        name="container_req_cpu"
-                                        label={t('resources.space.fields.requestTotalCPU')}
-                                        style={{ width: '100%', marginRight: 12, flexBasis: '50%' }}
-                                        rules={[
-                                            {
-                                                required: !!space_req_cpu,
-                                            },
-                                        ]}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="container_limits_cpu"
-                                        label={t('resources.space.fields.limitTotalCPU')}
-                                        style={{ flexBasis: '50%' }}
-                                        rules={[
-                                            {
-                                                required: !!space_limits_cpu,
-                                            },
-                                        ]}
-                                    >
-                                        <Input disabled={!canSetLimit} />
-                                    </Form.Item>
-                                </FormFlexBox>
+                                        <Form.Item
+                                            name="container_limits_mem"
+                                            label={t('resources.space.fields.limitTotalMem')}
+                                            style={{ flexBasis: '50%' }}
+                                            rules={[
+                                                {
+                                                    required: !!space_limits_mem,
+                                                },
+                                            ]}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                    </FormFlexBox>
+                                    <FormFlexBox>
+                                        <Form.Item
+                                            name="container_req_cpu"
+                                            label={t('resources.space.fields.requestTotalCPU')}
+                                            style={{
+                                                width: '100%',
+                                                marginRight: 12,
+                                                flexBasis: '50%',
+                                            }}
+                                            rules={[
+                                                {
+                                                    required: !!space_req_cpu,
+                                                },
+                                            ]}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="container_limits_cpu"
+                                            label={t('resources.space.fields.limitTotalCPU')}
+                                            style={{ flexBasis: '50%' }}
+                                            rules={[
+                                                {
+                                                    required: !!space_limits_cpu,
+                                                },
+                                            ]}
+                                        >
+                                            <Input disabled={!canSetLimit} />
+                                        </Form.Item>
+                                    </FormFlexBox>
+                                </div>
                             </LimitWrap>
+                        )}
+                        <OtherConfigItem>
+                            <Icon component={IconSleep} style={{ fontSize: 34, marginRight: 8 }} />
+                            <FormFlexBox>
+                                <DescBox>
+                                    <span>{t('resources.cost.formTitle')}</span>
+                                    <span>{t('resources.cost.formDesc')}</span>
+                                </DescBox>
+                                <Form.Item name="configSleep">
+                                    <Switch
+                                        checked={showCost}
+                                        disabled={!canSetLimit}
+                                        onChange={handleConfigSleep}
+                                    />
+                                </Form.Item>
+                            </FormFlexBox>
+                        </OtherConfigItem>
+                        {showCost && (
+                            <SleepModeWrap>
+                                <Divide style={{ marginBottom: 12 }} />
+                                <FormFlexBox style={{ paddingLeft: 44 }}>
+                                    <Form.Item
+                                        name="sleepTimeList"
+                                        label={t('resources.cost.sleepTimeRange')}
+                                        style={{
+                                            width: '100%',
+                                            marginRight: 12,
+                                            flexBasis: '50%',
+                                            marginBottom: 4,
+                                        }}
+                                    >
+                                        <TimePicker>
+                                            {sleepTimeList.map((item, key) => {
+                                                return (
+                                                    <Popover
+                                                        trigger="click"
+                                                        key={key}
+                                                        visible={item.isEdit}
+                                                        onVisibleChange={(visible) => {
+                                                            handleShowEditTime(key, visible);
+                                                        }}
+                                                        content={
+                                                            <TimerPickerPanel
+                                                                handleHide={() =>
+                                                                    handleShowEditTime(key, false)
+                                                                }
+                                                                index={key}
+                                                                defaultValue={item}
+                                                                handleSelect={handleEditSleepTime}
+                                                            />
+                                                        }
+                                                    >
+                                                        <div className="time-item">
+                                                            {`${item?.start?.[0].label} ${item?.start?.[1].label}~${item?.end?.[0].label} ${item?.end?.[1].label}`}
+                                                            <div
+                                                                className="icon"
+                                                                onClick={() =>
+                                                                    handleDeleteTime(key)
+                                                                }
+                                                            >
+                                                                <Icon
+                                                                    component={IconDelete}
+                                                                    style={{
+                                                                        fontSize: 16,
+                                                                        marginLeft: 10,
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </Popover>
+                                                );
+                                            })}
+
+                                            <Popover
+                                                visible={showTimePanel}
+                                                trigger="click"
+                                                onVisibleChange={(visible) =>
+                                                    setShowTimePanel(visible)
+                                                }
+                                                content={
+                                                    <TimerPickerPanel
+                                                        handleHide={() => setShowTimePanel(false)}
+                                                        handleSelect={handleAddSleepTime}
+                                                    />
+                                                }
+                                            >
+                                                <div className="add-item" onClick={handleAddTime}>
+                                                    <Icon
+                                                        component={IconAdd}
+                                                        style={{ fontSize: 16, marginRight: 4 }}
+                                                    />
+                                                    <span>{t('resources.cost.addTimeRange')}</span>
+                                                </div>
+                                            </Popover>
+                                        </TimePicker>
+                                        <RuleTip className="rule-tip">
+                                            {t('resources.cost.ruleTip')}
+                                        </RuleTip>
+                                    </Form.Item>
+                                </FormFlexBox>
+                            </SleepModeWrap>
                         )}
                     </>
                 )}

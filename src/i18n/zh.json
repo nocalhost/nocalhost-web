@@ -90,7 +90,8 @@
             "copy": "复制成功",
             "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
             "link": "点击查看更新指引",
-            "release": "Version {{version}} 已发布，"
+            "release": "Version {{version}} 已发布，",
+            "operate": "操作成功"
         },
         "bt": {
             "delete": "删除",
@@ -115,7 +116,8 @@
     "resources": {
         "dashboard": {
             "name": "概览",
-            "vClusterName": "虚拟集群"
+            "vClusterName": "虚拟集群",
+            "dataOverview": "数据总览"
         },
         "users": {
             "name": "用户",
@@ -538,6 +540,36 @@
                 "admin": "管理员",
                 "user": "普通用户"
             }
+        },
+        "cost": {
+            "name": "成本降低均值",
+            "formTitle": "闲时成本降低策略",
+            "formDesc": "通过配置开发空间闲时休眠来降低开发空间的计算资源和成本。",
+            "idleSleepTime": "空间不活跃后休眠（Min）",
+            "idleDeleteTime": "空间不活跃后删除（Min）",
+            "sleeping": "休眠中：",
+            "tableLabel": "成本降低",
+            "status": "状态",
+            "sleep": "休眠",
+            "active": "活跃",
+            "sleepTimeRange": "休眠时间范围",
+            "addTimeRange": "添加时间范围",
+            "sleepTime": "休眠时间",
+            "wakeTime": "唤醒时间",
+            "wakeUpTip": "该空间已进入休眠模式 {{time}}，确认强制唤醒？唤醒后，当日休眠时间段将不再进入休眠。",
+            "hour": "时",
+            "min": "分",
+            "sleepTip": "确认强制休眠？这将导致除已进入开发模式以外的工作负载副本数缩减为0。强制休眠后，当日唤醒时间段将不再自动唤醒。",
+            "mon": "周一",
+            "tues": "周二",
+            "wed": "周三",
+            "thur": "周四",
+            "fri": "周五",
+            "sat": "周六",
+            "sun": "周日",
+            "nsSleeping": "空间休眠中 · {{count}}",
+            "averageSaveTip": "降低比率的总和 / 启用休眠的空间数量",
+            "ruleTip": "若为空则不进入休眠模式"
         }
     }
 }

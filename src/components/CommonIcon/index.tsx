@@ -36,10 +36,11 @@ interface PropsType {
     title?: string | ReactNode;
     placement?: TooltipPlacement;
     className?: string;
+    active?: boolean;
 }
 
 function CommonIcon(props: PropsType) {
-    const { HoverIcon, NormalIcon, style, title, placement = 'top', className } = props;
+    const { HoverIcon, NormalIcon, style, title, placement = 'top', active, className } = props;
     const [isSelect, setIsSelect] = useState(false);
     useEffect(() => {
         setIsSelect(false);
@@ -61,9 +62,9 @@ function CommonIcon(props: PropsType) {
     ) : (
         <IconBox onMouseEnter={() => setIsSelect(true)} onMouseLeave={() => setIsSelect(false)}>
             <Icon
-                component={isSelect ? HoverIcon : NormalIcon}
-                style={style}
+                component={isSelect || active ? HoverIcon : NormalIcon}
                 className={className}
+                style={style}
             ></Icon>
         </IconBox>
     );

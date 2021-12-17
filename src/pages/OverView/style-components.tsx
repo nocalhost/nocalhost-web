@@ -1,22 +1,52 @@
 import styled from 'styled-components';
 import { HType, FlexType } from './type';
 
-export const Card = styled.div`
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px 0px rgba(40, 47, 55, 0.05);
-    background: #fff;
-    padding: 20px 23px 23px 20px;
+export const NormalCard = styled.div<HType>`
+    border-radius: 4px;
+    height: ${(props) => (props.height ? props.height : 'auto')};
+    background: ${(props) => (props.bg ? props.bg : '#fff')};
+    padding: 20px;
     position: relative;
     cursor: pointer;
+
     .enter {
-        display: none;
-    }
-    &:hover {
-        box-shadow: 0px 8px 20px 0px rgba(40, 47, 55, 0.15);
-        span {
-            display: inline !important;
+        svg {
+            &:hover {
+                path {
+                    fill: #36435c;
+                }
+            }
         }
     }
+`;
+
+export const Card = styled(NormalCard)<HType>`
+    height: ${(props) => (props.height ? props.height : 'auto')};
+
+    .enter {
+        display: inline-block;
+        height: 20px;
+        visibility: hidden;
+    }
+
+    &:hover {
+        border-radius: 4px;
+        border: 1px solid rgb(226, 232, 238);
+        box-shadow: 0 4px 10px 0 rgba(54, 67, 92, 0.12);
+
+        span {
+            visibility: visible !important;
+        }
+    }
+`;
+
+export const DataCard = styled(Card)`
+    height: 98px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #f9fbfd;
+    padding-bottom: 16px;
 `;
 
 export const CardBox = styled.div`
@@ -25,11 +55,12 @@ export const CardBox = styled.div`
 
 // eslint-disable-next-line no-undef
 export const H = styled.div<HType>`
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
+    font-family: ${(props) => (props.bold ? 'PingFangSC-Semibold' : 'PingFangSC-Regular')};
     color: rgb(54, 67, 92);
-    height: 24px;
-    line-height: 24px;
+    display: flex;
+    align-items: center;
     margin-bottom: ${(props) => (props.mb ? props.mb : '0px')};
     margin-right: 8px;
 `;
@@ -60,7 +91,7 @@ export const AmountBox = styled.div`
 `;
 
 export const Total = styled.div`
-    font-size: 48px;
+    font-size: 32px;
     font-weight: bold;
     color: rgb(54, 67, 92);
 `;
@@ -100,8 +131,8 @@ export const IconBox = styled.div`
 `;
 
 export const SvgIcon = styled.img`
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
 `;
 
 export const LoadingBox = styled.div`
@@ -112,4 +143,16 @@ export const LoadingBox = styled.div`
     justify-content: center;
     background: #fff;
     border-radius: 8px;
+`;
+
+export const SleepingBox = styled.div`
+    margin-left: 6px;
+    padding: 0 8px;
+    height: 20px;
+    display: flex;
+    background: #e6eaee;
+    border-radius: 11px;
+    align-items: center;
+    font-size: 14px;
+    color: #36435c;
 `;

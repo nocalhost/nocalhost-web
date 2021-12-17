@@ -52,9 +52,15 @@ import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 import { ReactComponent as VClusterIcon } from '../../images/icon/icon_vcluster.svg';
 import VClusterInstalling from '../../images/icon/icon_vcluster_installing.svg';
 import VClusterOther from '../../images/icon/icon_vcluster_other.svg';
-
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import { ReactComponent as IconNormalSleep } from '../../images/icon/icon_sleep_normal.svg';
+import { ReactComponent as IconActiveSleep } from '../../images/icon/icon_sleep_active.svg';
+import { ReactComponent as IconNormalWake } from '../../images/icon/icon_title_wakeup.svg';
+import { ReactComponent as IconActiveWake } from '../../images/icon/icon_wakeup_active.svg';
+import SleepTip from './components/SleepTip';
+
+import { ISpaceData } from '../../types';
 interface RouteParams {
     id: string;
 }
@@ -71,11 +77,6 @@ interface SelectMap {
     text: any;
     value: any;
     label?: any;
-}
-
-interface IRecord {
-    id: number;
-    [index: string]: any;
 }
 
 interface FilterType {
@@ -268,7 +269,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.namespace'),
             key: 'namespace',
-            width: '180px',
+            maxWidth: '180px',
             dataIndex: 'namespace',
             sorter: (a: any, b: any) => {
                 return a.namespace > b.namespace ? 1 : -1;
@@ -293,20 +294,75 @@ const EnvList = () => {
         {
             title: t('resources.cluster.name'),
             key: 'cluster_id',
-            width: '140px',
+            maxWidth: '140px',
             dataIndex: 'cluster_name',
             sorter: (a: any, b: any) => {
                 return a.cluster_name > b.cluster_name ? 1 : -1;
             },
         },
         {
+            title: t('resources.cost.status'),
+            key: 'resource_limit',
+            maxWidth: '140px',
+            render: (text: string, record: ISpaceData) => {
+                return (
+                    <FlexBox>
+                        <Dot isActive={record.sleep_status !== 'asleep'}></Dot>
+                        {record.sleep_status === 'asleep'
+                            ? t('resources.cost.sleep')
+                            : t('resources.cost.active')}
+                        <Popover
+                            trigger="click"
+                            visible={sleepMap.get(record.id)}
+                            onVisibleChange={(visible) => handleSleepTipVisible(record.id, visible)}
+                            content={
+                                <SleepTip
+                                    record={record}
+                                    handleSleepTipVisible={handleSleepTipVisible}
+                                />
+                            }
+                        >
+                            <IconBox style={{ marginLeft: 8 }}>
+                                <CommonIcon
+                                    NormalIcon={
+                                        record.sleep_status === 'asleep'
+                                            ? IconNormalWake
+                                            : IconNormalSleep
+                                    }
+                                    HoverIcon={
+                                        record.sleep_status === 'asleep'
+                                            ? IconActiveWake
+                                            : IconActiveSleep
+                                    }
+                                    active={sleepMap.get(record.id)}
+                                ></CommonIcon>
+                            </IconBox>
+                        </Popover>
+                    </FlexBox>
+                );
+            },
+        },
+        {
+            title: t('resources.cost.tableLabel'),
+            key: 'cluster_id',
+            maxWidth: '160px',
+            dataIndex: 'sleep_minute',
+            render: (num: number, record: ISpaceData) => {
+                return num
+                    ? `${(
+                          (num / moment().diff(moment(record.created_at), 'minutes')) *
+                          100
+                      ).toFixed(2)}%`
+                    : '-';
+            },
+        },
+        {
             title: t('resources.space.fields.resource_limit'),
             key: 'resource_limit',
-            width: '140px',
+            maxWidth: '140px',
             render: (text: string, record: any) => {
                 return (
                     <FlexBox>
-                        <Dot isActive={record.resource_limit_set}></Dot>
                         {record.resource_limit_set
                             ? t('resources.space.fields.resource_limit_set')
                             : t('resources.space.fields.resource_limit_unset')}
@@ -317,9 +373,10 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.created_at'),
             key: 'created_at',
+            maxWidth: '120px',
             dataIndex: 'created_at',
             render: (text: string, record: any) => {
-                return <span>{moment(record.created_at).format('YYYY-MM-DD hh:mm:ss')}</span>;
+                return <span>{moment(record.created_at).format('YYYY/MM/DD hh:mm:ss')}</span>;
             },
             sorter: (a: any, b: any) => {
                 return +new Date(a.created_at) - +new Date(b.created_at);
@@ -328,7 +385,7 @@ const EnvList = () => {
         {
             title: t('resources.space.fields.user'),
             key: 'user',
-            width: '160px',
+            maxWidth: '160px',
             dataIndex: 'user_name',
             sorter: (a: any, b: any) => {
                 return a.user_name < b.user_name ? 1 : -1;
@@ -338,7 +395,11 @@ const EnvList = () => {
                     <Popover content={<PopoverBox record={record} />}>
                         <FlexBox>
                             {record.user_name}
-                            <Icon component={IconExplain} style={{ fontSize: 20, marginLeft: 4 }} />
+                            <Icon
+                                className="icon-explain"
+                                component={IconExplain}
+                                style={{ fontSize: 20, marginLeft: 4 }}
+                            />
                         </FlexBox>
                     </Popover>
                 ) : (
@@ -348,7 +409,7 @@ const EnvList = () => {
         },
         {
             title: t('common.operation'),
-            width: '160px',
+            maxWidth: '160px',
             key: 'operation',
             render: (text: string, record: any, index: number) => {
                 return (
@@ -426,21 +487,22 @@ const EnvList = () => {
         columns.splice(3, 1);
     }
 
-    const [spaceList, setSpaceList] = useState<any[]>([]);
-    const [filterList, setFilterList] = useState<any[]>([]);
+    const [spaceList, setSpaceList] = useState<ISpaceData[]>([]);
+    const [filterList, setFilterList] = useState<ISpaceData[]>([]);
     const [userList, setUserList] = useState<SelectMap[]>([]);
     const [clusterList, setClusterList] = useState<SelectMap[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showKube, setShowKube] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [showReset, setShowReset] = useState<boolean>(false);
-    const [record, setRecord] = useState<IRecord>();
+    const [record, setRecord] = useState<ISpaceData>();
     const [filterValue, setFilterValue] = useState<FilterType>({
         space_name: '',
         cluster_id: 'all',
         user_id: 'all',
         space_type: 'all',
     });
+    const [sleepMap, setSleepMap] = useState(new Map());
 
     const [showChooseType, setShowChooseType] = useState<boolean>(false);
 
@@ -502,12 +564,31 @@ const EnvList = () => {
     useEffect(checkVCluster.bind(null, 1), [spaceList]);
 
     useEffect(() => {
-        querySpaceList();
+        querySpaceList(true);
     }, []);
 
     useEffect(() => {
         handleFilter();
     }, [filterValue]);
+
+    const handleSleepTipVisible = (id: number, visible: boolean, refresh?: boolean) => {
+        const tmpMap = sleepMap;
+        tmpMap.set(id, visible);
+        setSleepMap(tmpMap);
+        if (refresh) {
+            const tmpList: ISpaceData[] = filterList;
+            for (let i = 0, len = tmpList.length; i < len; i++) {
+                if (tmpList[i].id === id) {
+                    tmpList[i].sleep_status =
+                        tmpList[i].sleep_status === 'asleep' ? 'wakeup' : 'asleep';
+                    tmpList[i].sleep_at = new Date();
+                }
+            }
+            setFilterList([...tmpList]);
+        } else {
+            setFilterList([...filterList]);
+        }
+    };
 
     function handleCopy() {
         message.success(t('common.message.copy'));
@@ -575,26 +656,30 @@ const EnvList = () => {
         });
     }
 
-    async function querySpaceList() {
-        setIsLoading(true);
+    async function querySpaceList(showLoading?: boolean) {
+        if (showLoading) {
+            setIsLoading(true);
+        }
         const nameMap = await queryAllUser();
         const response = await HTTP.get(/* id ? `cluster/${id}/dev_space` : */ 'dev_space', null, {
             is_v2: true,
         });
         const selectUsersMap = new Map();
         const selectClusterMap = new Map();
+        const tmpMap = new Map();
         if (response.code === 0) {
             const tmpList = response.data.map((item: any) => {
                 selectUsersMap.set(item.user_id, nameMap.get(item.user_id));
                 selectClusterMap.set(item.cluster_id, item.cluster_name);
+                tmpMap.set(item.id, false);
                 return {
                     ...item,
                     user_name: nameMap.get(item.user_id),
                 };
             });
-
             setSpaceList(tmpList);
             handleFilter(tmpList);
+
             // setFilterList(tmpList);
             setUserList([
                 ...Array.from(selectUsersMap).map((item) => {
@@ -605,7 +690,6 @@ const EnvList = () => {
                     };
                 }),
             ]);
-
             setClusterList([
                 ...Array.from(selectClusterMap).map((item) => {
                     return {
@@ -616,7 +700,7 @@ const EnvList = () => {
                 }),
             ]);
         }
-
+        setSleepMap(tmpMap);
         setIsLoading(false);
     }
 

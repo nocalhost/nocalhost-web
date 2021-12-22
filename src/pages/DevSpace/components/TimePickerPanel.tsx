@@ -207,31 +207,31 @@ const TimePickerPanel = ({ handleHide, handleSelect, index, defaultValue }: IPro
 
     const WEEK_ARR = [
         {
-            label: t('resources.cost.sun'),
+            label: t('resources.cost.Sun'),
             value: 0,
         },
         {
-            label: t('resources.cost.mon'),
+            label: t('resources.cost.Mon'),
             value: 1,
         },
         {
-            label: t('resources.cost.tues'),
+            label: t('resources.cost.Tues'),
             value: 2,
         },
         {
-            label: t('resources.cost.wed'),
+            label: t('resources.cost.Wed'),
             value: 3,
         },
         {
-            label: t('resources.cost.thur'),
+            label: t('resources.cost.Thur'),
             value: 4,
         },
         {
-            label: t('resources.cost.fri'),
+            label: t('resources.cost.Fri'),
             value: 5,
         },
         {
-            label: t('resources.cost.sat'),
+            label: t('resources.cost.Sat'),
             value: 6,
         },
     ];

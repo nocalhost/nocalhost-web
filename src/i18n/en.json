@@ -559,16 +559,17 @@
             "hour": "hour",
             "min": "min",
             "sleepTip": "Confirm forced sleeping? This will cause the number of copies of the workload other than those already in development mode to be reduced to 0. After forced hibernation, there will be no more automatic wake-ups for the day's wake-up time period.",
-            "mon": "Mon",
-            "tues": "Tues",
-            "wed": "Wed",
-            "thur": "Thur",
-            "fri": "Fri",
-            "sat": "Sat",
-            "sun": "Sun",
+            "Mon": "Mon",
+            "Tues": "Tues",
+            "Wed": "Wed",
+            "Thur": "Thur",
+            "Fri": "Fri",
+            "Sat": "Sat",
+            "Sun": "Sun",
             "nsSleeping": "Space in sleeping · {{count}}",
             "averageSaveTip": "Sum of reduction ratios / amount of space with hibernation enabled",
-            "ruleTip": "If empty, no hibernation mode."
+            "ruleTip": "If empty, no hibernation mode.",
+            "sleepMode": "Sleep mode"
         }
     }
 }

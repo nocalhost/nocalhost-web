@@ -9,6 +9,12 @@ export const NormalCard = styled.div<HType>`
     position: relative;
     cursor: pointer;
 
+    .icon {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+    }
+
     .enter {
         svg {
             &:hover {
@@ -47,6 +53,13 @@ export const DataCard = styled(Card)`
     justify-content: space-between;
     background: #f9fbfd;
     padding-bottom: 16px;
+    position: relative;
+
+    .icon {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+    }
 `;
 
 export const CardBox = styled.div`
@@ -126,8 +139,6 @@ export const Dot = styled.div`
 
 export const IconBox = styled.div`
     position: relative;
-    right: -14px;
-    top: 2px;
 `;
 
 export const SvgIcon = styled.img`

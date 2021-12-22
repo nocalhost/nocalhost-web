@@ -1,84 +1,84 @@
 export const DEFAULT_SLEEP_TIME = [
     {
         start: {
-            label: 'mon',
+            label: 'Mon',
             value: 1,
             time: '20:00',
         },
         end: {
-            label: 'tues',
+            label: 'Tues',
             value: 2,
             time: '08:00',
         },
     },
     {
         start: {
-            label: 'tues',
+            label: 'Tues',
             value: 2,
             time: '20:00',
         },
         end: {
-            label: 'wed',
+            label: 'Wed',
             value: 3,
             time: '08:00',
         },
     },
     {
         start: {
-            label: 'wed',
+            label: 'Wed',
             value: 3,
             time: '20:00',
         },
         end: {
-            label: 'thur',
+            label: 'Thur',
             value: 4,
             time: '08:00',
         },
     },
     {
         start: {
-            label: 'thur',
+            label: 'Thur',
             value: 4,
             time: '20:00',
         },
         end: {
-            label: 'fri',
+            label: 'Fri',
             value: 5,
             time: '08:00',
         },
     },
     {
         start: {
-            label: 'fri',
+            label: 'Fri',
             value: 5,
             time: '20:00',
         },
         end: {
-            label: 'sat',
+            label: 'Sat',
             value: 6,
             time: '08:00',
         },
     },
     {
         start: {
-            label: 'sat',
+            label: 'Sat',
             value: 6,
             time: '08:00',
         },
         end: {
-            label: 'sun',
+            label: 'Sun',
             value: 0,
             time: '00:00',
         },
     },
     {
         start: {
-            label: 'sun',
+            label: 'Sun',
             value: 0,
             time: '00:00',
         },
         end: {
-            label: 'mon',
+            label: 'Mon',
             value: 1,
             time: '08:00',
         },

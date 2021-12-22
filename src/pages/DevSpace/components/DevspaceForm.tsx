@@ -206,7 +206,7 @@ const DevspaceForm = ({
 
             // handle sleep time
             const weekMap = new Map();
-            ['sun', 'mon', 'tues', 'wed', 'thur', 'fri', 'sat'].forEach((item, index) => {
+            ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'].forEach((item, index) => {
                 weekMap.set(index, t(`resources.cost.${item}`));
             });
             const sleepConfigList = record?.sleep_config?.by_week || [];
@@ -242,7 +242,6 @@ const DevspaceForm = ({
     useEffect(() => {
         getClusters();
         getUsers();
-
         // init sleep time
         if (!isEdit) {
             setSleepTimeList(
@@ -250,7 +249,7 @@ const DevspaceForm = ({
                     return {
                         start: [
                             {
-                                label: t(item.start.label),
+                                label: t(`resources.cost.${item.start.label}`),
                                 value: item.start.value,
                             },
                             {
@@ -260,7 +259,7 @@ const DevspaceForm = ({
                         ],
                         end: [
                             {
-                                label: t(item.end.label),
+                                label: t(`resources.cost.${item.end.label}`),
                                 value: item.end.value,
                             },
                             {
@@ -340,7 +339,8 @@ const DevspaceForm = ({
                       container_req_mem: container_req_mem
                           ? `${container_req_mem}Mi`
                           : container_req_mem,
-                      space_lb_count: space_lb_count ? space_lb_count + '' : space_lb_count,
+                      space_lb_count:
+                          typeof space_lb_count === 'number' ? space_lb_count + '' : space_lb_count,
                       space_limits_cpu: space_limits_cpu ? space_limits_cpu + '' : space_limits_cpu,
                       space_limits_mem: space_limits_mem
                           ? `${space_limits_mem}Mi`
@@ -793,7 +793,7 @@ const DevspaceForm = ({
                             <Icon component={IconSleep} style={{ fontSize: 34, marginRight: 8 }} />
                             <FormFlexBox>
                                 <DescBox>
-                                    <span>{t('resources.cost.formTitle')}</span>
+                                    <span>{t('resources.cost.sleepMode')}</span>
                                     <span>{t('resources.cost.formDesc')}</span>
                                 </DescBox>
                                 <Form.Item name="configSleep">
@@ -810,7 +810,6 @@ const DevspaceForm = ({
                                 <Divide style={{ marginBottom: 12 }} />
                                 <FormFlexBox style={{ paddingLeft: 44 }}>
                                     <Form.Item
-                                        name="sleepTimeList"
                                         label={t('resources.cost.sleepTimeRange')}
                                         style={{
                                             width: '100%',
@@ -822,46 +821,60 @@ const DevspaceForm = ({
                                         <TimePicker>
                                             {sleepTimeList.map((item, key) => {
                                                 return (
-                                                    <Popover
-                                                        trigger="click"
-                                                        key={key}
-                                                        visible={item.isEdit}
-                                                        onVisibleChange={(visible) => {
-                                                            handleShowEditTime(key, visible);
-                                                        }}
-                                                        content={
-                                                            <TimerPickerPanel
-                                                                handleHide={() =>
-                                                                    handleShowEditTime(key, false)
-                                                                }
-                                                                index={key}
-                                                                defaultValue={item}
-                                                                handleSelect={handleEditSleepTime}
-                                                            />
-                                                        }
-                                                    >
-                                                        <div className="time-item">
-                                                            {`${item?.start?.[0].label} ${item?.start?.[1].label}~${item?.end?.[0].label} ${item?.end?.[1].label}`}
-                                                            <div
-                                                                className="icon"
-                                                                onClick={() =>
-                                                                    handleDeleteTime(key)
-                                                                }
-                                                            >
-                                                                <Icon
-                                                                    component={IconDelete}
-                                                                    style={{
-                                                                        fontSize: 16,
-                                                                        marginLeft: 10,
-                                                                        cursor: 'pointer',
-                                                                    }}
+                                                    <div key={key} className="time-item">
+                                                        <Popover
+                                                            trigger="click"
+                                                            key={key}
+                                                            visible={item.isEdit}
+                                                            onVisibleChange={(visible) => {
+                                                                handleShowEditTime(key, visible);
+                                                            }}
+                                                            content={
+                                                                <TimerPickerPanel
+                                                                    handleHide={() =>
+                                                                        handleShowEditTime(
+                                                                            key,
+                                                                            false
+                                                                        )
+                                                                    }
+                                                                    index={key}
+                                                                    defaultValue={item}
+                                                                    handleSelect={
+                                                                        handleEditSleepTime
+                                                                    }
                                                                 />
+                                                            }
+                                                        >
+                                                            <div>
+                                                                <span className="weekday">
+                                                                    {`${item?.start?.[0].label}`}
+                                                                </span>
+                                                                {` ${item?.start?.[1].label} ~ `}
+                                                                <span className="weekday">
+                                                                    {`${item?.end?.[0].label}`}
+                                                                </span>
+                                                                {`${item?.end?.[1].label}`}
                                                             </div>
+                                                        </Popover>
+                                                        <div
+                                                            className="icon"
+                                                            onClick={(e: any) => {
+                                                                e.nativeEvent.stopImmediatePropagation();
+                                                                handleDeleteTime(key);
+                                                            }}
+                                                        >
+                                                            <Icon
+                                                                component={IconDelete}
+                                                                style={{
+                                                                    fontSize: 16,
+                                                                    marginLeft: 10,
+                                                                    cursor: 'pointer',
+                                                                }}
+                                                            />
                                                         </div>
-                                                    </Popover>
+                                                    </div>
                                                 );
                                             })}
-
                                             <Popover
                                                 visible={showTimePanel}
                                                 trigger="click"

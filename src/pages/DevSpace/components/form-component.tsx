@@ -35,6 +35,11 @@ export const TimePicker = styled.div`
             margin-right: 4px;
         }
 
+        .weekday {
+            display: inline-block;
+            width: 30px;
+        }
+
         .icon {
             display: flex;
             align-items: center;

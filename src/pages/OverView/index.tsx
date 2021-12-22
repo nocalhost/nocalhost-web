@@ -126,9 +126,11 @@ function Overview() {
                                         <Total>{userData.length}</Total>
                                         {/* <I>人</I> */}
                                     </AmountBox>
-                                    <IconBox>
-                                        <SvgIcon src={IconColorUser} alt="" />
-                                    </IconBox>
+                                    <div className="icon">
+                                        <IconBox>
+                                            <SvgIcon src={IconColorUser} alt="" />
+                                        </IconBox>
+                                    </div>
                                 </FlexBetween>
                             </DataCard>
                         </Col>
@@ -149,9 +151,11 @@ function Overview() {
                                         <Total>{applicationData.length}</Total>
                                         {/* <I>个</I> */}
                                     </AmountBox>
-                                    <IconBox>
-                                        <SvgIcon src={IconColorApplications} alt="" />
-                                    </IconBox>
+                                    <div className="icon">
+                                        <IconBox>
+                                            <SvgIcon src={IconColorApplications} alt="" />
+                                        </IconBox>
+                                    </div>
                                 </FlexBetween>
                             </DataCard>
                         </Col>
@@ -199,9 +203,11 @@ function Overview() {
                                             <VClusterAggregate count={vClusterCount} />
                                         </Flex>
                                     </AmountBox>
-                                    <IconBox>
-                                        <SvgIcon src={IconColorDevspace} alt="" />
-                                    </IconBox>
+                                    <div className="icon">
+                                        <IconBox>
+                                            <SvgIcon src={IconColorDevspace} alt="" />
+                                        </IconBox>
+                                    </div>
                                 </FlexBetween>
                             </DataCard>
                         </Col>
@@ -220,12 +226,14 @@ function Overview() {
                                 {/* <Time>2020/02/08-2021/07/28</Time> */}
                                 <FlexBetween>
                                     <AmountBox>
-                                        <Total>{averageCostSave}</Total>
+                                        <Total>{averageCostSave || '--'}</Total>
                                         {/* <I>个</I> */}
                                     </AmountBox>
-                                    <IconBox>
-                                        <SvgIcon src={IconColorCost} alt="" />
-                                    </IconBox>
+                                    <div className="icon">
+                                        <IconBox>
+                                            <SvgIcon src={IconColorCost} alt="" />
+                                        </IconBox>
+                                    </div>
                                 </FlexBetween>
                             </NormalCard>
                         </Col>

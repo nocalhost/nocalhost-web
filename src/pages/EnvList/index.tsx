@@ -324,6 +324,7 @@ const EnvList = () => {
                         >
                             <IconBox style={{ marginLeft: 8 }}>
                                 <CommonIcon
+                                    style={{ fontSize: 20 }}
                                     NormalIcon={
                                         record.sleep_status === 'asleep'
                                             ? IconNormalWake

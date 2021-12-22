@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 
 export const List = styled.div`
-    background: rgb(243, 246, 250);
-    border-radius: 4px;
     border-radius: 4px;
     height: 72px;
-    /* width: 100%;
-    display: flex; */
+
     padding: 16px 10px;
     margin-bottom: 12px;
+    background: #f9fbfd;
+
     &:hover {
+        background: #f3f6fa;
+
         span {
             color: #0080ff !important;
         }
-        border: 1px solid rgb(218, 225, 232);
+        border: 1px solid rgb(226, 232, 238);
         box-shadow: 0px 4px 10px 0px rgba(54, 67, 92, 0.12);
     }
     cursor: pointer;

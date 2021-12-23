@@ -232,7 +232,8 @@ const DevspaceForm = ({
                       container_req_mem: container_req_mem
                           ? `${container_req_mem}Mi`
                           : container_req_mem,
-                      space_lb_count: space_lb_count ? space_lb_count + '' : space_lb_count,
+                      space_lb_count:
+                          typeof space_lb_count === 'number' ? space_lb_count + '' : space_lb_count,
                       space_limits_cpu: space_limits_cpu ? space_limits_cpu + '' : space_limits_cpu,
                       space_limits_mem: space_limits_mem
                           ? `${space_limits_mem}Mi`

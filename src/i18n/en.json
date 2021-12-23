@@ -315,6 +315,7 @@
                 "vCluster_ready": "VCluster space is ready to work",
                 "vCluster_preparation": "VCluster space is in preparation",
                 "vCluster_other": "VCluster space is ",
+                "vCluster_not_ready_tips": "Waiting for VCluster space to ready",
                 "application": "Application",
                 "resource": "Resource",
                 "cpu": "CPU",

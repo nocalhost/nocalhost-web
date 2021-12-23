@@ -316,6 +316,7 @@
                 "vCluster_ready": "VCluster 空间已准备就绪可正常工作",
                 "vCluster_preparation": "VCluster 空间正在准备中",
                 "vCluster_other": "VCluster 空间  ",
+                "vCluster_not_ready_tips": "等待 VCluster 空间就绪",
                 "application": "应用",
                 "resource": "资源",
                 "cpu": "CPU",

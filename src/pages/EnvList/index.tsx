@@ -644,6 +644,14 @@ const EnvList = () => {
     }
 
     function handleKube(record: any) {
+        if (record.dev_space_type === 3) {
+            const { status } = record.virtual_cluster;
+
+            if (status !== 'Ready') {
+                message.error(t('resources.space.fields.vCluster_not_ready_tips'));
+                return;
+            }
+        }
         setShowKube(true);
         setRecord(record);
     }

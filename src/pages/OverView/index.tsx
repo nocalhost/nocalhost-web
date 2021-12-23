@@ -106,7 +106,9 @@ function Overview() {
             <CardBox>
                 <NormalCard>
                     <Flex mb="24px">
-                        <H bold={true}>{t('resources.dashboard.dataOverview')}</H>
+                        <H style={{ fontSize: 18 }} bold={true}>
+                            {t('resources.dashboard.dataOverview')}
+                        </H>
                         <Water src={DataWater}></Water>
                     </Flex>
                     <Row gutter={20}>
@@ -243,7 +245,9 @@ function Overview() {
                 <CardBox>
                     <Card style={{ cursor: 'auto' }}>
                         <Flex mb="24px">
-                            <H bold={true}>{t('resources.cluster.name')}</H>
+                            <H style={{ fontSize: 18 }} bold={true}>
+                                {t('resources.cluster.name')}
+                            </H>
                             <Dot>{clusterData.length}</Dot>
                             <Water src={ClusterWater}></Water>
                         </Flex>

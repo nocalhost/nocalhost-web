@@ -525,5 +525,9 @@
                 "user": "User"
             }
         }
+    },
+    "settings": {
+        "settingCenter": "Configuration Center",
+        "thirdCount": "Third party account configuration"
     }
 }

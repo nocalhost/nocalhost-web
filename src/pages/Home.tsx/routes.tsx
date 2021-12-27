@@ -7,6 +7,7 @@ import EnvList from '../EnvList';
 import DevSpace from '../DevSpace';
 import DevSpaceOperation from '../DevSpace/components/DevspaceOperation';
 import MeshSpace from '../DevSpace/components/MeshSpace';
+import Setting from '../Setting';
 export const routes = [
     {
         path: '/dashboard/overview',
@@ -50,5 +51,9 @@ export const routes = [
     {
         path: '/dashboard/devspace/mesh-space',
         component: MeshSpace,
+    },
+    {
+        path: '/dashboard/setting',
+        component: Setting,
     },
 ];

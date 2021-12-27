@@ -526,5 +526,12 @@
                 "user": "普通用户"
             }
         }
+    },
+    "settings": {
+        "settingCenter": "配置中心",
+        "thirdCount": "第三方账号配置",
+        "configService": "Configuration Services",
+        "unallocated": "未配置",
+        "configured": "已配置"
     }
 }

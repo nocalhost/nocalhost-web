@@ -797,11 +797,7 @@ const DevspaceForm = ({
                                     <span>{t('resources.cost.formDesc')}</span>
                                 </DescBox>
                                 <Form.Item name="configSleep">
-                                    <Switch
-                                        checked={showCost}
-                                        disabled={!canSetLimit}
-                                        onChange={handleConfigSleep}
-                                    />
+                                    <Switch checked={showCost} onChange={handleConfigSleep} />
                                 </Form.Item>
                             </FormFlexBox>
                         </OtherConfigItem>

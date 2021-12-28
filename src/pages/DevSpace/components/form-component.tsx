@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
 export const TimePicker = styled.div`
-    width: 408px;
+    width: 418px;
     display: flex;
     flex-wrap: wrap;
+    font-family: PingFangSC-Regular;
 
     .time-item,
     .add-item {
-        width: 202px;
+        width: 206px;
         height: 32px;
         margin-bottom: 4px;
         display: flex;
@@ -37,7 +38,7 @@ export const TimePicker = styled.div`
 
         .weekday {
             display: inline-block;
-            width: 30px;
+            width: 32px;
         }
 
         .icon {

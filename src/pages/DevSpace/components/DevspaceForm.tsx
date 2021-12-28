@@ -808,7 +808,7 @@ const DevspaceForm = ({
                                     <Form.Item
                                         label={t('resources.cost.sleepTimeRange')}
                                         style={{
-                                            width: '100%',
+                                            width: 420,
                                             marginRight: 12,
                                             flexBasis: '50%',
                                             marginBottom: 4,

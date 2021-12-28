@@ -51,7 +51,11 @@ export const SettingWrap = styled.div`
     }
 `;
 
-export const ThirdAccountWrap = styled.div`
+interface IThirdAccount {
+    status: string;
+}
+
+export const ThirdAccountWrap = styled.div<IThirdAccount>`
     display: flex;
     padding: 30px 20px;
     border: 1px solid #dae1e8;
@@ -61,5 +65,33 @@ export const ThirdAccountWrap = styled.div`
 
     .left {
         display: flex;
+
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .content {
+            .sub-title {
+                color: #202d40;
+                display: flex;
+                align-items: center;
+
+                .status {
+                    margin-left: 8px;
+                    padding: 4px;
+                    font-size: 12px;
+                    border-radius: 2px;
+                    background: ${(props) =>
+                        props.status === 'unAllocated' ? '#ffac52' : '#4ac285'};
+                }
+            }
+
+            .desc {
+                margin-top: 10px;
+                font-size: 12px;
+                color: #79879c;
+            }
+        }
     }
 `;

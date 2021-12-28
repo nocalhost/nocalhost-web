@@ -529,9 +529,11 @@
     },
     "settings": {
         "settingCenter": "配置中心",
-        "thirdCount": "第三方账号配置",
+        "thirdAccount": "第三方账号配置",
         "configService": "Configuration Services",
         "unallocated": "未配置",
-        "configured": "已配置"
+        "configured": "已配置",
+        "thirdAccountDesc": "配置 LDAP 后，可导入 LDAP 成员目录，实现 LDAP 账号单点登录 Nocalhost。查阅 ",
+        "helpDocs": "帮助文档"
     }
 }

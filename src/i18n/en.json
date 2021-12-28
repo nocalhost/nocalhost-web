@@ -528,6 +528,10 @@
     },
     "settings": {
         "settingCenter": "Configuration Center",
-        "thirdCount": "Third party account configuration"
+        "thirdAccount": "Third party account configuration",
+        "unallocated": "unallocated",
+        "configured": "configured",
+        "thirdAccountDesc": "After configuring LDAP, you can import LDAP member directories to achieve single sign-on to Nocalhost for LDAP accounts. see the",
+        "helpDocs": "help documentation"
     }
 }

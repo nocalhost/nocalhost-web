@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { SettingWrap } from './styled-component';
 import ThirdAccount from './components/ThirdAccount';
 
-const CONFIG_MENU_LIST = ['thirdCount'];
+const CONFIG_MENU_LIST = ['thirdAccount'];
 
 const Settings = () => {
     const { t } = useTranslation();
@@ -32,7 +32,7 @@ const Settings = () => {
             </div>
             <div className="content">
                 <div className="title">{t(`settings.${CONFIG_MENU_LIST[currentIndex]}`)}</div>
-                <ThirdAccount />
+                <ThirdAccount status="unallocated" />
             </div>
         </SettingWrap>
     );

@@ -6,17 +6,17 @@ import { useTranslation } from 'react-i18next';
 const ThirdAccount = ({ status }: { status: string }) => {
     const { t } = useTranslation();
     return (
-        <ThirdAccountWrap>
+        <ThirdAccountWrap status={status}>
             <div className="left">
                 <div className="logo"></div>
                 <div className="content">
-                    <div className="title">
+                    <div className="sub-title">
                         <span>LDAP</span>
                         <span className="status">{t(`settings.${status}`)}</span>
                     </div>
                     <div className="desc">
-                        <span></span>
-                        <a href=""></a>
+                        <span>{t('settings.thirdAccountDesc')}</span>
+                        <a href="">{t('settings.helpDocs')}</a>
                     </div>
                 </div>
             </div>

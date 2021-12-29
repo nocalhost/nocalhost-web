@@ -52,6 +52,8 @@ import { ReactComponent as IconUser } from '../../images/icon/icon_user.svg';
 import { ReactComponent as IconTip } from '../../images/icon/icon_label_tips.svg';
 import { ReactComponent as IconClose } from '../../images/icon/icon_close.svg';
 import { ReactComponent as IconLink } from '../../images/icon/icon_external_link.svg';
+import { ReactComponent as IconSetNormal } from '../../images/icon/icon_set_normal.svg';
+import { ReactComponent as IconSetActive } from '../../images/icon/icon_set_elected.svg';
 
 import ImageVersionInfo from '../../images/icon_logoWords.svg';
 import AddCluster from '../../components/AddCluster';
@@ -285,6 +287,15 @@ function MainHeader() {
                                 style={{ fontSize: '24px' }}
                             ></CommonIcon>
                         </a>
+                        <div className="setting" onClick={() => history.push('/dashboard/setting')}>
+                            <CommonIcon
+                                title={t('settings.settingCenter')}
+                                HoverIcon={IconSetActive}
+                                NormalIcon={IconSetNormal}
+                                placement="bottom"
+                                style={{ fontSize: '24px' }}
+                            ></CommonIcon>
+                        </div>
                         <Popover
                             trigger="click"
                             placement="bottomRight"

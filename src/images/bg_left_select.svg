@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="330px" height="76px" viewBox="0 0 330 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bg_left_select</title>
+    <defs>
+        <path d="M301.141,2 L326,36.0000724 L301.141,70 L8,70 C5.790861,70 4,68.209139 4,66 L4,6 C4,3.790861 5.790861,2 8,2 L301.141,2 L301.141,2 Z" id="path-1"></path>
+        <filter x="-2.2%" y="-7.4%" width="104.3%" height="120.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.75" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-12备份-5" transform="translate(-20.000000, -116.000000)">
+            <g id="路径" transform="translate(20.000000, 116.000000)">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#F3F6FA" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

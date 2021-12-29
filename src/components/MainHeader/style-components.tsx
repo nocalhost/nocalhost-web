@@ -121,6 +121,10 @@ export const HeaderSection = styled.div`
     align-items: center;
     padding-left: 20px;
     margin-left: 20px;
+
+    .setting {
+        margin-right: 20px;
+    }
 `;
 
 export const Tran = styled.div`

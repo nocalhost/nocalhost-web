@@ -90,7 +90,8 @@
             "copy": "复制成功",
             "upgrade": "Nocalhost Server Dashboard 版本 {{latest}} 已发布，你现在的版本是 {{current}}。",
             "link": "点击查看更新指引",
-            "release": "Version {{version}} 已发布，"
+            "release": "Version {{version}} 已发布，",
+            "success": "操作成功"
         },
         "bt": {
             "delete": "删除",
@@ -557,7 +558,15 @@
         "baseDn": "基础 DN",
         "selector": "筛选器",
         "advanceSetting": "高级配置",
-        "advanceSettingTip": "xxxx",
-        "adminRule": "管理员规则"
+        "advanceSettingTip": "满足此 基础 DN 和 筛选器 的用户将会被导入为 管理员用户组。",
+        "adminRule": "管理员规则",
+        "syncData": "同步数据",
+        "editConfig": "编辑配置",
+        "modifyConfig": "修改配置",
+        "deleteConfig": "删除配置",
+        "emailAttrTip": "如果提供的不是一个 email，则 Nocalhost 将自动为其拼接为 ＄{attr}@nocalhost.dev,域名部分必须满足 LDH 规则，否则单个条目将无法同步，如果数据库已有此 email，则会直接建立映射关系，如果提供的 email 有重复，则可能出现数据错乱",
+        "usernameAttrTip": "如果不填或没有获取到，在导入时则会取 email 的域名部分作为用户名，其中超过 20 字符部分将被截断；如果已经存在此用户，且不填或没有获取到，则不会更新原有用户名。",
+        "exampleTip": "(填完至少基础 DN+Attr 实时获取一个)",
+        "deleteConfirm": "是否确认要删除配置"
     }
 }

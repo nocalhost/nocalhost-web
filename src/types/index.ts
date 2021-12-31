@@ -46,11 +46,11 @@ export interface ConfigInfo {
     inserts: number;
     last_sync_err_msg: string;
     ldap_gen: number;
-    md5: string;
+    md5: number;
     password: string;
     server: string;
     sync_protection_ts: number;
-    tls: string;
+    tls: number;
     updates: number;
     user_name_attr: string;
 }

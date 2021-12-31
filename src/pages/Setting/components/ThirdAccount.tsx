@@ -1,18 +1,65 @@
-import React from 'react';
-import { ThirdAccountWrap } from '../styled-component';
-import { Button } from 'antd';
+import React, { useState } from 'react';
+import { ThirdAccountWrap, PopupWrap } from '../styled-component';
+import { Button, Popover } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as IconLdap } from '../../../images/icon/icon_ldap.svg';
+import { ReactComponent as IconArrowDown } from '../../../images/icon/icon_arrow_down.svg';
 import Icon from '@ant-design/icons';
+import DeleteModal from '../../../components/DeleteModal';
 
 interface ThirdAccountProp {
-    status: string;
+    status: 'unallocated' | 'configured';
     showConfig: () => void;
+    handleSyncData: () => void;
+    handleDeleteConfig: () => void;
 }
 
-const ThirdAccount = ({ status, showConfig }: ThirdAccountProp) => {
+const ThirdAccount = ({
+    status,
+    showConfig,
+    handleSyncData,
+    handleDeleteConfig,
+}: ThirdAccountProp) => {
     const { t } = useTranslation();
+    const [visible, setVisible] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
+
+    const handleEditConfig = () => {
+        setVisible(false);
+        showConfig();
+    };
+
+    const handleDelete = () => {
+        setVisible(false);
+        handleDeleteConfig();
+    };
+
+    const handleClick = async () => {
+        setIsLoading(true);
+        await handleSyncData();
+        setIsLoading(false);
+    };
+
+    const onClickDelete = () => {
+        setVisible(false);
+        setShowDelete(true);
+    };
+
+    const PopupContent = () => {
+        return (
+            <PopupWrap>
+                <li className="list-item modify" onClick={handleEditConfig}>
+                    {t('settings.modifyConfig')}
+                </li>
+                <li className="list-item del" onClick={onClickDelete}>
+                    {t('settings.deleteConfig')}
+                </li>
+            </PopupWrap>
+        );
+    };
+
     return (
         <ThirdAccountWrap status={status}>
             <div className="left">
@@ -31,10 +78,39 @@ const ThirdAccount = ({ status, showConfig }: ThirdAccountProp) => {
                 </div>
             </div>
             <div className="btn-box">
-                <Button type="primary" onClick={showConfig}>
-                    {t('settings.configService')}
-                </Button>
+                {status === 'unallocated' && (
+                    <Button type="primary" onClick={showConfig}>
+                        {t('settings.configService')}
+                    </Button>
+                )}
+                {status === 'configured' && (
+                    <>
+                        <Button type="primary" onClick={handleClick} loading={isLoading}>
+                            {t('settings.syncData')}
+                        </Button>
+                        <Popover
+                            content={<PopupContent />}
+                            visible={visible}
+                            onVisibleChange={(curr: boolean) => setVisible(curr)}
+                            trigger="click"
+                        >
+                            <Button style={{ marginLeft: 12 }}>
+                                <div className="popup-btn">
+                                    {t('settings.editConfig')}
+                                    <IconArrowDown />
+                                </div>
+                            </Button>
+                        </Popover>
+                    </>
+                )}
             </div>
+            <DeleteModal
+                visible={showDelete}
+                title={t('settings.deleteConfig')}
+                message={t('settings.deleteConfirm')}
+                onCancel={() => setShowDelete(false)}
+                onConfirm={handleDelete}
+            />
         </ThirdAccountWrap>
     );
 };

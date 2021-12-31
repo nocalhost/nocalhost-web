@@ -110,6 +110,16 @@ export const ThirdAccountWrap = styled.div<IThirdAccount>`
             }
         }
     }
+
+    .btn-box {
+        display: flex;
+        align-items: center;
+
+        .popup-btn {
+            display: flex;
+            align-items: center;
+        }
+    }
 `;
 
 export const ConfigServiceWrap = styled.div<IConfigService>`
@@ -166,6 +176,7 @@ export const ConfigServiceWrap = styled.div<IConfigService>`
                 width: 314px;
                 position: absolute;
                 padding-left: 40px;
+                padding-right: 0;
                 left: 50%;
                 background: url(${(props) => (props.step === 2 ? step2active : step2normal)})
                     no-repeat;
@@ -270,9 +281,37 @@ export const ConfigServiceWrap = styled.div<IConfigService>`
         margin-top: 24px;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     }
 
     .ant-form-item-control-input {
         box-shadow: none;
+    }
+`;
+
+export const PopupWrap = styled.ul`
+    .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 106px;
+        height: 32px;
+        cursor: pointer;
+
+        &:hover {
+            background: #f3f6fa;
+        }
+
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        font-weight: normal;
+
+        &.modify {
+            color: rgb(32, 45, 64);
+        }
+
+        &.del {
+            color: #ff3f3f;
+        }
     }
 `;

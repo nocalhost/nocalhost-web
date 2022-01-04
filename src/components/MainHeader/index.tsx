@@ -465,7 +465,7 @@ function MainHeader() {
                                 current: upgradeInfo?.current_version,
                             })}
                         </span>
-                        <a href="" className="link">
+                        <a href={t('document.helmUpgrade.url')} className="link" target="_blank">
                             {t('common.message.link')}
                         </a>
                     </div>

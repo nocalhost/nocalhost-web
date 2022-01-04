@@ -529,7 +529,7 @@
     },
     "settings": {
         "settingCenter": "Configuration Center",
-        "thirdAccount": "Third party account configuration",
+        "thirdAccount": "Third party account config",
         "configService": "Configuration Services",
         "unallocated": "unallocated",
         "configured": "configured",
@@ -555,6 +555,7 @@
         "usernameAttrPh": "Please enter the attribute name of the user name, e.g. OpenLdap Fill in the uid ",
         "memberRule": "Membership Rules",
         "baseDn": "Basic DN",
+        "baseDnPh": "Search for users from the root directory, e.g. cn=users,dc=example.com,de= ",
         "selector": "Filters",
         "advanceSetting": "Advanced Configuration",
         "advanceSettingTip": "Users who meet this base DN and filter will be imported as an administrator user group.",
@@ -566,6 +567,7 @@
         "emailAttrTip": "If the email provided is not an email, Nocalhost will automatically splice it as ${attr}@nocalhost.dev, the domain part must meet the LDH rules, otherwise the single entry will not be synchronized, if the database already has this email, the mapping relationship will be established directly, if the email provided is duplicated, the data may be misplaced",
         "usernameAttrTip": "If it is not filled in or not obtained, the domain part of the email will be taken as the username when importing, and the part of the email that exceeds 20 characters will be truncated; if the user already exists and is not filled in or not obtained, the original username will not be updated.",
         "exampleTip": "(Fill out at least the base DN+Attr to get one in real time)",
-        "deleteConfirm": "Is it confirmed that you want to delete the configuration"
+        "deleteConfirm": "Is it confirmed that you want to delete the configuration",
+        "filterTip": "Default value is (objectClass=*) "
     }
 }

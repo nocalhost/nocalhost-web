@@ -119,6 +119,14 @@ export const ThirdAccountWrap = styled.div<IThirdAccount>`
             display: flex;
             align-items: center;
         }
+
+        svg {
+            &:hover {
+                path {
+                    fill: #faad14;
+                }
+            }
+        }
     }
 `;
 

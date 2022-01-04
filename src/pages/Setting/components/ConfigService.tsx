@@ -17,6 +17,12 @@ interface IProp {
     closeAndSync: () => void;
 }
 
+interface SearchData {
+    bind_dn: string;
+    email: string;
+    user_name: string;
+}
+
 const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IProp) => {
     const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState<number>(configData?.enable ? 2 : 1);
@@ -25,6 +31,8 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
     const [isLoading, setIsLoading] = useState<boolean>(false);
     // eslint-disable-next-line no-undef
     const [step1Info, setStep1Info] = useState<Partial<ConfigInfo> | null>(configData);
+    const [searchData, setSearchData] = useState<SearchData | null>(null);
+    const [advancedSearchData, setAdvancedSearchData] = useState<SearchData | null>(null);
 
     useEffect(() => {
         if (configData) {
@@ -40,29 +48,33 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                 admin_base_dn: configData?.admin_base_dn,
                 admin_filter: configData?.admin_filter,
             });
+            validateSearch();
+            advanceSearch();
         }
     }, []);
 
     const handleNextStep = async () => {
-        const { bind_dn, password, server, security } = form.getFieldsValue();
-        setIsLoading(true);
-        setStep1Info({
-            ...configData,
-            bind_dn,
-            password,
-            server,
-            tls: security === 'tls' ? 1 : 0,
-            md5: security === 'md5' ? 1 : 0,
+        form.validateFields().then(async () => {
+            const { bind_dn, password, server, security } = form.getFieldsValue();
+            setIsLoading(true);
+            setStep1Info({
+                ...configData,
+                bind_dn,
+                password,
+                server,
+                tls: security === 'tls' ? 1 : 0,
+                md5: security === 'md5' ? 1 : 0,
+            });
+            const response = await HTTP.put('ldap/bind', {
+                bind_dn,
+                password,
+                server,
+            });
+            setIsLoading(false);
+            if (response.code === 0) {
+                setCurrentStep(2);
+            }
         });
-        const response = await HTTP.put('ldap/bind', {
-            bind_dn,
-            password,
-            server,
-        });
-        setIsLoading(false);
-        if (response.code === 0) {
-            setCurrentStep(2);
-        }
     };
 
     const validateSearch = async () => {
@@ -74,16 +86,47 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
             admin_base_dn,
             admin_filter,
         } = form.getFieldsValue();
-        const resp = await HTTP.put('ldap/search', {
-            ...step1Info,
+        if (email_attr && base_dn) {
+            const resp = await HTTP.put('ldap/search', {
+                ...step1Info,
+                email_attr,
+                user_name_attr,
+                base_dn,
+                filter,
+                admin_base_dn,
+                admin_filter,
+            });
+            if (resp.code === 0) {
+                setSearchData(resp.data);
+            }
+            return resp;
+        }
+    };
+
+    const advanceSearch = async () => {
+        const {
             email_attr,
             user_name_attr,
             base_dn,
             filter,
             admin_base_dn,
             admin_filter,
-        });
-        return resp;
+        } = form.getFieldsValue();
+        if (email_attr && admin_base_dn) {
+            const resp = await HTTP.put('ldap/search', {
+                ...step1Info,
+                email_attr,
+                user_name_attr,
+                base_dn,
+                filter,
+                admin_base_dn,
+                admin_filter,
+            });
+            if (resp.code === 0) {
+                setAdvancedSearchData(resp.data);
+            }
+            return resp;
+        }
     };
 
     const saveConfig = async () => {
@@ -107,16 +150,21 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
     };
 
     const handleSubmit = async () => {
-        setIsLoading(true);
-        const validate = await validateSearch();
-        if (validate.code === 0) {
+        form.validateFields().then(async () => {
+            setIsLoading(true);
             const saveInfo = await saveConfig();
             if (saveInfo.code === 0) {
                 await handleSyncData();
                 setIsLoading(false);
                 closeAndSync();
+            } else {
+                setIsLoading(false);
             }
-        }
+        });
+    };
+
+    const handleFieldChange = () => {
+        // console
     };
 
     return (
@@ -146,6 +194,7 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                     }}
                     labelAlign="left"
                     form={form}
+                    onFieldsChange={handleFieldChange}
                 >
                     {currentStep === 1 && (
                         <>
@@ -153,12 +202,14 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                                 label={t('settings.serverAddr')}
                                 name="server"
                                 required={true}
+                                rules={[{ required: true }]}
                             >
                                 <Input placeholder={t('settings.serverAddrPh')} />
                             </Form.Item>
                             <Form.Item
                                 label={t('settings.adminAccount')}
                                 name="bind_dn"
+                                rules={[{ required: true }]}
                                 required={true}
                             >
                                 <Input placeholder={t('settings.adminAccountPh')} />
@@ -166,6 +217,7 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                             <Form.Item
                                 label={t('settings.adminPwd')}
                                 name="password"
+                                rules={[{ required: true }]}
                                 required={true}
                             >
                                 <Input type="password" placeholder={t('settings.adminPwd')} />
@@ -193,9 +245,17 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                                     />
                                 }
                                 name="email_attr"
+                                rules={[
+                                    {
+                                        required: true,
+                                    },
+                                ]}
                                 required={true}
                             >
-                                <Input placeholder={t('settings.emailAttrPh')} />
+                                <Input
+                                    onBlur={validateSearch}
+                                    placeholder={t('settings.emailAttrPh')}
+                                />
                             </Form.Item>
                             <Form.Item
                                 colon={false}
@@ -207,7 +267,10 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                                 }
                                 name="user_name_attr"
                             >
-                                <Input placeholder={t('settings.usernameAttrPh')} />
+                                <Input
+                                    onBlur={validateSearch}
+                                    placeholder={t('settings.usernameAttrPh')}
+                                />
                             </Form.Item>
 
                             <div className="member-rule">
@@ -216,21 +279,26 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                                     colon={false}
                                     label={t('settings.baseDn')}
                                     name="base_dn"
+                                    required={true}
+                                    rules={[{ required: true }]}
                                 >
-                                    <Input placeholder={t('settings.usernameAttrPh')} />
+                                    <Input
+                                        onBlur={validateSearch}
+                                        placeholder={t('settings.baseDnPh')}
+                                    />
                                 </Form.Item>
                                 <Form.Item
                                     colon={false}
                                     label={t('settings.selector')}
                                     name="filter"
                                 >
-                                    <Input placeholder={t('settings.usernameAttrPh')} />
+                                    <Input placeholder={t('settings.filterTip')} />
                                 </Form.Item>
                                 <div className="rule-tip">
                                     <div>{`Example: ${t('settings.exampleTip')}`}</div>
-                                    <div>DN: - -</div>
-                                    <div>Email: - -</div>
-                                    <div>Username: - -</div>
+                                    <div>DN: {searchData?.bind_dn ?? '--'}</div>
+                                    <div>Email: {searchData?.email ?? '--'}</div>
+                                    <div>Username: {searchData?.user_name ?? '--'}</div>
                                 </div>
                             </div>
 
@@ -253,20 +321,25 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                                             name="admin_base_dn"
                                             colon={false}
                                         >
-                                            <Input placeholder={t('settings.usernameAttrPh')} />
+                                            <Input
+                                                onBlur={advanceSearch}
+                                                placeholder={t('settings.baseDnPh')}
+                                            />
                                         </Form.Item>
                                         <Form.Item
                                             label={t('settings.selector')}
                                             name="admin_filter"
                                             colon={false}
                                         >
-                                            <Input placeholder={t('settings.usernameAttrPh')} />
+                                            <Input placeholder={t('settings.filterTip')} />
                                         </Form.Item>
                                         <div className="rule-tip">
                                             <div>{`Example: ${t('settings.exampleTip')}`}</div>
-                                            <div>DN: - -</div>
-                                            <div>Email: - -</div>
-                                            <div>Username: - -</div>
+                                            <div>DN: {advancedSearchData?.bind_dn ?? '- -'}</div>
+                                            <div>Email: {advancedSearchData?.email ?? '- -'}</div>
+                                            <div>
+                                                Username: {advancedSearchData?.user_name ?? '- -'}
+                                            </div>
                                         </div>
                                     </div>
                                 )}

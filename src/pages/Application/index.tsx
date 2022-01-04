@@ -23,7 +23,6 @@ import DeleteModal from '../../components/DeleteModal';
 import LabelSelect from '../../components/LabelSelect';
 // import { applictionOptions } from './const';
 import { useHistory } from 'react-router-dom';
-import { UserType } from '../User/const';
 import CommonIcon from '../../components/CommonIcon';
 import { ReactComponent as IconNormalEdit } from '../../images/icon/icon_btn_normal_edit.svg';
 import { ReactComponent as IconSelectedEdit } from '../../images/icon/icon_btn_elected_edit.svg';
@@ -42,7 +41,6 @@ import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 function Application() {
     const [data, setData] = useState([]);
     const [copyData, setCopyData] = useState([]);
-    const [userList, setUserList] = useState([]);
     const [tableLoading, setTableLoading] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [filterValue, setFilterValue] = useState({ name: '', type: 'all' });
@@ -60,12 +58,7 @@ function Application() {
     const { user } = useContext(UserContext);
     const history = useHistory();
     const { t } = useTranslation();
-    const getUser = async () => {
-        const result = await HTTP.get('users');
-        if (result.code === 0) {
-            setUserList(result.data || []);
-        }
-    };
+
     const getApplication = async () => {
         setTableLoading(true);
         const result = await HTTP.get('application', {
@@ -81,7 +74,6 @@ function Application() {
     };
     useEffect(() => {
         getApplication();
-        getUser();
     }, []);
     const showTotal = (total: number) => {
         return `共${total}条`;
@@ -230,16 +222,8 @@ function Application() {
         },
         {
             title: t('resources.application.fields.user'),
+            dataIndex: 'user_name',
             key: '5',
-            // eslint-disable-next-line react/display-name
-            render: (...args: any) => {
-                const record = args[1];
-                const user_id = record?.user_id;
-                const item: UserType = userList.find((el: UserType) => el.id === user_id) || {
-                    name: '',
-                };
-                return <span>{item?.name}</span>;
-            },
         },
         {
             title: t('common.operation'),

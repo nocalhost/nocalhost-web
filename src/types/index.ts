@@ -18,6 +18,7 @@ export interface ClusterItemInfo {
     users_count: number;
     created_at: string;
     user_id: number;
+    user_name: string;
     userName: string;
     modifiable: boolean;
     resources: {

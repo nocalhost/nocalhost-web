@@ -26,6 +26,8 @@ const Settings = () => {
         if (response.code === 0) {
             message.success(t('common.message.success'));
         }
+
+        return response;
     };
 
     // delete config

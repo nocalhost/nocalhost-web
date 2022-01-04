@@ -5,13 +5,15 @@ import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as IconLdap } from '../../../images/icon/icon_ldap.svg';
 import { ReactComponent as IconArrowDown } from '../../../images/icon/icon_arrow_down.svg';
+import { ReactComponent as IconExplain } from '../../../images/icon/icon_label_explain.svg';
 import Icon from '@ant-design/icons';
 import DeleteModal from '../../../components/DeleteModal';
+import CommonIcon from '../../../components/CommonIcon';
 
 interface ThirdAccountProp {
     status: 'unallocated' | 'configured';
     showConfig: () => void;
-    handleSyncData: () => void;
+    handleSyncData: () => any;
     handleDeleteConfig: () => void;
 }
 
@@ -25,6 +27,8 @@ const ThirdAccount = ({
     const [visible, setVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
+    const [showSyncTip, setShowSyncTip] = useState<boolean>(false);
+    const [syncTip, setSyncTip] = useState<string>('');
 
     const handleEditConfig = () => {
         setVisible(false);
@@ -38,7 +42,12 @@ const ThirdAccount = ({
 
     const handleClick = async () => {
         setIsLoading(true);
-        await handleSyncData();
+        const resp = await handleSyncData();
+        if (resp.code !== 0) {
+            setSyncTip(resp.message);
+            setShowSyncTip(true);
+        }
+
         setIsLoading(false);
     };
 
@@ -78,6 +87,13 @@ const ThirdAccount = ({
                 </div>
             </div>
             <div className="btn-box">
+                {showSyncTip && (
+                    <CommonIcon
+                        title={syncTip}
+                        NormalIcon={IconExplain}
+                        style={{ fontSize: 20, marginRight: 14 }}
+                    />
+                )}
                 {status === 'unallocated' && (
                     <Button type="primary" onClick={showConfig}>
                         {t('settings.configService')}

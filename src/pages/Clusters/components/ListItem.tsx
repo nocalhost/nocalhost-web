@@ -496,7 +496,7 @@ const ListItem: FC<IProps> = ({ data, onSubmit }: IProps) => {
                                 component={IconProfile}
                                 style={{ fontSize: 24, marginRight: 6 }}
                             />
-                            {data.userName}
+                            {data.user_name}
                         </span>
                     </DetailItem>
                 </ul>

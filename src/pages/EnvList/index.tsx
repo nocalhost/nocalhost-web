@@ -248,12 +248,12 @@ const EnvList = () => {
                 return record?.cooper_user?.length > 0 || record?.viewer_user?.length > 0 ? (
                     <Popover content={<PopoverBox record={record} />}>
                         <FlexBox>
-                            {record.user_name}
+                            {record?.owner?.name}
                             <Icon component={IconExplain} style={{ fontSize: 20, marginLeft: 4 }} />
                         </FlexBox>
                     </Popover>
                 ) : (
-                    <FlexBox>{record.user_name}</FlexBox>
+                    <FlexBox>{record?.owner?.name}</FlexBox>
                 );
             },
         },
@@ -604,13 +604,6 @@ const EnvList = () => {
                         />
                     </SearchBox>
                     <FlexBox>
-                        {/* <IconBox onClick={querySpaceList}>
-                            <CommonIcon
-                                style={{ fontSize: '24px' }}
-                                NormalIcon={IconNormalRefresh}
-                                HoverIcon={IconRefresh}
-                            />
-                        </IconBox> */}
                         {!id && (
                             <Button
                                 type="primary"

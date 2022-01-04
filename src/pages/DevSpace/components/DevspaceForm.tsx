@@ -10,7 +10,7 @@ import { ReactComponent as IconAdmin } from '../../../images/icon/icon_admin.svg
 import { ReactComponent as IconResource } from '../../../images/icon/icon_resource.svg';
 import { ReactComponent as IconBaseSpace } from '../../../images/icon/icon_switch_baseSpace.svg';
 
-import { queryAllCluster, queryAllUser } from '../../../services';
+import { queryAllCluster, queryUserList } from '../../../services';
 
 const FormFlexBox = styled(FlexBox)`
     flex: 1;
@@ -112,6 +112,7 @@ const DevspaceForm = ({
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [userList, setUserList] = useState<any>([]);
+    const [filterUserList, setFilterUserList] = useState<any>([]);
     const [clusterList, setClusterList] = useState<any>([]);
 
     // 校验相关
@@ -183,15 +184,9 @@ const DevspaceForm = ({
     }
 
     async function getUsers() {
-        const userMap = await queryAllUser();
-        const tmpList = Array.from(userMap).map((item) => {
-            return {
-                value: item[0],
-                text: item[1],
-                label: item[1],
-            };
-        });
-        setUserList(tmpList);
+        const list = await queryUserList();
+        setUserList(list);
+        setFilterUserList(list.slice(0, 10));
     }
 
     const handleSubmit = async (values: any) => {
@@ -289,6 +284,11 @@ const DevspaceForm = ({
         }
     };
 
+    const handleSearchUser = (value: string) => {
+        const list = userList.filter((item: any) => item.label.indexOf(value) > -1);
+        setFilterUserList(list.slice(0, 10));
+    };
+
     return (
         <>
             <Form
@@ -325,7 +325,8 @@ const DevspaceForm = ({
                             optionFilterProp="label"
                             disabled={isEdit}
                             style={{ width: 310 }}
-                            options={userList}
+                            options={filterUserList}
+                            onSearch={handleSearchUser}
                         />
                     </Form.Item>
                 </FormFlexBox>

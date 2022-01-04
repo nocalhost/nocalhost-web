@@ -86,6 +86,7 @@ const Settings = () => {
                         status={status}
                         handleSyncData={handleSyncData}
                         handleDeleteConfig={handleDeleteConfig}
+                        configData={configData}
                     />
                 </div>
             </SettingWrap>

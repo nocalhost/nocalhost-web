@@ -15,6 +15,7 @@ interface ThirdAccountProp {
     showConfig: () => void;
     handleSyncData: () => any;
     handleDeleteConfig: () => void;
+    configData: any;
 }
 
 const ThirdAccount = ({
@@ -22,13 +23,14 @@ const ThirdAccount = ({
     showConfig,
     handleSyncData,
     handleDeleteConfig,
+    configData,
 }: ThirdAccountProp) => {
     const { t } = useTranslation();
     const [visible, setVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
-    const [showSyncTip, setShowSyncTip] = useState<boolean>(false);
-    const [syncTip, setSyncTip] = useState<string>('');
+    const [showSyncTip, setShowSyncTip] = useState<boolean>(Boolean(configData?.last_sync_err_msg));
+    const [syncTip, setSyncTip] = useState<string>(configData?.last_sync_err_msg ?? '');
 
     const handleEditConfig = () => {
         setVisible(false);
@@ -43,8 +45,8 @@ const ThirdAccount = ({
     const handleClick = async () => {
         setIsLoading(true);
         const resp = await handleSyncData();
-        if (resp.code !== 0) {
-            setSyncTip(resp.message);
+        if (resp?.data?.last_sync_err_msg) {
+            setSyncTip(resp?.data?.last_sync_err_msg ?? '');
             setShowSyncTip(true);
         }
 

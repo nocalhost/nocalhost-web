@@ -512,7 +512,7 @@ const EnvList = () => {
     const spaceTypeOption = [
         { value: 'MeshSpace', text: t('resources.space.meshSpace') },
         { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
-        { value: 'cluster', text: 'VCluster' },
+        { value: 'vcluster', text: 'VCluster' },
     ];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -598,7 +598,7 @@ const EnvList = () => {
     function handleFilter(resourceList = spaceList) {
         const getIsSpaceType = (item: any, space_type: string) => {
             if (space_type !== 'all') {
-                return space_type === 'cluster'
+                return space_type === 'vcluster'
                     ? item.dev_space_type === 3
                     : item.space_type === space_type;
             }

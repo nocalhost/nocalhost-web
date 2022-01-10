@@ -1,4 +1,12 @@
 {
+    "validate": {
+        "messages": {
+            "required": "is required",
+            "number": {
+                "min": "cannot be less than ${min}"
+            }
+        }
+    },
     "nh": {
         "language": "Language",
         "theme": {

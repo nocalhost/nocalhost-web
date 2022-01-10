@@ -1,4 +1,12 @@
 {
+    "validate": {
+        "messages": {
+            "required": "不能为空",
+            "number": {
+                "min": "不能小于${min}"
+            }
+        }
+    },
     "nh": {
         "language": "语言",
         "theme": {

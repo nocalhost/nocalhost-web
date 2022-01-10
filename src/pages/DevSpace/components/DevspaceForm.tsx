@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Input, Select, Switch, Button, message, Popover } from 'antd';
+import { Rule } from 'rc-field-form/es/interface';
 import { useTranslation } from 'react-i18next';
 import { FlexBox } from '../style-components';
 import styled from 'styled-components';
@@ -272,13 +273,6 @@ const DevspaceForm = ({
         }
     }, []);
 
-    useEffect(() => {
-        if (!isVCluster || !canSetLimit) {
-            return;
-        }
-        return;
-    }, [isVCluster, canSetLimit]);
-
     async function getClusters() {
         const clusterMap = await queryAllCluster();
         const tmpList = Array.from(clusterMap).map((item) => {
@@ -517,9 +511,62 @@ const DevspaceForm = ({
         setShowCost(checked);
     };
 
+    const [rules, setRules] = useState<{ [key: string]: Rule[] }>({});
+
+    const onValuesChange = useCallback(
+        (changedValues: any, allValues: any) => {
+            if (!('dev_space_type' in changedValues) && !('dev_space_type' in changedValues)) {
+                return;
+            }
+            const fieldsName = [
+                'space_req_mem',
+                'space_limits_mem',
+                'space_req_cpu',
+                'space_limits_cpu',
+            ];
+            let space_req_mem: Rule[] = [];
+            let space_limits_mem: Rule[] = [];
+            let space_req_cpu: Rule[] = [];
+            let space_limits_cpu: Rule[] = [];
+
+            const { dev_space_type, resource_limit_set } = allValues;
+            if (dev_space_type && resource_limit_set) {
+                const getRules = (min: number): Rule[] => {
+                    return [
+                        {
+                            min,
+                            type: 'number',
+                            transform: (value: any) => {
+                                return value ? Number(value) : 3000;
+                            },
+                        },
+                    ];
+                };
+
+                space_req_mem = getRules(512);
+                space_limits_mem = getRules(3000);
+                space_req_cpu = getRules(0.3);
+                space_limits_cpu = getRules(3);
+
+                setTimeout(() => {
+                    form.validateFields(fieldsName);
+                }, 500);
+            }
+
+            setRules({ space_req_mem, space_limits_mem, space_req_cpu, space_limits_cpu });
+
+            form.setFields(
+                fieldsName.map((name) => {
+                    return { name, errors: [] };
+                })
+            );
+        },
+        [form]
+    );
     return (
         <>
             <Form
+                onValuesChange={onValuesChange}
                 style={{ minWidth: 632, position: 'relative' }}
                 form={form}
                 layout="vertical"
@@ -638,9 +685,11 @@ const DevspaceForm = ({
                                             marginRight: 12,
                                             flexBasis: '50%',
                                         }}
+                                        rules={rules['space_req_mem']}
                                     >
                                         <Input
                                             disabled={!canSetLimit}
+                                            type="number"
                                             onChange={(e: any) => set_space_req_mem(e.target.value)}
                                         />
                                     </Form.Item>
@@ -648,9 +697,11 @@ const DevspaceForm = ({
                                         name="space_limits_mem"
                                         label={t('resources.space.fields.limitTotalMem')}
                                         style={{ flexBasis: '50%' }}
+                                        rules={rules['space_limits_mem']}
                                     >
                                         <Input
                                             disabled={!canSetLimit}
+                                            type="number"
                                             onChange={(e: any) =>
                                                 set_space_limits_mem(e.target.value)
                                             }
@@ -666,9 +717,11 @@ const DevspaceForm = ({
                                             marginRight: 12,
                                             flexBasis: '50%',
                                         }}
+                                        rules={rules['space_req_cpu']}
                                     >
                                         <Input
                                             disabled={!canSetLimit}
+                                            type="number"
                                             onChange={(e: any) => set_space_req_cpu(e.target.value)}
                                         />
                                     </Form.Item>
@@ -676,9 +729,11 @@ const DevspaceForm = ({
                                         name="space_limits_cpu"
                                         label={t('resources.space.fields.limitTotalCPU')}
                                         style={{ flexBasis: '50%' }}
+                                        rules={rules['space_limits_cpu']}
                                     >
                                         <Input
                                             disabled={!canSetLimit}
+                                            type="number"
                                             onChange={(e: any) =>
                                                 set_space_limits_cpu(e.target.value)
                                             }

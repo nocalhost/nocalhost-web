@@ -512,7 +512,7 @@ const EnvList = () => {
     const spaceTypeOption = [
         { value: 'MeshSpace', text: t('resources.space.meshSpace') },
         { value: 'IsolateSpace', text: t('resources.space.isolateSpace') },
-        { value: 'VCluster', text: 'VCluster' },
+        { value: 'cluster', text: 'VCluster' },
     ];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -596,48 +596,24 @@ const EnvList = () => {
     }
 
     function handleFilter(resourceList = spaceList) {
+        const getIsSpaceType = (item: any, space_type: string) => {
+            if (space_type !== 'all') {
+                return space_type === 'cluster'
+                    ? item.dev_space_type === 3
+                    : item.space_type === space_type;
+            }
+
+            return true;
+        };
+
         const tmpList = resourceList.filter((item: any) => {
             const { space_name, cluster_id, user_id, space_type } = filterValue;
-            const isNameValid = item.space_name.indexOf(space_name) > -1;
-            if (id) {
-                // env list page
-                if (user_id === 'all') {
-                    return isNameValid;
-                } else {
-                    return isNameValid && item.user_id === user_id;
-                }
-            } else {
-                if (cluster_id === 'all' && user_id === 'all' && space_type === 'all') {
-                    return isNameValid;
-                } else if (cluster_id === 'all' && space_type === 'all') {
-                    return isNameValid && item.user_id === user_id;
-                } else if (user_id === 'all' && space_type === 'all') {
-                    return isNameValid && item.cluster_id === cluster_id;
-                } else if (user_id === 'all' && cluster_id === 'all') {
-                    return isNameValid && item.space_type === space_type;
-                } else if (user_id === 'all') {
-                    return (
-                        isNameValid &&
-                        item.space_type === space_type &&
-                        item.cluster_id === cluster_id
-                    );
-                } else if (cluster_id === 'all') {
-                    return (
-                        isNameValid && item.space_type === space_type && item.user_id === user_id
-                    );
-                } else if (space_type === 'all') {
-                    return (
-                        isNameValid && item.cluster_id === cluster_id && item.user_id === user_id
-                    );
-                } else {
-                    return (
-                        isNameValid &&
-                        item.user_id === user_id &&
-                        item.cluster_id === cluster_id &&
-                        item.space_type === space_type
-                    );
-                }
-            }
+
+            const isSpace_name = !space_name || item.space_name.indexOf(space_name) > -1;
+            const isCluster = cluster_id === 'all' || item.cluster_id === cluster_id;
+            const isUser_id = user_id === 'all' || item.user_id === user_id;
+
+            return isSpace_name && isCluster && isUser_id && getIsSpaceType(item, space_type);
         });
 
         setFilterList(tmpList);

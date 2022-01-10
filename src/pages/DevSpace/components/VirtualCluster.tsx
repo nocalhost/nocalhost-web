@@ -126,14 +126,18 @@ export default function VirtualCluster({
         (event: React.MouseEvent<HTMLElement>) => {
             const div = event.currentTarget;
 
-            const i: any = div.lastElementChild;
+            const i = div.lastElementChild;
+
+            if (!i) {
+                return;
+            }
 
             const isExist = i.className.includes('open');
 
             i.classList[isExist ? 'remove' : 'add']('open');
 
             if (limitWrap.current) {
-                const modal: any = document.querySelector('.ant-modal-content');
+                const modal = document.querySelector<Element>('.ant-modal-content');
 
                 if (modal) {
                     const isLimit = document.body.clientHeight - modal.clientHeight - 350 < 144;

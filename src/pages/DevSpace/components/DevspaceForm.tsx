@@ -70,15 +70,10 @@ export const LimitWrap = styled.div`
     .ant-form-item-control-input {
         box-shadow: none;
     }
-
-    .ant-row.ant-form-item {
-        margin-left: 40px;
-    }
 `;
 
 export const LimitTitle = styled.div`
     margin: 12px 0;
-    margin-left: 40px;
     color: rgb(54, 67, 92);
     font-family: PingFangSC-Semibold;
     font-size: 14px;

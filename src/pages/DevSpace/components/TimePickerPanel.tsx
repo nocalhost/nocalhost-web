@@ -43,14 +43,19 @@ const TimePanel = styled.div`
         display: flex;
         position: relative;
 
-        &::before {
+        &::before,
+        &::after {
             display: block;
             content: '';
             width: 100%;
             height: 1px;
             position: absolute;
             background: rgb(243, 246, 250);
-            top: 36px;
+            top: 108px;
+        }
+
+        &::after {
+            top: 144px;
         }
 
         .left,
@@ -158,24 +163,47 @@ const SelectPanel = ({
 }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(defaultIndex);
     const ulRef = useRef<any>();
+    const timeRef = useRef<any>();
 
     const { t } = useTranslation();
 
     const handleSelectItem = (index: number) => {
-        setCurrentIndex(index);
-        ulRef.current.scrollTop = index * 36;
-        handleSelect(index, type);
+        const len = data.length;
+        const selectIndex = len + (index % len);
+        setCurrentIndex(selectIndex);
+        ulRef.current.scrollTop = (selectIndex - 3) * 36;
+        handleSelect(index % len, type);
+    };
+
+    const handleScroll = (e: any) => {
+        const len = data.length;
+        const scrollTop = e.target.scrollTop;
+        const itemHeight = 36;
+        if (scrollTop === 0) {
+            ulRef.current.scrollTop = len * itemHeight;
+        } else if (scrollTop >= itemHeight * len * 2) {
+            ulRef.current.scrollTop = len * itemHeight;
+        } else {
+            //
+        }
     };
 
     useEffect(() => {
-        ulRef.current.scrollTop = defaultIndex * 36;
-        setCurrentIndex(defaultIndex);
+        return () => {
+            clearTimeout(timeRef.current);
+        };
+    });
+
+    useEffect(() => {
+        const len = data.length;
+        ulRef.current.scrollTop = (defaultIndex + len - 3) * 36;
+        setCurrentIndex(defaultIndex + len);
     }, [defaultIndex]);
 
     return (
         <SelectWrap>
-            <ul ref={ulRef}>
-                {data.map((item, index) => {
+            <ul ref={ulRef} onScroll={handleScroll}>
+                {[...data, ...data, ...data].map((item, index) => {
                     return (
                         <li
                             key={index}

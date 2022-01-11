@@ -16,7 +16,7 @@ import {
     Divide,
     LimitWrap,
     LimitTitle,
-} from './DevspaceForm';
+} from '../style-components';
 
 const HELM_VALUES_PLACEHOLDER = `# Below you can configure the virtual cluster"
 storage:
@@ -102,13 +102,17 @@ export default function VirtualCluster({
     }, [initialIsVCluster]);
 
     const getVersion = useCallback(async () => {
-        const {
-            data: { versions },
-        } = await HTTP.get('nocalhost/version/vcluster');
-        setVersions(versions);
+        try {
+            const {
+                data: { versions },
+            } = await HTTP.get('nocalhost/version/vcluster');
+            setVersions(versions);
 
-        if (!form.getFieldValue('version')) {
-            form.setFieldsValue({ version: versions[0] });
+            if (!form.getFieldValue('version')) {
+                form.setFieldsValue({ version: versions[0] });
+            }
+        } catch (e) {
+            //
         }
     }, [form]);
 

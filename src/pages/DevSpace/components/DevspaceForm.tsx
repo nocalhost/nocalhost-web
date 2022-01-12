@@ -515,7 +515,7 @@ const DevspaceForm = ({
 
     const onValuesChange = useCallback(
         (changedValues: any, allValues: any) => {
-            if (!('dev_space_type' in changedValues) && !('dev_space_type' in changedValues)) {
+            if (!('dev_space_type' in changedValues) && !('resource_limit_set' in changedValues)) {
                 return;
             }
             const fieldsName = [

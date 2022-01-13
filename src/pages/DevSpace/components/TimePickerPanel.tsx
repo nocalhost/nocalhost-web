@@ -184,7 +184,28 @@ const SelectPanel = ({
         } else if (scrollTop >= itemHeight * len * 2) {
             ulRef.current.scrollTop = len * itemHeight;
         } else {
-            //
+            const distance = scrollTop % itemHeight;
+            let index = 0;
+            if (distance > 16) {
+                index = Math.ceil(scrollTop / itemHeight);
+            } else {
+                index = Math.floor(scrollTop / itemHeight);
+            }
+            // const selectIndex = len + (index % len);
+            if (timeRef.current) {
+                clearTimeout(timeRef.current);
+                timeRef.current = setTimeout(() => {
+                    ulRef.current.scrollTop = index * itemHeight;
+                    // setCurrentIndex(selectIndex + 3);
+                    // handleSelect(selectIndex % len, type);
+                }, 100);
+            } else {
+                timeRef.current = setTimeout(() => {
+                    ulRef.current.scrollTop = index * itemHeight;
+                    // setCurrentIndex(selectIndex + 3);
+                    // handleSelect(selectIndex % len, type);
+                }, 100);
+            }
         }
     };
 

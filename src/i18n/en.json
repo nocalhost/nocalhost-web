@@ -554,7 +554,7 @@
         "usernameAttr": "Username attr",
         "usernameAttrPh": "Please enter the attribute name of the user name, e.g. OpenLdap Fill in the uid ",
         "memberRule": "Membership Rules",
-        "baseDn": "Basic DN",
+        "baseDn": "Base DN",
         "baseDnPh": "Search for users from the root directory, e.g. cn=users,dc=example.com,de= ",
         "selector": "Filters",
         "advanceSetting": "Advanced Configuration",

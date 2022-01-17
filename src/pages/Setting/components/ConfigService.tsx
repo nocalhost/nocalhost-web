@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ConfigServiceWrap } from '../styled-component';
 import { useTranslation } from 'react-i18next';
-import { Form, Input, Radio, Button } from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 import { ConfigInfo } from '../../../types';
 import LabelWithHelp from '../../../components/LabelWithHelp';
 import { ReactComponent as IconArrowDown } from '../../../images/icon/icon_arrow_down.svg';
@@ -36,11 +36,18 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
 
     useEffect(() => {
         if (configData) {
+            const security = [];
+            if (configData.tls) {
+                security.push('tls');
+            }
+            if (configData?.md5) {
+                security.push('md5');
+            }
             form.setFieldsValue({
                 server: configData?.server,
                 bind_dn: configData?.bind_dn,
                 password: configData?.password,
-                security: configData?.tls ? 'tls' : configData?.md5 ? 'md5' : '',
+                security,
                 base_dn: configData?.base_dn,
                 filter: configData?.filter,
                 email_attr: configData?.email_attr,
@@ -62,8 +69,8 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                 bind_dn,
                 password,
                 server,
-                tls: security === 'tls' ? 1 : 0,
-                md5: security === 'md5' ? 1 : 0,
+                tls: security.indexOf('tls') > -1 ? 1 : 0,
+                md5: security.indexOf('md5') ? 1 : 0,
             });
             const response = await HTTP.put('ldap/bind', {
                 bind_dn,
@@ -163,10 +170,6 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
         });
     };
 
-    const handleFieldChange = () => {
-        // console
-    };
-
     return (
         <ConfigServiceWrap step={currentStep}>
             <div className="desc">{t('settings.configDesc')}</div>
@@ -194,7 +197,6 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                     }}
                     labelAlign="left"
                     form={form}
-                    onFieldsChange={handleFieldChange}
                 >
                     {currentStep === 1 && (
                         <>
@@ -225,12 +227,12 @@ const ConfigService = ({ configData, onClose, handleSyncData, closeAndSync }: IP
                             <Form.Item
                                 label={t('settings.securitySet')}
                                 name="security"
-                                style={{ marginBottom: 0 }}
+                                style={{ marginBottom: 0, display: 'flex', alignItems: 'center' }}
                             >
-                                <Radio.Group>
-                                    <Radio value="tls">Enable TLS</Radio>
-                                    <Radio value="md5">Enable Digest MD5 Bind</Radio>
-                                </Radio.Group>
+                                <Checkbox.Group>
+                                    <Checkbox value="tls">Enable TLS</Checkbox>
+                                    <Checkbox value="md5">Enable Digest MD5 Bind</Checkbox>
+                                </Checkbox.Group>
                             </Form.Item>
                         </>
                     )}

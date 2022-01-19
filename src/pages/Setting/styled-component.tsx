@@ -250,6 +250,7 @@ export const ConfigServiceWrap = styled.div<IConfigService>`
             border: 1px solid rgb(218, 225, 232);
 
             .rule-label {
+                padding: 0 4px;
                 position: absolute;
                 background: #f9fbfd;
                 top: 0;

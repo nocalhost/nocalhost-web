@@ -166,4 +166,8 @@ export const SleepingBox = styled.div`
     align-items: center;
     font-size: 14px;
     color: #36435c;
+
+    &:hover {
+        box-shadow: 0px 0px 1px 0px rgba(54, 67, 92, 0.04), 0px 2px 4px 0px rgba(54, 67, 92, 0.2);
+    }
 `;

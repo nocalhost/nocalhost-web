@@ -10,6 +10,7 @@ import xlsx from './asset/user.xlsx';
 
 import UploadBox, { FileSelect } from './upload';
 import Result from './result';
+import { download } from '../../../utils';
 
 const Block = styled.div`
     padding: 20px;
@@ -28,7 +29,7 @@ const Block = styled.div`
 
 const Mask = styled.div`
     position: absolute;
-    zindex: 99;
+    z-index: 99;
     top: 0;
     width: 100%;
     height: 100%;
@@ -58,7 +59,10 @@ function ImportBox(props: { t: TFunction; setResult: (r: number) => void }) {
                 <Block>
                     <strong>1. 下载导入模版</strong>
                     <p style={{ color: '#79879C' }}>请根据提示信息晚上模版文件内容</p>
-                    <Button icon={<DownloadOutlined />} target={'_blank'} href={xlsx}>
+                    <Button
+                        icon={<DownloadOutlined />}
+                        onClick={() => download(xlsx, { fileName: '用户导入模板.xls' })}
+                    >
                         下载模版文件
                     </Button>
                 </Block>

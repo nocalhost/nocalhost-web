@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
+import RcUpload, { UploadProps } from 'rc-upload';
 
 import { ReactComponent as File1 } from './asset/file.svg';
 import { ReactComponent as File0 } from './asset/file.0.svg';
@@ -86,18 +87,47 @@ export function FileSelect(props: {
     style?: CSSProperties;
 }) {
     const { loading, onImport, onCancel, style } = props;
+
+    const rcProps: UploadProps = {
+        type: 'drag',
+        accept:
+            '.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        beforeUpload(file) {
+            console.log('beforeUpload', file.name);
+
+            const { name } = file;
+            const suffix = name.split('.').slice(-1)[0];
+
+            if (!['.csv', '.xls', 'xlsx'].includes(suffix)) {
+                return false;
+            }
+
+            return false;
+        },
+        onStart: (file) => {
+            console.log('onStart', file.name);
+        },
+        onSuccess(file) {
+            console.log('onSuccess', file);
+        },
+        onProgress(step, file) {
+            console.log('onProgress', Math.round(step.percent), file.name);
+        },
+        onError(err) {
+            console.log('onError', err);
+        },
+    };
     return (
         <>
-            <Select style={style}>
-                <File0 />
-                <label>
-                    选择文件
-                    <input type="file" />
-                </label>
-                <p style={{ color: '#CDD4DB' }}>
-                    完善模版文件信息后，可直接将文件拖拽到此处进行上传，支持格式：XLS、XLSX、CSV
-                </p>
-            </Select>
+            <RcUpload {...rcProps}>
+                <Select style={style}>
+                    <File0 />
+                    <Button> 选择文件</Button>
+                    <p style={{ color: '#CDD4DB' }}>
+                        完善模版文件信息后，可直接将文件拖拽到此处进行上传，支持格式：XLS、XLSX、CSV
+                    </p>
+                </Select>
+            </RcUpload>
             <div
                 style={{
                     marginTop: 24,

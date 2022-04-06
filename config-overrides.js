@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef
 const { override, addLessLoader } = require('customize-cra');
 module.exports = {
     webpack: override(addLessLoader(), (config) => {
@@ -14,6 +15,14 @@ module.exports = {
                         babel: false,
                         icon: true,
                     },
+                },
+            ],
+        });
+        loaders.push({
+            test: /.xlsx/,
+            use: [
+                {
+                    loader: 'file-loader',
                 },
             ],
         });

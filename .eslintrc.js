@@ -36,6 +36,7 @@ module.exports = {
             },
         },
     },
+    ignorePatterns: ['*.d.ts'],
     rules: {
         'no-dupe-keys': 'error',
         'no-duplicate-case': 'error',

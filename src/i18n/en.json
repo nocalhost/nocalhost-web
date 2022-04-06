@@ -141,6 +141,7 @@
                 "info": "After deleting the user「{{name}}」, the user will not be able to log in to the system."
             },
             "bt": {
+                "import": "Import User",
                 "add": "Add User",
                 "edit": "Edit User"
             },

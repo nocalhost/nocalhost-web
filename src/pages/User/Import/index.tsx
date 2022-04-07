@@ -10,7 +10,8 @@ import BreadCard from '../../../components/BreadCard';
 import xlsx from './asset/user.xlsx';
 import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
-import Container, { ImportContext, useImportUserContext } from './util';
+import Container, { ImportContext, useImportContext } from './util';
+import { useHistory } from 'react-router-dom';
 
 export function ImportBox(props: { t: TFunction }) {
     const {
@@ -18,14 +19,20 @@ export function ImportBox(props: { t: TFunction }) {
         taskId,
         setTaskId,
         setFile,
-        template: { link, name },
-    } = useImportUserContext();
+        config: {
+            template: { link, name },
+            complete: { link: cancelLink },
+        },
+    } = useImportContext();
+
+    const history = useHistory();
 
     useEffect(() => {
         if (taskId > -1) {
             setTimeout(() => {
-                setResult(1);
                 setTaskId(-1);
+                setResult(1);
+                setFile(undefined);
             }, 3_000);
         }
     }, [taskId]);
@@ -52,7 +59,7 @@ export function ImportBox(props: { t: TFunction }) {
                 </div>
                 <UploadProgress />
             </div>
-            <Buttons setTaskId={setTaskId} />
+            <Buttons onCancel={() => history.push(cancelLink)} setTaskId={setTaskId} />
         </>
     );
 }
@@ -83,13 +90,22 @@ export default function ImportUser() {
                             setFile,
                             setResult,
                             result,
-                            template: {
-                                name: '用户导入模板.xlsx',
-                                link: xlsx,
-                            },
-                            icon: {
-                                default: defaultIcon,
-                                select: selectIcon,
+                            config: {
+                                template: {
+                                    name: '用户导入模板.xlsx',
+                                    link: xlsx,
+                                    suffix: ['xls', 'xlsx', 'csv'],
+                                    accept:
+                                        '.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                },
+                                icon: {
+                                    default: defaultIcon,
+                                    select: selectIcon,
+                                },
+                                complete: {
+                                    link: '/dashboard/user',
+                                    text: '成功导入用户 28 个',
+                                },
                             },
                         }}
                     >

@@ -181,16 +181,24 @@ type ImportContextType = {
     file?: File;
     result?: number;
     taskId: number;
-    template: {
-        name: string;
-        link: string;
-    };
-    icon: {
-        default: typeof ReactComponent;
-        select: typeof ReactComponent;
+    config: {
+        template: {
+            name: string;
+            link: string;
+            accept: string;
+            suffix: string[];
+        };
+        icon: {
+            default: typeof ReactComponent;
+            select: typeof ReactComponent;
+        };
+        complete: {
+            link: string;
+            text: string;
+        };
     };
     setResult: (result: number) => void;
-    setFile: (file: File) => void;
+    setFile: (file?: File) => void;
     setTaskId: (taskId: number) => void;
 };
 
@@ -199,19 +207,28 @@ function EmptyFunction() {}
 
 export const ImportContext = React.createContext<ImportContextType>({
     taskId: -1,
-    template: {
-        name: '',
-        link: '',
+    config: {
+        template: {
+            name: '',
+            link: '',
+            accept: '',
+            suffix: [],
+        },
+        icon: {
+            default: defaultIcon,
+            select: defaultIcon,
+        },
+        complete: {
+            link: '',
+            text: '',
+        },
     },
-    icon: {
-        default: defaultIcon,
-        select: defaultIcon,
-    },
+
     setResult: EmptyFunction,
     setFile: EmptyFunction,
     setTaskId: EmptyFunction,
 });
 
-export const useImportUserContext = () => useContext(ImportContext);
+export const useImportContext = () => useContext(ImportContext);
 
 export default Container;

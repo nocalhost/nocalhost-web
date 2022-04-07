@@ -29,14 +29,23 @@ const ImportDevSpace = () => {
                 <div className="container">
                     <ImportContext.Provider
                         value={{
-                            icon: {
-                                select: selectIcon,
-                                default: defaultIcon,
+                            config: {
+                                icon: {
+                                    select: selectIcon,
+                                    default: defaultIcon,
+                                },
+                                template: {
+                                    name: '开发空间导入模版.yaml',
+                                    link: link,
+                                    accept: '.yaml',
+                                    suffix: ['yaml'],
+                                },
+                                complete: {
+                                    link: '/dashboard/devspace',
+                                    text: '成功导入 28',
+                                },
                             },
-                            template: {
-                                name: '开发空间导入模版.yaml',
-                                link: link,
-                            },
+
                             file,
                             taskId,
                             setTaskId,

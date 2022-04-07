@@ -4,10 +4,17 @@ import RcUpload, { UploadProps } from 'rc-upload';
 import fileSize from 'filesize';
 import classNames from 'classnames';
 
-import Container, { useImportUserContext } from './util';
+import Container, { useImportContext } from './util';
 
-export function Buttons(props: { setTaskId: (taskId: number) => void }) {
+export function Buttons(props: { onCancel: () => void; setTaskId: (taskId: number) => void }) {
+    const { file } = useImportContext();
     const [loading, setLoading] = useState(false);
+
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        setDisabled(!file);
+    }, [file]);
     return (
         <div
             style={{
@@ -16,10 +23,16 @@ export function Buttons(props: { setTaskId: (taskId: number) => void }) {
                 justifyContent: 'right',
             }}
         >
-            <Button className={classNames({ 'ant-btn-loading': loading })}>取消</Button>
+            <Button
+                className={classNames({ 'ant-btn-loading': loading || disabled })}
+                onClick={props.onCancel}
+            >
+                取消
+            </Button>
             <Button
                 loading={loading}
                 style={{ marginLeft: 12 }}
+                className={classNames({ 'ant-btn-loading': disabled })}
                 type="primary"
                 onClick={() => {
                     setLoading(true);
@@ -38,8 +51,10 @@ export default function UploadProgress() {
         taskId,
         setTaskId,
         setResult,
-        icon: { select: File1 },
-    } = useImportUserContext();
+        config: {
+            icon: { select: File1 },
+        },
+    } = useImportContext();
 
     const progressEl = useRef<HTMLDivElement>(null);
 
@@ -105,8 +120,11 @@ export function FileSelect(props: { style?: CSSProperties; onChange: (file: File
     const { style } = props;
 
     const {
-        icon: { default: File0, select: File1 },
-    } = useImportUserContext();
+        config: {
+            icon: { default: File0, select: File1 },
+            template: { accept, suffix },
+        },
+    } = useImportContext();
 
     const onChang = useCallback((file: File) => {
         setFile(file);
@@ -117,8 +135,7 @@ export function FileSelect(props: { style?: CSSProperties; onChange: (file: File
 
     const rcProps: UploadProps = {
         type: 'drag',
-        accept:
-            '.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        accept,
         beforeUpload(file) {
             onChang(file);
 
@@ -142,7 +159,8 @@ export function FileSelect(props: { style?: CSSProperties; onChange: (file: File
                             <File0 />
                             <Button className="button"> 选择文件</Button>
                             <p style={{ color: '#CDD4DB' }}>
-                                完善模版文件信息后，可直接将文件拖拽到此处进行上传，支持格式：XLS、XLSX、CSV
+                                完善模版文件信息后,&nbsp;可直接将文件拖拽到此处进行上传,&nbsp;支持格式:&nbsp;
+                                {suffix.join('、')}
                             </p>
                         </>
                     )}

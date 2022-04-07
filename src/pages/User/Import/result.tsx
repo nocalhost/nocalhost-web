@@ -8,7 +8,7 @@ import { ReactComponent as IconSuccess } from './asset/success.svg';
 import { ReactComponent as IconFail } from './asset/fail.svg';
 import { ReactComponent as IconBigSuccess } from '../../../images/icon/icon_success.svg';
 import UploadProgress, { Buttons, FileSelect } from './upload';
-import { useImportUserContext } from './util';
+import { useImportContext } from './util';
 
 const columns: ColumnsType<any> = [
     {
@@ -78,7 +78,7 @@ function Success(props: { text: string; onClick: () => void }) {
 function Fail() {
     const [reImport, setReImport] = useState(false);
 
-    const { setFile, setTaskId } = useImportUserContext();
+    const { setFile, setTaskId } = useImportContext();
 
     const upload = useCallback((taskId: number) => {
         setReImport(false);
@@ -94,7 +94,7 @@ function Fail() {
                 onCancel={() => setReImport(false)}
             >
                 <FileSelect onChange={setFile} />
-                <Buttons setTaskId={upload} />
+                <Buttons setTaskId={upload} onCancel={() => setReImport(false)} />
             </Modal>
 
             <div className="info">
@@ -135,16 +135,18 @@ function Fail() {
 export default function Result() {
     const history = useHistory();
 
-    const { result } = useImportUserContext();
+    const {
+        result,
+        config: {
+            complete: { link, text },
+        },
+    } = useImportContext();
     return (
         <div>
             <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>导入结果</b>
-            {(result === 2 && (
-                <Success
-                    onClick={() => history.push('/dashboard/user')}
-                    text={`成功导入用户 28 个`}
-                />
-            )) || <Fail />}
+            {(result === 2 && <Success onClick={() => history.push(link)} text={text} />) || (
+                <Fail />
+            )}
         </div>
     );
 }

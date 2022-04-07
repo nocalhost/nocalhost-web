@@ -19,7 +19,7 @@ module.exports = {
             ],
         });
         loaders.push({
-            test: /.xlsx/,
+            test: /\.(xlsx|yaml)$/,
             use: [
                 {
                     loader: 'file-loader',

@@ -50,6 +50,7 @@ import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSp
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 import CopyToClipboard from 'react-copy-to-clipboard';
+
 interface RouteParams {
     id: string;
 }
@@ -57,6 +58,7 @@ interface RouteParams {
 interface UserInfo {
     name: string;
 }
+
 interface UserProps {
     cooper_user: UserInfo[];
     viewer_user: UserInfo[];
@@ -70,6 +72,7 @@ interface SelectMap {
 
 interface IRecord {
     id: number;
+
     [index: string]: any;
 }
 
@@ -612,13 +615,21 @@ const EnvList = () => {
                             />
                         </IconBox> */}
                         {!id && (
-                            <Button
-                                type="primary"
-                                icon={<Icon component={IconAdd}></Icon>}
-                                onClick={handleShowChooseType}
-                            >
-                                {t('resources.space.actions.create')}
-                            </Button>
+                            <>
+                                <Button
+                                    style={{ marginRight: 12 }}
+                                    onClick={() => history.push('/dashboard/devspace/import')}
+                                >
+                                    导入开发空间
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    icon={<Icon component={IconAdd}></Icon>}
+                                    onClick={handleShowChooseType}
+                                >
+                                    {t('resources.space.actions.create')}
+                                </Button>{' '}
+                            </>
                         )}
                     </FlexBox>
                 </ContentTitle>

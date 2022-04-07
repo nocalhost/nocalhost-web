@@ -1,0 +1,10 @@
+cluster1: # 集群名 必须和 nocalhost 集群名称保持一致
+ - ns1: # namespace 要导入的ns
+   - zhangsan1@163.cn # 用户邮箱，用户不存在时创建自动创建用户，密码与邮箱一致
+  
+ - ns2:
+   - zhangsan1@163.cn
+
+cluster2:
+ - ns1:
+   - zhangsan1@163.cn

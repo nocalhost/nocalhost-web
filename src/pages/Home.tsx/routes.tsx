@@ -8,6 +8,7 @@ import DevSpace from '../DevSpace';
 import DevSpaceOperation from '../DevSpace/components/DevspaceOperation';
 import MeshSpace from '../DevSpace/components/MeshSpace';
 import ImportUser from '../User/Import';
+import ImportDevSpace from '../DevSpace/import';
 
 export const routes = [
     {
@@ -48,6 +49,11 @@ export const routes = [
     {
         path: '/dashboard/devspace/',
         component: DevSpace,
+        exact: true,
+    },
+    {
+        path: '/dashboard/devspace/import',
+        component: ImportDevSpace,
         exact: true,
     },
     {

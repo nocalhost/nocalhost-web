@@ -1,54 +1,15 @@
-import React, { useState } from 'react';
-import { TFunction } from 'i18next';
-import styled from 'styled-components';
+import React, { useCallback, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { Table } from 'antd/es';
-
-import { ReactComponent as Success } from './asset/success.svg';
-import { ReactComponent as Fail } from './asset/fail.svg';
 import { ColumnsType } from 'antd/es/table/interface';
-import { FileSelect } from './upload';
+import { useHistory } from 'react-router-dom';
 
-const Info = styled.div`
-    display: flex;
-    height: 72px;
-    align-items: center;
-    background-color: #f7f8f9;
-    border-radius: 4px;
+import { ReactComponent as IconSuccess } from './asset/success.svg';
+import { ReactComponent as IconFail } from './asset/fail.svg';
+import { ReactComponent as IconBigSuccess } from '../../../images/icon/icon_success.svg';
+import UploadProgress, { Buttons, FileSelect } from './upload';
+import { useImportUserContext } from './util';
 
-    div {
-        position: relative;
-        flex: 1;
-        display: flex;
-        align-content: center;
-        justify-content: center;
-
-        &:first-child:before {
-            position: absolute;
-            content: ' ';
-            top: -5px;
-            height: 32px;
-            right: 0;
-            border: 1px solid #dae1e8;
-        }
-    }
-
-    svg {
-        margin-right: 6px;
-    }
-`;
-
-const TableInfo = styled.div`
-    margin: 16px 0;
-    padding: 20px;
-    border: 1px solid #dae1e8;
-    box-sizing: border-box;
-    border-radius: 4px;
-
-    p {
-        margin-bottom: 0;
-    }
-`;
 const columns: ColumnsType<any> = [
     {
         title: '邮箱',
@@ -100,22 +61,31 @@ const data = [
         tags: ['cool', 'teacher'],
     },
 ];
-const Container = styled.div`
-    .ant-table-thead {
-        box-shadow: none;
 
-        tr {
-            th {
-                background: #f7f8f9;
-                color: #79879c;
-            }
-        }
-    }
-`;
-export default function Result(props: { t: TFunction }) {
-    const [reImport, setReImport] = useState(false);
+function Success(props: { text: string; onClick: () => void }) {
     return (
-        <Container>
+        <div className="success">
+            <IconBigSuccess />
+            <strong>导入成功</strong>
+            <p>{props.text}</p>
+            <Button type="primary" onClick={props.onClick}>
+                完成
+            </Button>
+        </div>
+    );
+}
+
+function Fail() {
+    const [reImport, setReImport] = useState(false);
+
+    const { setFile, setTaskId } = useImportUserContext();
+
+    const upload = useCallback((taskId: number) => {
+        setReImport(false);
+        setTaskId(taskId);
+    }, []);
+    return (
+        <div style={{ position: 'relative' }}>
             <Modal
                 width="50vw"
                 visible={reImport}
@@ -123,33 +93,22 @@ export default function Result(props: { t: TFunction }) {
                 footer={null}
                 onCancel={() => setReImport(false)}
             >
-                <FileSelect
-                    onCancel={() => setReImport(false)}
-                    onImport={() => console.warn('')}
-                    loading={false}
-                />
+                <FileSelect onChange={setFile} />
+                <Buttons setTaskId={upload} />
             </Modal>
-            <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>
-                {props.t('resources.users.bt.import')}
-            </b>
-            <Info>
+
+            <div className="info">
                 <div>
-                    <Success />
+                    <IconSuccess />
                     导入成功 28 个
                 </div>
                 <div>
-                    <Fail />
+                    <IconFail />
                     导入失败 8 个
                 </div>
-            </Info>
-            <TableInfo>
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
+            </div>
+            <div className="table-info">
+                <div>
                     <p>
                         以下为导入失败信息，可以
                         <a target="_blank" href="http://www.baidu.com">
@@ -167,7 +126,25 @@ export default function Result(props: { t: TFunction }) {
                     columns={columns}
                     dataSource={data}
                 />
-            </TableInfo>
-        </Container>
+            </div>
+            <UploadProgress />
+        </div>
+    );
+}
+
+export default function Result() {
+    const history = useHistory();
+
+    const { result } = useImportUserContext();
+    return (
+        <div>
+            <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>导入结果</b>
+            {(result === 2 && (
+                <Success
+                    onClick={() => history.push('/dashboard/user')}
+                    text={`成功导入用户 28 个`}
+                />
+            )) || <Fail />}
+        </div>
     );
 }

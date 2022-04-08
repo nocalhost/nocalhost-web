@@ -78,12 +78,12 @@ function Success(props: { text: string; onClick: () => void }) {
 function Fail() {
     const [reImport, setReImport] = useState(false);
 
-    const { setFile, setTaskId } = useImportContext();
+    const [currentFile, setCurrentFile] = useState<File>();
 
-    const upload = useCallback((taskId: number) => {
+    const onCancel = useCallback(() => {
         setReImport(false);
-        setTaskId(taskId);
     }, []);
+
     return (
         <div style={{ position: 'relative' }}>
             <Modal
@@ -91,10 +91,10 @@ function Fail() {
                 visible={reImport}
                 title="重新导入"
                 footer={null}
-                onCancel={() => setReImport(false)}
+                onCancel={onCancel}
             >
-                <FileSelect onChange={setFile} />
-                <Buttons setTaskId={upload} onCancel={() => setReImport(false)} />
+                <FileSelect onChange={setCurrentFile} />
+                <Buttons file={currentFile} onImport={onCancel} onCancel={onCancel} />
             </Modal>
 
             <div className="info">
@@ -136,7 +136,7 @@ export default function Result() {
     const history = useHistory();
 
     const {
-        result,
+        state: { result },
         config: {
             complete: { link, text },
         },

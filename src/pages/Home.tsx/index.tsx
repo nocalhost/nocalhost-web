@@ -7,6 +7,7 @@ import { routes } from './routes';
 import HTTP from '../../api/fetch';
 import { UserContext, UPDATE_USER } from '../../provider/appContext';
 import AuthorizedRoute from './AuthorizedRoute';
+
 const Flex = styled.div`
     display: flex;
     height: 100%;
@@ -32,10 +33,11 @@ function Home() {
                 if (user.code === 0) {
                     localStorage.setItem('user', JSON.stringify(user));
                     dispatch({ type: UPDATE_USER, user: user?.data });
-                    localStorage.setItem('userId', user.id);
+                    localStorage.setItem('userId', user.data.id);
                 }
             }
         }
+
         getUser();
     }, []);
     return (

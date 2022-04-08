@@ -6,10 +6,11 @@ import classNames from 'classnames';
 
 import Container, { useImportContext } from './util';
 
-export function Buttons(props: { onCancel: () => void; setTaskId: (taskId: number) => void }) {
-    const { file } = useImportContext();
-    const [loading, setLoading] = useState(false);
+export function Buttons(props: { onCancel: () => void; file?: File; onImport?: () => void }) {
+    const { file, onCancel, onImport } = props;
+    const { setState } = useImportContext();
 
+    const [loading, setLoading] = useState(false);
     const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
@@ -23,10 +24,7 @@ export function Buttons(props: { onCancel: () => void; setTaskId: (taskId: numbe
                 justifyContent: 'right',
             }}
         >
-            <Button
-                className={classNames({ 'ant-btn-loading': loading || disabled })}
-                onClick={props.onCancel}
-            >
+            <Button className={classNames({ 'ant-btn-loading': loading })} onClick={onCancel}>
                 取消
             </Button>
             <Button
@@ -35,8 +33,14 @@ export function Buttons(props: { onCancel: () => void; setTaskId: (taskId: numbe
                 className={classNames({ 'ant-btn-loading': disabled })}
                 type="primary"
                 onClick={() => {
+                    if (!file) {
+                        return;
+                    }
+
                     setLoading(true);
-                    props.setTaskId(0);
+
+                    onImport && onImport();
+                    setState({ taskId: 1, file });
                 }}
             >
                 导入
@@ -47,10 +51,8 @@ export function Buttons(props: { onCancel: () => void; setTaskId: (taskId: numbe
 
 export default function UploadProgress() {
     const {
-        file,
-        taskId,
-        setTaskId,
-        setResult,
+        state: { file, taskId },
+        setState,
         config: {
             icon: { select: File1 },
         },
@@ -65,7 +67,13 @@ export default function UploadProgress() {
     };
 
     useEffect(() => {
-        if (file && taskId > -1) {
+        return () => {
+            clearInterval(refresh.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (taskId) {
             let progress = 0;
             const { current } = progressEl;
 
@@ -86,17 +94,15 @@ export default function UploadProgress() {
                 span.textContent = text;
 
                 if (progress === 100) {
-                    setTaskId(-1);
-                    setResult(2);
+                    setState({ taskId: undefined, result: 2 });
                 }
             }, 1_000);
-        }
-        if (taskId === -1) {
+        } else {
             clearInterval(refresh.current);
         }
     }, [taskId]);
 
-    if (taskId == -1 || !file) {
+    if (!file) {
         return <></>;
     }
     return (

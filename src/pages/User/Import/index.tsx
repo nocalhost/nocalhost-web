@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import { TFunction } from 'i18next';
+import { useHistory } from 'react-router-dom';
 
 import { ReactComponent as selectIcon } from './asset/file.svg';
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
@@ -10,15 +10,12 @@ import BreadCard from '../../../components/BreadCard';
 import xlsx from './asset/user.xlsx';
 import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
-import Container, { ImportContext, useImportContext } from './util';
-import { useHistory } from 'react-router-dom';
+import Container, { ImportContext, ImportStateType, useImportContext } from './util';
 
-export function ImportBox(props: { t: TFunction }) {
+export function ImportBox(props: PropsWithChildren<any>) {
     const {
-        setResult,
-        taskId,
-        setTaskId,
-        setFile,
+        state: { taskId },
+        setState,
         config: {
             template: { link, name },
             complete: { link: cancelLink },
@@ -27,22 +24,25 @@ export function ImportBox(props: { t: TFunction }) {
 
     const history = useHistory();
 
+    const [currentFile, setCurrentFile] = useState<File>();
+
     useEffect(() => {
-        if (taskId > -1) {
+        if (taskId == 1) {
             setTimeout(() => {
-                setTaskId(-1);
-                setResult(1);
-                setFile(undefined);
+                setState({
+                    taskId: undefined,
+                    result: 1,
+                    file: undefined,
+                });
             }, 3_000);
         }
     }, [taskId]);
     return (
         <>
-            <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>
-                {props.t('resources.users.bt.import')}
-            </b>
+            {props.children}
             <div
                 style={{
+                    marginTop: 16,
                     position: 'relative',
                 }}
             >
@@ -55,11 +55,11 @@ export function ImportBox(props: { t: TFunction }) {
                 </div>
                 <div className="block" style={{ marginTop: 16, marginBottom: 24 }}>
                     <strong>2.上传文件</strong>
-                    <FileSelect style={{ marginTop: 12 }} onChange={setFile} />
+                    <FileSelect style={{ marginTop: 12 }} onChange={setCurrentFile} />
                 </div>
                 <UploadProgress />
             </div>
-            <Buttons onCancel={() => history.push(cancelLink)} setTaskId={setTaskId} />
+            <Buttons onCancel={() => history.push(cancelLink)} file={currentFile} />
         </>
     );
 }
@@ -67,9 +67,7 @@ export function ImportBox(props: { t: TFunction }) {
 export default function ImportUser() {
     const { t } = useTranslation();
 
-    const [file, setFile] = useState<File>();
-    const [result, setResult] = useState<number>(-1);
-    const [taskId, setTaskId] = useState(-1);
+    const [state, setState] = useState<ImportStateType>({});
 
     return (
         <Container>
@@ -80,16 +78,16 @@ export default function ImportUser() {
                     route: '/dashboard/user',
                 }}
             />
-            <div className="import">
+            <div className="import bg">
                 <div className="container">
                     <ImportContext.Provider
                         value={{
-                            file,
-                            taskId,
-                            setTaskId,
-                            setFile,
-                            setResult,
-                            result,
+                            state,
+                            setState: (state) => {
+                                setState((prevState) => {
+                                    return { ...prevState, ...state };
+                                });
+                            },
                             config: {
                                 template: {
                                     name: '用户导入模板.xlsx',
@@ -109,7 +107,13 @@ export default function ImportUser() {
                             },
                         }}
                     >
-                        {(result > -1 && <Result />) || <ImportBox t={t} />}
+                        {(state.result && <Result />) || (
+                            <ImportBox t={t}>
+                                <b style={{ paddingTop: 16, fontSize: 16, display: 'block' }}>
+                                    {t('resources.users.bt.import')}
+                                </b>
+                            </ImportBox>
+                        )}
                     </ImportContext.Provider>
                 </div>
             </div>

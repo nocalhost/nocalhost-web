@@ -5,8 +5,11 @@ import { ReactComponent } from '*.svg';
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
 
 const Container = styled.div`
-    & > div.import {
+    .bg {
         background-color: #fff;
+    }
+
+    & .import {
         display: flex;
         justify-content: center;
     }
@@ -121,6 +124,30 @@ const Container = styled.div`
         }
     }
 
+    .ant-tabs-nav {
+        margin-bottom: 0;
+        background: #f9fbfd;
+        box-shadow: inset 0px -1px 0px #f3f6fa;
+    }
+
+    .ant-tabs-nav-wrap {
+        margin-left: 20px;
+    }
+
+    .ant-tabs-tab {
+        padding: 17px 0;
+        font-size: 16px;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #1890ff;
+        font-weight: 600;
+    }
+
+    .ant-tabs-ink-bar {
+        background: #1890ff;
+    }
+
     .success {
         margin: 15vh 0;
         height: 260px;
@@ -176,11 +203,35 @@ const Container = styled.div`
             margin-right: 6px;
         }
     }
+
+    .ns {
+        padding-bottom: 20px;
+
+        .header {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ant-table-thead {
+            box-shadow: 0px 4px 8px rgba(40, 47, 55, 0.03);
+        }
+
+        .ant-table-thead tr th {
+            background: #ffffff;
+        }
+    }
 `;
-type ImportContextType = {
+export type ImportStateType = {
     file?: File;
     result?: number;
-    taskId: number;
+    taskId?: number;
+};
+type ImportContextType = {
+    state: ImportStateType;
+    setState: (state: ImportStateType) => void;
     config: {
         template: {
             name: string;
@@ -197,16 +248,14 @@ type ImportContextType = {
             text: string;
         };
     };
-    setResult: (result: number) => void;
-    setFile: (file?: File) => void;
-    setTaskId: (taskId: number) => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 function EmptyFunction() {}
 
 export const ImportContext = React.createContext<ImportContextType>({
-    taskId: -1,
+    state: {},
+    setState: EmptyFunction,
     config: {
         template: {
             name: '',
@@ -223,10 +272,6 @@ export const ImportContext = React.createContext<ImportContextType>({
             text: '',
         },
     },
-
-    setResult: EmptyFunction,
-    setFile: EmptyFunction,
-    setTaskId: EmptyFunction,
 });
 
 export const useImportContext = () => useContext(ImportContext);

@@ -84,6 +84,25 @@ function Fail() {
         setReImport(false);
     }, []);
 
+    const onDownload = useCallback(() => {
+        import('xlsx').then((xlsx) => {
+            const wb = xlsx.utils.book_new();
+
+            const ws = xlsx.utils.aoa_to_sheet([
+                ['请不要修改文件格式！'],
+                ['邮箱', '用户名称', 'Cooperator DevSpace', 'Viewer  DevSpace'],
+                ['zhangsan@126.com', 'zhangsan', 'zhangsan', 'zhangsan'],
+            ]);
+
+            ws['!merges'] = [xlsx.utils.decode_range('A1:D1')];
+
+            wb.SheetNames.push('sheet1');
+            wb.Sheets['sheet1'] = ws;
+
+            xlsx.writeFile(wb, '导入失败用户.xlsx');
+        });
+    }, []);
+
     return (
         <div style={{ position: 'relative' }}>
             <Modal
@@ -111,9 +130,7 @@ function Fail() {
                 <div>
                     <p>
                         以下为导入失败信息，可以
-                        <a target="_blank" href="http://www.baidu.com">
-                            下载导入失败用户列表
-                        </a>
+                        <a onClick={onDownload}>下载导入失败用户列表</a>
                         ，修改后重新导入
                     </p>
                     <Button type="primary" onClick={() => setReImport(true)}>

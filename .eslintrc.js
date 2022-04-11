@@ -68,6 +68,7 @@ module.exports = {
         'no-empty': 1,
         //     'global-require': 0,
         //     'no-trailing-spaces': 0,
+        '@typescript-eslint/no-explicit-any': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
     },
 };

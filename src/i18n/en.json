@@ -109,6 +109,31 @@
         "noData": "No Data",
         "select": {
             "all": "All"
+        },
+        "import": {
+            "download": {
+                "title": "Download Template",
+                "tips": "Please improve the content of the template file according to the prompt information",
+                "template": "Download Template File "
+            },
+            "upload": {
+                "title": "Upload file",
+                "btn": {
+                    "select": "Select file",
+                    "re": "Reselect"
+                },
+                "tips": "After completing the template file, you can directly drag and drop the file here to upload it, supporting the format:"
+            },
+            "btn": {
+                "import": "import",
+                "cancel": "Cancel"
+            },
+            "result": {
+                "title": "Import Result",
+                "successfully": "Imported successfully",
+                "failure": "Imported failure",
+                "tips": "The following is the import failure message, you can download {}, modify it and re-import"
+            }
         }
     },
     "resources": {

@@ -11,15 +11,15 @@ import HTTP from '../../../api/fetch';
 const BaseSpace = (...arg: [NsType['baseSpace'], NsType, number]) => {
     const [value, { state }] = arg;
 
-    const disabled = state === 'import';
+    const disabled = state === 'import' || value !== 1;
 
     const node = <Switch defaultChecked={value === 1} disabled={disabled} />;
 
-    if (value === 0) {
+    if (value === 1) {
         return node;
     }
 
-    return <Tooltip title={value === 1 ? '已是基础开发空间' : '未安装istio'}>{node}</Tooltip>;
+    return <Tooltip title={value === 0 ? '已是基础开发空间' : '未安装istio'}>{node}</Tooltip>;
 };
 
 interface NsType {
@@ -105,18 +105,17 @@ const NSImport = () => {
                 setData((prevState) => {
                     const ns = prevState[index];
 
-                    if (lastState === 'default') {
+                    if (lastState === 'import') {
                         ns.state = 'error';
                         ns.error = 'import error';
 
                         prevState[index] = ns;
 
                         return [...prevState];
-                    }
-                    if (lastState === 'error') {
+                    } else if (lastState === 'error') {
                         prevState.splice(index, 1);
 
-                        message.success('导入成功');
+                        message.success(`${ns.cluster}-${ns.ns} 导入成功`);
                         return [...prevState];
                     }
 
@@ -126,6 +125,33 @@ const NSImport = () => {
         },
         [data]
     );
+
+    const importAll = useCallback(() => {
+        let newData = data.map((ns) => {
+            ns.state = 'import';
+            ns.error = undefined;
+
+            return ns;
+        });
+
+        setData(newData);
+
+        setTimeout(() => {
+            newData = [];
+
+            data.forEach((ns) => {
+                if (ns.state === 'import') {
+                    ns.state = 'error';
+                    ns.error = 'import error';
+                } else if (ns.state !== 'error') {
+                    return;
+                }
+                newData.push(ns);
+            });
+
+            setData(newData);
+        }, 3_000);
+    }, [data]);
 
     const columns: ColumnsType<NsType> = [
         {
@@ -212,7 +238,7 @@ const NSImport = () => {
         <Tailwind className="ns bg">
             <div className="header">
                 <b>待导入开发空间({data.length})</b>
-                <Button type="primary" className="rounded-l">
+                <Button type="primary" className="rounded-l" onClick={importAll}>
                     导入当前所有
                 </Button>
             </div>

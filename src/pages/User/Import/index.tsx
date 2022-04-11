@@ -48,7 +48,7 @@ export function ImportBox(props: PropsWithChildren<any>) {
             >
                 <div className="block">
                     <strong>1. 下载导入模版</strong>
-                    <p style={{ color: '#79879C' }}>请根据提示信息晚上模版文件内容</p>
+                    <p style={{ color: '#79879C' }}>请根据提示信息完善模版文件内容</p>
                     <Button icon={<DownloadOutlined />} href={link} download={name}>
                         下载模版文件
                     </Button>
@@ -92,9 +92,9 @@ export default function ImportUser() {
                                 template: {
                                     name: '用户导入模板.xlsx',
                                     link: xlsx,
-                                    suffix: ['xls', 'xlsx', 'csv'],
+                                    suffix: ['xlsx', 'csv'],
                                     accept:
-                                        '.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                        'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                 },
                                 icon: {
                                     default: defaultIcon,

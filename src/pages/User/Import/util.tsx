@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import React, { useContext } from 'react';
-import { ReactComponent } from '*.svg';
 
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
+import { EmptyFunction, ImportContextType } from './types';
 
 const Container = styled.div`
     .bg {
@@ -224,56 +224,42 @@ const Container = styled.div`
         }
     }
 `;
-export type ImportStateType = {
-    file?: File;
-    result?: number;
-    taskId?: number;
+
+export function getImportContext<T = any>() {
+    return React.createContext<ImportContextType<T>>({
+        state: { result: [] },
+        setState: EmptyFunction,
+        config: {
+            template: {
+                name: '',
+                link: '',
+                accept: '',
+                suffix: [],
+            },
+            icon: {
+                default: defaultIcon,
+                select: defaultIcon,
+            },
+            complete: {
+                link: '',
+                text: '',
+            },
+        },
+    });
+}
+
+export type UserItem = {
+    success: boolean;
+    email: string;
+    username: string;
+    cooperatorDevSpace: string;
+    viewerDevSpace: string;
+    errInfo: string;
 };
-type ImportContextType = {
-    state: ImportStateType;
-    setState: (state: ImportStateType) => void;
-    config: {
-        template: {
-            name: string;
-            link: string;
-            accept: string;
-            suffix: string[];
-        };
-        icon: {
-            default: typeof ReactComponent;
-            select: typeof ReactComponent;
-        };
-        complete: {
-            link: string;
-            text: string;
-        };
-    };
-};
+export const UserImportContext = getImportContext<UserItem>();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function EmptyFunction() {}
-
-export const ImportContext = React.createContext<ImportContextType>({
-    state: {},
-    setState: EmptyFunction,
-    config: {
-        template: {
-            name: '',
-            link: '',
-            accept: '',
-            suffix: [],
-        },
-        icon: {
-            default: defaultIcon,
-            select: defaultIcon,
-        },
-        complete: {
-            link: '',
-            text: '',
-        },
-    },
-});
-
-export const useImportContext = () => useContext(ImportContext);
+export function getUserImportContext() {
+    return useContext(UserImportContext);
+}
 
 export default Container;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'antd';
 
-import Container, { ImportContext, ImportStateType } from '../../User/Import/util';
+import Container, { getImportContext } from '../../User/Import/util';
 import BreadCard from '../../../components/BreadCard';
 import Result from '../../User/Import/result';
 import { ImportBox } from '../../User/Import';
@@ -11,11 +11,14 @@ import { ReactComponent as defaultIcon } from './asset/file.0.svg';
 import link from './asset/devspace.yaml';
 import { Tailwind } from '../../../components/Tailwind/style-components';
 import NSImport from './nsImport';
+import { ImportStateType } from '../../User/Import/types';
 
 const ImportDevSpace = () => {
     const { t } = useTranslation();
 
-    const [state, setState] = useState<ImportStateType>({});
+    const [state, setState] = useState<ImportStateType>({ result: [] });
+
+    const ImportContext = getImportContext();
 
     return (
         <Tailwind>

@@ -2,7 +2,9 @@ import 'whatwg-fetch';
 import * as qs from 'query-string';
 import { message } from 'antd';
 
-interface IRequestOptions {
+// import { get } from 'lodash';
+
+interface IRequestOptions extends RequestInit {
     method?: string;
     body?: any;
     config?: any;
@@ -22,8 +24,13 @@ function checkStatus(res: any) {
 export async function fetchJson<T = any>(url: string, options?: IRequestOptions) {
     const headers = new Headers({
         authorization: url.startsWith('login') ? '' : `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': options?.method === 'GET' ? '' : 'application/json',
+        'Content-Type': 'application/json',
     });
+
+    if (options?.method === 'GET' || options?.body instanceof FormData) {
+        headers.delete('Content-Type');
+    }
+
     let apiUrl = '';
     const initOptions: IRequestOptions = {};
     initOptions.method = 'GET';
@@ -102,7 +109,7 @@ export async function fetchJson<T = any>(url: string, options?: IRequestOptions)
         return res as { code: number; data: T };
     } catch (error) {
         message.error(error.message);
-        return { code: -1, data: null };
+        return Promise.reject({ code: -1, data: null });
     }
 }
 
@@ -121,6 +128,11 @@ class HTTP {
 
     async delete(url: string, data?: any, config?: any) {
         return fetchJson(url, { method: 'DELETE', body: JSON.stringify(data), config });
+    }
+
+    async fetch<T = any>(url: string, data?: any, options?: IRequestOptions) {
+        options = options ?? {};
+        return fetchJson<T>(url, { method: 'POST', body: data, ...options });
     }
 }
 

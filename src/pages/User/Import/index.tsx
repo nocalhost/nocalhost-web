@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -10,33 +10,22 @@ import BreadCard from '../../../components/BreadCard';
 import xlsx from './asset/user.xlsx';
 import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
-import Container, { ImportContext, ImportStateType, useImportContext } from './util';
+import Container, { getUserImportContext, UserImportContext, UserItem } from './util';
+import { ImportStateType } from './types';
 
 export function ImportBox(props: PropsWithChildren<any>) {
     const {
-        state: { taskId },
-        setState,
         config: {
             template: { link, name },
             complete: { link: cancelLink },
         },
-    } = useImportContext();
+    } = getUserImportContext();
 
+    const { t } = useTranslation();
     const history = useHistory();
 
     const [currentFile, setCurrentFile] = useState<File>();
 
-    useEffect(() => {
-        if (taskId == 1) {
-            setTimeout(() => {
-                setState({
-                    taskId: undefined,
-                    result: 1,
-                    file: undefined,
-                });
-            }, 3_000);
-        }
-    }, [taskId]);
     return (
         <>
             {props.children}
@@ -47,14 +36,14 @@ export function ImportBox(props: PropsWithChildren<any>) {
                 }}
             >
                 <div className="block">
-                    <strong>1. 下载导入模版</strong>
-                    <p style={{ color: '#79879C' }}>请根据提示信息完善模版文件内容</p>
+                    <strong>1. {t('common.import.download.title')}</strong>
+                    <p style={{ color: '#79879C' }}>{t('common.import.download.tips')}</p>
                     <Button icon={<DownloadOutlined />} href={link} download={name}>
-                        下载模版文件
+                        {t('common.import.download.template')}
                     </Button>
                 </div>
                 <div className="block" style={{ marginTop: 16, marginBottom: 24 }}>
-                    <strong>2.上传文件</strong>
+                    <strong>2.{t('common.import.upload.title')}</strong>
                     <FileSelect style={{ marginTop: 12 }} onChange={setCurrentFile} />
                 </div>
                 <UploadProgress />
@@ -67,7 +56,7 @@ export function ImportBox(props: PropsWithChildren<any>) {
 export default function ImportUser() {
     const { t } = useTranslation();
 
-    const [state, setState] = useState<ImportStateType>({});
+    const [state, setState] = useState<ImportStateType<UserItem>>({ result: [] });
 
     return (
         <Container>
@@ -80,7 +69,7 @@ export default function ImportUser() {
             />
             <div className="import bg">
                 <div className="container">
-                    <ImportContext.Provider
+                    <UserImportContext.Provider
                         value={{
                             state,
                             setState: (state) => {
@@ -102,19 +91,23 @@ export default function ImportUser() {
                                 },
                                 complete: {
                                     link: '/dashboard/user',
-                                    text: '成功导入用户 28 个',
+                                    text: `${t('resources.users.name')} ${t(
+                                        'common.import.result.successfully'
+                                    )}`,
                                 },
                             },
                         }}
                     >
-                        {(state.result && <Result />) || (
+                        {(state.result.length && state.result.every((item) => item.success) && (
+                            <Result />
+                        )) || (
                             <ImportBox t={t}>
                                 <b style={{ paddingTop: 16, fontSize: 16, display: 'block' }}>
                                     {t('resources.users.bt.import')}
                                 </b>
                             </ImportBox>
                         )}
-                    </ImportContext.Provider>
+                    </UserImportContext.Provider>
                 </div>
             </div>
         </Container>

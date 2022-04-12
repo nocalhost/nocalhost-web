@@ -110,6 +110,33 @@
         },
         "select": {
             "all": "全部"
+        },
+        "import": {
+            "download": {
+                "title": "下载模版",
+                "tips": "根据提示信息完善模版文件内容",
+                "template": "下载模版文件"
+            },
+            "upload": {
+                "title": "上传文件",
+                "btn": {
+                    "select": "选择文件",
+                    "re": "重新选择"
+                },
+                "tips": "完善模版文件信息后, 可直接将文件拖拽到此处进行上传, 支持格式:"
+            },
+            "btn": {
+                "import": "导入",
+                "cancel": "取消",
+                "reimport": "重新导入",
+                "completion": "完成"
+            },
+            "result": {
+                "title": "导入结果",
+                "successfully": "导入成功",
+                "failure": "导入失败",
+                "tips": "以下为导入失败信息，可以[下载导入失败列表]，修改后重新导入"
+            }
         }
     },
     "resources": {

@@ -3,41 +3,46 @@ import { Button, Modal } from 'antd';
 import { Table } from 'antd/es';
 import { ColumnsType } from 'antd/es/table/interface';
 import { useHistory } from 'react-router-dom';
+import { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as IconSuccess } from './asset/success.svg';
 import { ReactComponent as IconFail } from './asset/fail.svg';
 import { ReactComponent as IconBigSuccess } from '../../../images/icon/icon_success.svg';
 import UploadProgress, { Buttons, FileSelect } from './upload';
-import { useImportContext } from './util';
+import { getUserImportContext } from './util';
 
-const columns: ColumnsType<any> = [
-    {
-        title: '邮箱',
-        dataIndex: 'name',
-        key: 'name',
-    },
-    {
-        title: '用户名称',
-        dataIndex: 'age',
-        key: 'age',
-    },
-    {
-        title: 'Cooperator DevSpace',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Viewer DevSpace',
-        key: 'tags',
-        dataIndex: 'tags',
-    },
-    {
-        title: '失败原因',
-        key: 'action',
-        fixed: 'right',
-    },
-];
+const getColumns = (t: TFunction) => {
+    const columns: ColumnsType<any> = [
+        {
+            title: t('resources.users.fields.name'),
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: t('resources.users.fields.email'),
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Cooperator DevSpace',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Viewer DevSpace',
+            key: 'tags',
+            dataIndex: 'tags',
+        },
+        {
+            title: t(''),
+            key: 'action',
+            fixed: 'right',
+        },
+    ];
 
+    return columns;
+};
 const data = [
     {
         key: '1',
@@ -63,21 +68,40 @@ const data = [
 ];
 
 function Success(props: { text: string; onClick: () => void }) {
+    const { t } = useTranslation();
     return (
         <div className="success">
             <IconBigSuccess />
-            <strong>导入成功</strong>
+            <strong>{t('common.import.result.successfully')}</strong>
             <p>{props.text}</p>
             <Button type="primary" onClick={props.onClick}>
-                完成
+                {t('common.import.btn.completion')}
             </Button>
         </div>
+    );
+}
+
+function getTips(t: TFunction, onDownload: () => void) {
+    const tips = t('common.import.result.tips');
+
+    let text = tips.match(/\[(.+?)\]/g)![0];
+    text = text.substr(1, text.length - 2);
+
+    const nodes = tips.split(`[${text}]`);
+
+    return (
+        <p>
+            {nodes[0]}
+            <a onClick={onDownload}>{text}</a>
+            {nodes[1]}
+        </p>
     );
 }
 
 function Fail() {
     const [reImport, setReImport] = useState(false);
 
+    const { t } = useTranslation();
     const [currentFile, setCurrentFile] = useState<File>();
 
     const onCancel = useCallback(() => {
@@ -107,8 +131,8 @@ function Fail() {
         <div style={{ position: 'relative' }}>
             <Modal
                 width="50vw"
+                title={t('common.import.btn.reimport')}
                 visible={reImport}
-                title="重新导入"
                 footer={null}
                 onCancel={onCancel}
             >
@@ -119,28 +143,24 @@ function Fail() {
             <div className="info">
                 <div>
                     <IconSuccess />
-                    导入成功 28 个
+                    {t('common.import.result.successfully')} 28
                 </div>
                 <div>
                     <IconFail />
-                    导入失败 8 个
+                    {t('common.import.result.failure')} 8
                 </div>
             </div>
             <div className="table-info">
                 <div>
-                    <p>
-                        以下为导入失败信息，可以
-                        <a onClick={onDownload}>下载导入失败用户列表</a>
-                        ，修改后重新导入
-                    </p>
+                    {getTips(t, onDownload)}
                     <Button type="primary" onClick={() => setReImport(true)}>
-                        重新导入
+                        {t('common.import.btn.reimport')}
                     </Button>
                 </div>
                 <Table
                     style={{ marginTop: 14 }}
                     pagination={false}
-                    columns={columns}
+                    columns={getColumns(t)}
                     dataSource={data}
                 />
             </div>
@@ -151,17 +171,20 @@ function Fail() {
 
 export default function Result() {
     const history = useHistory();
+    const { t } = useTranslation();
 
     const {
         state: { result },
         config: {
             complete: { link, text },
         },
-    } = useImportContext();
+    } = getUserImportContext();
     return (
         <div>
-            <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>导入结果</b>
-            {(result === 2 && <Success onClick={() => history.push(link)} text={text} />) || (
+            <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>
+                {t('common.import.result.title')}
+            </b>
+            {(result?.length && <Success onClick={() => history.push(link)} text={text} />) || (
                 <Fail />
             )}
         </div>

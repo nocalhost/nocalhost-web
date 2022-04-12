@@ -27,7 +27,7 @@ interface NsType {
     ns: string;
     cluster: string;
     baseSpace: number;
-    owner: number;
+    owner?: number;
     cooperator: Array<number>;
     state: 'import' | 'error' | 'default';
     error?: string;
@@ -45,7 +45,7 @@ const NSImport = () => {
         setTimeout(async () => {
             const res = await HTTP.get<{ id: number }>('me');
 
-            const owner = res.data?.id ?? -1;
+            const owner = res.data?.id;
 
             setData([
                 {
@@ -105,7 +105,7 @@ const NSImport = () => {
                 setData((prevState) => {
                     const ns = prevState[index];
 
-                    if (lastState === 'import') {
+                    if (lastState === 'default') {
                         ns.state = 'error';
                         ns.error = 'import error';
 
@@ -205,7 +205,7 @@ const NSImport = () => {
             title: '操作',
             dataIndex: 'state',
             key: 'state',
-            width: '100px',
+            width: '120px',
             render(state: NsType['state'], __, index) {
                 return (
                     <Button
@@ -221,6 +221,7 @@ const NSImport = () => {
         {
             dataIndex: 'error',
             key: 'error',
+            width: '200px',
             render(value) {
                 if (value) {
                     return (

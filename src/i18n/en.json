@@ -126,13 +126,15 @@
             },
             "btn": {
                 "import": "import",
-                "cancel": "Cancel"
+                "cancel": "Cancel",
+                "reimport": "ReImport",
+                "completion": "Completion"
             },
             "result": {
                 "title": "Import Result",
                 "successfully": "Imported successfully",
                 "failure": "Imported failure",
-                "tips": "The following is the import failure message, you can download {}, modify it and re-import"
+                "tips": "The following is the import failure message, you can download [import failure list], modify it and re-import"
             }
         }
     },

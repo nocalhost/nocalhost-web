@@ -1,5 +1,7 @@
 import { Button, message, Switch, Table, Tooltip } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { getAllUser, UserType } from '../../../services';
 import { ColumnsType } from 'antd/lib/table/interface';
 import { SelectCooperator, SelectOwnerUser } from './user';
@@ -45,6 +47,8 @@ const NSImport = () => {
     const [user, setUser] = useState(Array.of<UserType>());
     const [data, setData] = useState(Array.of<NsType>());
     const [loading, setLoading] = useState(true);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         getAllUser().then(setUser);
@@ -127,17 +131,17 @@ const NSImport = () => {
 
     const columns: ColumnsType<NsType> = [
         {
-            title: '命名空间',
+            title: t('resources.devSpace.fields.namespace'),
             dataIndex: 'Name',
             key: 'Name',
         },
         {
-            title: '集群',
+            title: t('resources.devSpace.fields.cluster'),
             dataIndex: 'Cluster',
             key: 'Cluster',
         },
         {
-            title: '基础开发空间(Mesh)',
+            title: `${t('resources.meshSpace.basicSpace')}(Mesh)`,
             dataIndex: 'IstioEnabled',
             key: 'IstioEnabled',
             render(_, ns, index) {
@@ -155,7 +159,7 @@ const NSImport = () => {
             },
         },
         {
-            title: '所有者',
+            title: t('resources.devSpace.fields.user'),
             dataIndex: 'owner',
             key: 'owner',
             render(value, { state }, index: number) {
@@ -170,7 +174,7 @@ const NSImport = () => {
             },
         },
         {
-            title: '共享用户',
+            title: t('resources.devSpace.shareUsers'),
             dataIndex: 'cooperator',
             key: 'cooperator',
             width: '31%',
@@ -199,7 +203,9 @@ const NSImport = () => {
                         onClick={() => importNs(index)}
                         loading={state === 'import'}
                     >
-                        {state === 'error' ? '重新导入' : '导入'}
+                        {state === 'error'
+                            ? t('common.import.btn.re')
+                            : t('common.import.btn.import')}
                     </Button>
                 );
             },

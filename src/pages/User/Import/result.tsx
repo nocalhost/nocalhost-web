@@ -34,7 +34,7 @@ function Success(props: { text: string; onClick: () => void }) {
 function getTips(t: TFunction, onDownload: () => void) {
     const tips = t('common.import.result.tips');
 
-    let text = tips.match(/\[(.+?)\]/g)![0];
+    let text = tips.match(/\[(.+?)]/g)![0];
     text = text.substr(1, text.length - 2);
 
     const nodes = tips.split(`[${text}]`);

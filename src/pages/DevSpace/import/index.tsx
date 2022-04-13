@@ -29,7 +29,7 @@ function FailList(props: { result: ImportStateType<ItemType>['result'] }) {
 
     const columns: ColumnsType<ItemType> = [
         {
-            title: '开发空间',
+            title: t('resources.devSpace.fields.namespace'),
             dataIndex: 'ClusterName',
             key: 'ClusterName',
             render(_, record) {

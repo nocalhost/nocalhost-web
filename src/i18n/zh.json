@@ -154,7 +154,8 @@
                 "is_admin": "是否设置为管理员",
                 "password": "密码",
                 "confirm_password": "确认密码",
-                "role": "用户角色"
+                "role": "用户角色",
+                "reason": "失败原因"
             },
             "status": {
                 "active": "已激活",

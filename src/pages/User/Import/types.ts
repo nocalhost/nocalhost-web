@@ -23,8 +23,15 @@ export type ImportContextType<T> = {
             link: string;
             text: string;
         };
+        onImport: (file: File) => Promise<void>;
+        getProcess: () => Promise<number>;
     };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export function EmptyFunction() {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function AsyncEmptyFunction() {
+    return Promise.resolve();
+}

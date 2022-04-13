@@ -5,12 +5,13 @@ import fileSize from 'filesize';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import Container, { getUserImportContext, UserItem } from './util';
-import HTTP from '../../../api/fetch';
+import Container, { getUserImportContext } from './util';
 
-export function Buttons(props: { onCancel: () => void; file?: File; onImport?: () => void }) {
-    const { file, onCancel, onImport } = props;
-    const { setState } = getUserImportContext();
+export function Buttons(props: { onCancel: () => void; onImport?: () => void; file?: File }) {
+    const { onCancel, file, onImport } = props;
+    const {
+        config: { onImport: importFile },
+    } = getUserImportContext();
 
     const { t } = useTranslation();
 
@@ -22,25 +23,15 @@ export function Buttons(props: { onCancel: () => void; file?: File; onImport?: (
     }, [file]);
 
     const importClick = useCallback(() => {
+        setLoading(true);
+
         if (!file) {
             return;
         }
-
-        setLoading(true);
-
-        const fd = new FormData();
-        fd.append('upload', file);
-
-        HTTP.fetch<{ taskId: string }>('users/import', fd)
-            .then((res) => {
-                setState({ taskId: res.data!.taskId, file, result: [] });
-            })
-            .catch(() => {
-                setLoading(false);
-            });
-
         onImport && onImport();
-    }, [file]);
+
+        importFile(file).finally(() => setLoading(false));
+    }, [onImport, file]);
 
     return (
         <div
@@ -69,9 +60,9 @@ export function Buttons(props: { onCancel: () => void; file?: File; onImport?: (
 export default function UploadProgress() {
     const {
         state: { file, taskId },
-        setState,
         config: {
             icon: { select: File1 },
+            getProcess,
         },
     } = getUserImportContext();
 
@@ -85,7 +76,7 @@ export default function UploadProgress() {
 
     useEffect(() => {
         return () => {
-            clearInterval(refresh.current);
+            clearTimeout(refresh.current);
         };
     }, []);
 
@@ -104,27 +95,15 @@ export default function UploadProgress() {
             }
 
             refresh.current = window.setTimeout(async () => {
-                const {
-                    data: { Process, State, Items },
-                } = await HTTP.get<{
-                    State: 'importing' | 'finished' | 'success';
-                    Process: number;
-                    Items: Array<UserItem>;
-                }>(`/users/import_status/${taskId}`, null, {
-                    config: { is_v2: true },
+                await getProcess().then((process) => {
+                    const text = process + '%';
+                    i.style.setProperty('--progress', text);
+                    span.textContent = text;
+
+                    if (process !== 100) {
+                        refreshProcess();
+                    }
                 });
-
-                const text = Process * 100 + '%';
-                i.style.setProperty('--progress', text);
-                span.textContent = text;
-
-                if (Process === 1) {
-                    setState({ taskId: undefined, result: Items });
-                }
-
-                if (State === 'importing') {
-                    refreshProcess();
-                }
             }, 1_500);
         } else {
             clearTimeout(refresh.current);

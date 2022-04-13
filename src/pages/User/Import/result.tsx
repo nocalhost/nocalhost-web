@@ -15,65 +15,50 @@ import { getUserImportContext } from './util';
 const getColumns = (t: TFunction) => {
     const columns: ColumnsType<any> = [
         {
-            title: t('resources.users.fields.name'),
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
             title: t('resources.users.fields.email'),
             dataIndex: 'email',
             key: 'email',
         },
         {
+            title: t('resources.users.fields.name'),
+            dataIndex: 'username',
+            key: 'username',
+        },
+        {
             title: 'Cooperator DevSpace',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'cooperatorDevSpace',
+            key: 'cooperatorDevSpace',
         },
         {
             title: 'Viewer DevSpace',
-            key: 'tags',
-            dataIndex: 'tags',
+            key: 'viewerDevSpace',
+            dataIndex: 'viewerDevSpace',
         },
         {
-            title: t(''),
-            key: 'action',
+            title: t('resources.users.fields.reason'),
+            key: 'errInfo',
+            dataIndex: 'errInfo',
             fixed: 'right',
         },
     ];
 
     return columns;
 };
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake ParkSidney',
-        tags: ['cool', 'teacher'],
-    },
-];
 
 function Success(props: { text: string; onClick: () => void }) {
     const { t } = useTranslation();
+
+    const {
+        state: { result },
+    } = getUserImportContext();
     return (
         <div className="success">
             <IconBigSuccess />
             <strong>{t('common.import.result.successfully')}</strong>
-            <p>{props.text}</p>
+            <p>
+                {props.text}
+                {result.length}
+            </p>
             <Button type="primary" onClick={props.onClick}>
                 {t('common.import.btn.completion')}
             </Button>
@@ -108,14 +93,32 @@ function Fail() {
         setReImport(false);
     }, []);
 
+    const {
+        state: { result },
+    } = getUserImportContext();
+
     const onDownload = useCallback(() => {
         import('xlsx').then((xlsx) => {
             const wb = xlsx.utils.book_new();
 
             const ws = xlsx.utils.aoa_to_sheet([
                 ['请不要修改文件格式！'],
-                ['邮箱', '用户名称', 'Cooperator DevSpace', 'Viewer  DevSpace'],
-                ['zhangsan@126.com', 'zhangsan', 'zhangsan', 'zhangsan'],
+                [
+                    t('resources.users.fields.email'),
+                    t('resources.users.fields.name'),
+                    'Cooperator DevSpace',
+                    'Viewer DevSpace',
+                ],
+                ...result
+                    .filter((item) => !item.success)
+                    .map((item) => {
+                        return [
+                            item.email,
+                            item.username,
+                            item.cooperatorDevSpace,
+                            item.viewerDevSpace,
+                        ];
+                    }),
             ]);
 
             ws['!merges'] = [xlsx.utils.decode_range('A1:D1')];
@@ -125,7 +128,7 @@ function Fail() {
 
             xlsx.writeFile(wb, '导入失败用户.xlsx');
         });
-    }, []);
+    }, [result]);
 
     return (
         <div style={{ position: 'relative' }}>
@@ -143,11 +146,13 @@ function Fail() {
             <div className="info">
                 <div>
                     <IconSuccess />
-                    {t('common.import.result.successfully')} 28
+                    {t('common.import.result.successfully')}{' '}
+                    {result.filter((item) => item.success).length}
                 </div>
                 <div>
                     <IconFail />
-                    {t('common.import.result.failure')} 8
+                    {t('common.import.result.failure')}
+                    {result.filter((item) => !item.success).length}
                 </div>
             </div>
             <div className="table-info">
@@ -160,8 +165,9 @@ function Fail() {
                 <Table
                     style={{ marginTop: 14 }}
                     pagination={false}
+                    rowKey="email"
                     columns={getColumns(t)}
-                    dataSource={data}
+                    dataSource={result.filter((item) => !item.success)}
                 />
             </div>
             <UploadProgress />
@@ -184,9 +190,9 @@ export default function Result() {
             <b style={{ padding: '16px 0', fontSize: 16, display: 'block' }}>
                 {t('common.import.result.title')}
             </b>
-            {(result?.length && <Success onClick={() => history.push(link)} text={text} />) || (
-                <Fail />
-            )}
+            {(result.every((item) => item.success) && (
+                <Success onClick={() => history.push(link)} text={text} />
+            )) || <Fail />}
         </div>
     );
 }

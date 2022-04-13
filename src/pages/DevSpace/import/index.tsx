@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'antd';
 
@@ -12,6 +12,7 @@ import link from './asset/devspace.yaml';
 import { Tailwind } from '../../../components/Tailwind/style-components';
 import NSImport from './nsImport';
 import { ImportStateType } from '../../User/Import/types';
+import HTTP from '../../../api/fetch';
 
 const ImportDevSpace = () => {
     const { t } = useTranslation();
@@ -20,6 +21,14 @@ const ImportDevSpace = () => {
 
     const ImportContext = getImportContext();
 
+    const onImport = useCallback((file: File) => {
+        const fd = new FormData();
+        fd.append('upload', file);
+
+        return HTTP.fetch<{ taskId: string }>('users/import', fd).then((res) => {
+            setState({ taskId: res.data!.taskId, file, result: [] });
+        });
+    }, []);
     return (
         <Tailwind>
             <Container>
@@ -54,6 +63,10 @@ const ImportDevSpace = () => {
                                                 link: '/dashboard/devspace',
                                                 text: '成功导入 28',
                                             },
+                                            getProcess: () => {
+                                                return Promise.resolve(0);
+                                            },
+                                            onImport,
                                         },
 
                                         state,

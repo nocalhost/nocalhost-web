@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -12,6 +12,7 @@ import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
 import Container, { getUserImportContext, UserImportContext, UserItem } from './util';
 import { ImportStateType } from './types';
+import HTTP from '../../../api/fetch';
 
 export function ImportBox(props: PropsWithChildren<any>) {
     const {
@@ -58,6 +59,33 @@ export default function ImportUser() {
 
     const [state, setState] = useState<ImportStateType<UserItem>>({ result: [] });
 
+    const onImport = useCallback((file: File) => {
+        const fd = new FormData();
+        fd.append('upload', file);
+
+        return HTTP.fetch<{ taskId: string }>('users/import', fd).then((res) => {
+            setState({ taskId: res.data!.taskId, file, result: [] });
+        });
+    }, []);
+
+    const getProcess = useCallback(async () => {
+        const {
+            data: { Process, Items },
+        } = await HTTP.get<{
+            State: 'importing' | 'finished' | 'success';
+            Process: number;
+            Items: Array<UserItem>;
+        }>(`users/import_status/${state.taskId}`, null, {
+            config: { is_v2: true },
+        });
+
+        if (Process === 1) {
+            setState({ file: undefined, taskId: undefined, result: Items ?? [] });
+        }
+
+        return Promise.resolve(Process * 100);
+    }, [state.taskId]);
+
     return (
         <Container>
             <BreadCard
@@ -91,16 +119,16 @@ export default function ImportUser() {
                                 },
                                 complete: {
                                     link: '/dashboard/user',
-                                    text: `${t('resources.users.name')} ${t(
+                                    text: `${t('resources.users.name')}${t(
                                         'common.import.result.successfully'
                                     )}`,
                                 },
+                                getProcess,
+                                onImport,
                             },
                         }}
                     >
-                        {(state.result.length && state.result.every((item) => item.success) && (
-                            <Result />
-                        )) || (
+                        {(state.result.length && <Result />) || (
                             <ImportBox t={t}>
                                 <b style={{ paddingTop: 16, fontSize: 16, display: 'block' }}>
                                     {t('resources.users.bt.import')}

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useContext } from 'react';
 
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
-import { EmptyFunction, ImportContextType } from './types';
+import { AsyncEmptyFunction, EmptyFunction, ImportContextType } from './types';
 
 const Container = styled.div`
     .bg {
@@ -244,6 +244,8 @@ export function getImportContext<T = any>() {
                 link: '',
                 text: '',
             },
+            onImport: AsyncEmptyFunction,
+            getProcess: () => Promise.resolve(0),
         },
     });
 }

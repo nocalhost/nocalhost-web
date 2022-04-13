@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table/interface';
+import { omit } from 'lodash';
 
 import Container, { ImportContext, UserItem } from '../../User/Import/util';
 import BreadCard from '../../../components/BreadCard';
@@ -12,13 +13,14 @@ import { ReactComponent as defaultIcon } from './asset/file.0.svg';
 import link from './asset/devspace.yaml';
 import { Tailwind } from '../../../components/Tailwind/style-components';
 import NSImport from './nsImport';
-import { EmptyFunction, ImportStateType } from '../../User/Import/types';
+import { ImportStateType } from '../../User/Import/types';
 import HTTP from '../../../api/fetch';
+import { downloadBlob } from '../../../utils';
 
 type ItemType = {
-    ClusterName: string;
-    NameSpace: string;
-    ErrInfo: string;
+    clusterName: string;
+    namespace: string;
+    errInfo: string;
     Success: boolean;
 };
 
@@ -31,13 +33,13 @@ function FailList(props: { result: ImportStateType<ItemType>['result'] }) {
             dataIndex: 'ClusterName',
             key: 'ClusterName',
             render(_, record) {
-                return `${record.ClusterName}-${record.NameSpace}`;
+                return `${record.clusterName}-${record.namespace}`;
             },
         },
         {
             title: t('resources.users.fields.reason'),
-            key: 'ErrInfo',
-            dataIndex: 'ErrInfo',
+            key: 'errInfo',
+            dataIndex: 'errInfo',
             fixed: 'right',
         },
     ];
@@ -46,7 +48,7 @@ function FailList(props: { result: ImportStateType<ItemType>['result'] }) {
         <Table
             style={{ marginTop: 14 }}
             pagination={false}
-            rowKey={(record) => record.ClusterName + record.NameSpace}
+            rowKey={(record) => record.clusterName + record.namespace}
             columns={columns}
             dataSource={props.result.filter((item) => !item.Success)}
         />
@@ -84,6 +86,19 @@ const ImportDevSpace = () => {
 
         return Promise.resolve(Process * 100);
     }, [state.taskId]);
+
+    const downloadList = useCallback(() => {
+        import('js-yaml').then((yaml) => {
+            const str = yaml.dump({
+                devspaces: state.result
+                    .filter((item) => !item.Success)
+                    .map((item) => {
+                        return omit(item, 'errInfo', 'Success', 'owner');
+                    }),
+            });
+            downloadBlob(new Blob([str], { type: 'text/plain' }), { fileName: '导入失败.yaml' });
+        });
+    }, [state.result]);
     return (
         <Tailwind>
             <Container>
@@ -120,7 +135,7 @@ const ImportDevSpace = () => {
                                             },
                                             getProcess,
                                             onImport,
-                                            downloadList: EmptyFunction,
+                                            downloadList,
                                             failList: <FailList result={state.result} />,
                                         },
 

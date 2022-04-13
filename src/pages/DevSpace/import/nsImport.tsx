@@ -35,7 +35,7 @@ interface NsType {
     Cluster: string;
     IstioEnabled: number;
     owner?: number;
-    cooperator: Array<number>;
+    collaborator: Array<number>;
     state: 'import' | 'error' | 'default';
     is_basespace: number;
     error?: string;
@@ -83,7 +83,7 @@ const NSImport = () => {
                 return [...prevState];
             });
 
-            const { is_basespace, owner, cooperator } = ns;
+            const { is_basespace, owner, collaborator } = ns;
 
             HTTP.post<{ Success: boolean; ErrInfo: string }>(
                 'dev_space/ns_import',
@@ -92,7 +92,7 @@ const NSImport = () => {
                     namespace: ns.Name,
                     owner,
                     is_basespace,
-                    cooperator,
+                    collaborator,
                 },
                 { is_v2: true }
             ).then((res) => {
@@ -180,7 +180,9 @@ const NSImport = () => {
                         user={user}
                         value={value}
                         disabled={state === 'import'}
-                        onChange={(cooperator) => updateData(index, { ...data[index], cooperator })}
+                        onChange={(collaborator) =>
+                            updateData(index, { ...data[index], collaborator })
+                        }
                     />
                 );
             },

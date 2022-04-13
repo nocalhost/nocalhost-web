@@ -113,7 +113,7 @@
         "import": {
             "download": {
                 "title": "Download Template",
-                "tips": "Please improve the content of the template file according to the prompt information",
+                "tips": "Please input the content of the template file according to the prompt information",
                 "template": "Download Template File "
             },
             "upload": {
@@ -122,7 +122,7 @@
                     "select": "Select file",
                     "re": "Reselect"
                 },
-                "tips": "After completing the template file, you can directly drag and drop the file here to upload it, supporting the format:"
+                "tips": "After completing the template file, you can directly drag the file here to upload it, supporting the format:"
             },
             "btn": {
                 "import": "import",
@@ -134,7 +134,7 @@
                 "title": "Import Result",
                 "successfully": "Imported successfully",
                 "failure": "Imported failure",
-                "tips": "The following is the import failure message, you can download [import failure list], modify it and re-import"
+                "tips": "The following is the import failure message, you can download [import failure list], modify it and re-import it"
             }
         }
     },

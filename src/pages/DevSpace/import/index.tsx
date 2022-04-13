@@ -11,7 +11,7 @@ import { ReactComponent as defaultIcon } from './asset/file.0.svg';
 import link from './asset/devspace.yaml';
 import { Tailwind } from '../../../components/Tailwind/style-components';
 import NSImport from './nsImport';
-import { ImportStateType } from '../../User/Import/types';
+import { EmptyFunction, ImportStateType } from '../../User/Import/types';
 import HTTP from '../../../api/fetch';
 
 const ImportDevSpace = () => {
@@ -67,6 +67,8 @@ const ImportDevSpace = () => {
                                                 return Promise.resolve(0);
                                             },
                                             onImport,
+                                            downloadList: EmptyFunction,
+                                            failList: <></>,
                                         },
 
                                         state,
@@ -77,7 +79,7 @@ const ImportDevSpace = () => {
                                         },
                                     }}
                                 >
-                                    {(state.result && <Result />) || <ImportBox t={t} />}
+                                    {(state.result.length && <Result />) || <ImportBox t={t} />}
                                 </ImportContext.Provider>
                             </div>
                         </div>

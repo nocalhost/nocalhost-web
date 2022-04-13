@@ -118,8 +118,8 @@ class HTTP {
         return fetchJson<T>(url, { method: 'GET', body: data, config });
     }
 
-    async post(url: string, data?: any, config?: any) {
-        return fetchJson(url, { method: 'POST', body: JSON.stringify(data), config });
+    async post<T = any>(url: string, data?: any, config?: any) {
+        return fetchJson<T>(url, { method: 'POST', body: JSON.stringify(data), config });
     }
 
     async put(url: string, data?: any, config?: any) {

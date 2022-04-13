@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
+import { Table } from 'antd/es';
+import { TFunction } from 'i18next';
+import { ColumnsType } from 'antd/es/table/interface';
 
 import { ReactComponent as selectIcon } from './asset/file.svg';
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
@@ -54,6 +57,52 @@ export function ImportBox(props: PropsWithChildren<any>) {
     );
 }
 
+const getColumns = (t: TFunction) => {
+    const columns: ColumnsType<any> = [
+        {
+            title: t('resources.users.fields.email'),
+            dataIndex: 'Email',
+            key: 'Email',
+        },
+        {
+            title: t('resources.users.fields.name'),
+            dataIndex: 'Username',
+            key: 'Username',
+        },
+        {
+            title: 'Cooperator DevSpace',
+            dataIndex: 'CooperatorDevSpace',
+            key: 'CooperatorDevSpace',
+        },
+        {
+            title: 'Viewer DevSpace',
+            key: 'ViewerDevSpace',
+            dataIndex: 'ViewerDevSpace',
+        },
+        {
+            title: t('resources.users.fields.reason'),
+            key: 'ErrInfo',
+            dataIndex: 'ErrInfo',
+            fixed: 'right',
+        },
+    ];
+
+    return columns;
+};
+
+function FailList(props: { result: ImportStateType<UserItem>['result'] }) {
+    const { t } = useTranslation();
+    return (
+        <Table
+            style={{ marginTop: 14 }}
+            pagination={false}
+            rowKey="Email"
+            columns={getColumns(t)}
+            dataSource={props.result.filter((item) => !item.Success)}
+        />
+    );
+}
+
 export default function ImportUser() {
     const { t } = useTranslation();
 
@@ -86,6 +135,38 @@ export default function ImportUser() {
         return Promise.resolve(Process * 100);
     }, [state.taskId]);
 
+    const downloadList = useCallback(() => {
+        import('xlsx').then((xlsx) => {
+            const wb = xlsx.utils.book_new();
+
+            const ws = xlsx.utils.aoa_to_sheet([
+                ['请不要修改文件格式！'],
+                [
+                    t('resources.users.fields.email'),
+                    t('resources.users.fields.name'),
+                    'Cooperator DevSpace',
+                    'Viewer DevSpace',
+                ],
+                ...state.result
+                    .filter((item) => !item.Success)
+                    .map((item) => {
+                        return [
+                            item.Email,
+                            item.Username,
+                            item.CooperatorDevSpace,
+                            item.ViewerDevSpace,
+                        ];
+                    }),
+            ]);
+
+            ws['!merges'] = [xlsx.utils.decode_range('A1:D1')];
+
+            wb.SheetNames.push('sheet1');
+            wb.Sheets['sheet1'] = ws;
+
+            xlsx.writeFile(wb, '导入失败用户.xlsx');
+        });
+    }, [state.result]);
     return (
         <Container>
             <BreadCard
@@ -123,8 +204,10 @@ export default function ImportUser() {
                                         'common.import.result.successfully'
                                     )}`,
                                 },
+                                failList: <FailList result={state.result} />,
                                 getProcess,
                                 onImport,
+                                downloadList,
                             },
                         }}
                     >

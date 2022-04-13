@@ -246,17 +246,19 @@ export function getImportContext<T = any>() {
             },
             onImport: AsyncEmptyFunction,
             getProcess: () => Promise.resolve(0),
+            downloadList: EmptyFunction,
+            failList: <></>,
         },
     });
 }
 
 export type UserItem = {
-    success: boolean;
-    email: string;
-    username: string;
-    cooperatorDevSpace: string;
-    viewerDevSpace: string;
-    errInfo: string;
+    Success: boolean;
+    Email: string;
+    Username: string;
+    CooperatorDevSpace: string;
+    ViewerDevSpace: string;
+    ErrInfo: string;
 };
 export const UserImportContext = getImportContext<UserItem>();
 

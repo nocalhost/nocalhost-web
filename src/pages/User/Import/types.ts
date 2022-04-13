@@ -25,6 +25,8 @@ export type ImportContextType<T> = {
         };
         onImport: (file: File) => Promise<void>;
         getProcess: () => Promise<number>;
+        downloadList: () => void;
+        failList: React.ReactNode;
     };
 };
 

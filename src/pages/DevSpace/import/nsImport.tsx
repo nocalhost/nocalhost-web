@@ -8,28 +8,36 @@ import { Tailwind } from '../../../components/Tailwind/style-components';
 import NotData from '../../../components/NotData';
 import HTTP from '../../../api/fetch';
 
-const BaseSpace = (...arg: [NsType['baseSpace'], NsType, number]) => {
-    const [value, { state }] = arg;
+const BaseSpace = (props: { ns: NsType; onChange: (checked: boolean) => void }) => {
+    const { IstioEnabled: value, state } = props.ns;
 
     const disabled = state === 'import' || value !== 1;
 
-    const node = <Switch defaultChecked={value === 1} disabled={disabled} />;
+    const defaultChecked = value === 2;
+
+    useEffect(() => {
+        props.onChange(value === 2);
+    }, []);
+
+    const node = (
+        <Switch defaultChecked={defaultChecked} disabled={disabled} onChange={props.onChange} />
+    );
 
     if (value === 1) {
         return node;
     }
 
-    return <Tooltip title={value === 0 ? '已是基础开发空间' : '未安装istio'}>{node}</Tooltip>;
+    return <Tooltip title={value === 2 ? '已是基础开发空间' : '未安装istio'}>{node}</Tooltip>;
 };
 
 interface NsType {
-    key: string;
-    ns: string;
-    cluster: string;
-    baseSpace: number;
+    Name: string;
+    Cluster: string;
+    IstioEnabled: number;
     owner?: number;
     cooperator: Array<number>;
     state: 'import' | 'error' | 'default';
+    is_basespace: number;
     error?: string;
 }
 
@@ -47,37 +55,14 @@ const NSImport = () => {
 
             const owner = res.data?.id;
 
-            setData([
-                {
-                    key: '1',
-                    ns: 'nh1bkdxh',
-                    cluster: 'cluster',
-                    baseSpace: 1,
-                    owner,
-                    cooperator: [],
-                    state: 'default',
-                },
-                {
-                    key: '2',
-                    ns: 'nh1bkdx2',
-                    cluster: 'cluster',
-                    baseSpace: 0,
-                    owner,
-                    cooperator: [],
-                    state: 'default',
-                },
-                {
-                    key: '3',
-                    ns: 'nh1bkdx2',
-                    cluster: 'cluster',
-                    baseSpace: -1,
-                    owner,
-                    cooperator: [],
-                    state: 'default',
-                },
-            ]);
+            const { data } = await HTTP.get<Array<NsType>>('dev_space/ns_list', null, {
+                is_v2: true,
+            });
+            data.forEach((item) => (item.owner = owner));
+
+            setData(data);
             setLoading(false);
-        }, 3_000);
+        });
     }, []);
 
     const updateData = useCallback(function (index: number, ns: NsType) {
@@ -90,38 +75,43 @@ const NSImport = () => {
 
     const importNs = useCallback(
         (index: number) => {
-            const lastState = data[index].state;
-
+            const ns = data[index];
             setData((prevState) => {
                 const ns = prevState[index];
                 ns.state = 'import';
                 ns.error = undefined;
 
-                console.warn('ns', prevState[index]);
                 return [...prevState];
             });
 
-            setTimeout(() => {
+            HTTP.post<{ Success: boolean; ErrInfo: string }>(
+                'dev_space/ns_import',
+                {
+                    cluster_name: ns.Cluster,
+                    namespace: ns.Name,
+                    owner: ns.owner,
+                    is_basespace: ns.is_basespace,
+                    collaborator: ns.cooperator,
+                },
+                { is_v2: true }
+            ).then((res) => {
                 setData((prevState) => {
                     const ns = prevState[index];
 
-                    if (lastState === 'default') {
-                        ns.state = 'error';
-                        ns.error = 'import error';
-
-                        prevState[index] = ns;
-
-                        return [...prevState];
-                    } else if (lastState === 'error') {
+                    if (res.data.Success) {
                         prevState.splice(index, 1);
 
-                        message.success(`${ns.cluster}-${ns.ns} 导入成功`);
-                        return [...prevState];
+                        message.success(`${ns.Cluster}-${ns.Name} 导入成功`);
+                    } else {
+                        ns.state = 'error';
+                        ns.error = res.data.ErrInfo;
+
+                        prevState[index] = ns;
                     }
 
-                    return prevState;
+                    return [...prevState];
                 });
-            }, 3_000);
+            });
         },
         [data]
     );
@@ -156,19 +146,31 @@ const NSImport = () => {
     const columns: ColumnsType<NsType> = [
         {
             title: '命名空间',
-            dataIndex: 'ns',
-            key: 'ns',
+            dataIndex: 'Name',
+            key: 'Name',
         },
         {
             title: '集群',
-            dataIndex: 'cluster',
-            key: 'cluster',
+            dataIndex: 'Cluster',
+            key: 'Cluster',
         },
         {
             title: '基础开发空间(Mesh)',
-            dataIndex: 'baseSpace',
-            key: 'baseSpace',
-            render: BaseSpace,
+            dataIndex: 'IstioEnabled',
+            key: 'IstioEnabled',
+            render(_, ns, index) {
+                return (
+                    <BaseSpace
+                        ns={ns}
+                        onChange={(checked) => {
+                            const newData = [...data];
+                            newData[index].is_basespace = checked ? 1 : 0;
+
+                            setData(newData);
+                        }}
+                    />
+                );
+            },
         },
         {
             title: '所有者',
@@ -244,7 +246,13 @@ const NSImport = () => {
                 </Button>
             </div>
             {loading || data.length ? (
-                <Table loading={loading} pagination={false} dataSource={data} columns={columns} />
+                <Table
+                    rowKey={(record) => record.Cluster + record.Name}
+                    loading={loading}
+                    pagination={false}
+                    dataSource={data}
+                    columns={columns}
+                />
             ) : (
                 <NotData msg="当前暂无待导入开发空间" />
             )}

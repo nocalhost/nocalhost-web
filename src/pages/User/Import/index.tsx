@@ -13,7 +13,7 @@ import BreadCard from '../../../components/BreadCard';
 import xlsx from './asset/user.xlsx';
 import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
-import Container, { getUserImportContext, UserImportContext, UserItem } from './util';
+import Container, { getUserImportContext, ImportContext, UserItem } from './util';
 import { ImportStateType } from './types';
 import HTTP from '../../../api/fetch';
 
@@ -121,7 +121,6 @@ export default function ImportUser() {
         const {
             data: { Process, Items },
         } = await HTTP.get<{
-            State: 'importing' | 'finished' | 'success';
             Process: number;
             Items: Array<UserItem>;
         }>(`users/import_status/${state.taskId}`, null, {
@@ -178,7 +177,7 @@ export default function ImportUser() {
             />
             <div className="import bg">
                 <div className="container">
-                    <UserImportContext.Provider
+                    <ImportContext.Provider
                         value={{
                             state,
                             setState: (state) => {
@@ -218,7 +217,7 @@ export default function ImportUser() {
                                 </b>
                             </ImportBox>
                         )}
-                    </UserImportContext.Provider>
+                    </ImportContext.Provider>
                 </div>
             </div>
         </Container>

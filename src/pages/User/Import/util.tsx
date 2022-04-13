@@ -225,33 +225,6 @@ const Container = styled.div`
     }
 `;
 
-export function getImportContext<T = any>() {
-    return React.createContext<ImportContextType<T>>({
-        state: { result: [] },
-        setState: EmptyFunction,
-        config: {
-            template: {
-                name: '',
-                link: '',
-                accept: '',
-                suffix: [],
-            },
-            icon: {
-                default: defaultIcon,
-                select: defaultIcon,
-            },
-            complete: {
-                link: '',
-                text: '',
-            },
-            onImport: AsyncEmptyFunction,
-            getProcess: () => Promise.resolve(0),
-            downloadList: EmptyFunction,
-            failList: <></>,
-        },
-    });
-}
-
 export type UserItem = {
     Success: boolean;
     Email: string;
@@ -260,10 +233,33 @@ export type UserItem = {
     ViewerDevSpace: string;
     ErrInfo: string;
 };
-export const UserImportContext = getImportContext<UserItem>();
+export const ImportContext = React.createContext<ImportContextType<any>>({
+    state: { result: [] },
+    setState: EmptyFunction,
+    config: {
+        template: {
+            name: '',
+            link: '',
+            accept: '',
+            suffix: [],
+        },
+        icon: {
+            default: defaultIcon,
+            select: defaultIcon,
+        },
+        complete: {
+            link: '',
+            text: '',
+        },
+        onImport: AsyncEmptyFunction,
+        getProcess: () => Promise.resolve(0),
+        downloadList: EmptyFunction,
+        failList: <></>,
+    },
+});
 
 export function getUserImportContext() {
-    return useContext(UserImportContext);
+    return useContext(ImportContext);
 }
 
 export default Container;

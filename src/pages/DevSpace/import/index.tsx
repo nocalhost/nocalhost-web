@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from 'antd';
+import { Tabs, Table } from 'antd';
+import { ColumnsType } from 'antd/es/table/interface';
 
-import Container, { getImportContext } from '../../User/Import/util';
+import Container, { ImportContext, UserItem } from '../../User/Import/util';
 import BreadCard from '../../../components/BreadCard';
 import Result from '../../User/Import/result';
 import { ImportBox } from '../../User/Import';
@@ -14,21 +15,75 @@ import NSImport from './nsImport';
 import { EmptyFunction, ImportStateType } from '../../User/Import/types';
 import HTTP from '../../../api/fetch';
 
+type ItemType = {
+    ClusterName: string;
+    NameSpace: string;
+    ErrInfo: string;
+    Success: boolean;
+};
+
+function FailList(props: { result: ImportStateType<ItemType>['result'] }) {
+    const { t } = useTranslation();
+
+    const columns: ColumnsType<ItemType> = [
+        {
+            title: '开发空间',
+            dataIndex: 'ClusterName',
+            key: 'ClusterName',
+            render(_, record) {
+                return `${record.ClusterName}-${record.NameSpace}`;
+            },
+        },
+        {
+            title: t('resources.users.fields.reason'),
+            key: 'ErrInfo',
+            dataIndex: 'ErrInfo',
+            fixed: 'right',
+        },
+    ];
+
+    return (
+        <Table
+            style={{ marginTop: 14 }}
+            pagination={false}
+            rowKey={(record) => record.ClusterName + record.NameSpace}
+            columns={columns}
+            dataSource={props.result.filter((item) => !item.Success)}
+        />
+    );
+}
+
 const ImportDevSpace = () => {
     const { t } = useTranslation();
 
     const [state, setState] = useState<ImportStateType>({ result: [] });
 
-    const ImportContext = getImportContext();
-
     const onImport = useCallback((file: File) => {
         const fd = new FormData();
         fd.append('upload', file);
 
-        return HTTP.fetch<{ taskId: string }>('users/import', fd).then((res) => {
+        return HTTP.fetch<{ taskId: string }>('dev_space/ns_batch_import', fd, {
+            config: { is_v2: true },
+        }).then((res) => {
             setState({ taskId: res.data!.taskId, file, result: [] });
         });
     }, []);
+    const getProcess = useCallback(async () => {
+        const {
+            data: { Process, Items },
+        } = await HTTP.get<{
+            Process: number;
+            Items: Array<UserItem>;
+        }>(`dev_space/ns_import_status/${state.taskId}`, null, {
+            is_v2: true,
+        });
+
+        if (Process === 1) {
+            setState({ file: undefined, taskId: undefined, result: Items ?? [] });
+        }
+
+        return Promise.resolve(Process * 100);
+    }, [state.taskId]);
     return (
         <Tailwind>
             <Container>
@@ -61,14 +116,12 @@ const ImportDevSpace = () => {
                                             },
                                             complete: {
                                                 link: '/dashboard/devspace',
-                                                text: '成功导入 28',
+                                                text: '成功导入',
                                             },
-                                            getProcess: () => {
-                                                return Promise.resolve(0);
-                                            },
+                                            getProcess,
                                             onImport,
                                             downloadList: EmptyFunction,
-                                            failList: <></>,
+                                            failList: <FailList result={state.result} />,
                                         },
 
                                         state,

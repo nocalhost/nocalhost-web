@@ -44,7 +44,6 @@ interface NsType {
 const NSImport = () => {
     const [user, setUser] = useState(Array.of<UserType>());
     const [data, setData] = useState(Array.of<NsType>());
-
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -84,27 +83,31 @@ const NSImport = () => {
                 return [...prevState];
             });
 
+            const { is_basespace, owner, cooperator } = ns;
+
             HTTP.post<{ Success: boolean; ErrInfo: string }>(
                 'dev_space/ns_import',
                 {
                     cluster_name: ns.Cluster,
                     namespace: ns.Name,
-                    owner: ns.owner,
-                    is_basespace: ns.is_basespace,
-                    collaborator: ns.cooperator,
+                    owner,
+                    is_basespace,
+                    cooperator,
                 },
                 { is_v2: true }
             ).then((res) => {
                 setData((prevState) => {
-                    const ns = prevState[index];
+                    const index = prevState.findIndex(
+                        (item) => item.Cluster === ns.Cluster && item.Name === ns.Name
+                    )!;
+                    const cns = prevState[index];
 
                     if (res.data.Success) {
                         prevState.splice(index, 1);
-
                         message.success(`${ns.Cluster}-${ns.Name} 导入成功`);
                     } else {
-                        ns.state = 'error';
-                        ns.error = res.data.ErrInfo;
+                        cns.state = 'error';
+                        cns.error = res.data.ErrInfo;
 
                         prevState[index] = ns;
                     }
@@ -117,31 +120,10 @@ const NSImport = () => {
     );
 
     const importAll = useCallback(() => {
-        let newData = data.map((ns) => {
-            ns.state = 'import';
-            ns.error = undefined;
-
-            return ns;
+        data.forEach((_, index) => {
+            importNs(index);
         });
-
-        setData(newData);
-
-        setTimeout(() => {
-            newData = [];
-
-            data.forEach((ns) => {
-                if (ns.state === 'import') {
-                    ns.state = 'error';
-                    ns.error = 'import error';
-                } else if (ns.state !== 'error') {
-                    return;
-                }
-                newData.push(ns);
-            });
-
-            setData(newData);
-        }, 3_000);
-    }, [data]);
+    }, [data, importNs]);
 
     const columns: ColumnsType<NsType> = [
         {

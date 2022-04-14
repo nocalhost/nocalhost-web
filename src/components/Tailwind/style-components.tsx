@@ -13,6 +13,11 @@ export const Tailwind = styled.div`
         border-radius: 4px;
     }
 
+    .px-5 {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
     .mr-1 {
         margin-right: 0.25rem;
     }

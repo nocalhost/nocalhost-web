@@ -136,7 +136,7 @@ const NSImport = () => {
         [data]
     );
 
-    const importAll = useCallback(() => {
+    const importSelect = useCallback(() => {
         data.forEach((_, index) => {
             importNs(index);
         });
@@ -239,20 +239,33 @@ const NSImport = () => {
             },
         },
     ];
-
+    const [selectedRowKeys, setSelectedRowKeys] = useState(Array.of<string>());
+    const onSelectChange = useCallback((selectedRowKeys) => {
+        setSelectedRowKeys(selectedRowKeys);
+    }, []);
     return (
         <Tailwind className="ns bg">
             <div className="header">
                 <b>
                     {t('resources.devSpace.import.importedCount')}({data.length})
                 </b>
-                <Button type="primary" className="rounded-l" onClick={importAll}>
-                    {t('resources.devSpace.import.btn.importAll')}
+                <Button
+                    type="primary"
+                    className="rounded-l"
+                    disabled={selectedRowKeys.length === 0}
+                    onClick={importSelect}
+                >
+                    {t('resources.devSpace.import.btn.importSelect')}
                 </Button>
             </div>
             {loading || data.length ? (
                 <Table
-                    rowKey={(record) => record.Cluster + record.Name}
+                    className="px-5"
+                    rowSelection={{
+                        selectedRowKeys: selectedRowKeys,
+                        onChange: onSelectChange,
+                    }}
+                    rowKey={(record) => `${record.Cluster},${record.Name}`}
                     loading={loading}
                     pagination={false}
                     dataSource={data}

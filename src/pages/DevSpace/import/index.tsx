@@ -96,7 +96,14 @@ const ImportDevSpace = () => {
                         return omit(item, 'errInfo', 'Success', 'owner');
                     }),
             });
-            downloadBlob(new Blob([str], { type: 'text/plain' }), { fileName: '导入失败.yaml' });
+            downloadBlob(
+                new Blob([`# ${t('common.import.download.fileTips')}\n${str}`], {
+                    type: 'text/plain',
+                }),
+                {
+                    fileName: `${t('resources.devSpace.import.fail.file')}.yaml`,
+                }
+            );
         });
     }, [state.result]);
     return (
@@ -105,15 +112,15 @@ const ImportDevSpace = () => {
                 <BreadCard
                     data={{
                         menu: t('resources.space.name'),
-                        subMenu: '导入开发空间',
+                        subMenu: t('resources.devSpace.import.btn.import'),
                         route: '/dashboard/devspace',
                     }}
                 />
                 <Tabs defaultActiveKey="0">
-                    <Tabs.TabPane tab="命名空间导入" key="0">
+                    <Tabs.TabPane tab={t('resources.devSpace.import.btn.namespace')} key="0">
                         <NSImport />
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab="Yaml文件导入" key="1">
+                    <Tabs.TabPane tab={t('resources.devSpace.import.btn.yaml')} key="1">
                         <div className="import bg">
                             <div className="container">
                                 <ImportContext.Provider
@@ -124,14 +131,18 @@ const ImportDevSpace = () => {
                                                 default: defaultIcon,
                                             },
                                             template: {
-                                                name: '开发空间导入模版.yaml',
+                                                name: `${t(
+                                                    'resources.devSpace.import.template.file'
+                                                )}.yaml`,
                                                 link: link,
                                                 accept: '.yaml',
                                                 suffix: ['yaml'],
                                             },
                                             complete: {
                                                 link: '/dashboard/devspace',
-                                                text: '成功导入',
+                                                text: `${t('resources.space.name')}${t(
+                                                    'common.import.result.successfully'
+                                                )}`,
                                             },
                                             getProcess,
                                             onImport,

@@ -113,6 +113,10 @@ const Container = styled.div`
         }
     }
 
+    .ant-table table {
+        word-break: break-all;
+    }
+
     .ant-table-thead {
         box-shadow: none;
 

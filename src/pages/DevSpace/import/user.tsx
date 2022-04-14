@@ -2,6 +2,7 @@ import { Select } from 'antd';
 import React from 'react';
 
 import { UserType } from '../../../services';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
@@ -17,7 +18,6 @@ export const SelectOwnerUser = (props: {
         <Select
             style={{ width: 140 }}
             showSearch
-            placeholder="所有者"
             defaultValue={value}
             disabled={disabled}
             filterOption={(input, option) =>
@@ -45,12 +45,14 @@ export const SelectCooperator = (props: {
 }) => {
     const { value, user, onChange, disabled } = props;
 
+    const { t } = useTranslation();
+
     return (
         <Select
             showSearch
             disabled={disabled}
             mode="multiple"
-            placeholder="共享用户(选填)"
+            placeholder={t('resources.devSpace.import.tips.cooperator')}
             defaultValue={value}
             style={{ width: '100%' }}
             filterOption={(input, option) =>

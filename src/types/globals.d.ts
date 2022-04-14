@@ -1,6 +1,8 @@
 declare module '*.xlsx' {
-    export default any;
+    const src: string;
+    export default src;
 }
 declare module '*.yaml' {
-    export default any;
+    const src: string;
+    export default src;
 }

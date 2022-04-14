@@ -3,13 +3,7 @@
  * @param url
  * @param options
  */
-export function download(
-    url: string,
-    options?: {
-        // 下载文件名
-        fileName?: string;
-    }
-) {
+export function download(url: string, options?: DownloadType) {
     return fetch(url).then(async (res) => {
         const blob = await res.blob();
 
@@ -17,13 +11,12 @@ export function download(
     });
 }
 
-export function downloadBlob(
-    blob: Blob,
-    options?: {
-        // 下载文件名
-        fileName?: string;
-    }
-) {
+type DownloadType = {
+    // 下载文件名
+    fileName?: string;
+};
+
+export function downloadBlob(blob: Blob, options?: DownloadType) {
     const { fileName } = options ?? {};
     const fileUrl = window.URL.createObjectURL(blob);
 

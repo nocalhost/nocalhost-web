@@ -24,7 +24,6 @@ export function ImportBox(props: PropsWithChildren<any>) {
             complete: { link: cancelLink },
         },
     } = getUserImportContext();
-
     const { t } = useTranslation();
     const history = useHistory();
 
@@ -73,6 +72,9 @@ const getColumns = (t: TFunction) => {
             title: 'Cooperator DevSpace',
             dataIndex: 'CooperatorDevSpace',
             key: 'CooperatorDevSpace',
+            render(value: string) {
+                return <p dangerouslySetInnerHTML={{ __html: value.replaceAll(',', '<br/>') }} />;
+            },
         },
         {
             title: 'Viewer DevSpace',
@@ -84,6 +86,9 @@ const getColumns = (t: TFunction) => {
             key: 'ErrInfo',
             dataIndex: 'ErrInfo',
             fixed: 'right',
+            render(value: string) {
+                return <p dangerouslySetInnerHTML={{ __html: value.replaceAll(',', '<br/>') }} />;
+            },
         },
     ];
 
@@ -139,7 +144,7 @@ export default function ImportUser() {
             const wb = xlsx.utils.book_new();
 
             const ws = xlsx.utils.aoa_to_sheet([
-                ['请不要修改文件格式！'],
+                [t('common.import.download.fileTips')],
                 [
                     t('resources.users.fields.email'),
                     t('resources.users.fields.name'),
@@ -152,8 +157,8 @@ export default function ImportUser() {
                         return [
                             item.Email,
                             item.Username,
-                            item.CooperatorDevSpace,
-                            item.ViewerDevSpace,
+                            item.CooperatorDevSpace.replaceAll(',', '\n'),
+                            item.ViewerDevSpace.replaceAll(',', '\n'),
                         ];
                     }),
             ]);
@@ -163,7 +168,7 @@ export default function ImportUser() {
             wb.SheetNames.push('sheet1');
             wb.Sheets['sheet1'] = ws;
 
-            xlsx.writeFile(wb, '导入失败用户.xlsx');
+            xlsx.writeFile(wb, `${t('resources.users.import.fail.file')}.xlsx`);
         });
     }, [state.result]);
     return (
@@ -187,7 +192,7 @@ export default function ImportUser() {
                             },
                             config: {
                                 template: {
-                                    name: '用户导入模板.xlsx',
+                                    name: `${t('resources.users.import.template.file')}.xlsx`,
                                     link: xlsx,
                                     suffix: ['xlsx', 'csv'],
                                     accept:

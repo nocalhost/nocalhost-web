@@ -620,7 +620,7 @@ const EnvList = () => {
                                     style={{ marginRight: 12 }}
                                     onClick={() => history.push('/dashboard/devspace/import')}
                                 >
-                                    导入开发空间
+                                    {t('resources.devSpace.import.btn.import')}
                                 </Button>
                                 <Button
                                     type="primary"

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { ReactComponent } from '*.svg';
 
 export type ImportStateType<T = any> = {
@@ -26,7 +27,7 @@ export type ImportContextType<T> = {
         onImport: (file: File) => Promise<void>;
         getProcess: () => Promise<number>;
         downloadList: () => void;
-        failList: React.ReactNode;
+        failList: ReactNode;
     };
 };
 

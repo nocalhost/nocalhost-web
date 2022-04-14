@@ -114,7 +114,8 @@
             "download": {
                 "title": "Download Template",
                 "tips": "Please input the content of the template file according to the prompt information",
-                "template": "Download Template File "
+                "template": "Download Template File ",
+                "fileTips": "Please do not modify the file format"
             },
             "upload": {
                 "title": "Upload file",
@@ -192,7 +193,9 @@
                 "statusInfo": "If the status is turned on, the user can use Nocalhost products normally",
                 "adminTitle": "Whether to set as an administrator",
                 "adminInfo": "Set as an administrator, the user has the right to add and edit users, clusters"
-            }
+            },
+            "import.template.file": "User Import Templates",
+            "import.fail.file": "Import Users Fail"
         },
         "cluster": {
             "name": "Cluster",
@@ -484,6 +487,23 @@
                 "devSpaceDesc": "An IsolateSpace corresponds to a Kubernetes' namespace, and the DevSpace are isolated from each other; users have all the permissions of their IsolateSpace and can share the permissions of the IsolateSpace with other users.",
                 "meshSpaceDesc": "A MeshSpace corresponds to a Kubernetes' namespace. The MeshSpace is established based on the BaseSpace and shares the services of the BaseSpace; users have all the permissions of their own MeshSpace and can share the permissions of the MeshSpace with other users.",
                 "learnMore": "Learn More"
+            },
+            "import": {
+                "btn": {
+                    "import": "Import DevSpace",
+                    "namespace": "Namespace Import",
+                    "yaml": "Import Yaml File",
+                    "importAll": "Import All Current",
+                    "operation": "Operation"
+                },
+                "importedCount": "DevSpaces to be imported",
+                "template.file": "Import DevSpace Template",
+                "fail.file": "Import DevSpace Fail",
+                "tips": {
+                    "cooperator": "Cooperator （optional）",
+                    "isstioEnabled": "namespace has istio enabled",
+                    "require": "Require istio to be installed to enable base devSpace"
+                }
             }
         },
         "myDevSpace": {

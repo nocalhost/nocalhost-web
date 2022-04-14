@@ -11,6 +11,7 @@ import NotData from '../../../components/NotData';
 import HTTP from '../../../api/fetch';
 
 const BaseSpace = (props: { ns: NsType; onChange: (checked: boolean) => void }) => {
+    const { t } = useTranslation();
     const { IstioEnabled: value, state } = props.ns;
 
     const disabled = state === 'import' || value !== 1;
@@ -29,7 +30,17 @@ const BaseSpace = (props: { ns: NsType; onChange: (checked: boolean) => void }) 
         return node;
     }
 
-    return <Tooltip title={value === 2 ? '已是基础开发空间' : '未安装istio'}>{node}</Tooltip>;
+    return (
+        <Tooltip
+            title={
+                value === 2
+                    ? t('resources.devSpace.import.tips.isstioEnabled')
+                    : t('resources.devSpace.import.tips.require')
+            }
+        >
+            {node}
+        </Tooltip>
+    );
 };
 
 interface NsType {
@@ -192,7 +203,7 @@ const NSImport = () => {
             },
         },
         {
-            title: '操作',
+            title: t('resources.devSpace.import.btn.operation'),
             dataIndex: 'state',
             key: 'state',
             width: '120px',
@@ -204,7 +215,7 @@ const NSImport = () => {
                         loading={state === 'import'}
                     >
                         {state === 'error'
-                            ? t('common.import.btn.re')
+                            ? t('common.import.btn.reimport')
                             : t('common.import.btn.import')}
                     </Button>
                 );
@@ -219,7 +230,7 @@ const NSImport = () => {
                     return (
                         <Tooltip className="flex items-center" title={value}>
                             <IconFail className="mr-1" />
-                            导入失败
+                            {t('common.import.result.failure')}
                         </Tooltip>
                     );
                 }
@@ -230,9 +241,11 @@ const NSImport = () => {
     return (
         <Tailwind className="ns bg">
             <div className="header">
-                <b>待导入开发空间({data.length})</b>
+                <b>
+                    {t('resources.devSpace.import.importedCount')}({data.length})
+                </b>
                 <Button type="primary" className="rounded-l" onClick={importAll}>
-                    导入当前所有
+                    {t('resources.devSpace.import.btn.importAll')}
                 </Button>
             </div>
             {loading || data.length ? (
@@ -244,7 +257,7 @@ const NSImport = () => {
                     columns={columns}
                 />
             ) : (
-                <NotData msg="当前暂无待导入开发空间" />
+                <NotData />
             )}
         </Tailwind>
     );

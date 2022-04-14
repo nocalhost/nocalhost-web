@@ -140,7 +140,7 @@ const ImportDevSpace = () => {
                                             },
                                             complete: {
                                                 link: '/dashboard/devspace',
-                                                text: `${t('resources.space.name')}${t(
+                                                text: `${t('resources.space.name')} ${t(
                                                     'common.import.result.successfully'
                                                 )}`,
                                             },

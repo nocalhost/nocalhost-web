@@ -119,7 +119,9 @@ const NSImport = () => {
 
                     if (res.data.Success) {
                         prevState.splice(index, 1);
-                        message.success(`${ns.Cluster}-${ns.Name} 导入成功`);
+                        message.success(
+                            `${ns.Cluster}-${ns.Name} ${t('common.import.result.successfully')}`
+                        );
                     } else {
                         cns.state = 'error';
                         cns.error = res.data.ErrInfo;
@@ -185,7 +187,7 @@ const NSImport = () => {
             },
         },
         {
-            title: t('resources.devSpace.shareUsers'),
+            title: t('resources.devSpace.fields.shareUsers'),
             dataIndex: 'cooperator',
             key: 'cooperator',
             width: '31%',

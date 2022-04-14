@@ -104,6 +104,7 @@ export async function fetchJson<T = any>(url: string, options?: IRequestOptions)
         }
         if (res && res.code !== 0) {
             message.error(res.message);
+            return Promise.reject({ code: -1, data: null });
             // return Promise.reject(new Error(res.message));
         }
         return res as { code: number; data: T };

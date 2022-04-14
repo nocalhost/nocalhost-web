@@ -118,17 +118,17 @@
                 "fileTips": "Please do not modify the file format"
             },
             "upload": {
-                "title": "Upload file",
+                "title": "Upload File",
                 "btn": {
-                    "select": "Select file",
+                    "select": "Select File",
                     "re": "Reselect"
                 },
                 "tips": "After completing the template file, you can directly drag the file here to upload it, supporting the format:"
             },
             "btn": {
-                "import": "import",
+                "import": "Import",
                 "cancel": "Cancel",
-                "reimport": "ReImport",
+                "reimport": "Reimport",
                 "completion": "Completion"
             },
             "result": {
@@ -155,7 +155,7 @@
                 "password": "Password",
                 "confirm_password": "Confirm Password",
                 "role": "User Role",
-                "reason": "reason"
+                "reason": "Reason"
             },
             "status": {
                 "active": "Active",
@@ -452,7 +452,8 @@
                 "kubeconfig": "KubeConfig",
                 "resource_limit": "Resource Limit",
                 "admin": "Admin",
-                "normalUser": "Ordinary member"
+                "normalUser": "Ordinary member",
+                "shareUsers": "Shared user (optional)"
             },
             "cancelShareO": {
                 "cancelTitle": "Are you sure you want to cancel sharing?",
@@ -500,7 +501,7 @@
                 "template.file": "Import DevSpace Template",
                 "fail.file": "Import DevSpace Fail",
                 "tips": {
-                    "cooperator": "Cooperator （optional）",
+                    "cooperator": "Cooperator",
                     "isstioEnabled": "namespace has istio enabled",
                     "require": "Require istio to be installed to enable base devSpace"
                 }

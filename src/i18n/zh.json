@@ -453,7 +453,8 @@
                 "kubeconfig": "KubeConfig",
                 "resource_limit": "资源限制",
                 "admin": "管理员",
-                "normalUser": "普通成员"
+                "normalUser": "普通成员",
+                "shareUsers": "共享用户（选填）"
             },
             "cancelShareO": {
                 "cancelTitle": "您确认要取消共享",
@@ -499,7 +500,7 @@
                 },
                 "importedCount": "待导入开发空间",
                 "tips": {
-                    "cooperator": "共享用户（选填）",
+                    "cooperator": "共享用户",
                     "isstioEnabled": "namespace已启用istio",
                     "require": "需安装istio，才能启用基础开发空间"
                 }

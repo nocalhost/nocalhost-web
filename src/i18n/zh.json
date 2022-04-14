@@ -499,10 +499,12 @@
                     "operation": "操作"
                 },
                 "importedCount": "待导入开发空间",
+                "template.file": "导入开发空间模板",
+                "fail.file": "导入失败开发空间",
                 "tips": {
                     "cooperator": "共享用户",
                     "isstioEnabled": "namespace已启用istio",
-                    "require": "需安装istio，才能启用基础开发空间"
+                    "require": "需安装istio, 才能启用基础开发空间"
                 }
             }
         },

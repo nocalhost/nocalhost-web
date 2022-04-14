@@ -63,6 +63,8 @@ function Fail() {
         config: { downloadList, failList },
     } = getUserImportContext();
 
+    const [isDownload, setDownload] = useState(true);
+
     return (
         <div style={{ position: 'relative' }}>
             <Modal
@@ -90,8 +92,11 @@ function Fail() {
             </div>
             <div className="table-info">
                 <div>
-                    {getTips(t, downloadList)}
-                    <Button type="primary" onClick={() => setReImport(true)}>
+                    {getTips(t, () => {
+                        downloadList();
+                        setDownload(false);
+                    })}
+                    <Button type="primary" disabled={isDownload} onClick={() => setReImport(true)}>
                         {t('common.import.btn.reimport')}
                     </Button>
                 </div>

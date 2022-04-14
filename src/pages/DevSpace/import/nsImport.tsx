@@ -136,11 +136,15 @@ const NSImport = () => {
         [data]
     );
 
+    const [selectedRowKeys, setSelectedRowKeys] = useState(Array.of<string>());
+
     const importSelect = useCallback(() => {
-        data.forEach((_, index) => {
-            importNs(index);
+        data.forEach((item, index) => {
+            if (selectedRowKeys.includes(`${item.Cluster},${item.Name}`)) {
+                importNs(index);
+            }
         });
-    }, [data, importNs]);
+    }, [data, importNs, selectedRowKeys]);
 
     const columns: ColumnsType<NsType> = [
         {
@@ -239,7 +243,6 @@ const NSImport = () => {
             },
         },
     ];
-    const [selectedRowKeys, setSelectedRowKeys] = useState(Array.of<string>());
     const onSelectChange = useCallback((selectedRowKeys) => {
         setSelectedRowKeys(selectedRowKeys);
     }, []);

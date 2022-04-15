@@ -2,6 +2,7 @@ import React from 'react';
 import notDataImg from '../../images/icon/image_emptyData.svg';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+
 const NotDataSection = styled.div`
     width: 100%;
     min-height: 500px;
@@ -25,12 +26,13 @@ const H = styled.div`
     margin-top: 20px;
 `;
 
-function NotData() {
+function NotData(props: { msg?: string }) {
     const { t } = useTranslation();
+    const msg = props.msg ?? t('common.noData');
     return (
         <NotDataSection>
             <Img src={notDataImg}></Img>
-            <H>{t('common.noData')}</H>
+            <H>{msg}</H>
         </NotDataSection>
     );
 }

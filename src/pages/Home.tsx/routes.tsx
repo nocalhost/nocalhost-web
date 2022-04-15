@@ -7,6 +7,9 @@ import EnvList from '../EnvList';
 import DevSpace from '../DevSpace';
 import DevSpaceOperation from '../DevSpace/components/DevspaceOperation';
 import MeshSpace from '../DevSpace/components/MeshSpace';
+import ImportUser from '../User/Import';
+import ImportDevSpace from '../DevSpace/import';
+
 export const routes = [
     {
         path: '/dashboard/overview',
@@ -30,6 +33,11 @@ export const routes = [
         component: User,
     },
     {
+        path: '/dashboard/user/import',
+        exact: true,
+        component: ImportUser,
+    },
+    {
         path: '/dashboard/clusters',
         exact: true,
         component: Clusters,
@@ -41,6 +49,11 @@ export const routes = [
     {
         path: '/dashboard/devspace/',
         component: DevSpace,
+        exact: true,
+    },
+    {
+        path: '/dashboard/devspace/import',
+        component: ImportDevSpace,
         exact: true,
     },
     {

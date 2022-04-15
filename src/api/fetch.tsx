@@ -1,7 +1,10 @@
 import 'whatwg-fetch';
 import * as qs from 'query-string';
 import { message } from 'antd';
-interface IRequestOptions {
+
+// import { get } from 'lodash';
+
+interface IRequestOptions extends RequestInit {
     method?: string;
     body?: any;
     config?: any;
@@ -9,6 +12,7 @@ interface IRequestOptions {
 
 // 当前是否正在重新获取token
 let isRefreshing = true;
+
 function checkStatus(res: any) {
     if (res.status >= 200 && res.status < 300) {
         return res;
@@ -16,11 +20,17 @@ function checkStatus(res: any) {
     const error = new Error(res.statusText);
     throw error;
 }
-export async function fetchJson(url: string, options?: IRequestOptions) {
+
+export async function fetchJson<T = any>(url: string, options?: IRequestOptions) {
     const headers = new Headers({
         authorization: url.startsWith('login') ? '' : `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': options?.method === 'GET' ? '' : 'application/json',
+        'Content-Type': 'application/json',
     });
+
+    if (options?.method === 'GET' || options?.body instanceof FormData) {
+        headers.delete('Content-Type');
+    }
+
     let apiUrl = '';
     const initOptions: IRequestOptions = {};
     initOptions.method = 'GET';
@@ -94,27 +104,36 @@ export async function fetchJson(url: string, options?: IRequestOptions) {
         }
         if (res && res.code !== 0) {
             message.error(res.message);
+            return Promise.reject(res);
             // return Promise.reject(new Error(res.message));
         }
-        return res;
+        return res as { code: number; data: T };
     } catch (error) {
         message.error(error.message);
-        return {};
+        return Promise.reject({ code: -1, data: null });
     }
 }
 
 class HTTP {
-    async get(url: string, data?: any, config?: any) {
-        return await fetchJson(url, { method: 'GET', body: data, config });
+    async get<T = any>(url: string, data?: any, config?: any) {
+        return fetchJson<T>(url, { method: 'GET', body: data, config });
     }
-    async post(url: string, data?: any, config?: any) {
-        return await fetchJson(url, { method: 'POST', body: JSON.stringify(data), config });
+
+    async post<T = any>(url: string, data?: any, config?: any) {
+        return fetchJson<T>(url, { method: 'POST', body: JSON.stringify(data), config });
     }
+
     async put(url: string, data?: any, config?: any) {
-        return await fetchJson(url, { method: 'PUT', body: JSON.stringify(data), config });
+        return fetchJson(url, { method: 'PUT', body: JSON.stringify(data), config });
     }
+
     async delete(url: string, data?: any, config?: any) {
-        return await fetchJson(url, { method: 'DELETE', body: JSON.stringify(data), config });
+        return fetchJson(url, { method: 'DELETE', body: JSON.stringify(data), config });
+    }
+
+    async fetch<T = any>(url: string, data?: any, options?: IRequestOptions) {
+        options = options ?? {};
+        return fetchJson<T>(url, { method: 'POST', body: data, ...options });
     }
 }
 

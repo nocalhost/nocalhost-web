@@ -12,6 +12,20 @@ export const queryAllUser = async () => {
     return nameMap;
 };
 
+export interface UserType {
+    id: number;
+    name: string;
+}
+
+export const getAllUser = async () => {
+    const response = await HTTP.get<Array<UserType>>('users');
+    const { data, code } = response;
+    if (code === 0) {
+        return data as Array<UserType>;
+    }
+    return [];
+};
+
 export const queryAllCluster = async () => {
     const response = await HTTP.get('dev_space/cluster', null, {
         is_v2: true,

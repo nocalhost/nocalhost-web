@@ -110,6 +110,34 @@
         },
         "select": {
             "all": "全部"
+        },
+        "import": {
+            "download": {
+                "title": "下载模版",
+                "tips": "根据提示信息完善模版文件内容",
+                "template": "下载模版文件",
+                "fileTips": "请勿修改文件格式"
+            },
+            "upload": {
+                "title": "上传文件",
+                "btn": {
+                    "select": "选择文件",
+                    "re": "重新选择"
+                },
+                "tips": "完善模版文件信息后, 可直接将文件拖拽到此处进行上传, 支持格式:"
+            },
+            "btn": {
+                "import": "导入",
+                "cancel": "取消",
+                "reimport": "重新导入",
+                "completion": "完成"
+            },
+            "result": {
+                "title": "导入结果",
+                "successfully": "导入成功",
+                "failure": "导入失败",
+                "tips": "以下为导入失败信息，可以[下载导入失败列表]，修改后重新导入"
+            }
         }
     },
     "resources": {
@@ -127,7 +155,8 @@
                 "is_admin": "是否设置为管理员",
                 "password": "密码",
                 "confirm_password": "确认密码",
-                "role": "用户角色"
+                "role": "用户角色",
+                "reason": "失败原因"
             },
             "status": {
                 "active": "已激活",
@@ -142,6 +171,7 @@
                 "info": "删除用户「{{name}}」后，则该用户将无法登录操作控制台。"
             },
             "bt": {
+                "import": "导入用户",
                 "add": "添加用户",
                 "edit": "修改用户"
             },
@@ -164,7 +194,9 @@
                 "statusInfo": "状态开启则用户可以正常使用 Nocalhost 产品",
                 "adminTitle": "是否设置为管理员",
                 "adminInfo": "设置为管理员，则该用户有权限添加编辑用户、集群"
-            }
+            },
+            "import.template.file": "用户导入模版",
+            "import.fail.file": "导入失败用户"
         },
         "cluster": {
             "name": "集群",
@@ -421,7 +453,8 @@
                 "kubeconfig": "KubeConfig",
                 "resource_limit": "资源限制",
                 "admin": "管理员",
-                "normalUser": "普通成员"
+                "normalUser": "普通成员",
+                "shareUsers": "共享用户（选填）"
             },
             "cancelShareO": {
                 "cancelTitle": "您确认要取消共享",
@@ -456,6 +489,23 @@
                 "devSpaceDesc": "一个隔离开发空间对应一个 K8s 命名空间，开发空间之间相互隔离；用户拥有自己的隔离开发空间的所有权限，可以将隔离开发空间权限共享给其他用户。",
                 "meshSpaceDesc": "一个共享开发空间对应一个 K8s 命名空间。共享开发空间基于基础开发空间建立，共享基础开发空间的服务；用户拥有自己的共享开发空间的所有权限，可以将共享开发空间权限共享给其他用户。",
                 "learnMore": "了解更多"
+            },
+            "import": {
+                "btn": {
+                    "import": "导入开发空间",
+                    "namespace": "命名空间导入",
+                    "yaml": "yaml文件导入",
+                    "importSelect": "导入已选择空间",
+                    "operation": "操作"
+                },
+                "importedCount": "待导入开发空间",
+                "template.file": "导入开发空间模板",
+                "fail.file": "导入失败开发空间",
+                "tips": {
+                    "cooperator": "共享用户",
+                    "isstioEnabled": "namespace已启用istio",
+                    "require": "需安装istio, 才能启用基础开发空间"
+                }
             }
         },
         "myDevSpace": {

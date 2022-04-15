@@ -1,0 +1,10 @@
+devspaces:
+  - clusterName: cluster1 # 已添加的 localhost 集群名
+    namespace: ns01 # 需导入的 namespace
+    collaborator: # 需要共享开发空间的用户
+      - zhangsan1@163.cn # nocalhost 用户邮箱
+
+  - clusterName: cluster2 # Added localhost cluster name
+    namespace: ns02 # Namespace to be imported
+    collaborator: # Users who need shared DevSpace
+      - zhangsan2@163.cn #  nocalhost user email

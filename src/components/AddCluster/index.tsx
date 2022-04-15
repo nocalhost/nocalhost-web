@@ -96,7 +96,7 @@ const AddCluster = (props: IProps) => {
     async function queryStorageList(id: number) {
         try {
             const response = await HTTP.get(`cluster/${id}/storage_class`);
-            setStorageList(response.data.type_name);
+            setStorageList(response.data.type_name ?? []);
         } catch (e) {
             setStorageList([]);
         }

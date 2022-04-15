@@ -31,8 +31,10 @@ import { UserContext } from '../../provider/appContext';
 import NotData from '../../components/NotData';
 import SearchNotData from '../../components/SearchNotData';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
+import { useHistory } from 'react-router-dom';
 
 function User() {
+    const history = useHistory();
     const [data, setData] = useState([]);
     const [tableLoading, setTableLoading] = useState(false);
     const [copyData, setCopyData] = useState([]);
@@ -286,13 +288,21 @@ function User() {
                         ></LabelSelect>
                     </Filter>
                     {!!user.is_admin && (
-                        <Button
-                            type="primary"
-                            onClick={() => setOpenDialog(true)}
-                            icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
-                        >
-                            {t('resources.users.bt.add')}
-                        </Button>
+                        <div>
+                            <Button
+                                onClick={() => history.push('/dashboard/user/import')}
+                                style={{ marginRight: 12 }}
+                            >
+                                {t('resources.users.bt.import')}
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={() => setOpenDialog(true)}
+                                icon={<Icon component={IconAdd} style={{ color: '#fff' }}></Icon>}
+                            >
+                                {t('resources.users.bt.add')}
+                            </Button>
+                        </div>
                     )}
                 </TableHeader>
                 <TableWrap>

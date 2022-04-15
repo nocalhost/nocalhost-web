@@ -286,7 +286,7 @@ const DevspaceForm = ({
             }
         } catch (e) {
             setIsSubmit(false);
-            throw new Error(e);
+            console.error(e);
         }
     };
 

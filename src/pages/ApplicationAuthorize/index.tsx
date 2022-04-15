@@ -36,8 +36,11 @@ function ApplicationAuthorize() {
     const { t } = useTranslation();
     const getApplicationUser = async () => {
         setTableLoading(true);
-        const result = await HTTP.get(`application/${urlParams.id}/users`);
-        setTableLoading(false);
+
+        const result = await HTTP.get(`application/${urlParams.id}/users`).finally(() => {
+            setTableLoading(false);
+        });
+
         if (result.code === 0) {
             setData(result.data || []);
             setCopyData(result.data || []);

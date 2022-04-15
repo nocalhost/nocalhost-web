@@ -145,7 +145,6 @@ const Container = styled.div`
 
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
         color: #1890ff;
-        font-weight: 600;
     }
 
     .ant-tabs-ink-bar {

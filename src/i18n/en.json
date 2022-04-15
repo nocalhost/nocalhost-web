@@ -494,7 +494,7 @@
                     "import": "Import DevSpace",
                     "namespace": "Namespace Import",
                     "yaml": "Import Yaml File",
-                    "importSelect": "Import Selection",
+                    "importSelect": "Import Selected",
                     "operation": "Operation"
                 },
                 "importedCount": "DevSpaces to be imported",

@@ -495,7 +495,7 @@
                     "import": "导入开发空间",
                     "namespace": "命名空间导入",
                     "yaml": "yaml文件导入",
-                    "importSelect": "导入选择空间",
+                    "importSelect": "导入已选择空间",
                     "operation": "操作"
                 },
                 "importedCount": "待导入开发空间",

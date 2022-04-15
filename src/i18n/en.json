@@ -129,7 +129,7 @@
                 "import": "Import",
                 "cancel": "Cancel",
                 "reimport": "Reimport",
-                "completion": "Completion"
+                "completion": "Finish"
             },
             "result": {
                 "title": "Import Result",

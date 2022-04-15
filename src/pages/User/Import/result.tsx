@@ -21,8 +21,7 @@ function Success(props: { text: string; onClick: () => void }) {
             <IconBigSuccess />
             <strong>{t('common.import.result.successfully')}</strong>
             <p>
-                {props.text}
-                {result.length}
+                {props.text} {result.length}
             </p>
             <Button type="primary" onClick={props.onClick}>
                 {t('common.import.btn.completion')}
@@ -86,7 +85,7 @@ function Fail() {
                 </div>
                 <div>
                     <IconFail />
-                    {t('common.import.result.failure')}
+                    {t('common.import.result.failure')}{' '}
                     {result.filter((item) => item.Success === false).length}
                 </div>
             </div>

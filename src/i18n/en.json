@@ -453,7 +453,7 @@
                 "resource_limit": "Resource Limit",
                 "admin": "Admin",
                 "normalUser": "Ordinary member",
-                "shareUsers": "Shared user (optional)"
+                "shareUsers": "Shared User (Optional)"
             },
             "cancelShareO": {
                 "cancelTitle": "Are you sure you want to cancel sharing?",

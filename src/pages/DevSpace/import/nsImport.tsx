@@ -230,7 +230,6 @@ const NSImport = () => {
         {
             dataIndex: 'error',
             key: 'error',
-            width: '200px',
             render(value) {
                 if (value) {
                     return (

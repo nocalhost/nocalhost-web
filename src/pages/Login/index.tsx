@@ -31,7 +31,9 @@ function Login() {
     const { dispatch } = useContext(UserContext);
     const onFinish = async () => {
         setLoading(true);
-        const result = await HTTP.post('login', { email, password });
+        const result = await HTTP.post('login', { email, password }).finally(() => {
+            setLoading(false);
+        });
         if (result.code === 0) {
             const token = result.data.token;
             const refreshToken = result.data.refresh_token;
@@ -52,7 +54,6 @@ function Login() {
                 localStorage.setItem('userId', user.data.id);
             }
         }
-        setLoading(false);
     };
     return (
         <div id="login">

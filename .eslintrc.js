@@ -67,6 +67,7 @@ module.exports = {
         'no-undef': 1,
         '@typescript-eslint/ban-types': 0,
         'no-empty': 1,
+        'no-unreachable': 1,
         //     'global-require': 0,
         //     'no-trailing-spaces': 0,
         '@typescript-eslint/no-explicit-any': 0,

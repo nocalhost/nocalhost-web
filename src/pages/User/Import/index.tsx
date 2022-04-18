@@ -17,6 +17,7 @@ import Result from './result';
 import Container, { getUserImportContext, ImportContext, UserItem } from './util';
 import { ImportStateType } from './types';
 import HTTP from '../../../api/fetch';
+import { downloadBlob } from '../../../utils';
 
 export function ImportBox(props: PropsWithChildren<any>) {
     const {
@@ -111,6 +112,7 @@ function FailList(props: { result: ImportStateType<UserItem>['result'] }) {
 
 export default function ImportUser() {
     const { t, i18n } = useTranslation();
+    const userTemplate = i18n.language === 'en' ? userEn : userZh;
 
     const [state, setState] = useState<ImportStateType<UserItem>>({ result: [] });
 
@@ -141,36 +143,39 @@ export default function ImportUser() {
     }, [state.taskId]);
 
     const downloadList = useCallback(() => {
-        import('xlsx').then((xlsx) => {
-            const wb = xlsx.utils.book_new();
+        import('exceljs')
+            .then(async (ExcelJS) => {
+                const buffer = await fetch(userTemplate).then((res) => res.arrayBuffer());
 
-            const ws = xlsx.utils.aoa_to_sheet([
-                [t('common.import.download.fileTips')],
-                [
-                    t('resources.users.fields.email'),
-                    t('resources.users.fields.name'),
-                    'Cooperator DevSpace',
-                    'Viewer DevSpace',
-                ],
-                ...state.result
+                let workbook = new ExcelJS.Workbook();
+                workbook = await workbook.xlsx.load(buffer);
+
+                const worksheet = workbook.getWorksheet(1);
+
+                worksheet.eachRow((item, index) => {
+                    if (index > 3) {
+                        item.values = [];
+                    }
+                });
+
+                state.result
                     .filter((item) => !item.Success)
-                    .map((item) => {
-                        return [
+                    .forEach((item, index) => {
+                        worksheet.getRow(index + 3).values = [
                             item.Email,
                             item.Username,
                             item.CooperatorDevSpace.replaceAll(',', '\n'),
                             item.ViewerDevSpace.replaceAll(',', '\n'),
                         ];
-                    }),
-            ]);
+                    });
 
-            ws['!merges'] = [xlsx.utils.decode_range('A1:D1')];
-
-            wb.SheetNames.push('sheet1');
-            wb.Sheets['sheet1'] = ws;
-
-            xlsx.writeFile(wb, `${t('resources.users.import.fail.file')}.xlsx`);
-        });
+                downloadBlob(new Blob([new Uint8Array(await workbook.xlsx.writeBuffer()).buffer]), {
+                    fileName: `${t('resources.users.import.fail.file')}.xlsx`,
+                });
+            })
+            .catch((err) => {
+                console.error('download fail', err);
+            });
     }, [state.result]);
     return (
         <Container>
@@ -194,7 +199,7 @@ export default function ImportUser() {
                             config: {
                                 template: {
                                     name: `${t('resources.users.import.template.file')}.xlsx`,
-                                    link: i18n.language === 'en' ? userEn : userZh,
+                                    link: userTemplate,
                                     suffix: ['xlsx', 'csv'],
                                     accept:
                                         'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

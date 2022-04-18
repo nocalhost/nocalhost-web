@@ -1,8 +1,8 @@
 import { Select } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { UserType } from '../../../services';
-import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
@@ -37,15 +37,33 @@ export const SelectOwnerUser = (props: {
     );
 };
 
+export interface NsType {
+    Name: string;
+    Cluster: string;
+    IstioEnabled: number;
+    owner?: number;
+    collaborator: Array<number>;
+    state: 'import' | 'error' | 'default';
+    is_basespace: number;
+    error?: string;
+}
+
 export const SelectCooperator = (props: {
     user: Array<UserType>;
     value: UserType['id'][];
+    owner: NsType['owner'];
     disabled?: boolean;
     onChange: (user: UserType['id'][]) => void;
 }) => {
-    const { value, user, onChange, disabled } = props;
+    const { value, user, owner, onChange, disabled } = props;
 
     const { t } = useTranslation();
+
+    const [values, setValues] = useState<UserType['id'][]>();
+
+    useEffect(() => {
+        setValues(value);
+    }, [value]);
 
     return (
         <Select
@@ -53,7 +71,7 @@ export const SelectCooperator = (props: {
             disabled={disabled}
             mode="multiple"
             placeholder={t('resources.devSpace.import.tips.cooperator')}
-            defaultValue={value}
+            value={values}
             style={{ width: '100%' }}
             filterOption={(input, option) =>
                 (input &&
@@ -63,11 +81,17 @@ export const SelectCooperator = (props: {
             }
             onChange={(value) => onChange(value)}
         >
-            {user.map(({ id, name }) => (
-                <Option value={id} key={id}>
-                    {name}
-                </Option>
-            ))}
+            {user.map(({ id, name }) => {
+                if (id === owner) {
+                    return null;
+                }
+
+                return (
+                    <Option value={id} key={id}>
+                        {name}
+                    </Option>
+                );
+            })}
         </Select>
     );
 };

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getAllUser, UserType } from '../../../services';
 import { ColumnsType } from 'antd/lib/table/interface';
-import { SelectCooperator, SelectOwnerUser } from './user';
+import { NsType, SelectCooperator, SelectOwnerUser } from './user';
 import { ReactComponent as IconFail } from '../../User/Import/asset/fail.svg';
 import { Tailwind } from '../../../components/Tailwind/style-components';
 import NotData from '../../../components/NotData';
@@ -42,17 +42,6 @@ const BaseSpace = (props: { ns: NsType; onChange: (checked: boolean) => void }) 
         </Tooltip>
     );
 };
-
-interface NsType {
-    Name: string;
-    Cluster: string;
-    IstioEnabled: number;
-    owner?: number;
-    collaborator: Array<number>;
-    state: 'import' | 'error' | 'default';
-    is_basespace: number;
-    error?: string;
-}
 
 const NSImport = () => {
     const [user, setUser] = useState(Array.of<UserType>());
@@ -185,7 +174,15 @@ const NSImport = () => {
                         user={user}
                         value={value}
                         disabled={state === 'import'}
-                        onChange={(owner) => updateData(index, { ...data[index], owner })}
+                        onChange={(owner) => {
+                            const item = data[index];
+                            item.owner = owner;
+                            item.collaborator = (item.collaborator ?? []).filter(
+                                (id) => id !== owner
+                            );
+                            console.warn('onchange', item);
+                            updateData(index, { ...item });
+                        }}
                     />
                 );
             },
@@ -195,10 +192,11 @@ const NSImport = () => {
             dataIndex: 'cooperator',
             key: 'cooperator',
             width: '31%',
-            render(value, { state }, index: number) {
+            render(value, { owner, state }, index: number) {
                 return (
                     <SelectCooperator
                         user={user}
+                        owner={owner}
                         value={value}
                         disabled={state === 'import'}
                         onChange={(collaborator) =>

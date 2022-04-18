@@ -63,7 +63,6 @@ export const SelectCooperator = (props: {
 
     useEffect(() => {
         setValues(value);
-        console.warn('value', value);
     }, [value]);
 
     return (

@@ -112,6 +112,7 @@ function FailList(props: { result: ImportStateType<UserItem>['result'] }) {
 
 export default function ImportUser() {
     const { t, i18n } = useTranslation();
+    const userTemplate = i18n.language === 'en' ? userEn : userZh;
 
     const [state, setState] = useState<ImportStateType<UserItem>>({ result: [] });
 
@@ -142,66 +143,39 @@ export default function ImportUser() {
     }, [state.taskId]);
 
     const downloadList = useCallback(() => {
-        import('exceljs').then(async (ExcelJS) => {
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet('Sheet1');
-            worksheet.properties.defaultColWidth = 25;
+        import('exceljs')
+            .then(async (ExcelJS) => {
+                const buffer = await fetch(userTemplate).then((res) => res.arrayBuffer());
 
-            worksheet.addRow([
-                `填写须知：
-1. 请勿修改表格结构：
-2. 标红字段为必填项，黑色字段为选填项：
-3. 邮箱：必填，成员的唯一标识，登陆 nocalhost server 使用
-4. 用户名称：必填，用于在系统内显示
-5. Cooperator DevSpace：非必填，协作开发空间，能对 ns 进行管理操作，按 nocalhost cluster/ns 格式填写，多个以换行分割
-6. Viewer  DevSpace：非必填，协作开发空间，对 ns 只读，无法安装、卸载应用等，按 nocalhost cluster/ns 格式填写，多个以换行分割`,
-            ]);
-            worksheet.mergeCells('A1:D1');
+                let workbook = new ExcelJS.Workbook();
+                workbook = await workbook.xlsx.load(buffer);
 
-            worksheet.getRow(1).height = 90;
-            worksheet.getRow(1).alignment = { wrapText: true };
+                const worksheet = workbook.getWorksheet(1);
 
-            worksheet.addRow(['邮箱', '用户名称', 'Cooperator DevSpace', 'Viewer DevSpace']);
-            worksheet.addRows(
+                worksheet.eachRow((item, index) => {
+                    if (index > 3) {
+                        item.values = [];
+                    }
+                });
+
                 state.result
                     .filter((item) => !item.Success)
-                    .map((item) => {
-                        return [
+                    .forEach((item, index) => {
+                        worksheet.getRow(index + 3).values = [
                             item.Email,
                             item.Username,
                             item.CooperatorDevSpace.replaceAll(',', '\n'),
                             item.ViewerDevSpace.replaceAll(',', '\n'),
                         ];
-                    })
-            );
+                    });
 
-            worksheet.getRows(2, 5)!.forEach((item: any) => (item.height = 18));
-
-            worksheet.getCell('A2').font = worksheet.getCell('B2').font = worksheet.getCell(
-                'C2'
-            ).font = worksheet.getCell('D2').font = {
-                color: { argb: 'FFFFFF' },
-                size: 14,
-            };
-
-            worksheet.getCell('A2').fill = worksheet.getCell('B2').fill = {
-                type: 'pattern',
-                pattern: 'darkTrellis',
-                bgColor: { argb: 'B00004' },
-                fgColor: { argb: 'B00004' },
-            };
-
-            worksheet.getCell('C2').fill = worksheet.getCell('D2').fill = {
-                type: 'pattern',
-                pattern: 'darkTrellis',
-                bgColor: { argb: '313131' },
-                fgColor: { argb: '313131' },
-            };
-            const buffer = await workbook.xlsx.writeBuffer();
-            downloadBlob(new Blob([new Uint8Array(buffer).buffer]), {
-                fileName: `${t('resources.users.import.fail.file')}.xlsx`,
+                downloadBlob(new Blob([new Uint8Array(await workbook.xlsx.writeBuffer()).buffer]), {
+                    fileName: `${t('resources.users.import.fail.file')}.xlsx`,
+                });
+            })
+            .catch((err) => {
+                console.error('download fail', err);
             });
-        });
     }, [state.result]);
     return (
         <Container>
@@ -225,7 +199,7 @@ export default function ImportUser() {
                             config: {
                                 template: {
                                     name: `${t('resources.users.import.template.file')}.xlsx`,
-                                    link: i18n.language === 'en' ? userEn : userZh,
+                                    link: userTemplate,
                                     suffix: ['xlsx', 'csv'],
                                     accept:
                                         'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

@@ -180,7 +180,6 @@ const NSImport = () => {
                             item.collaborator = (item.collaborator ?? []).filter(
                                 (id) => id !== owner
                             );
-                            console.warn('onchange', item);
                             updateData(index, { ...item });
                         }}
                     />
@@ -189,8 +188,8 @@ const NSImport = () => {
         },
         {
             title: t('resources.devSpace.fields.shareUsers'),
-            dataIndex: 'cooperator',
-            key: 'cooperator',
+            dataIndex: 'collaborator',
+            key: 'collaborator',
             width: '31%',
             render(value, { owner, state }, index: number) {
                 return (

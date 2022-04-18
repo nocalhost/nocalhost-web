@@ -10,7 +10,8 @@ import { ColumnsType } from 'antd/es/table/interface';
 import { ReactComponent as selectIcon } from './asset/file.svg';
 import { ReactComponent as defaultIcon } from './asset/file.0.svg';
 import BreadCard from '../../../components/BreadCard';
-import xlsx from './asset/user.xlsx';
+import userZh from './asset/user.xlsx';
+import userEn from './asset/user.en.xlsx';
 import UploadProgress, { Buttons, FileSelect } from './upload';
 import Result from './result';
 import Container, { getUserImportContext, ImportContext, UserItem } from './util';
@@ -110,7 +111,7 @@ function FailList(props: { result: ImportStateType<UserItem>['result'] }) {
 }
 
 export default function ImportUser() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [state, setState] = useState<ImportStateType<UserItem>>({ result: [] });
 
@@ -224,7 +225,7 @@ export default function ImportUser() {
                             config: {
                                 template: {
                                     name: `${t('resources.users.import.template.file')}.xlsx`,
-                                    link: xlsx,
+                                    link: i18n.language === 'en' ? userEn : userZh,
                                     suffix: ['xlsx', 'csv'],
                                     accept:
                                         'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

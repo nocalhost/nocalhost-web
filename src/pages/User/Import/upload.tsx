@@ -30,7 +30,7 @@ export function Buttons(props: { onCancel: () => void; onImport?: () => void; fi
         }
         onImport && onImport();
 
-        importFile(file).finally(() => setLoading(false));
+        importFile(file).catch(() => setLoading(false));
     }, [onImport, file]);
 
     return (
@@ -96,6 +96,8 @@ export default function UploadProgress() {
 
             refresh.current = window.setTimeout(async () => {
                 await getProcess().then((process) => {
+                    process = Math.floor(process);
+
                     const text = process + '%';
                     i.style.setProperty('--progress', text);
                     span.textContent = text;

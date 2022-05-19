@@ -20,9 +20,7 @@ import { ReactComponent as WayLine } from '../../../../images/mesh-icon/way1.svg
 import { ReactComponent as BlueArrow } from '../../../../images/mesh-icon/arrow.svg';
 import { ReactComponent as IconTracingHeader } from '../../../../images/icon/icon_normal_tracingHeaders.svg';
 import { ReactComponent as IconActiveTracingHeader } from '../../../../images/icon/icon_active_tracingHeaders.svg';
-
 import CommonIcon from '../../../../components/CommonIcon';
-
 import { ReactComponent as IconPath } from '../../../../images/mesh-icon/icon_path.svg';
 import {
     windowAnimationStartHandle,

@@ -80,7 +80,8 @@
             "copy": "Copy successfully",
             "upgrade": "Nocalhost Server Dashboard version {{latest}} has been released. Your current version is {{current}}.",
             "link": "Click to view updated guidelines",
-            "release": "Version {{version}} has been released,"
+            "release": "Version {{version}} has been released,",
+            "success": "Operation success"
         },
         "bt": {
             "delete": "Delete",
@@ -575,5 +576,48 @@
                 "user": "User"
             }
         }
+    },
+    "settings": {
+        "settingCenter": "Configuration Center",
+        "thirdAccount": "Third party account config",
+        "configService": "Configuration Services",
+        "unallocated": "unallocated",
+        "configured": "configured",
+        "thirdAccountDesc": "After configuring LDAP, you can import LDAP member directories to achieve single sign-on to Nocalhost for LDAP accounts. see the",
+        "helpDocs": "help documentation",
+        "configLdap": "Configuring LDAP",
+        "configDesc": "The following configuration will be applied to synchronize LDAP directories, and directory members will be authorized to use LDAP accounts to log in to the Nocalhost Server Dashboard. for LDAP server configuration information, please contact your server administrator.",
+        "serverConfig": "Server Configuration",
+        "serverConfigTip": "Configure the link LDAP server address.",
+        "ruleConfig": "User rule configuration",
+        "ruleConfigTip": "Import LDAP users and verify user identity.",
+        "serverAddr": "Server Address",
+        "adminAccount": "Admin account",
+        "adminPwd": "Admin password",
+        "securitySet": "Security Settings",
+        "serverAddrPh": "Please enter the server address corp.com,127.0.0.1",
+        "adminAccountPh": "Please enter the administrator account ",
+        "adminPwdPh": "Please enter the administrator password ",
+        "finishAndSync": "Finish and sync",
+        "emailAttr": "Mail attr",
+        "emailAttrPh": "Please enter the property name of the mail ",
+        "usernameAttr": "Username attr",
+        "usernameAttrPh": "Please enter the attribute name of the user name, e.g. OpenLdap Fill in the uid ",
+        "memberRule": "Membership Rules",
+        "baseDn": "Base DN",
+        "baseDnPh": "Search for users from the root directory, e.g. cn=users,dc=example.com,de= ",
+        "selector": "Filters",
+        "advanceSetting": "Advanced Configuration",
+        "advanceSettingTip": "Users who meet this base DN and filter will be imported as an administrator user group.",
+        "adminRule": "Admin Rules",
+        "syncData": "Synchronize data",
+        "editConfig": "Edit Config",
+        "modifyConfig": "Modify",
+        "deleteConfig": "Delete",
+        "emailAttrTip": "If the email provided is not an email, Nocalhost will automatically splice it as ${attr}@nocalhost.dev, the domain part must meet the LDH rules, otherwise the single entry will not be synchronized, if the database already has this email, the mapping relationship will be established directly, if the email provided is duplicated, the data may be misplaced",
+        "usernameAttrTip": "If it is not filled in or not obtained, the domain part of the email will be taken as the username when importing, and the part of the email that exceeds 20 characters will be truncated; if the user already exists and is not filled in or not obtained, the original username will not be updated.",
+        "exampleTip": "(Fill out at least the base DN+Attr to get one in real time)",
+        "deleteConfirm": "Is it confirmed that you want to delete the configuration",
+        "filterTip": "Default value is (objectClass=*) "
     }
 }

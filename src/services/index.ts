@@ -12,6 +12,20 @@ export const queryAllUser = async () => {
     return nameMap;
 };
 
+export const queryUserList = async () => {
+    const response = await HTTP.get('users');
+    let list = [];
+    if (response.code === 0) {
+        list = response?.data?.map((item: any) => {
+            return {
+                label: item.name,
+                value: item.id,
+                text: item.name,
+            };
+        });
+    }
+    return list;
+};
 export interface UserType {
     id: number;
     name: string;

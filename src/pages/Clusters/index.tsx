@@ -6,7 +6,6 @@ import { ContentTitle, ClusterCount, FlexContainer, LoadingBox } from './style-c
 import { Button, Spin } from 'antd';
 import i18n from '../../i18n/i18n';
 import AddCluster from '../../components/AddCluster';
-import { queryAllUser } from '../../services';
 import { useTranslation } from 'react-i18next';
 import NotData from '../../components/NotData';
 import Icon from '@ant-design/icons';
@@ -23,17 +22,11 @@ const Clusters: FC<{}> = () => {
 
     async function queryClusters() {
         setClusterLoading(true);
-        const nameMap = await queryAllUser();
+
         const response = await HTTP.get('cluster');
         setClusterLoading(false);
         if (response.code === 0) {
-            const tmpList = response.data.map((item: any) => {
-                return {
-                    ...item,
-                    userName: nameMap.get(item.user_id),
-                };
-            });
-            setClusterList(tmpList);
+            setClusterList(response.data);
         }
     }
 

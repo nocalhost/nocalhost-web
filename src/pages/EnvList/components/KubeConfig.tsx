@@ -69,7 +69,9 @@ const KubeConfig = (props: PropParam) => {
 
     const handleDownload = () => {
         // download
-        const blob = new Blob([kubeConfig]);
+        const blob = new Blob([kubeConfig], {
+            type: 'application/octet-stream',
+        });
         const aLink = document.createElement('a');
         aLink.style.display = 'none';
         aLink.setAttribute('download', 'config');

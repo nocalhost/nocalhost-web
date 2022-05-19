@@ -110,6 +110,34 @@
         "noData": "No Data",
         "select": {
             "all": "All"
+        },
+        "import": {
+            "download": {
+                "title": "Download Template",
+                "tips": "Please input the content of the template file according to the prompt information",
+                "template": "Download Template File ",
+                "fileTips": "Please do not modify the file format"
+            },
+            "upload": {
+                "title": "Upload File",
+                "btn": {
+                    "select": "Select File",
+                    "re": "Reselect"
+                },
+                "tips": "After completing the template file, you can directly drag the file here to upload it, supporting the format:"
+            },
+            "btn": {
+                "import": "Import",
+                "cancel": "Cancel",
+                "reimport": "Reimport",
+                "completion": "Finish"
+            },
+            "result": {
+                "title": "Import Result",
+                "successfully": "Imported successfully",
+                "failure": "Imported failure",
+                "tips": "The following is the import failure message, you can download [import failure list], modify it and re-import it"
+            }
         }
     },
     "resources": {
@@ -127,7 +155,8 @@
                 "is_admin": "Is Admin",
                 "password": "Password",
                 "confirm_password": "Confirm Password",
-                "role": "User Role"
+                "role": "User Role",
+                "reason": "Reason"
             },
             "status": {
                 "active": "Active",
@@ -142,6 +171,7 @@
                 "info": "After deleting the user「{{name}}」, the user will not be able to log in to the system."
             },
             "bt": {
+                "import": "Import User",
                 "add": "Add User",
                 "edit": "Edit User"
             },
@@ -164,7 +194,9 @@
                 "statusInfo": "If the status is turned on, the user can use Nocalhost products normally",
                 "adminTitle": "Whether to set as an administrator",
                 "adminInfo": "Set as an administrator, the user has the right to add and edit users, clusters"
-            }
+            },
+            "import.template.file": "User Import Templates",
+            "import.fail.file": "Import Users Fail"
         },
         "cluster": {
             "name": "Cluster",
@@ -421,7 +453,8 @@
                 "kubeconfig": "KubeConfig",
                 "resource_limit": "Resource Limit",
                 "admin": "Admin",
-                "normalUser": "Ordinary member"
+                "normalUser": "Ordinary member",
+                "shareUsers": "Shared User (Optional)"
             },
             "cancelShareO": {
                 "cancelTitle": "Are you sure you want to cancel sharing?",
@@ -456,6 +489,23 @@
                 "devSpaceDesc": "An IsolateSpace corresponds to a Kubernetes' namespace, and the DevSpace are isolated from each other; users have all the permissions of their IsolateSpace and can share the permissions of the IsolateSpace with other users.",
                 "meshSpaceDesc": "A MeshSpace corresponds to a Kubernetes' namespace. The MeshSpace is established based on the BaseSpace and shares the services of the BaseSpace; users have all the permissions of their own MeshSpace and can share the permissions of the MeshSpace with other users.",
                 "learnMore": "Learn More"
+            },
+            "import": {
+                "btn": {
+                    "import": "Import DevSpace",
+                    "namespace": "Namespace Import",
+                    "yaml": "Import Yaml File",
+                    "importSelect": "Import Selected",
+                    "operation": "Operation"
+                },
+                "importedCount": "DevSpaces to be imported",
+                "template.file": "Import DevSpace Template",
+                "fail.file": "Import DevSpace Fail",
+                "tips": {
+                    "cooperator": "Cooperator",
+                    "isstioEnabled": "namespace has istio enabled",
+                    "require": "Require istio to be installed to enable base devSpace"
+                }
             }
         },
         "myDevSpace": {

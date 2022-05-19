@@ -22,6 +22,7 @@ import { ReactComponent as IconEnter } from '../../images/icon/icon_state_enter.
 import Icon from '@ant-design/icons';
 import { ReactComponent as IconDoc } from '../../images/icon/icon_btn_normal_docs.svg';
 import { ReactComponent as IconExplain } from '../../images/icon/icon_label_explain.svg';
+
 // icon_state_enter.svg
 function Login() {
     const [email, setEmail] = useState('');
@@ -30,7 +31,9 @@ function Login() {
     const { dispatch } = useContext(UserContext);
     const onFinish = async () => {
         setLoading(true);
-        const result = await HTTP.post('login', { email, password });
+        const result = await HTTP.post('login', { email, password }).finally(() => {
+            setLoading(false);
+        });
         if (result.code === 0) {
             const token = result.data.token;
             const refreshToken = result.data.refresh_token;
@@ -48,10 +51,9 @@ function Login() {
             if (user.code === 0) {
                 localStorage.setItem('user', JSON.stringify(user));
                 dispatch({ type: UPDATE_USER, user: user?.data });
-                localStorage.setItem('userId', user.id);
+                localStorage.setItem('userId', user.data.id);
             }
         }
-        setLoading(false);
     };
     return (
         <div id="login">

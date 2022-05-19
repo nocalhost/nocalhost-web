@@ -24,8 +24,20 @@ export const queryUserList = async () => {
             };
         });
     }
-
     return list;
+};
+export interface UserType {
+    id: number;
+    name: string;
+}
+
+export const getAllUser = async () => {
+    const response = await HTTP.get<Array<UserType>>('users');
+    const { data, code } = response;
+    if (code === 0) {
+        return data as Array<UserType>;
+    }
+    return [];
 };
 
 export const queryAllCluster = async () => {

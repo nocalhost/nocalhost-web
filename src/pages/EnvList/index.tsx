@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import HTTP from '../../api/fetch';
 import { Table, Popover, Modal, Button, message, Tooltip } from 'antd';
@@ -50,6 +50,8 @@ import { ReactComponent as IconShareSpace } from '../../images/icon/icon_shareSp
 import { ReactComponent as IconQuarantineSpace } from '../../images/icon/icon_quarantineSpace.svg';
 import { ReactComponent as IconAdd } from '../../images/icon/icon_add.svg';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { UserContext } from '../../provider/appContext';
+
 interface RouteParams {
     id: string;
 }
@@ -57,6 +59,7 @@ interface RouteParams {
 interface UserInfo {
     name: string;
 }
+
 interface UserProps {
     cooper_user: UserInfo[];
     viewer_user: UserInfo[];
@@ -70,6 +73,7 @@ interface SelectMap {
 
 interface IRecord {
     id: number;
+
     [index: string]: any;
 }
 
@@ -562,6 +566,7 @@ const EnvList = () => {
         history.push('/dashboard/devspace/mesh-space');
     };
 
+    const { user } = useContext(UserContext);
     return (
         <>
             {id && (
@@ -605,13 +610,23 @@ const EnvList = () => {
                     </SearchBox>
                     <FlexBox>
                         {!id && (
-                            <Button
-                                type="primary"
-                                icon={<Icon component={IconAdd}></Icon>}
-                                onClick={handleShowChooseType}
-                            >
-                                {t('resources.space.actions.create')}
-                            </Button>
+                            <>
+                                {!!user.is_admin && (
+                                    <Button
+                                        style={{ marginRight: 12 }}
+                                        onClick={() => history.push('/dashboard/devspace/import')}
+                                    >
+                                        {t('resources.devSpace.import.btn.import')}
+                                    </Button>
+                                )}
+                                <Button
+                                    type="primary"
+                                    icon={<Icon component={IconAdd}></Icon>}
+                                    onClick={handleShowChooseType}
+                                >
+                                    {t('resources.space.actions.create')}
+                                </Button>{' '}
+                            </>
                         )}
                     </FlexBox>
                 </ContentTitle>

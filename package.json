@@ -38,7 +38,7 @@
         "js-yaml": "^4.1.0",
         "jwt-decode": "^3.1.1",
         "lodash": "^4.17.20",
-        "moment": "^2.29.1",
+        "moment": "^2.29.4",
         "query-string": "^7.0.0",
         "ra-data-json-server": "^3.10.0",
         "ra-i18n-polyglot": "^3.10.0",
